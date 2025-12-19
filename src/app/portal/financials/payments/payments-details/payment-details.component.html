@@ -1,0 +1,119 @@
+<app-pages-layout>
+  <ng-container content>
+    <div
+      class="d-flex justify-content-between align-items-center mb-1 ms-2"
+      *ngIf="payment">
+      <span
+        class="material-icons-outlined me-2"
+        style="cursor: pointer"
+        matTooltip="Back to last page"
+        (click)="goBack()">
+        arrow_back
+      </span>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon class="dark-blue-400">more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button
+          mat-menu-item
+          *ngIf="isOwner"
+          (click)="openModalChangeLogs(payment._id)">
+          <span class="d-flex align-items-center gap-2">
+            <span class="material-icons-outlined dark-blue-400">history</span>
+            <span>Change Logs</span>
+          </span>
+        </button>
+      </mat-menu>
+    </div>
+    <div
+      class="d-flex align-items-center justify-content-center"
+      *ngIf="payment">
+      <div class="d-flex flex-column">
+        <h3 class="text-center w-100 mb-1 subtitle-1 dark-blue-400">
+          Payment #{{ payment.serial | notNull }}
+        </h3>
+        <p class="text-center text-3 gray-500">
+          Created date on: {{ payment.createdAt | date }}
+        </p>
+      </div>
+    </div>
+    <div class="row px-4 my-2 px-md-5 my-md-5" *ngIf="payment">
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Payment From</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{
+              payment.payment_from === 'Insurer'
+                ? payment.payment_from_data.insurer
+                : payment.payment_from_data.account
+            }}
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">ACH Number</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ payment.ach_number | notNull }}
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Retentions</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ payment.retentions | currency | notNull }}
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Taxes</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ payment.taxes | currency | notNull }}
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Subtotal</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ payment.subtotal | currency | notNull }}
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Total Amount</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ payment.total_amount | currency | notNull }}
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Remaining Balance</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ payment.remaining_balance | currency | notNull }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="my-3">
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h3 class="subtitle-3 dark-blue-400">Payments Application</h3>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-payments-list
+            [data]="individual_payments"
+            [parent]="'payment-details'"></app-payments-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </ng-container>
+</app-pages-layout>

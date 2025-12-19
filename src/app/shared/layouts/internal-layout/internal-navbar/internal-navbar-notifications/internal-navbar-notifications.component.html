@@ -1,0 +1,80 @@
+<div class="position-relative">
+  <span
+    class="icon-notification position-absolute d-flex align-items-center justify-content-center white subtext-1 bold rounded-circle back-dark-blue-100"
+    *ngIf="unreadCount > 0"
+    >{{ unreadCount >= 99 ? '99+' : unreadCount }}</span
+  >
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="menu"
+    (click)="getNotificationsList()">
+    <mat-icon>notifications</mat-icon>
+  </button>
+</div>
+<mat-menu #menu="matMenu" class="notifications-menu">
+  <div
+    class="sticky-top py-3 px-4 back-white"
+    style="border-bottom: 1px solid gray">
+    <h3 class="text-center w-100 subtitle-1 dark-blue-400 mb-0">
+      Notifications
+    </h3>
+  </div>
+
+  <div
+    #scrollContainer
+    class="notifications-scroll"
+    style="max-height: 400px; overflow-y: auto">
+    <div *ngIf="notifications.length > 0; else notificationsEmpty">
+      <button
+        mat-menu-item
+        *ngFor="let notification of notifications"
+        class="py-3"
+        [ngStyle]="{
+          'border-bottom': '1px solid gray',
+          'pointer-events': notification.serial === 'NOTSYS' ? 'none' : 'auto'
+        }"
+        (click)="redirectTo(notification)">
+        <span class="mat-mdc-menu-item-text">
+          <div class="d-flex align-items-center">
+            <span
+              class="notification-dot"
+              [ngClass]="{
+                unread: notification.status === notificationStatusEnum.UNREAD,
+                read: notification.status === notificationStatusEnum.READ
+              }"
+              matTooltipPosition="above"
+              [matTooltip]="notification.status | titlecase"
+              *ngIf="notification.serial !== 'NOTSYS'; else notSystem"></span>
+            <ng-template #notSystem>
+              <span class="material-icons-outlined me-2 text-danger">
+                info
+              </span>
+            </ng-template>
+            <div class="dark-blue-400 text-1">{{ notification.title }}</div>
+          </div>
+
+          <div class="text-3 my-1" style="line-height: 20px">
+            {{ notification.description }}
+          </div>
+          <div
+            class="subtext-1 gray-500"
+            *ngIf="notification.serial !== 'NOTSYS'">
+            {{ getDate(notification.createdAt) }} -
+            {{ getTime(notification.createdAt) }}
+          </div>
+        </span>
+      </button>
+    </div>
+    <ng-template #notificationsEmpty>
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <img
+          src="assets/images/empty/default-empty.svg"
+          alt="empty"
+          style="max-height: 10rem" />
+        <h3 class="text-center mt-3 mb-4 w-100 subtitle-2 dark-blue-300">
+          No Notifications
+        </h3>
+      </div>
+    </ng-template>
+  </div>
+</mat-menu>

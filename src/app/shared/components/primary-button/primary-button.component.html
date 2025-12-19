@@ -1,0 +1,8 @@
+<button
+  [disabled]="disabled"
+  (click)="clickEvent.emit()"
+  [class]="
+    'primary-button ' + (type === 'normal' ? _background : backgroundOutline)
+  ">
+  {{ text }}
+</button>

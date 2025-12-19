@@ -1,0 +1,10 @@
+.anon-content {
+  min-height: calc(100vh - 239px);
+  padding-top: 85px;
+}
+
+@media only screen and (max-width: 767px) {
+  .anon-content {
+    min-height: calc(100vh - 396px);
+  }
+}/*# sourceMappingURL=anon-layout.component.css.map */

@@ -1,0 +1,15 @@
+@import 'theme';
+
+:host {
+  .prop-box {
+    background-color: $gray-100;
+  }
+
+  .CANCELLATION {
+    color: $red-color !important;
+  }
+
+  .NEW_BUSINESS {
+    color: $light-blue-700 !important;
+  }
+}

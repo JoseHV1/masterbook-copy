@@ -1,0 +1,34 @@
+@import 'theme';
+
+:host ::ng-deep {
+  .prop-box {
+    background-color: $gray-100;
+  }
+
+  .no-wrap-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .status-badge {
+    display: inline-block;
+    border-radius: 10px;
+    padding: 0.25rem 0.75rem;
+    font-weight: 600;
+    color: $white;
+  }
+
+  .status-success {
+    background-color: $color-success;
+  }
+
+  .status-danger {
+    background-color: $red-color;
+  }
+
+  mat-icon {
+    color: $dark-blue-400 !important;
+  }
+}

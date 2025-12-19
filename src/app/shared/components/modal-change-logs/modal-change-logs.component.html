@@ -1,0 +1,59 @@
+<h2
+  mat-dialog-title
+  class="d-flex justify-content-between align-items-start pt-2 pb-1 pt-md-4 pb-md-2">
+  <button mat-icon-button mat-dialog-close aria-label="Cerrar">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
+
+<mat-dialog-content class="px-4 py-2 px-md-5 py-md-3 mb-3">
+  <h6 class="title-form text-center mb-3 mb-md-4">Change log</h6>
+
+  <ng-container *ngIf="groupedKeys.length > 0; else noData">
+    <ng-container *ngFor="let field of groupedKeys">
+      <h5 class="fw-bold mt-3">{{ formatFieldName(field) }}</h5>
+
+      <div class="table-responsive">
+        <table
+          mat-table
+          [dataSource]="groupedLogs[field]"
+          class="mat-elevation-z1 w-100 mb-4">
+          <ng-container matColumnDef="changedBy">
+            <th mat-header-cell *matHeaderCellDef>User</th>
+            <td mat-cell *matCellDef="let log">
+              {{ formatValue(log.changedBy) }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="oldValue">
+            <th mat-header-cell *matHeaderCellDef>Old Value</th>
+            <td mat-cell *matCellDef="let log">
+              {{ formatValue(log.oldValue) }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="newValue">
+            <th mat-header-cell *matHeaderCellDef>New Value</th>
+            <td mat-cell *matCellDef="let log">
+              {{ formatValue(log.newValue) }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="changeDate">
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let log">
+              {{ formatDateWithHour(log.changeDate) }}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #noData>
+    <h3 class="fw-bold text-center mt-4 mb-5 mx-5">No data available</h3>
+  </ng-template>
+</mat-dialog-content>

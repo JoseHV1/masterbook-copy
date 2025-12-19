@@ -1,0 +1,30 @@
+<div class="ui-modal" autofocus>
+  <div
+    class="ui-modal-header white subtitle-2 text-center py-2 back-light-blue-500">
+    Cancel Policy #{{ policy?.policy_number }}
+  </div>
+  <div class="ui-modal-content py-3 px-2 text-center text-1 gray-500">
+    <p class="text-1 text-center mt-2 mb-3">
+      Would you like to provide a reason for this policy cancellation?
+    </p>
+    <div class="col-12 d-flex flex-column px-1 px-md-2 px-lg-4 my-4">
+      <textarea
+        rows="5"
+        cols="20"
+        [(ngModel)]="cancellationDescription"></textarea>
+    </div>
+    <div class="ui-modal-footer d-flex justify-content-center pb-4">
+      <button
+        class="primary-button white back-gray-400 mx-1"
+        (click)="close(false)">
+        Cancel
+      </button>
+      <button
+        class="primary-button white mx-1 back-light-blue-500"
+        [disabled]="!cancellationDescription || cancellationDescription === ''"
+        (click)="cancellationPolicy()">
+        Apply
+      </button>
+    </div>
+  </div>
+</div>

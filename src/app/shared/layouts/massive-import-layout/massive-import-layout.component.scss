@@ -1,0 +1,13 @@
+@import 'theme';
+
+:host ::ng-deep {
+  mat-tab-body {
+    margin-top: 2rem;
+  }
+
+  .mdc-tab__text-label{
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #717171;
+  }
+}

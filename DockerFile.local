@@ -1,0 +1,19 @@
+# mymasterbook-frontend-angular/Dockerfile.angular.dev
+FROM node:20-slim
+
+# Usar yarn es más eficiente que instalar npm globalmente
+# RUN npm install -g @angular/cli # <--- Línea eliminada
+
+WORKDIR /app
+
+# Copiar archivos de dependencias para la instalación
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn install
+
+# Exponer el puerto predeterminado de ng serve
+EXPOSE 4200
+
+# El comando se anula en docker-compose.local.yml
+# Pero el entrypoint se mantiene.
+CMD ["/bin/bash"]

@@ -1,0 +1,12 @@
+@import 'theme';
+
+:host {
+  img {
+    width: 18rem;
+    cursor: pointer;
+
+    @media only screen and (max-width: 767px) {
+      width: 12rem;
+    }
+  }
+}

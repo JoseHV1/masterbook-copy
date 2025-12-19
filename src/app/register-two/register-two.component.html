@@ -1,0 +1,37 @@
+<app-anon-layout>
+  <ng-container content>
+    <div
+      class="my-5 pt-1 py-md-5 d-flex flex-column justify-content-center align-items-center"
+      *ngIf="currentStep === 1">
+      <div class="w-75 mt-2">
+        <h3 class="title-3 gray-500 text-center mb-2 mb-md-4 pb-3">
+          How do you plan to use <span class="dark-blue-400">Masterbook?</span>
+        </h3>
+        <div class="d-md-flex justify-content-center align-items-center">
+          <app-card-option-register-two
+            class="mx-3"
+            *ngFor="let option of accountTypes"
+            [data]="option"
+            [selected]="optionSelected === option.id"
+            (click)="optionSelected = option.id"></app-card-option-register-two>
+        </div>
+        <div class="d-flex justify-content-center mt-5 pt-2 pt-md-0">
+          <button
+            class="primary-button big-button back-light-blue-500 white"
+            (click)="nextStep()"
+            [disabled]="optionSelected === 0">
+            Continue
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="my-5 pt-md-3" *ngIf="currentStep === 2 && optionSelected === 1">
+      <app-form-agency></app-form-agency>
+    </div>
+
+    <div class="my-5 pt-md-3" *ngIf="currentStep === 2 && optionSelected === 2">
+      <app-form-independent-agent></app-form-independent-agent>
+    </div>
+  </ng-container>
+</app-anon-layout>

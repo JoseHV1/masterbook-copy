@@ -1,0 +1,131 @@
+/* ====== Dialog layout & theming ====== */
+:host {
+  --gap: 12px;
+  --radius: 12px;
+  --bg-chip: #eee;
+  --bg-chip-accepted: #e6f4ea;
+  --bg-chip-needs: #fff4e5;
+  --bg-chip-declined: #fde8e8;
+  --text-muted: #666;
+  --border: 1px solid rgba(0,0,0,0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --bg-chip: #2a2a2a;
+    --bg-chip-accepted: #183a24;
+    --bg-chip-needs: #3c2e12;
+    --bg-chip-declined: #3a1f1f;
+    --text-muted: #aaa;
+    --border: 1px solid rgba(255,255,255,0.08);
+  }
+}
+
+.dialog-body {
+  width: 560px;
+  max-width: 92vw;
+  display: block;
+}
+
+/* Stack on mobile, 2 cols on wider screens */
+.row {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 720px) {
+  .row { grid-template-columns: 1fr 1fr; }
+}
+
+.col { min-width: 0; }
+.full { width: 100%; }
+
+/* Tighten Material form-fields a bit */
+mat-form-field.full .mat-mdc-text-field-wrapper {
+  border-radius: var(--radius);
+}
+
+/* Spacing helpers */
+.mb-3 { margin-bottom: 16px; }
+.mt-3 { margin-top: 16px; }
+
+/* ====== Chips (attendees) ====== */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Modern pill with subtle shadow and smooth hover */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--bg-chip);
+  border: var(--border);
+  font-size: 13px;
+  line-height: 1.4;
+  color: #222;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Add a colored dot for status */
+.chip::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+/* Status colors */
+.chip--accepted::before { background: #34a853; }
+.chip--needs::before    { background: #fbbc05; }
+.chip--declined::before { background: #ea4335; }
+
+/* Background tint per status */
+.chip--accepted { background: #e8f5e9; border-color: #c8e6c9; }
+.chip--needs    { background: #fff8e1; border-color: #ffe082; }
+.chip--declined { background: #ffebee; border-color: #ffcdd2; }
+
+.chip small {
+  color: var(--text-muted);
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Truncate long names or emails gracefully */
+.chip__text {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Accessibility: focus ring tweaks */
+a[mat-stroked-button],
+button[mat-stroked-button],
+button[mat-raised-button],
+button[mat-button] {
+  border-radius: var(--radius);
+  outline: none;
+}
+a[mat-stroked-button]:focus-visible,
+button[mat-stroked-button]:focus-visible,
+button[mat-raised-button]:focus-visible,
+button[mat-button]:focus-visible {
+  box-shadow: 0 0 0 3px rgba(25,118,210,0.35);
+}
+
+/* Optional icon spacing */
+.btn-icon { display: inline-flex; align-items: center; gap: 6px; }

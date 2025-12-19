@@ -1,0 +1,249 @@
+<div class="table-responsive" *ngIf="data">
+  <table
+    mat-table
+    [dataSource]="data"
+    *ngIf="data"
+    style="width: auto; overflow-x: scroll">
+    <ng-container matColumnDef="serial">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">
+        <span
+          *ngIf="element.serial; else notId"
+          (click)="
+            mode === PoliciesTableMode.VIEW
+              ? url.navigateTo(urlDetails || '', element.serial)
+              : selectPolicy(element)
+          "
+          class="light-blue-700"
+          matTooltip="Go to policy details"
+          style="cursor: pointer"
+          matTooltipPosition="above">
+          #{{ element.serial | notNull }}
+        </span>
+        <ng-template #notId>---</ng-template>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created_at">
+      <th mat-header-cell *matHeaderCellDef>Created on</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.createdAt | date | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="policy_number">
+      <th mat-header-cell *matHeaderCellDef>Policy number</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.policy_number | notNull | uppercase }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Policy type</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.policy_type.name | enum | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="account_name">
+      <th mat-header-cell *matHeaderCellDef>Account name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.client?.account_name | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="agent_name">
+      <th mat-header-cell *matHeaderCellDef>Agent</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="d-flex align-items-center">
+          <span
+            class="material-icons-outlined me-1"
+            style="cursor: pointer"
+            matTooltip="Set agent"
+            (click)="openSetAgentModal(element)"
+            *ngIf="isAdmin && mode === PoliciesTableMode.VIEW"
+            matTooltipPosition="above">
+            manage_accounts
+          </span>
+          <span>
+            {{
+              element.agent.user
+                ? element.agent.user.first_name +
+                  ' ' +
+                  element.agent.user.last_name
+                : '---'
+            }}
+          </span>
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="insurance_company">
+      <th mat-header-cell *matHeaderCellDef>Insurance company</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.insurer.name | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="coverage">
+      <th mat-header-cell *matHeaderCellDef>Coverage</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.coverage | currency | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="policy_prime">
+      <th mat-header-cell *matHeaderCellDef>Premium amount</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.prime_amount | currency | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="deductible">
+      <th mat-header-cell *matHeaderCellDef>Deductible</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.deductible | currency | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        <span [class]="element.status + ' fw-semibold'">
+          {{ element.status | enum | notNull }}
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef>Policy cycle</th>
+      <td mat-cell *matCellDef="let element">
+        <span [class]="element.category + ' fw-semibold'">
+          {{ element.category | enum | notNull }}
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="effective_date">
+      <th mat-header-cell *matHeaderCellDef>Effective date</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.start_date | date | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expires_date">
+      <th mat-header-cell *matHeaderCellDef>Expires on</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.end_date | date | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <span
+          *ngIf="isAdmin"
+          class="material-icons-outlined me-2"
+          [ngClass]="{
+            'gray-500': element.has_payment
+          }"
+          style="cursor: pointer"
+          [matTooltip]="
+            element.has_payment
+              ? 'Editing this policy is not allowed'
+              : 'Edit this policy'
+          "
+          (click)="
+            element.has_payment
+              ? null
+              : url.navigateTo('portal/policies', element.serial, 'edit')
+          "
+          matTooltipPosition="above">
+          edit
+        </span>
+        <span
+          class="material-icons-outlined me-2 text-primary"
+          style="cursor: pointer"
+          *ngIf="element.status !== policyStatusEnum.INACTIVE"
+          (click)="
+            openAddEndorsementsModal(
+              element,
+              policyCategoryEnumType.ENDORSEMENT
+            )
+          "
+          matTooltip="Request for add endorsements to policy"
+          matTooltipPosition="above">
+          post_add
+        </span>
+        <span
+          class="material-icons-outlined me-2 text-danger"
+          style="cursor: pointer"
+          (click)="openCancelPolicyModal(element)"
+          matTooltip="Request for policy cancellation"
+          *ngIf="
+            element.status !== policyStatusEnum.INACTIVE &&
+            element.category !== policyCategoryEnumType.CANCELLATION
+          "
+          matTooltipPosition="above">
+          comments_disabled
+        </span>
+        <span
+          class="material-icons-outlined me-2 text-danger"
+          style="cursor: pointer"
+          (click)="deletePolicy(element._id)"
+          matTooltip="Delete this policy"
+          matTooltipPosition="above">
+          delete
+        </span>
+        <span
+          *ngIf="element.status === policyStatusEnum.EXPIRED"
+          class="material-icons-outlined me-2 text-primary"
+          style="cursor: pointer"
+          (click)="
+            openRenewalReinstalmentModal(
+              element,
+              policyCategoryEnumType.RENEWAL
+            )
+          "
+          matTooltip="Request for policy renew"
+          matTooltipPosition="above">
+          update
+        </span>
+
+        <span
+          *ngIf="element.status === policyStatusEnum.INACTIVE"
+          class="material-icons-outlined me-2 text-primary"
+          style="cursor: pointer"
+          (click)="
+            openRenewalReinstalmentModal(
+              element,
+              policyCategoryEnumType.REINSTALLMENT
+            )
+          "
+          matTooltip="Request for policy reinstallment"
+          matTooltipPosition="above">
+          history
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr *matNoDataRow>
+      <td colspan="15">
+        <app-default-empty-state
+          [url]="'portal/policies/new'"
+          *ngIf="!filtersActive.length"></app-default-empty-state>
+        <app-filter-empty-state
+          *ngIf="filtersActive.length"></app-filter-empty-state>
+      </td>
+    </tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      (click)="mode === PoliciesTableMode.VIEW ? null : selectPolicy(row)"
+      [style]="
+        mode === PoliciesTableMode.SELECT ? 'cursor: pointer !important' : ''
+      "
+      class="mas-table-row"></tr>
+  </table>
+</div>

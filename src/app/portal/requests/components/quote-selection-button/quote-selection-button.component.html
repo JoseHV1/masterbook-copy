@@ -1,0 +1,44 @@
+<ng-container
+  *ngIf="
+    isAgent &&
+      quote.status === QuoteStatusEnum.ACCEPTED &&
+      request.status !== RequestStatusEnum.CLOSED;
+    else defaultTemplate
+  ">
+  <div class="selected-quote-button white m-2 d-flex">
+    <div class="selection-side" (click)="toggleStatus()">Selected</div>
+    <div class="policy-side" [matMenuTriggerFor]="menu">
+      <span
+        class="material-icons-outlined white p-0"
+        style="cursor: pointer"
+        matTooltip="Options">
+        arrow_drop_down
+      </span>
+    </div>
+  </div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="goToPolicy()">Create policy</button>
+  </mat-menu>
+</ng-container>
+
+<ng-template #defaultTemplate>
+  <button
+    class="primary-button big-button back-dark-blue-400 white m-2"
+    *ngIf="quote.status !== QuoteStatusEnum.ACCEPTED"
+    (click)="toggleStatus()"
+    [disabled]="
+      [RequestStatusEnum.QUOTE_SELECTED, RequestStatusEnum.CLOSED].includes(
+        request.status
+      )
+    ">
+    Choose
+  </button>
+
+  <button
+    class="primary-button big-button back-dark-blue-400 white m-2"
+    *ngIf="quote.status === QuoteStatusEnum.ACCEPTED"
+    (click)="toggleStatus()"
+    [disabled]="[RequestStatusEnum.CLOSED].includes(request.status)">
+    Selected
+  </button>
+</ng-template>

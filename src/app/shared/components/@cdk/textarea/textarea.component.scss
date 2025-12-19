@@ -1,0 +1,10 @@
+@import 'theme';
+
+:host {
+  div {
+    label {
+      font-size: 0.9rem;
+      font-family: $font-family;
+    }
+  }
+}

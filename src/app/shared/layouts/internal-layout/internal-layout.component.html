@@ -1,0 +1,39 @@
+<div class="internal-layout">
+  <div class="header-section">
+    <app-internal-navbar
+      (toggleSidebar)="sidebarVisible = $event"></app-internal-navbar>
+  </div>
+  <div class="body-section d-flex">
+    <div class="menu-section" [ngClass]="{ 'close-menu-section': !openMenu }">
+      <div class="menu">
+        <app-internal-menu [openMenu]="openMenu"></app-internal-menu>
+      </div>
+    </div>
+
+    <p-sidebar [(visible)]="sidebarVisible" [showCloseIcon]="false">
+      <div
+        class="header-sidebar d-flex align-items-center justify-content-center background-{{
+          role
+        }}">
+        <img
+          src="{{
+            role === 'client'
+              ? 'assets/images/logo_color.svg'
+              : 'assets/images/logo_white.svg'
+          }}"
+          alt="mobile toggle" />
+      </div>
+      <div class="sidebar-section">
+        <app-internal-menu
+          [openMenu]="openMenu"
+          (toggleSidebar)="sidebarVisible = $event"></app-internal-menu>
+      </div>
+    </p-sidebar>
+
+    <div
+      class="content-section d-flex flex-column"
+      [ngClass]="{ 'close-menu-content-section': !openMenu }">
+      <ng-content select="[content]"></ng-content>
+    </div>
+  </div>
+</div>

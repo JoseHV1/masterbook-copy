@@ -1,0 +1,20 @@
+<div class="d-flex flex-column my-4 w-100 algin-items-center">
+  <img
+    src="assets/images/empty/default-empty.svg"
+    alt="empty"
+    style="max-height: 12rem" />
+  <p class="subtitle-1 dark-blue-500 my-2 text-center">Sorry</p>
+  <p class="text-3 black text-center" *ngIf="customText === null">
+    You do not have any record.
+    <span *ngIf="url">
+      we invite <br />
+      you to
+      <span class="light-blue-700" style="cursor: pointer" (click)="navigate()">
+        add the first one
+      </span>
+    </span>
+  </p>
+  <p class="text-3 black text-center" *ngIf="customText !== null">
+    {{ customText }}
+  </p>
+</div>

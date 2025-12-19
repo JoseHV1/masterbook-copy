@@ -1,0 +1,64 @@
+image: node:20
+
+pipelines:
+  branches:
+    default:
+      - step:
+          name: Instalar dependencias
+          caches:
+            - node
+          script:
+            - yarn install
+
+    develop:
+      - step:
+          name: Instalar dependencias
+          caches:
+            - node
+          script:
+            - yarn install
+
+      - step:
+          name: Revisar Código (Linting)
+          caches:
+            - node
+          script:
+            - yarn lint
+
+    staging:
+      - step:
+          name: Instalar dependencias
+          caches:
+            - node
+          script:
+            - rm -rf node_modules
+            - rm -f yarn.lock
+            - yarn cache clean --force
+            - yarn install
+
+      - step:
+          name: Construir SSR
+          caches:
+            - node
+          script:
+            - yarn build-to-deploy:ssr
+          artifacts:
+            - dist/**
+            - serverless.yml
+            - lambda.js
+            - package.json
+            - node_modules/**
+
+      - step:
+          name: Desplegar en AWS usando SLS
+          caches:
+            - node
+          script:
+            - echo "Exportando variables de AWS..."
+            - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+            - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+            - export AWS_REGION=$AWS_REGION
+            - echo "Instalando Serverless..."
+            - yarn global add serverless
+            - echo "Desplegando con Serverless..."
+            - npx serverless deploy --stage production

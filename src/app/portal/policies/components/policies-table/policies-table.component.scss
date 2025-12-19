@@ -1,0 +1,51 @@
+@import 'theme';
+
+:host ::ng-deep {
+  .table-responsive {
+    overflow-x: auto;
+  }
+  .table-responsive table {
+    white-space: nowrap;
+  }
+  .mas-table-row:hover {
+    background: $gray-100;
+  }
+
+  .status-inactive {
+    color: $color-error;
+    font-weight: 500;
+  }
+
+  .status-active {
+    color: $color-success;
+    font-weight: 500;
+  }
+
+  .ENDORSEMENT,
+  .ACTIVE {
+    color: $color-success !important;
+  }
+
+  .RENEWAL {
+    color: $light-blue-400 !important;
+  }
+
+  .REINSTALLMENT {
+    color: $blue-color !important;
+  }
+
+  .CANCELLED,
+  .INACTIVE,
+  .CANCELLATION,
+  .EXPIRED {
+    color: $red-color !important;
+  }
+
+  .PENDING {
+    color: $color-warning;
+  }
+
+  .NEW_BUSINESS {
+    color: $light-blue-700 !important;
+  }
+}

@@ -1,0 +1,22 @@
+FROM node:20-slim AS builder
+RUN apt-get update && apt-get install -y \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN NODE_OPTIONS="--max-old-space-size=2048" yarn install --frozen-lockfile --network-timeout 300000
+COPY . .
+RUN yarn ssr-build:DEV  # Genera la carpeta dist/
+
+FROM node:20-slim
+WORKDIR /app
+# Copiamos solo lo necesario para ejecutar
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
+
+EXPOSE 4000
+# Ajusta este comando según tu package.json (ej: node dist/server/main.js)
+CMD ["yarn", "ssr-serve"]

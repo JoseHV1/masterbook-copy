@@ -1,0 +1,15 @@
+@import 'theme';
+
+:host{
+  &::ng-deep{
+    .autocomplete-result{
+      span{
+        color: $light-blue-500 !important;
+      }
+    }
+
+    .highlight{
+      color: $light-blue-500 !important;
+    }
+  }
+}

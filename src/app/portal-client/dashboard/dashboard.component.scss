@@ -1,0 +1,11 @@
+@import 'theme';
+
+:host{
+    *{
+        font-family: $font-family;
+    }
+}
+
+.bg-container{
+    background-color: $portal-gray-200;
+}

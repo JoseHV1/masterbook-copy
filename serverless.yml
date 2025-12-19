@@ -1,0 +1,76 @@
+# org: eabp2296
+app: masterbook-frontend
+service: masterbook-frontend
+
+plugins:
+  - serverless-offline
+  - serverless-apigw-binary
+  - serverless-deployment-bucket
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  memorySize: 128
+  timeout: 30
+  stage: production
+  region: us-east-2
+  deploymentBucket:
+    name: masterbook-frontend
+    serverSideEncryption: AES256
+
+package:
+  exclude:
+    - src/**
+    - node_modules/**
+    - firebug-lite/**
+    - e2e/**
+    - coverage/**
+    - .angular/**
+    - .vscode/**
+    - '!node_modules/@vendia/**'
+    - '!node_modules/aws-serverless-express/**'
+    - '!node_modules/binary-case/**'
+    - '!node_modules/type-is/**'
+    - '!node_modules/media-typer/**'
+    - '!node_modules/mime-types/**'
+    - '!node_modules/mime-db/**'
+
+custom:
+  serverless-offline:
+    noPrependStageInUrl: true
+  apigwBinary:
+    types:
+      - "*/*"
+
+resources:
+  Resources:
+    # Customize the API Gateway resource
+    # ApiGatewayRestApi:
+    #   Type: AWS::ApiGateway::RestApi
+      # Properties:
+        # Enable gzip compression
+        # MinimumCompressionSize: 1000
+
+    # S3 Bucket for the distribution bundles
+    masterBookSsr:
+      Type: AWS::S3::Bucket
+      DeletionPolicy: Delete
+      Properties:
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - "GET"
+                - "POST"
+                - "HEAD"
+              AllowedOrigins:
+                - "*"
+              MaxAge: 3000
+
+functions:
+  index:
+    handler: lambda.ssrserverless
+    events:
+      - http: ANY /{proxy+}
+      - http: ANY /

@@ -1,0 +1,11 @@
+<div class="d-flex align-items-start flex-column gap-3">
+  <label *ngIf="label" class="fw-semibold mt-1">{{ label }}</label>
+  <textarea
+    [rows]="rows"
+    [cols]="cols"
+    (ngModelChange)="changeText($event)"
+    [(ngModel)]="value"
+    [placeholder]="placeholder"
+    pInputTextarea
+    style="padding: 0.2rem 0.438rem !important"></textarea>
+</div>

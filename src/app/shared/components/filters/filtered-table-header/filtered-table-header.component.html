@@ -1,0 +1,36 @@
+<div class="bg-white mb-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <mat-form-field appearance="outline">
+      <input
+        matInput
+        placeholder="Search..."
+        [(ngModel)]="querySearch"
+        (ngModelChange)="onSearch()" />
+      <span matPrefix class="material-icons-outlined ms-3"> search </span>
+    </mat-form-field>
+
+    <div
+      (click)="onOpenFilter()"
+      *ngIf="!onlySearch"
+      class="filter-button d-flex align-items-center justify-content-center p-1">
+      <span class="material-icons-outlined no-selectionable me-1">
+        filter_alt
+      </span>
+      Apply filters
+    </div>
+  </div>
+
+  <div class="d-flex flex-wrap align-items-center" *ngIf="visibleChips.length">
+    <span class="me-2">Active filters: </span>
+    <mat-chip-set>
+      <mat-chip-row
+        *ngFor="let chip of visibleChips; let i = index"
+        (removed)="onRemoveChip(i)">
+        {{ chip.label }}: {{ chip.text }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    </mat-chip-set>
+  </div>
+</div>

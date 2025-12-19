@@ -1,0 +1,172 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-12 mb-4">
+      <label>Payment From: </label>
+      <mat-radio-group
+        formControlName="payment_from"
+        aria-label="Select an option">
+        <mat-radio-button value="1" color="primary">Account</mat-radio-button>
+        <mat-radio-button value="2" color="primary">Insurer</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="col-12 col-md-3 mb-4">
+      <label>Payment Date *</label>
+      <app-date-field
+        [placeholder]="'Select a date'"
+        formControlName="payment_date"></app-date-field>
+    </div>
+
+    <div class="col-12 col-md-3 mb-4">
+      <label>Total Amount *</label>
+      <app-input
+        placeholder="$ 0"
+        type="tel"
+        [inputMask]="'separator.2'"
+        [maskPrefix]="'$ '"
+        formControlName="total_amount"></app-input>
+    </div>
+
+    <ng-container *ngIf="form.get('payment_from')?.value === '1'">
+      <div class="col-12 col-md-3 mb-4">
+        <label>Account *</label>
+        <app-account-selector
+          [extendedInfo]="true"
+          (ngModelChange)="onSelectAccount($event)"
+          formControlName="account"></app-account-selector>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="form.get('payment_from')?.value === '2'">
+      <div class="col-12 col-md-3 mb-4">
+        <label>Insurer Company *</label>
+        <app-insurer-selector
+          (ngModelChange)="onSelectInsurer($event)"
+          formControlName="insurer_company"></app-insurer-selector>
+      </div>
+    </ng-container>
+
+    <div class="col-12 col-md-3 mb-4">
+      <label>Check / ACH Number *</label>
+      <app-input
+        placeholder="Enter Check / ACH Number"
+        formControlName="check_number"></app-input>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <div
+      class="col-12 col-lg-11 d-flex align-items-center justify-content-start">
+      <h1 class="sub-title">Payment Application</h1>
+    </div>
+
+    <div *ngIf="showPaymentApplications">
+      <div
+        *ngFor="let app of paymentApplicationsControls"
+        [formGroup]="app"
+        class="row mb-4">
+        <div class="col-12 col-md-3">
+          <label>Policy number*</label>
+          <app-policy-selector
+            (ngModelChange)="onSelectPolicy()"
+            [paramsBySearchs]="paramsBySearchPolicies"
+            formControlName="policy_number"></app-policy-selector>
+        </div>
+
+        <div class="col-12 col-md-3">
+          <label>Invoice number</label>
+          <app-input
+            placeholder="Select a policy"
+            formControlName="invoice_number"></app-input>
+        </div>
+
+        <div class="col-12 col-md-3">
+          <label>Payment Applied</label>
+          <app-input
+            placeholder="$ 0"
+            type="tel"
+            [inputMask]="'separator.2'"
+            [maskPrefix]="'$ '"
+            (ngModelChange)="onPaymentAppliedChange(app)"
+            formControlName="payment_applied"></app-input>
+        </div>
+
+        <div class="col-12 col-md-3">
+          <label>Open Balance</label>
+          <app-input
+            placeholder="$ 0"
+            type="tel"
+            [inputMask]="'separator.2'"
+            [maskPrefix]="'$ '"
+            formControlName="open_balance"></app-input>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center justify-content-between">
+        <button
+          class="primary-button back-light-blue-400 white mx-1"
+          (click)="addPaymentApplication()">
+          Add new
+        </button>
+
+        <!-- <div class="d-flex align-items-center">
+          <div style="font-size: 0.8rem">Balance:</div>
+          <div class="balance-box py-1 px-3 text-center ms-1">
+            {{ lastOpenBalanceValue + ' $' }}
+          </div>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="my-3 my-md-4" *ngIf="!showPaymentApplications">
+      <h5 class="text-center fw-semibold">No insurer company selected</h5>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-4 mb-4">
+      <label>Retentions *</label>
+      <app-input
+        placeholder="$ 0"
+        type="tel"
+        [inputMask]="'separator.2'"
+        [maskPrefix]="'$ '"
+        formControlName="retentions"></app-input>
+    </div>
+
+    <div class="col-12 col-md-4 mb-4">
+      <label>Taxes *</label>
+      <app-input
+        placeholder="$ 0"
+        type="tel"
+        [inputMask]="'separator.2'"
+        [maskPrefix]="'$ '"
+        formControlName="taxes"></app-input>
+    </div>
+
+    <div class="col-12 col-md-4 mb-4">
+      <label>Sub-total</label>
+      <app-input
+        placeholder="$ 0"
+        type="tel"
+        [inputMask]="'separator.2'"
+        [maskPrefix]="'$ '"
+        formControlName="subtotal"></app-input>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-center mt-4">
+    <button
+      class="primary-button big-button back-gray-400 white mx-1"
+      (click)="cancelForm()">
+      Cancel
+    </button>
+
+    <button
+      class="primary-button big-button back-light-blue-400 white mx-1"
+      [disabled]="form.invalid"
+      (click)="openConfirmationModal()">
+      Submit
+    </button>
+  </div>
+</form>

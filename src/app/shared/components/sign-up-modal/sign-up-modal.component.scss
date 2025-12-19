@@ -1,0 +1,70 @@
+@import 'theme';
+
+:host {
+  &::ng-deep {
+    [ng-reflect-style-class='p-dropdown-clear-icon'] {
+      display: none !important;
+    }
+
+    .p-dropdown {
+      border-radius: 80px;
+      width: 100%;
+      height: 48px;
+      border: 2px solid #969696;
+      background: rgba(167, 213, 242, 0.19);
+
+      .p-dropdown-trigger {
+        color: #6c757d;
+        width: 2rem;
+      }
+    }
+  }
+
+  .link-forgot-pass {
+    font-family: $font-family;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+    color: $light-blue-500;
+    cursor: pointer;
+  }
+
+  .img-form {
+    width: 32rem;
+    height: auto;
+  }
+
+  .title-form {
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 3rem;
+    color: $light-blue-500;
+  }
+
+  .password-input {
+    position: relative;
+    width: 100%;
+  }
+
+  .btn-eye {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  @media only screen and (max-width: 1199px) and (min-width: 768px) {
+    .img-form {
+      margin-top: 4rem;
+      margin-left: 3rem;
+      width: 100%;
+    }
+  }
+}

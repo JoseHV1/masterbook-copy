@@ -1,0 +1,49 @@
+@import 'theme';
+
+:host ::ng-deep {
+  .table-responsive {
+    overflow-x: auto;
+  }
+  .table-responsive table {
+    white-space: nowrap;
+  }
+
+  .filter-button{
+    color: $gray-700;
+    border-radius: .3rem;
+    cursor: pointer !important;
+  }
+
+  .filter-chip{
+    border-radius: 1rem;
+    border: 2px solid $light-blue-600;
+    background:  $light-blue-100 !important;
+    color: $dark-blue-600;
+    font-size: .8rem;
+    .chip-close{
+      border-radius: 100%;
+      cursor: pointer;
+      &:hover{
+        background-color: $gray-100;
+      }
+      span{
+        font-size: 1rem;
+        color: $dark-blue-600 !important;
+      }
+    }
+  }
+
+  .status-inactive {
+    color: $color-error;
+    font-weight: 500;
+  }
+
+  .status-active {
+    color: $color-success;
+    font-weight: 500;
+  }
+
+  .mas-table-row:hover{
+    background: $gray-100;
+  }
+}

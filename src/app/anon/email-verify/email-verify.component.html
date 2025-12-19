@@ -1,0 +1,35 @@
+<div class="verify">
+  <section
+    class="d-flex align-items-center justify-content-center flex-column"
+    *ngIf="!loading && success">
+    <img
+      class="mb-2"
+      src="/assets/images/email_verify/email_verify.png"
+      alt="" />
+    <h2 class="title-3 text-center gray-500">
+      {{ 'EMAIL_VERIFY.TEXT_1' | translate }}
+    </h2>
+    <button
+      class="primary-button big-button back-orange white mx-2 fw-semibold mt-4"
+      (click)="showLogin()">
+      {{ 'GENERAL.LOG_IN' | translate }}
+    </button>
+  </section>
+  <section
+    class="d-flex align-items-center justify-content-center flex-column"
+    *ngIf="!loading && !success">
+    <h2 class="title-3 text-center error-color px-3">
+      SE HA PRODUCIDO UN ERROR AL VERIFICAR SU CUENTA.
+    </h2>
+    <p class="mt-2 text-center text-1 gray-500 px-3">
+      Verifique que el enlace de activación coincida con el proporcionado en el
+      correo y que no haya sido utilizado previamente.
+    </p>
+  </section>
+
+  <section
+    class="d-flex align-items-center justify-content-center flex-column"
+    *ngIf="loading">
+    <p class="mt-2 text-center text-1 gray-500 px-3">Loading...</p>
+  </section>
+</div>

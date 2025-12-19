@@ -1,0 +1,18 @@
+<div tabindex="0" (blur)="isOpen = false">
+  <div
+    [class]="color + ' language-selector text-selection-disable'"
+    (click)="isOpen = !isOpen">
+    {{ currentLang | titlecase }}
+    <span
+      ><img src="/assets/icons/down-arrow-blue-light.svg" alt="down-arrow"
+    /></span>
+  </div>
+  <div class="language-menu" [ngClass]="{ 'language-menu-show': isOpen }">
+    <div
+      class="language-menu-option text-selection-disable"
+      *ngFor="let lang of availableLangs"
+      (click)="changeLang($event, lang)">
+      {{ lang | titlecase }}
+    </div>
+  </div>
+</div>

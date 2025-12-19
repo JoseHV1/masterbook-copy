@@ -1,0 +1,15 @@
+<form [formGroup]="form">
+  <mat-form-field appearance="outline" class="w-100">
+    <input
+      matInput
+      [placeholder]="placeholder"
+      formControlName="value"
+      (blur)="updateErrors()"
+      (keyup)="resetAddress($event)"
+      appAddressAutocomplete
+      (updateAddress)="handleAddress($event)" />
+    <mat-error *ngIf="errors.length > 0">
+      {{ errorMessage }}
+    </mat-error>
+  </mat-form-field>
+</form>

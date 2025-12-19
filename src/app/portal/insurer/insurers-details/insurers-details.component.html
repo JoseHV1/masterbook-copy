@@ -1,0 +1,219 @@
+<app-pages-layout>
+  <ng-container content *ngIf="insurer">
+    <div class="d-flex justify-content-between align-items-center mb-1 ms-2">
+      <span
+        class="material-icons-outlined me-2"
+        style="cursor: pointer"
+        matTooltip="Back to last page"
+        (click)="goBack()">
+        arrow_back
+      </span>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon class="dark-blue-400">more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button
+          mat-menu-item
+          *ngIf="isOwner"
+          (click)="openModalChangeLogs(insurer._id)">
+          <span class="d-flex align-items-center gap-2">
+            <span class="material-icons-outlined dark-blue-400">history</span>
+            <span>Change Logs</span>
+          </span>
+        </button>
+      </mat-menu>
+    </div>
+
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <app-picture-selector
+        [showSelector]="false"
+        [icon]="
+          insurer.logo_url ??
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw3PM8Cjf7fHNyW4nmd3g6pHtmYWvGZkvmGQ&s'
+        "></app-picture-selector>
+
+      <h3 class="text-center w-100 mt-3 mb-1 subtitle-1 dark-blue-400">
+        Insurer #{{ insurer.serial }}
+      </h3>
+      <div class="text-center text-3 gray-500 w-100">
+        Created date on: {{ insurer.createdAt | date }}
+      </div>
+    </div>
+
+    <div class="row px-4 my-2 px-md-5 my-md-5">
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Insurer name</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ insurer.name | notNull }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Email</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ insurer.email | notNull }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Country</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ insurer.country | notNull }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">EIN</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ insurer.ein | notNull }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Phone</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ insurer.phone_number | phone | notNull }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Fax</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ insurer.fax | notNull }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subtitle-1 dark-blue-400 text-center mt-5 mb-4">
+      Configurations
+    </h3>
+
+    <form [formGroup]="form" class="px-md-5 my-2 my-md-4">
+      <app-input
+        formControlName="query"
+        placeholder="Search policy types"></app-input>
+    </form>
+
+    <div class="px-md-5 my-1 my-md-2 mb-2 mb-md-5">
+      <div class="category-selector px-2 px-md-3 py-3 my-1 my-md-2">
+        <p class="subtitle-2 text-center">INSURANCE CATEGORY</p>
+        <div class="d-flex flex-wrap justify-content-center">
+          <ng-container *ngFor="let category of formEstructuredCategories">
+            <div
+              class="category-selector--item py-2 px-3 me-1 mb-1 fw-semibold"
+              [ngClass]="{
+                'category-selector--item-selected':
+                  selected?._id === category._id
+              }"
+              (click)="toggleSelected(category)">
+              {{ category.name }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngFor="let category of formEstructuredCategories">
+      <div class="my-1 px-md-5 category-expands">
+        <mat-accordion [hideToggle]="true">
+          <mat-expansion-panel [expanded]="selected?._id === category._id">
+            <mat-expansion-panel-header (click)="toggleSelected(category)">
+              <mat-panel-title>
+                <div
+                  class="w-100 d-flex align-items-center justify-content-between">
+                  <span class="subtitle-3 white">
+                    {{ category.name }}
+                  </span>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ng-container *ngFor="let lob of category.business_lines">
+              <div class="my-1 internal-expand">
+                <mat-accordion [hideToggle]="true">
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <div
+                          class="w-100 d-flex align-items-center justify-content-between">
+                          <span class="subtitle-3 dark-blue-600">
+                            {{ lob.name }}
+                          </span>
+                        </div>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <ng-container *ngFor="let type of lob.policy_types">
+                      <div
+                        class="policy-type-card d-flex flex-column flex-md-row justify-content-between align-items-md-center px-3 pt-3 mb-1">
+                        <div class="policy-type-card--data">
+                          <p class="dark-blue-400 text-2 fw-semibold">
+                            {{ type.name }}
+                          </p>
+                          <span class="gray-500 text-3"
+                            >({{ type.naic_code }})</span
+                          >
+                        </div>
+                        <form
+                          [formGroup]="type.form"
+                          class="policy-type-card--input d-flex flex-column flex-md-row mt-2 mt-md-0">
+                          <div class="d-flex flex-column me-2">
+                            <label>New Business</label>
+                            <app-input
+                              placeholder="1.00 %"
+                              style="width: 150px; max-width: 100% !important"
+                              type="tel"
+                              [inputMask]="'separator.2'"
+                              [maskSuffix]="' %'"
+                              formControlName="new_business"></app-input>
+                          </div>
+                          <div class="d-flex flex-column">
+                            <label>Renewal</label>
+                            <app-input
+                              placeholder="1.00 %"
+                              style="width: 150px; max-width: 100% !important"
+                              type="tel"
+                              [inputMask]="'separator.2'"
+                              [maskSuffix]="' %'"
+                              formControlName="renewal"></app-input>
+                          </div>
+                        </form>
+                      </div>
+                    </ng-container>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+            </ng-container>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </ng-container>
+
+    <div class="d-flex align-items-center justify-content-center mt-4">
+      <button
+        class="primary-button big-button back-gray-400 white mx-1"
+        (click)="goBack()">
+        Cancel
+      </button>
+
+      <button
+        class="primary-button big-button back-light-blue-400 white mx-1"
+        (click)="send()">
+        Save
+      </button>
+    </div>
+  </ng-container>
+</app-pages-layout>

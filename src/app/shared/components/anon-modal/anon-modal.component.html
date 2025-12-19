@@ -1,0 +1,12 @@
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '95%', height: height + 'rem', maxWidth: width + 'rem' }"
+  [draggable]="false"
+  [closable]="true"
+  [dismissableMask]="true"
+  (onHide)="visibleChange.emit(false)"
+  [ngClass]="{ 'hide-close': hideClose }"
+  [resizable]="false">
+  <ng-content select="[content]"> </ng-content>
+</p-dialog>

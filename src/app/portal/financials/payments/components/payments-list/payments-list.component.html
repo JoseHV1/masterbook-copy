@@ -1,0 +1,114 @@
+<div class="table-responsive" *ngIf="data">
+  <table mat-table [dataSource]="data" style="width: auto; overflow-x: scroll">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container
+          *ngIf="parent === 'payment-details'; else parentInvoiceDetails">
+          <span *ngIf="element.serial; else notId">
+            #{{ element.serial | notNull }}
+          </span>
+        </ng-container>
+
+        <ng-template #parentInvoiceDetails>
+          <span
+            *ngIf="element.serial; else notId"
+            (click)="
+              _url.navigateTo('portal/payments', element.payment_transaction_id)
+            "
+            class="light-blue-700"
+            matTooltip="Go to payments details"
+            style="cursor: pointer">
+            #{{ element.serial | notNull }}
+          </span>
+        </ng-template>
+
+        <ng-template #notId>---</ng-template>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="payment_date">
+      <th mat-header-cell *matHeaderCellDef>Payment Date</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.payment_date | date : 'MM/dd/yyyy' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="insurance_company">
+      <th mat-header-cell *matHeaderCellDef>Insurance Company</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.insurer?.name | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="payment_applied">
+      <th mat-header-cell *matHeaderCellDef>Payment Applied</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.payment_applied | currency : 'USD' : 'symbol' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="policy_number">
+      <th mat-header-cell *matHeaderCellDef>Policy Number</th>
+      <td mat-cell *matCellDef="let element">
+        <span
+          *ngIf="element.policy?.serial; else notPolicyNumber"
+          (click)="_url.navigateTo('portal/policies', element.policy.serial)"
+          class="light-blue-700"
+          matTooltip="Go to policy details"
+          style="cursor: pointer">
+          #{{ element.policy.serial | notNull }}
+        </span>
+        <ng-template #notPolicyNumber>N/A</ng-template>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ach_number">
+      <th mat-header-cell *matHeaderCellDef>Check / ACH Number</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.ach_number || 'N/A' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="invoice">
+      <th mat-header-cell *matHeaderCellDef>Invoice</th>
+      <td mat-cell *matCellDef="let element">
+        <span
+          *ngIf="element.invoice?.serial; else notInvoice"
+          (click)="_url.navigateTo('portal/invoices', element.invoice.serial)"
+          class="light-blue-700"
+          matTooltip="Go to invoice details"
+          style="cursor: pointer">
+          #{{ element.invoice.serial | notNull }}
+        </span>
+        <ng-template #notInvoice>N/A</ng-template>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <span
+          class="material-icons-outlined me-2"
+          style="cursor: pointer"
+          [matTooltip]="'Create new payment'"
+          (click)="goCreatePayment(element.payment_transaction_id.toString())">
+          add
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr *matNoDataRow>
+      <td colspan="7">
+        <h5 class="text-center mb-3 mt-4">
+          No payments applications associated
+        </h5>
+      </td>
+    </tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      class="mas-table-row"></tr>
+  </table>
+</div>

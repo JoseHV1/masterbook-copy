@@ -1,0 +1,29 @@
+<app-pages-layout>
+  <ng-container content>
+    <app-massive-import-layout [entity]="'accounts'">
+      <ng-container content>
+        <div class="d-flex align-items-center">
+          <div class="px-2">
+            <span
+              class="material-icons-outlined me-2"
+              style="cursor: pointer"
+              matTooltip="Back to last page"
+              (click)="goBack()">
+              arrow_back
+            </span>
+          </div>
+        </div>
+
+        <div class="col-12 mb-4">
+          <div class="text-center">
+            <h3 class="subtitle-1 dark-blue-400">Create account</h3>
+          </div>
+        </div>
+
+        <div class="px-2 px-lg-5">
+          <app-form-accounts></app-form-accounts>
+        </div>
+      </ng-container>
+    </app-massive-import-layout>
+  </ng-container>
+</app-pages-layout>

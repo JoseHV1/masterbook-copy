@@ -1,0 +1,28 @@
+<h2
+  mat-dialog-title
+  class="d-flex justify-content-between align-items-start pt-2 pb-1 pt-md-4 pb-md-2">
+  <button mat-icon-button mat-dialog-close aria-label="Cerrar">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
+
+<mat-dialog-content
+  class="h-100"
+  style="max-height: 80vh !important; padding: 18px">
+  <div class="d-flex flex-column flex-md-row h-100" style="height: 100%">
+    <div
+      class="img-response d-none d-md-flex justify-content-center align-items-center mb-4">
+      <img
+        src="assets/images/register_two/Illustration-terms-and-conditions.svg"
+        alt="img"
+        style="width: 90%" />
+    </div>
+
+    <div class="terms-container flex-grow-1 pb-4">
+      <app-terms-conditions-core
+        *ngIf="show === 'terms-conditions'"></app-terms-conditions-core>
+      <app-privacy-policy-core
+        *ngIf="show === 'privacy-policies'"></app-privacy-policy-core>
+    </div>
+  </div>
+</mat-dialog-content>

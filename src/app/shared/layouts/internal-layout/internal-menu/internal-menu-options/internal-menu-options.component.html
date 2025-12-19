@@ -1,0 +1,64 @@
+<div
+  class="menu-option mt-1 py-2"
+  (click)="isSelected = item.options?.length ? !isSelected : isSelected"
+  [routerLink]="item.options ? undefined : item.url"
+  [ngClass]="{
+    'active-option-client':
+      isSelected &&
+      (!item.options?.length || isSomeChildrenActive()) &&
+      role === 'client',
+    'active-option-agent':
+      isSelected &&
+      (!item.options?.length || isSomeChildrenActive()) &&
+      role === 'agent',
+    'active-option-admin':
+      isSelected &&
+      (!item.options?.length || isSomeChildrenActive()) &&
+      role === 'admin'
+  }">
+  <div class="py-2 px-3">
+    <div class="item-info d-flex align-items-center justify-content-start ps-4">
+      <span class="material-icons-outlined color-text-{{ role }}">
+        {{ item.icon }}
+      </span>
+      <span
+        class="text-menu-option color-text-{{ role }}"
+        [class.ms-2]="item.icon">
+        {{ item.title || item.name }}
+      </span>
+      <span
+        *ngIf="item.options"
+        class="d-flex align-items-center justify-content-center ms-4 color-text-{{
+          role
+        }}">
+        <span class="material-icons-outlined" *ngIf="!isSelected"
+          >keyboard_arrow_right</span
+        >
+        <span class="material-icons-outlined" *ngIf="isSelected"
+          >keyboard_arrow_down</span
+        >
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- Submenu -->
+<div
+  class="submenu ps-4"
+  [ngStyle]="{ background: role === 'client' ? 'none' : null }"
+  *ngIf="item.options?.length && isSelected">
+  <ng-container *ngFor="let option of item.options">
+    <div
+      *ngIf="!option.options"
+      class="px-3 mb-2 d-flex align-items-center"
+      style="height: 2.7rem"
+      [routerLink]="option.url"
+      routerLinkActive="active-suboption-{{ role }}">
+      <span
+        class="text-submenu-option text-submenu-{{ role }}"
+        style="cursor: pointer"
+        >{{ option.name }}</span
+      >
+    </div>
+  </ng-container>
+</div>

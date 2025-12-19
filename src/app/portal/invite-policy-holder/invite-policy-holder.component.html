@@ -1,0 +1,35 @@
+<app-pages-layout>
+  <ng-container content>
+    <div class="container d-flex flex-column">
+      <form (ngSubmit)="sendInvitation()">
+        <label class="fw-semibold" for="email">Email del asegurado:</label>
+        <div class="field col-12 col-md-6 my-2">
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">
+              <i class="pi pi-envelope"></i>
+            </span>
+            <input
+              type="text"
+              pInputText
+              placeholder="Email"
+              [formControl]="emailFormControl"
+              class="form-control" />
+          </div>
+          <small
+            *ngIf="
+              emailFormControl.invalid &&
+              (emailFormControl.dirty || emailFormControl.touched)
+            "
+            class="text-danger"
+            style="font-size: 12px"
+            >The field is required</small
+          >
+        </div>
+        <p-button
+          type="submit"
+          label="Send Invitation"
+          [disabled]="!emailFormControl.valid"></p-button>
+      </form>
+    </div>
+  </ng-container>
+</app-pages-layout>

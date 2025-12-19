@@ -1,0 +1,127 @@
+<div class="mb-4">
+  <form [formGroup]="form" *ngIf="form" class="row my-5">
+    <div class="col-12 col-md-4 mb-3 mb-md-4">
+      <label>Policy number*</label>
+      <app-input
+        placeholder="Enter the policy number"
+        type="text"
+        formControlName="policy_number"></app-input>
+    </div>
+
+    <div class="col-12 col-md-4 mb-3 mb-md-4">
+      <label>Effective date*</label>
+      <app-date-field
+        [placeholder]="'MM/DD/YYYY'"
+        (ngModelChange)="form.get('end_date')?.setValue(null)"
+        formControlName="start_date"></app-date-field>
+    </div>
+
+    <div class="col-12 col-md-4 mb-3 mb-md-4">
+      <label>Expiration date*</label>
+      <app-date-field
+        [placeholder]="'MM/DD/YYYY'"
+        [min]="minExpirationDate"
+        formControlName="end_date"></app-date-field>
+    </div>
+
+    <div class="col-12 col-md-4 mb-3 mb-md-4">
+      <label>Insurance company*</label>
+      <app-dropdown-field
+        [placeholder]="'Select an insurer'"
+        formControlName="insurer_id"
+        [options]="insuranceCompanyOptions"></app-dropdown-field>
+    </div>
+
+    <div class="col-12 col-md-4 mb-3 mb-md-4">
+      <label>Policy Premium amount*</label>
+      <app-input
+        placeholder="$ 0"
+        type="tel"
+        [inputMask]="'separator.2'"
+        [maskPrefix]="'$ '"
+        formControlName="prime_amount"></app-input>
+    </div>
+
+    <div class="col-12 col-md-4 mb-3 mb-md-4">
+      <label>Coverage*</label>
+      <app-input
+        placeholder="$ 0"
+        type="tel"
+        [inputMask]="'separator.2'"
+        [maskPrefix]="'$ '"
+        formControlName="coverage"></app-input>
+    </div>
+
+    <div class="col-12 col-md-4 mb-3 mb-md-4">
+      <label>Deductible*</label>
+      <app-input
+        placeholder="$ 0"
+        type="tel"
+        [inputMask]="'separator.2'"
+        [maskPrefix]="'$ '"
+        formControlName="deductible"></app-input>
+    </div>
+
+    <div class="col-12 col-md-4 mb-3 mb-md-4">
+      <label>Object to insure*</label>
+      <app-input
+        placeholder="Type your object to insure"
+        type="text"
+        formControlName="insure_object"></app-input>
+    </div>
+
+    <div class="col-12 col-md-4 mb-3 mb-md-4">
+      <label>Policy copy</label>
+      <app-file-picker
+        placeholder="Attach policy copy"
+        type="text"
+        formControlName="document"></app-file-picker>
+    </div>
+
+    <div class="col-12 col-md-4 mb-3 mb-md-4" *ngIf="showAgentSelector">
+      <label>Agent*</label>
+      <app-agent-selector
+        [placeholder]="'Select an agent'"
+        formControlName="agent_id"></app-agent-selector>
+    </div>
+
+    <h4 class="subtitle-3 dark-blue-400 my-md-4 my-3">Request Forms</h4>
+
+    <div class="col-12 mt-2">
+      <app-multi-file-upload
+        formControlName="request_documents"></app-multi-file-upload>
+    </div>
+
+    <div class="my-3 my-md-4">
+      <label class="d-block">Specific coverage details for the policy*</label>
+      <textarea
+        rows="5"
+        cols="30"
+        formControlName="description"
+        class="w-100 py-1 px-2"
+        [ngClass]="{
+          'textarea-invalid': isInvalid(form.controls['description'])
+        }"></textarea>
+      <small
+        *ngIf="hasError(form.controls['description'], 'required')"
+        class="text-danger mt-1"
+        >This field is required</small
+      >
+    </div>
+
+    <div class="d-flex justify-content-center" style="gap: 10px !important">
+      <button
+        class="primary-button big-button back-gray-500 white"
+        (click)="goBack()">
+        Back
+      </button>
+
+      <button
+        class="primary-button big-button back-light-blue-500 white"
+        (click)="openConfirmationModal()"
+        [disabled]="form.invalid">
+        Save
+      </button>
+    </div>
+  </form>
+</div>

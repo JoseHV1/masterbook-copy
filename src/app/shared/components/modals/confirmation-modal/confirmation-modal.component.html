@@ -1,0 +1,21 @@
+<div class="ui-modal">
+  <div
+    [class]="'ui-modal-header white subtitle-2 text-center py-2 ' + typeClass">
+    {{ config.title | uppercase }}
+  </div>
+  <div
+    class="ui-modal-content py-3 px-2 text-center text-1 gray-500"
+    [innerHTML]="config.text"></div>
+  <div class="ui-modal-footer d-flex justify-content-center pb-4">
+    <button
+      class="primary-button white back-gray-400 mx-1"
+      (click)="close(false)">
+      Cancel
+    </button>
+    <button
+      [class]="'primary-button white mx-1 ' + typeClass"
+      (click)="close(true)">
+      Accept
+    </button>
+  </div>
+</div>

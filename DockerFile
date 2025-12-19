@@ -1,0 +1,35 @@
+# Dockerfile para Angular (SPA) - Multi-Stage Build
+
+# ========================
+# ETAPA 1: CONSTRUCCIÓN (BUILD STAGE)
+# ========================
+FROM node:20-slim AS builder
+
+WORKDIR /app
+
+# Instalar dependencias
+COPY package.json package-lock.json ./
+RUN yarn install
+
+# Copiar el resto del código
+COPY . .
+
+# Compilar la aplicación Angular (cliente)
+RUN yarn run build -- --output-path ./dist/angular-app
+
+# ========================
+# ETAPA 2: SERVICIO (PRODUCTION STAGE)
+# ========================
+FROM nginx:alpine
+
+# Copiar la configuración personalizada de Nginx para manejar rutas de SPA y el Proxy API
+COPY nginx-production.conf /etc/nginx/conf.d/default.conf
+
+# Copiar los archivos compilados desde la etapa 'builder'
+COPY --from=builder /app/dist/angular-app /usr/share/nginx/html
+
+# Puerto de Nginx
+EXPOSE 80
+
+# Comando por defecto
+CMD ["nginx", "-g", "daemon off;"]

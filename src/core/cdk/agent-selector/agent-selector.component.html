@@ -1,0 +1,52 @@
+<form [formGroup]="form">
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-select
+      *ngIf="multiple; else singleSelectBlock"
+      [placeholder]="placeholder"
+      formControlName="value"
+      multiple
+      (selectionChange)="onMatSelectChange($event.value)">
+      <mat-option
+        *ngFor="let option of items"
+        [value]="option.code"
+        [disabled]="option.disabled">
+        {{ option.name }}
+      </mat-option>
+
+      <mat-option *ngIf="loading" disabled=""> cargando... </mat-option>
+    </mat-select>
+
+    <ng-template #singleSelectBlock>
+      <input
+        matInput
+        [placeholder]="placeholder"
+        formControlName="value"
+        [matAutocomplete]="auto"
+        (keyup)="onSearch($event)"
+        (blur)="updateErrors()"
+        #agentInput />
+
+      <mat-autocomplete
+        #auto
+        (opened)="opened()"
+        (closed)="closed()"
+        [requireSelection]="true"
+        [hideSingleSelectionIndicator]="true"
+        (optionSelected)="onSelectItem($event)"
+        [displayWith]="displayFn">
+        <mat-option
+          *ngFor="let option of items"
+          [value]="option"
+          [disabled]="option.disabled"
+          (keyup.enter)="onEnterItem(option)">
+          {{ option.name }}
+        </mat-option>
+        <mat-option *ngIf="loading" disabled=""> loading... </mat-option>
+      </mat-autocomplete>
+    </ng-template>
+
+    <mat-error *ngIf="errors.length > 0">
+      {{ errorMessage }}
+    </mat-error>
+  </mat-form-field>
+</form>

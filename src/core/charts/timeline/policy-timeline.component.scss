@@ -1,0 +1,132 @@
+@import 'theme';
+
+::ng-deep :host {
+  display: block;
+  height: 300px;
+  width: 100%;
+}
+
+::ng-deep #timelineContainer {
+  height: 100%;
+  width: 100%;
+}
+
+
+::ng-deep .vis-timeline {
+  border: none !important;
+  height: 50vh;
+  max-height: 50vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: $light-blue-100 !important;
+  box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.20);
+  
+  .vis-item.policy-expiry {
+    padding: 0px;
+  }
+  .vis-panel {
+    border-radius: 8px;
+    border-color: $light-blue-100 !important;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 50vh;
+    max-height: 50vh;
+    text-align: center;
+    background: white;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.25);
+    margin-bottom: 0;
+  }
+
+  .policy-expiry {
+    background-color: $light-blue-500;
+    color: $white;
+    font-weight: normal;
+    border-color: $dark-blue-100;
+    padding: 0px;
+    border-radius: 10px;
+  }
+
+  .policy-warning {
+    background-color: $color-warning;
+    border-color: darken($color-warning, 10%);
+    color: $black;
+  }
+
+  .policy-error {
+    background-color: $color-error;
+    border-color: darken($color-error, 10%);
+    color: $white;
+  }
+
+  .vis-selected {
+    background-color: $light-blue-700 !important;
+    border-color: $light-blue-500 !important;
+    color: $white !important;
+  }
+  .vis-item.policy-expiry:hover {
+    background-color: $light-blue-600 !important;
+    color: $white !important;
+    z-index: 10;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+}
+
+::ng-deep .custom-tooltip {
+  position: absolute;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+
+  // Visuals
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  padding: 12px 16px;
+  max-width: 280px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+  display: inline-block;
+
+  // Optional layout
+  img {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+    color: $white;
+  }
+
+  strong {
+    font-weight: 600;
+    font-size: 15px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  a {
+    display: inline-block;
+    margin-top: 8px;
+    color: #007bff;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  div {
+    // margin-bottom: 4px;
+    word-break: break-word;
+  }
+}
+

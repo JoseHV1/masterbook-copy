@@ -1,0 +1,7 @@
+<div class="d-flex justify-content-center mt-4 px-1 px-md-0">
+  <mat-button-toggle-group (change)="changeValue($event.value)" [value]="value">
+    <mat-button-toggle *ngFor="let type of options" [value]="type.code">{{
+      type.name
+    }}</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>

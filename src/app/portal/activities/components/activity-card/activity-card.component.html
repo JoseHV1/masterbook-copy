@@ -1,0 +1,26 @@
+<mat-card class="activity-card w-100">
+  <div class="card-header">
+    <h3 class="mb-0">Recent Activity</h3>
+  </div>
+  <mat-divider class="styled-divider"></mat-divider>
+  <div class="card-content">
+    <ul class="activity-feed" [@listAnimation]="isVisible ? 'visible' : 'void'">
+      <li *ngFor="let activity of activities">
+        <div class="icon-container">
+          <ng-container [ngSwitch]="activity.type">
+            <mat-icon *ngSwitchCase="'policy'">policy</mat-icon>
+            <mat-icon *ngSwitchCase="'account'">person_add</mat-icon>
+            <mat-icon *ngSwitchCase="'quote'">request_quote</mat-icon>
+            <mat-icon *ngSwitchDefault>info</mat-icon>
+          </ng-container>
+        </div>
+        <div class="activity-details">
+          <p class="activity-text">
+            <strong>{{ activity.user }}</strong> {{ activity.action }}
+          </p>
+          <span class="activity-time">{{ activity.time }}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</mat-card>

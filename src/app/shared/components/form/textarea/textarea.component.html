@@ -1,0 +1,18 @@
+<div
+  class="textarea-component"
+  [ngStyle]="{ width: widthValue, margin: marginValue, height: heightValue }">
+  <div
+    class="placeholder text-3"
+    *ngIf="(!value || value === '') && !hidePlaceholder">
+    <p *ngIf="placeholder" class="text">
+      {{ placeholder }}
+    </p>
+  </div>
+  <textarea
+    class="text-3"
+    [(ngModel)]="value"
+    (ngModelChange)="changeText($event)"
+    (focus)="hidePlaceholder = true"
+    (blur)="hidePlaceholder = false">
+  </textarea>
+</div>

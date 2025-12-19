@@ -1,0 +1,122 @@
+<div class="table-responsive" *ngIf="data">
+  <table mat-table [dataSource]="data" style="width: auto; overflow-x: scroll">
+    <ng-container matColumnDef="serial">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="light-blue-700"
+        style="cursor: pointer"
+        (click)="_url.navigateTo('portal/commissions', element._id)">
+        #{{ element.serial | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="insurer">
+      <th mat-header-cell *matHeaderCellDef>Insurer</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="light-blue-700"
+        style="cursor: pointer"
+        (click)="
+          _url.navigateTo('portal/insurer', element.payment.insurer._id)
+        ">
+        {{ element.payment.insurer.name | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="payment_date">
+      <th mat-header-cell *matHeaderCellDef>Payment Date</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.payment.payment_date | date | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="commission_to_pay">
+      <th mat-header-cell *matHeaderCellDef>Commission to Pay</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.amount | currency | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="policy_number">
+      <th mat-header-cell *matHeaderCellDef>Policy Number</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        class="light-blue-700"
+        style="cursor: pointer"
+        (click)="_url.navigateTo('portal/policies', element.policy._id)">
+        {{ element.policy.policy_number | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="policy_type">
+      <th mat-header-cell *matHeaderCellDef>Policy Type</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.policy.policy_type.name }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="agent">
+      <th mat-header-cell *matHeaderCellDef>Agent</th>
+      <td mat-cell *matCellDef="let element">
+        {{
+          element.broker.user.first_name + ' ' + element.broker.user.last_name
+        }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="agency">
+      <th mat-header-cell *matHeaderCellDef>Agency</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.agency.name | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Approval Status</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="getStatusConfig(element.status) as currentStatus">
+          <span [ngClass]="currentStatus.class">
+            {{ element.status | notNull }}
+          </span>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions" stickyEnd>
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="getStatusConfig(element.status) as currentStatus">
+          <div class="d-flex align-items-center">
+            <span
+              class="material-icons-outlined me-2"
+              [ngClass]="currentStatus.class"
+              style="cursor: pointer"
+              [matTooltip]="currentStatus.tooltip"
+              (click)="changeStatus(element._id, element.status)">
+              {{ currentStatus.icon }}
+            </span>
+          </div>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr *matNoDataRow>
+      <td colspan="9">
+        <app-default-empty-state
+          [url]="'portal/commissions'"
+          *ngIf="!filtersActive.length"></app-default-empty-state>
+        <app-filter-empty-state
+          *ngIf="filtersActive.length"></app-filter-empty-state>
+      </td>
+    </tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      class="mas-table-row"></tr>
+  </table>
+</div>

@@ -1,0 +1,65 @@
+@import 'theme';
+
+:host {
+  .prop-box {
+    background-color: $gray-100;
+  }
+
+  ::ng-deep {
+    .category-badge {
+      border-radius: 10px;
+      color: $white;
+      padding: 0 0.5rem;
+    }
+  }
+
+  .ENDORSEMENT {
+    background: $color-success !important;
+  }
+
+  .RENEWAL {
+    background: $light-blue-400 !important;
+  }
+
+  .REINSTALLMENT {
+    background: $blue-color !important;
+  }
+
+  .CANCELLATION {
+    background: $red-color !important;
+  }
+
+  .NEW_BUSINESS {
+    background: $light-blue-700 !important;
+  }
+
+  .ENDORSEMENT {
+    background: $color-success !important;
+  }
+
+  .C-RENEWAL {
+    color: $light-blue-400 !important;
+  }
+
+  .C-REINSTALLMENT {
+    color: $blue-color !important;
+  }
+
+  .C-CANCELLATION {
+    color: $red-color !important;
+  }
+
+  .C-NEW_BUSINESS {
+    color: $light-blue-700 !important;
+  }
+
+  .quotes-table {
+    table tr:nth-child(even) {
+      background-color: $light-blue-100;
+    }
+
+    table tr:last-child {
+      background-color: $white;
+    }
+  }
+}

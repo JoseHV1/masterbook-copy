@@ -1,0 +1,60 @@
+<app-pages-layout>
+  <ng-container content>
+    <div
+      *ngIf="!connected && !preFilledInfo"
+      class="alert-login-google py-2 px-3 mb-4"
+      style="font-size: 14px">
+      To email the policy invoice to the insured party, you must be logged into
+      an active Google session.
+      <span class="payment-button" (click)="loginGoogle()">
+        You can log in here.</span
+      >
+    </div>
+    <!-- <app-massive-import-layout [entity]="'policies'">
+      <ng-container content> -->
+    <div class="d-flex align-items-center">
+      <div class="px-2">
+        <span
+          class="material-icons-outlined me-2"
+          style="cursor: pointer"
+          matTooltip="Back to last page"
+          (click)="goBack()">
+          arrow_back
+        </span>
+      </div>
+    </div>
+
+    <div class="col-12 mb-4">
+      <div class="text-center">
+        <h3 class="subtitle-1 dark-blue-400">Create Policy</h3>
+      </div>
+    </div>
+
+    <div class="px-2 px-lg-5" *ngIf="!selectedAccount">
+      <app-policy-account-selector
+        (emitSelectedAccount)="
+          selectedAccount = $event
+        "></app-policy-account-selector>
+    </div>
+
+    <div class="px-0 px-lg-3" *ngIf="selectedAccount && !preFilledInfo">
+      <app-policy-type-selector
+        *ngIf="!selectedType"
+        (selectedChange)="selectedType = $event"
+        (skipEndorsementsEvent)="
+          selectedType = $event; selectedEndorsements = []; setPrefilledInfo()
+        "></app-policy-type-selector>
+      <app-endorsements-selector
+        *ngIf="selectedType && !selectedEndorsements"
+        (selectedChange)="
+          selectedEndorsements = $event; setPrefilledInfo()
+        "></app-endorsements-selector>
+    </div>
+
+    <div class="px-2 px-lg-5" *ngIf="preFilledInfo">
+      <app-policy-form [preFilledInfo]="preFilledInfo"></app-policy-form>
+    </div>
+    <!-- </ng-container>
+    </app-massive-import-layout> -->
+  </ng-container>
+</app-pages-layout>

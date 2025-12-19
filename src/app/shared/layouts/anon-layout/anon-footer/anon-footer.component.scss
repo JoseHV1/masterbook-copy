@@ -1,0 +1,43 @@
+@import 'theme';
+
+:host {
+  footer {
+    width: 100%;
+    padding: 4rem 5rem;
+
+    @media only screen and (max-width: 767px) {
+      padding: 1.5rem 2rem;
+    }
+  }
+
+  .column-list {
+    list-style: none;
+    padding-left: 0px;
+    .column-item {
+      margin: 3px 0;
+    }
+  }
+
+  .social-network {
+    color: #ffffff;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    margin: 0 5px;
+    background: #de7731;
+
+    img {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .separator {
+    border-top: 1px solid $white;
+    margin: 1.4rem 0;
+  }
+
+  .copyright {
+    padding: 0.3rem 1rem;
+  }
+}
