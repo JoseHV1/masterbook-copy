@@ -269,8 +269,6 @@ export class PoliciesService {
 
   /**
    * @Deprecated
-   *
-   * de aqui en adelante se deben revisar las implementaciones y migrarlas a las nuevas
    */
 
   getInsuranceCompanyPicklist(
