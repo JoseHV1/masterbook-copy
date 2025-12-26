@@ -1,4 +1,3 @@
-import { UploadFileService } from './../../../services/upload_file.service';
 import {
   Component,
   ElementRef,
@@ -8,10 +7,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { finalize } from 'rxjs';
+import { ModalUploadFileComponent } from '@app/shared/components/modal-upload-file/modal-upload-file.component';
+import { UploadFileService } from './../../../services/upload_file.service';
+import { UiService } from 'src/app/shared/services/ui.service';
 import { hasError } from 'src/app/shared/helpers/has-error.helper.ts';
 import { UploadFileRequest } from 'src/app/shared/interfaces/requests/upload-file/upload-file.request';
-import { UiService } from 'src/app/shared/services/ui.service';
 
 @Component({
   selector: 'app-tab-upload-file',
@@ -22,20 +24,105 @@ export class TabUploadFileComponent {
   @Output() uploadCompleted = new EventEmitter<void>();
   @Input() entity!: string;
   @ViewChild('inputFile') inputFile!: ElementRef;
-  allowedTypes: string[] = [
-    '.xlsx',
-    '.xls',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  ];
-  isLoading = false;
-  form!: FormGroup;
-  hasError = hasError;
 
-  constructor(private _ui: UiService, private _uploadFile: UploadFileService) {
+  public form: FormGroup;
+  public isLoading = false;
+  public hasError = hasError;
+
+  public readonly allowedTypes: string[] = [
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-excel',
+  ];
+
+  constructor(
+    private _ui: UiService,
+    private _uploadFile: UploadFileService,
+    private _dialog: MatDialog
+  ) {
     this.form = this._uploadFile.createNewUploadFileForm();
   }
 
-  downloadTemplate() {
+  openModal(): void {
+    const dialogRef = this._dialog.open(ModalUploadFileComponent, {
+      width: '600px',
+      panelClass: 'custom-dialog-container',
+      data: { entity: this.entity },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.processModalResult(result);
+      }
+    });
+  }
+
+  private processModalResult(result: any): void {
+    const payload: UploadFileRequest = {
+      file_name: result.upload_file.name,
+      file_base64: result.upload_file.document,
+      entity: this.entity,
+    };
+
+    if (this.entity === 'policies' && result.insurers_mapping) {
+      payload.insurers = result.insurers_mapping.map((item: any) => ({
+        id: item.id,
+        custom_name: item.custom_name,
+      }));
+    }
+
+    this.sendToApi(payload);
+  }
+
+  uploadFile(event: any): void {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!this.allowedTypes.includes(file.type)) {
+      this._ui.showAlertError(
+        'This file type is not allowed. Please use Excel files.'
+      );
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const base64 = reader.result as string;
+
+      const payload: UploadFileRequest = {
+        file_name: file.name,
+        file_base64: base64,
+        entity: this.entity,
+      };
+
+      this.sendToApi(payload);
+    };
+
+    event.target.value = '';
+  }
+
+  private sendToApi(payload: any): void {
+    this._ui.showLoader();
+    this.isLoading = true;
+
+    this._uploadFile
+      .createUploadFile(payload)
+      .pipe(
+        finalize(() => {
+          this._ui.hideLoader();
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        next: () => {
+          this._ui.showAlertSuccess('The file has been uploaded successfully');
+          this.uploadCompleted.emit();
+        },
+        error: () => this._ui.showAlertError('An error occurred during upload'),
+      });
+  }
+
+  downloadTemplate(): void {
     const templates: Record<string, string> = {
       accounts:
         'https://accounts-template.s3.us-east-1.amazonaws.com/accounts-template.xlsx',
@@ -46,7 +133,7 @@ export class TabUploadFileComponent {
     const url = templates[this.entity];
 
     if (!url) {
-      this._ui.showAlertError(`No template found for: ${this.entity}`);
+      this._ui.showAlertError(`No template found for entity: ${this.entity}`);
       return;
     }
 
@@ -59,50 +146,7 @@ export class TabUploadFileComponent {
     document.body.removeChild(link);
   }
 
-  openNavigatorFile() {
+  openNavigatorFile(): void {
     this.inputFile.nativeElement.click();
-  }
-
-  uploadFile(event: any) {
-    const reader = new FileReader();
-    const file = event.target.files[0] ?? null;
-
-    if (!file) return;
-
-    if (!this.allowedTypes.includes(file?.type)) {
-      this._ui.showAlertError('This file type is not allowed');
-      return;
-    }
-
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      const result = reader.result as string;
-      this.form.get('file_base64')?.setValue(result);
-      this.form.get('file_name')?.setValue(file.name);
-    };
-
-    event.target.value = '';
-    this._ui.showAlertSuccess('The file has been successfully uploaded');
-  }
-
-  sendData() {
-    this.form.markAllAsTouched();
-    this.form.updateValueAndValidity();
-    if (this.form.invalid) return;
-
-    const req: UploadFileRequest = {
-      file_name: this.form.value.file_name,
-      file_base64: this.form.value.file_base64,
-      entity: this.entity,
-    };
-
-    this._ui.showLoader();
-    this._uploadFile
-      .createUploadFile(req)
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe(() => {
-        this._ui.showAlertSuccess('The file has been uploaded successfully');
-        this.uploadCompleted.emit();
-      });
   }
 }

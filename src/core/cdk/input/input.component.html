@@ -1,33 +1,9 @@
-<!-- <form [formGroup]="form">
-  <mat-form-field appearance="outline" class="w-100">
-    <input
-      matInput
-      [type]="type"
-      [placeholder]="placeholder"
-      formControlName="value"
-      (blur)="updateErrors()"
-      (input)="changeValue()"
-      thousandSeparator=","
-      decimalMarker="."
-      [suffix]="maskSuffix ?? ''"
-      [prefix]="maskPrefix ?? ''"
-      [leadZero]="inputMask === 'separator.2' ? true : false"
-      [mask]="inputMask ?? undefined" />
-    <mat-error *ngIf="errors.length > 0">
-      {{ errorMessage }}
-    </mat-error>
-  </mat-form-field>
-</form> -->
-
-<form [formGroup]="form">
+<ng-container *ngIf="form" [formGroup]="form">
   <mat-form-field appearance="outline" class="w-100">
     <textarea
       *ngIf="isTextArea; else normalInput"
       matInput
       cdkTextareaAutosize
-      #autosize="cdkTextareaAutosize"
-      [cdkAutosizeMinRows]="rows"
-      [cdkAutosizeMaxRows]="15"
       [placeholder]="placeholder"
       formControlName="value"
       (blur)="onTouched(); updateErrors()"
@@ -50,8 +26,21 @@
         [mask]="inputMask ?? undefined" />
     </ng-template>
 
+    <mat-icon
+      matSuffix
+      class="clear-icon"
+      *ngIf="
+        clearable &&
+        !isTextArea &&
+        form.get('value')?.value !== null &&
+        form.get('value')?.value !== ''
+      "
+      (click)="clearValue($event)">
+      close
+    </mat-icon>
+
     <mat-error *ngIf="errors.length > 0">
       {{ errorMessage }}
     </mat-error>
   </mat-form-field>
-</form>
+</ng-container>

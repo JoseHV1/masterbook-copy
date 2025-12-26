@@ -30,12 +30,10 @@ export class ClientsListComponent extends FilteredTable<any> {
   _fetchData(page: number, hitsPerPage?: number): void {
     const hits = hitsPerPage ?? this.data.limit;
     this._ui.showLoader();
-    console.log('Fetching data for page', page, 'with', hits, 'hits per page');
     this._adminPanel
       .getClients(page, hits, this.filterText)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(resp => {
-        console.log('Data fetched:', resp);
         this.data = resp;
       });
   }

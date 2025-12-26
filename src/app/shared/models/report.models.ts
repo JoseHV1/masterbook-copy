@@ -117,7 +117,6 @@ export const CONFIG_BY_TYPE: Record<ReportType, ReportTypeConfig> = {
       sort: true,
     },
     statusOptions: [
-      { code: '', name: 'All statuses' },
       { code: 'ACTIVE', name: 'Active' },
       { code: 'PENDING', name: 'Pending' },
       { code: 'EXPIRED', name: 'Expired' },
@@ -154,7 +153,6 @@ export const CONFIG_BY_TYPE: Record<ReportType, ReportTypeConfig> = {
       sort: true,
     },
     statusOptions: [
-      { code: '', name: 'All statuses' },
       { code: AccountStatusEnum.ACTIVE, name: 'Active' },
       { code: AccountStatusEnum.INACTIVE, name: 'Inactive' },
     ],
@@ -185,7 +183,6 @@ export const CONFIG_BY_TYPE: Record<ReportType, ReportTypeConfig> = {
       sort: true,
     },
     statusOptions: [
-      { code: '', name: 'All statuses' },
       { code: 'PENDING_QUOTES', name: 'Pending Quotes' },
       { code: 'PENDING_SELECTION', name: 'Pending Selection' },
       { code: 'QUOTE_SELECTED', name: 'Quote Selected' },
@@ -224,7 +221,6 @@ export const CONFIG_BY_TYPE: Record<ReportType, ReportTypeConfig> = {
       sort: true,
     },
     statusOptions: [
-      { code: '', name: 'All statuses' },
       { code: 'ACCEPTED', name: 'Accepted' },
       { code: 'NOT_ACCEPTED', name: 'Not Accepted' },
     ],
@@ -263,7 +259,6 @@ export const CONFIG_BY_TYPE: Record<ReportType, ReportTypeConfig> = {
       sort: true,
     },
     statusOptions: [
-      { code: '', name: 'All statuses' },
       { code: 'full_paid', name: 'Fully Used' },
       { code: 'partially_paid', name: 'Partially Used' },
     ],
@@ -290,6 +285,7 @@ export const CONFIG_BY_TYPE: Record<ReportType, ReportTypeConfig> = {
   invoices: {
     show: {
       status: true,
+      paymentFrom: true,
       insurer: true,
       account: true,
       groupBy: true,
@@ -297,7 +293,6 @@ export const CONFIG_BY_TYPE: Record<ReportType, ReportTypeConfig> = {
       sort: true,
     },
     statusOptions: [
-      { code: '', name: 'All statuses' },
       { code: 'paid', name: 'Paid' },
       { code: 'partially_paid', name: 'Partially Paid' },
       { code: 'unpaid', name: 'Unpaid' },
@@ -330,7 +325,6 @@ export const CONFIG_BY_TYPE: Record<ReportType, ReportTypeConfig> = {
       sort: true,
     },
     statusOptions: [
-      { code: '', name: 'All statuses' },
       { code: 'APPROVED', name: 'Approved' },
       { code: 'PENDING', name: 'Pending' },
       { code: 'REJECTED', name: 'Rejected' },

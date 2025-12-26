@@ -21,7 +21,7 @@ export class ReportConfigComponent implements OnInit {
   @Output() generate = new EventEmitter<ReportFilters>();
   @Output() changed = new EventEmitter<ReportFilters>();
 
-  form!: FormGroup;
+  form: FormGroup = new FormGroup({});
   accountsOptions!: DropdownOptionModel[];
   dropDownAccounts!: DropdownOptionModel[];
   dropDownpaymentFrom!: DropdownOptionModel[];
@@ -334,7 +334,6 @@ export class ReportConfigComponent implements OnInit {
     const toCtrl = this.form.get('effectiveTo')!;
 
     if (preset === 'custom') {
-      // Let the user pick; keep whatever they set
       fromCtrl.enable({ emitEvent: false });
       toCtrl.enable({ emitEvent: false });
       return;
@@ -347,7 +346,6 @@ export class ReportConfigComponent implements OnInit {
     toCtrl.disable({ emitEvent: false });
   }
 
-  // All dates at local midnight for stable comparisons
   private computeDates(preset: DateRangePreset): { from: Date; to: Date } {
     const today = this.atMidnight(new Date());
     const clone = (d: Date) => new Date(d.getTime());
@@ -399,6 +397,25 @@ export class ReportConfigComponent implements OnInit {
     const v = this.value();
     if (v.businessLine && !v.policyType) return;
     this.generate.emit(v);
+  }
+
+  onPaymentFromChange(selected: any[]): void {
+    const selectedCode = selected?.[0]?.code;
+    const insurerControl = this.form.get('insurer');
+    const accountControl = this.form.get('account');
+
+    if (selectedCode === 'Insurer' && insurerControl) {
+      accountControl?.setValue(null, { emitEvent: false });
+      accountControl?.disable({ emitEvent: false });
+      insurerControl?.enable({ emitEvent: false });
+    } else if (selectedCode === 'Account' && accountControl) {
+      insurerControl?.setValue(null, { emitEvent: false });
+      insurerControl?.disable({ emitEvent: false });
+      accountControl?.enable({ emitEvent: false });
+    } else {
+      insurerControl?.enable({ emitEvent: false });
+      accountControl?.enable({ emitEvent: false });
+    }
   }
 
   private addAllOption(
