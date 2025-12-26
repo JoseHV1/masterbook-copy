@@ -17,6 +17,7 @@
         >attach_file</span
       >
       <button
+        [id]="button.id ?? null"
         class="primary-button back-orange white mx-1 d-flex align-items-center"
         [disabled]="!isPaid"
         *ngIf="button && button.url"

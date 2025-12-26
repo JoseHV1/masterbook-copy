@@ -1,0 +1,4 @@
+export enum TutorsSlugsEnum {
+  CREATE_ACCOUNT = 'CREATE_ACCOUNT',
+  CREATE_REQUEST = 'CREATE_REQUEST',
+}

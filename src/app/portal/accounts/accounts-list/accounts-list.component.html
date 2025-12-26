@@ -1,6 +1,11 @@
 <ng-template #table>
   <app-pages-layout
-    [button]="{ text: 'Create accounts', icon: 'add', url: 'new' }">
+    [button]="{
+      text: 'Create accounts',
+      icon: 'add',
+      url: 'new',
+      id: 'create-account-tutor'
+    }">
     <ng-container content>
       <app-filtered-table-header
         [filtersActive]="filtersActive"

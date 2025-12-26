@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { finalize } from 'rxjs';
 import { RequestsService } from 'src/app/shared/services/requests.service';
 import { UiService } from 'src/app/shared/services/ui.service';
@@ -7,13 +7,19 @@ import { UrlService } from 'src/app/shared/services/url.service';
 import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filtered-table.base';
 import { PopulatedRequestModel } from 'src/app/shared/interfaces/models/request.model';
 import { PaginatedResponse } from 'src/app/shared/interfaces/models/paginated-response.model';
+import { requestTutor } from '../../../../shared/tutors/request-tutor';
+import { TutorService } from '@app/shared/services/tutor.service';
+import { TutorsSlugsEnum } from '@app/shared/enums/tutors-slugs.enum';
 
 @Component({
   selector: 'app-requests-list',
   templateUrl: './requests-list.component.html',
   styleUrls: ['./requests-list.component.scss'],
 })
-export class RequestsListComponent extends FilteredTable<PopulatedRequestModel> {
+export class RequestsListComponent
+  extends FilteredTable<PopulatedRequestModel>
+  implements AfterViewInit
+{
   filterConfig!: FilterWrapperModel;
 
   data: PaginatedResponse<PopulatedRequestModel[]> = {
@@ -26,11 +32,17 @@ export class RequestsListComponent extends FilteredTable<PopulatedRequestModel> 
   constructor(
     private _requests: RequestsService,
     private _ui: UiService,
-    public _url: UrlService
+    public _url: UrlService,
+    private _tutor: TutorService
   ) {
     super();
     this.filterConfig = this._requests.getRequestsListFilters();
     this._fetchData(this.data.page, this.data.limit);
+  }
+
+  ngAfterViewInit(): void {
+    if (!this._tutor.isCompleted(TutorsSlugsEnum.CREATE_REQUEST))
+      requestTutor(this._tutor).drive();
   }
 
   _fetchData(page: number, limit?: number): void {
