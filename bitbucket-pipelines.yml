@@ -8,7 +8,10 @@ pipelines:
           caches:
             - node
           script:
-            - yarn install
+            - corepack enable
+            - corepack prepare yarn@4.12.0 --activate
+            - yarn --version
+            - yarn install --immutable
 
     develop:
       - step:
@@ -16,13 +19,20 @@ pipelines:
           caches:
             - node
           script:
-            - yarn install
+            - corepack enable
+            - corepack prepare yarn@4.12.0 --activate
+            - yarn --version
+            - yarn install --immutable
 
       - step:
-          name: Revisar Código (Linting)
+          name: Revisar C�digo (Linting)
           caches:
             - node
           script:
+            - corepack enable
+            - corepack prepare yarn@4.12.0 --activate
+            - yarn --version
+            - yarn install --immutable
             - yarn lint
 
     staging:
@@ -31,16 +41,22 @@ pipelines:
           caches:
             - node
           script:
+            - corepack enable
+            - corepack prepare yarn@4.12.0 --activate
+            - yarn --version
             - rm -rf node_modules
-            - rm -f yarn.lock
-            - yarn cache clean --force
-            - yarn install
+            - yarn cache clean
+            - yarn install --immutable
 
       - step:
           name: Construir SSR
           caches:
             - node
           script:
+            - corepack enable
+            - corepack prepare yarn@4.12.0 --activate
+            - yarn --version
+            - yarn install --immutable
             - yarn build-to-deploy:ssr
           artifacts:
             - dist/**
@@ -54,11 +70,13 @@ pipelines:
           caches:
             - node
           script:
+            - corepack enable
+            - corepack prepare yarn@4.12.0 --activate
+            - yarn --version
             - echo "Exportando variables de AWS..."
             - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
             - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
             - export AWS_REGION=$AWS_REGION
-            - echo "Instalando Serverless..."
-            - yarn global add serverless
             - echo "Desplegando con Serverless..."
             - npx serverless deploy --stage production
+
