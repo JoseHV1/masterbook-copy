@@ -156,6 +156,45 @@
                 formControlName="days_expiring_policies_notifications" />
             </div>
           </div>
+
+          <h4
+            class="mt-4 mb-4 mb-md-5 profile__subtitle text-center"
+            *ngIf="googleConnection">
+            Connected Accounts
+          </h4>
+
+          <div class="col-12" *ngIf="googleConnection">
+            <div class="p-3 p-md-4 bg-white rounded shadow-sm">
+              <div
+                class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <div class="d-flex align-items-center gap-3">
+                  <img
+                    src="assets/images/google-logo.png"
+                    alt="Google"
+                    width="28"
+                    height="28" />
+
+                  <div>
+                    <div class="fw-semibold">Google</div>
+                    <div class="text-muted small">
+                      Connected as
+                      <strong>{{ googleConnection.email }}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  class="primary-button back-light-blue-400 white mx-1 mt-2"
+                  (click)="disconnectGoogle()">
+                  Disconnect
+                </button>
+              </div>
+
+              <div class="text-muted small mt-2">
+                Disconnecting will disable Calendar sync and Gmail sending.
+              </div>
+            </div>
+          </div>
         </ng-container>
 
         <div

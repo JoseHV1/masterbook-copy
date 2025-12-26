@@ -16,7 +16,7 @@
       (!item.options?.length || isSomeChildrenActive()) &&
       role === 'admin'
   }">
-  <div class="py-2 px-3">
+  <div class="py-2 px-3" [id]="item.title?.toLowerCase() + '-item'">
     <div class="item-info d-flex align-items-center justify-content-start ps-4">
       <span class="material-icons-outlined color-text-{{ role }}">
         {{ item.icon }}

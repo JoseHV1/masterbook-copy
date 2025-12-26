@@ -123,4 +123,24 @@ export class ProfileService {
       )
       .pipe(map(resp => ({ ...resp.data.user })));
   }
+
+  disconnectGoogle(): Observable<{ ok: boolean; disconnected: boolean }> {
+    return this._http
+      .delete<ApiResponseModel<{ ok: boolean; disconnected: boolean }>>(
+        `${environment.apiUrl}integrations/google/disconnect`
+      )
+      .pipe(map(resp => resp.data));
+  }
+
+  getGoogleStatus(): Observable<{
+    google: { connected: boolean; providerUid?: string; email?: string };
+  }> {
+    return this._http
+      .get<
+        ApiResponseModel<{
+          google: { connected: boolean; providerUid?: string; email?: string };
+        }>
+      >(`${environment.apiUrl}integrations/google/status`)
+      .pipe(map(resp => resp.data));
+  }
 }

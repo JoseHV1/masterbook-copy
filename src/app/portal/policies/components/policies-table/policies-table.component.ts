@@ -15,7 +15,6 @@ import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { CancellationModalComponent } from '../cacellation-policy-modal/cancellation-policy-modal.component';
 import { RenewalReinstalmentModelComponent } from '../renewal-reinstalment-modal/renewal-reinstalment-modal.component';
 import { PolicyCategoryEnum } from '@app/shared/enums/policy-category.enum';
-import { PolicyTypeEnum } from '@app/shared/enums/policy-type.enum';
 import { PolicyStatus } from '@app/shared/enums/policy-status.enum';
 import { AddEndorsementsModalComponent } from '../add-endorsements-modal/add-endorsements-modal.component';
 

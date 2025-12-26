@@ -2,8 +2,8 @@
 @import 'primeicons/primeicons.css';
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'driver.js/dist/driver.css';
 // @import "flag-icons/css/flag-icons.min.css";
-
 
 * {
   margin: 0;
@@ -703,4 +703,35 @@
 
 .mat-mdc-option:nth-child(odd) {
   background-color: $white !important;
+}
+
+.driver-popover.driverjs-theme {
+  background-color: $gray-100;
+  padding: 1.5rem;
+}
+
+.driver-popover.driverjs-theme .driver-popover-title {
+  font-size: 15px;
+  color: $dark-blue-500;
+}
+
+.driver-popover.driverjs-theme .driver-popover-progress-text {
+  color: $dark-blue-500;
+  font-weight: 700;
+}
+
+.driver-popover.driverjs-theme .driver-popover-navigation-btns button {
+  text-align: center;
+  background-color: $black;
+  color: $white;
+  border: none;
+  text-shadow: none;
+  font-size: 10px;
+  border-radius: 6px;
+  padding: 5px 10px;
+}
+
+.driver-popover.driverjs-theme .driver-popover-navigation-btns button:disabled {
+  background: $gray-500 !important;
+  cursor: no-drop !important;
 }

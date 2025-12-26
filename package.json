@@ -66,6 +66,7 @@
     "aws-serverless-express": "^3.4.0",
     "bootstrap": "^5.3.2",
     "date-fns": "^2.29.3",
+    "driver.js": "^1.4.0",
     "echarts": "^5.6.0",
     "express": "^4.15.2",
     "hammerjs": "^2.0.8",
@@ -130,5 +131,6 @@
   },
   "resolutions": {
     "formidable": "2.1.2"
-  }
+  },
+  "packageManager": "yarn@4.12.0"
 }

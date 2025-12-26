@@ -11,9 +11,15 @@ import { enumToDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
 import { GenderEnum } from 'src/app/shared/enums/gender.enum';
 import { EditProfileRequest } from 'src/app/shared/interfaces/requests/profile/edit-profile.request';
 import { AddressAutocompleteModel } from 'src/app/shared/models/address-autocomplete.model';
-import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalChangePasswordComponent } from '../modal-change-password/modal-change-password.component';
+import { switchMap } from 'rxjs/operators';
+
+type FakeGoogleConnection = {
+  email: string;
+  name?: string;
+  connectedAt: string; // ISO string
+};
 
 @Component({
   selector: 'app-profile-form',
@@ -22,11 +28,18 @@ import { ModalChangePasswordComponent } from '../modal-change-password/modal-cha
 })
 export class ProfileFormComponent implements OnInit {
   @ViewChild('fileInput') fileInput: any;
+
   form!: FormGroup;
   dataUser!: PopulatedUserModel;
   dropDownGender: DropdownOptionModel[] = enumToDropDown(GenderEnum);
   today: Date = new Date();
   isEditing: boolean = false;
+
+  // -----------------------------
+  // Fake Google OAuth Connection
+  // -----------------------------
+  googleConnection: FakeGoogleConnection | null = null;
+  private readonly GOOGLE_STORAGE_KEY = 'masterbook_google_connection';
 
   constructor(
     private _auth: AuthService,
@@ -43,6 +56,25 @@ export class ProfileFormComponent implements OnInit {
     this.dataUser = this._auth.getAuth()?.user as PopulatedUserModel;
     this.fillData(this.dataUser);
     this.form.disable();
+
+    this._profile.getGoogleStatus().subscribe({
+      next: status => {
+        if (status.google?.connected) {
+          this.googleConnection = {
+            email: status.google.email ?? '',
+            connectedAt: new Date().toISOString(),
+          };
+        } else {
+          this.googleConnection = null;
+        }
+
+        this._cd.detectChanges();
+      },
+      error: err => {
+        console.error('[Google Status API ERROR]', err);
+        this.googleConnection = null;
+      },
+    });
 
     this.form
       .get('allow_expiring_policies_notifications')
@@ -62,6 +94,49 @@ export class ProfileFormComponent implements OnInit {
       });
   }
 
+  disconnectGoogle(): void {
+    this._ui.showLoader();
+
+    this._profile
+      .disconnectGoogle()
+      .pipe(
+        // optional: refresh status after disconnect
+        switchMap(() => this._profile.getGoogleStatus()),
+        finalize(() => this._ui.hideLoader())
+      )
+      .subscribe({
+        next: status => {
+          // if you keep a boolean like isGoogleConnected:
+          // this.isGoogleConnected = status.google.connected;
+
+          // If you keep googleConnection object:
+          if (!status.google.connected) this.googleConnection = null;
+
+          this._ui.showAlertSuccess('Google disconnected');
+          this._cd.detectChanges();
+        },
+        error: () => {
+          // use whatever your app uses for errors
+          this._ui.showAlertError?.('Failed to disconnect Google');
+        },
+      });
+  }
+
+  private loadGoogleConnection(): void {
+    try {
+      const raw = localStorage.getItem(this.GOOGLE_STORAGE_KEY);
+      this.googleConnection = raw
+        ? (JSON.parse(raw) as FakeGoogleConnection)
+        : null;
+    } catch {
+      this.googleConnection = null;
+      localStorage.removeItem(this.GOOGLE_STORAGE_KEY);
+    }
+  }
+
+  // -----------------------------
+  // Existing Profile Logic
+  // -----------------------------
   handleEditSave(): void {
     if (this.isEditing) {
       this.send();
