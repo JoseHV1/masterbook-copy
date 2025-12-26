@@ -1,0 +1,57 @@
+<!-- <form [formGroup]="form">
+  <mat-form-field appearance="outline" class="w-100">
+    <input
+      matInput
+      [type]="type"
+      [placeholder]="placeholder"
+      formControlName="value"
+      (blur)="updateErrors()"
+      (input)="changeValue()"
+      thousandSeparator=","
+      decimalMarker="."
+      [suffix]="maskSuffix ?? ''"
+      [prefix]="maskPrefix ?? ''"
+      [leadZero]="inputMask === 'separator.2' ? true : false"
+      [mask]="inputMask ?? undefined" />
+    <mat-error *ngIf="errors.length > 0">
+      {{ errorMessage }}
+    </mat-error>
+  </mat-form-field>
+</form> -->
+
+<form [formGroup]="form">
+  <mat-form-field appearance="outline" class="w-100">
+    <textarea
+      *ngIf="isTextArea; else normalInput"
+      matInput
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      [cdkAutosizeMinRows]="rows"
+      [cdkAutosizeMaxRows]="15"
+      [placeholder]="placeholder"
+      formControlName="value"
+      (blur)="onTouched(); updateErrors()"
+      (input)="changeValue()">
+    </textarea>
+
+    <ng-template #normalInput>
+      <input
+        matInput
+        [type]="type"
+        [placeholder]="placeholder"
+        formControlName="value"
+        (blur)="onTouched(); updateErrors()"
+        (input)="changeValue()"
+        thousandSeparator=","
+        decimalMarker="."
+        [suffix]="maskSuffix ?? ''"
+        [prefix]="maskPrefix ?? ''"
+        [leadZero]="inputMask === 'separator.2'"
+        [mask]="inputMask ?? undefined" />
+    </ng-template>
+
+    <mat-error *ngIf="errors.length > 0">
+      {{ errorMessage }}
+    </mat-error>
+  </mat-form-field>
+</form>

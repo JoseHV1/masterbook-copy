@@ -1,0 +1,31 @@
+@import 'theme';
+
+:host {
+  .file {
+    width: 16rem;
+    max-width: 100%;
+    min-height: 8.375rem;
+    height: auto;
+    background: $gray-100;
+    margin: 0.1rem 0.2rem;
+    border: 2px solid $gray-400;
+    border-radius: 0.5rem;
+
+    p {
+      margin: 0;
+      padding: 0;
+      white-space: nowrap; 
+      overflow: hidden; 
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+  }
+
+  .remove {
+    top: 0.2rem;
+    right: 0.2rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: $red-color;
+  }
+}

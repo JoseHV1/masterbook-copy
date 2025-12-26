@@ -1,0 +1,78 @@
+@import 'theme';
+
+:host {
+  .prop-box {
+    background-color: $gray-100;
+  }
+
+  .category-selector {
+    background-color: $gray-100;
+    border-radius: 0.5rem;
+
+    &--item {
+      background-color: $white;
+      border-radius: 0.5rem;
+      border: 1px solid $gray-500;
+      cursor: pointer;
+    }
+
+    &--item-selected {
+      background-color: $dark-blue-300;
+      color: $white;
+    }
+  }
+
+  .policy-type-card {
+    background: $white;
+    border-radius: 0.5rem;
+    border: 1px solid $light-blue-200;
+    p {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  ::ng-deep {
+    mat-expansion-panel-header {
+      background-color: $dark-blue-300 !important;
+    }
+
+    .mat-expansion-indicator::after {
+      color: $white !important;
+    }
+
+    .internal-expand {
+      mat-expansion-panel-header {
+        background-color: $light-blue-100 !important;
+      }
+      .mat-expansion-panel-body {
+        background-color: $light-blue-100 !important;
+      }
+      .mat-expansion-indicator::after {
+        color: $dark-blue-600 !important;
+      }
+    }
+
+    .category-expands {
+      mat-form-field {
+        height: 2.5rem !important;
+      }
+
+      .mat-mdc-text-field-wrapper {
+        height: 1.875rem !important;
+      }
+  
+      .mat-mdc-form-field-infix {
+        padding: 0 !important;
+        margin: 0 !important;
+        height: 1.875rem !important;
+        input {
+          padding: 3px !important;
+          margin: 0 !important;
+        }
+      }
+    }
+
+
+  }
+}

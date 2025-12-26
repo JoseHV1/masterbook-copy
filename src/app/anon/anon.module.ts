@@ -10,12 +10,19 @@ const routes: Routes = [
     component: AnonComponent,
     children: [
       {
-        path: '',
+        path: 'agents',
         loadChildren: () =>
           import('./home/home.module').then(module => module.HomeModule),
       },
       {
-        path: 'email-verify',
+        path: 'clients',
+        loadChildren: () =>
+          import('./home-client/home-client.module').then(
+            module => module.HomeClientModule
+          ),
+      },
+      {
+        path: 'activate-user',
         loadChildren: () =>
           import('./email-verify/email-verify.module').then(
             module => module.EmailVerifyModule
@@ -42,6 +49,14 @@ const routes: Routes = [
             module => module.TermsConditionsModule
           ),
       },
+      {
+        path: 'unathorized',
+        loadChildren: () =>
+          import('./unauthorized/unathorized.module').then(
+            module => module.UnauthorizedModule
+          ),
+      },
+      { path: '**', redirectTo: 'agents', pathMatch: 'full' },
     ],
   },
 ];

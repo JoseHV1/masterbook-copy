@@ -1,0 +1,46 @@
+@import 'theme';
+
+:host {
+  .selected-quote-button {
+    border-radius: 3rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 700;
+
+    .selection-side {
+      border-radius: 3rem 0 0 3rem;
+      padding: 0.5rem 0.5rem 0.5rem 1.2rem;
+      background: $dark-blue-400;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    .policy-side {
+      position: relative;
+      border-radius: 0 3rem 3rem 0;
+      padding: 0.5rem 0.4rem 0.5rem 0.2rem;
+      background: $dark-blue-400;
+
+      span {
+        font-size: 1.2rem !important;
+        font-weight: 700;
+      }
+
+      &:hover {
+        opacity: 0.9;
+      }
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 25%;
+        height: 50%;
+        width: 1px;
+        background: white;
+      }
+    }
+  }
+}

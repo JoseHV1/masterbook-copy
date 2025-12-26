@@ -5,15 +5,15 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
   templateUrl: './primary-button.component.html',
   styleUrls: ['./primary-button.component.scss'],
 })
-export class PrimaryButtonComponent implements OnInit {
+export class PrimaryButtonComponent {
   @Input() text = '';
-  @Input() background: 'blue-primary' | 'blue-dark' | 'orange' = 'blue-primary';
+  @Input() disabled = false;
+  @Input() set background(data: string) {
+    this._background = data;
+    this.backgroundOutline = `${this._background}-outline`;
+  }
   @Input() type: 'normal' | 'outline' = 'normal';
+  _background: string = 'blue-primary';
   backgroundOutline!: string;
   @Output() clickEvent = new EventEmitter<void>();
-
-  ngOnInit(): void {
-    if (this.type === 'outline')
-      this.backgroundOutline = `${this.background}-outline`;
-  }
 }

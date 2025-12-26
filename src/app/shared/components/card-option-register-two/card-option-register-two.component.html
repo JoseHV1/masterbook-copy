@@ -1,0 +1,9 @@
+<div
+  class="mb-2 mb-md-0 py-4 px-5 register-card"
+  [ngClass]="{ 'card-active': selected, 'card-inactive': !selected }">
+  <div class="d-flex justify-content-center align-items-center mt-2 mb-4">
+    <img [src]="selected ? data.icon_active : data.icon_inactive" alt="" />
+  </div>
+  <h2 class="text-center subtitle-3 mb-3">{{ data.name }}</h2>
+  <p class="text-center description">{{ data.description }}</p>
+</div>

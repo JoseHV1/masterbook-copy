@@ -1,9 +1,0 @@
-<aside class="px-3 py-4">
-  <app-portal-menu-options
-    *ngFor="let item of MENU_ITEMS; let i = index"
-    [item]="item"
-    (optionClick)="
-      selectedIndex === i ? (selectedIndex = undefined) : (selectedIndex = i)
-    "
-    [isOpen]="selectedIndex === i"></app-portal-menu-options>
-</aside>

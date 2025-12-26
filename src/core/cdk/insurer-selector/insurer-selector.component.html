@@ -1,0 +1,16 @@
+<mat-form-field class="w-100" appearance="outline">
+  <input
+    matInput
+    type="text"
+    [formControl]="queryControl"
+    [matAutocomplete]="auto"
+    [placeholder]="placeholder" />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="selectOption($event.option.value)">
+    <mat-option *ngFor="let option of filteredItems | async" [value]="option">
+      {{ option.name }}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-error *ngIf="errors.length > 0">{{ errorMessage }}</mat-error>
+</mat-form-field>

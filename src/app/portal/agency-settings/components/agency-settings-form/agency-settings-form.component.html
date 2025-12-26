@@ -1,0 +1,41 @@
+<div
+  [formGroup]="form"
+  *ngIf="dataAgency"
+  class="bg-gray-200 px-3 px-lg-4 py-4 py-lg-5">
+  <h4 class="mt-4 mb-4 mb-md-5 profile__subtitle text-center">
+    Agency Settings
+  </h4>
+
+  <div class="d-flex align-items-center justify-content-center">
+    <div class="row col-12 col-md-10">
+      <div class="col-12 col-md-6 mb-4 mb-md-0">
+        <label>Percentaje Retentions</label>
+        <app-input
+          formControlName="retentions"
+          placeholder="% 0"
+          type="tel"
+          [inputMask]="'separator'"
+          [maskPrefix]="'% '"></app-input>
+      </div>
+
+      <div class="col-12 col-md-6 mb-4 mb-md-0">
+        <label>Percentaje Taxes</label>
+        <app-input
+          formControlName="taxes"
+          placeholder="% 0"
+          type="tel"
+          [inputMask]="'separator'"
+          [maskPrefix]="'% '"></app-input>
+      </div>
+
+      <div
+        class="d-flex justify-content-center align-items-center mt-3 mt-md-5">
+        <button
+          class="primary-button big-button back-light-blue-400 white mx-1"
+          (click)="send()">
+          Edit Settings
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

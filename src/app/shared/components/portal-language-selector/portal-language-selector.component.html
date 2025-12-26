@@ -14,7 +14,9 @@
         <div
           class="language-option text-selection-disable p-2 d-flex align-items-center mb-2"
           [ngClass]="{ 'language-active': item === currentLang }"
-          (click)="changeLang($event, item); languageOverlay.toggle($event)">
+          (click)="
+            changeLang($event, item); languageOverlay.overlayVisible = false
+          ">
           <img
             class="selector-flag me-2"
             [src]="'/assets/icons/' + item + '.svg'" />

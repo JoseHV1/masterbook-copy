@@ -1,0 +1,31 @@
+@import 'theme';
+
+:host {
+  .text-check {
+    @media only screen and (max-width: 767px) {
+      font-size: .80rem !important;
+    }
+  }
+
+  &::ng-deep {
+    div[class*='p-datepicker p-component'] {
+      left: -9rem !important;
+
+      @media only screen and (max-width: 767px) {
+        left: -0.75rem !important;
+      }
+    }
+  }
+
+  .checkbox-input {
+    margin-left: 2rem;
+  }
+
+  .img-form {
+    width: 75%;
+
+    @media only screen and (max-width: 1199px) {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,49 @@
+<button
+  mat-icon-button
+  [matMenuTriggerFor]="filterMenu"
+  #trigger="matMenuTrigger">
+  <mat-icon>filter_list</mat-icon>
+</button>
+
+<mat-menu #filterMenu="matMenu">
+  <div (click)="$event.stopPropagation()">
+    <!-- Date Range (single) -->
+    <mat-form-field *ngIf="showDateRange" appearance="outline">
+      <mat-label>Date Range</mat-label>
+      <mat-select [(value)]="selectedDateRange">
+        <mat-option *ngFor="let range of dateRanges" [value]="range.value">
+          {{ range.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Brokers (multi) -->
+    <mat-form-field *ngIf="showAgents" appearance="outline">
+      <mat-label>Brokers</mat-label>
+      <mat-select [(value)]="selectedAgents" multiple>
+        <mat-option *ngFor="let agent of agents" [value]="agent.code">
+          {{ agent.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Companies (multi) -->
+    <mat-form-field *ngIf="showCompanies" appearance="outline">
+      <mat-label>Insurance Companies</mat-label>
+      <mat-select [(value)]="selectedCompanies" multiple>
+        <mat-option
+          *ngFor="let company of insuranceCompanies"
+          [value]="company.code">
+          {{ company.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="filter-actions">
+      <button mat-button color="primary" (click)="applyChartFilters()">
+        Apply
+      </button>
+      <button mat-button color="warn" (click)="resetFilters()">Reset</button>
+    </div>
+  </div>
+</mat-menu>

@@ -1,72 +1,106 @@
 @import 'theme';
+@import 'primeicons/primeicons.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+// @import "flag-icons/css/flag-icons.min.css";
+
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: $font-family;
 }
 
-//texts
-.title-1{
-  font-size: 6rem;
-  line-height: 6.4rem;
-  font-family: $font-title;
+//TEXTS
+.title-1 {
+  font-size: 3.75rem;
+  font-weight: 800;
+
+  @media only screen and (max-width: 767px) {
+    font-size: 3rem;
+  }
 }
 
-.title-2{
-  font-size: 5rem;
-  line-height: 5.4rem;
-  font-family: $font-title;
+.title-2 {
+  font-size: 2.5rem;
+  font-weight: 800;
 }
 
-.title-3{
-  font-size: 2.6rem;
-  line-height: 2.8rem;
-  font-family: $font-title;
-}
-
-.title-4{
+.title-3 {
   font-size: 2rem;
-  line-height: 2.2rem;
-  font-family: $font-title;
+  font-weight: 800;
 }
 
-.title-5{
+.title-4 {
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.title-5 {
   font-size: 1.5rem;
-  line-height: 1.6rem;
-  font-family: $font-title;
-  letter-spacing: 0.6px;
+  font-weight: 600;
 }
 
-.text-1{
+.subtitle-1 {
   font-size: 1.5rem;
-  line-height: 1.6rem;
-  font-family: $font-text-1;
-  letter-spacing: 0.6px;
+  font-weight: 700;
 }
 
-.text-1-tini{
+.subtitle-2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.subtitle-3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  @media only screen and (max-width: 767px) {
+    font-size: 1rem;
+  }
+}
+
+.subtitle-4 {
   font-size: 1rem;
-  line-height: 1.1rem;
-  font-family: $font-text-1;
+  font-weight: 700;
 }
 
-.text-2{
-  font-size: 1.5rem;
-  line-height: 1.6rem;
-  font-family: $font-text-2;
+.text-1 {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.text-2 {
+  font-size: 1rem;
   font-weight: 400;
 }
 
-.text-2-tini{
-  font-size: 0.75rem;
-  line-height: 0.85rem;
-  font-family: $font-text-2;
+.text-3 {
+  font-size: 0.8rem;
+  font-weight: 400;
 }
 
+.subtext-1 {
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.subtext-2 {
+  font-size: 0.75rem;
+  font-weight: 400;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.bold {
+  font-weight: 700 !important;
+}
 
 //utils
-.flex-centered{
+
+.flex-centered {
   width: 100%;
   height: 100%;
   display: flex;
@@ -74,8 +108,24 @@
   justify-content: center;
 }
 
-.text-centered{
+.text-centered {
   text-align: center;
+}
+
+.text-centered-mobile {
+  text-align: left;
+
+  @media only screen and (max-width: 767px) {
+    text-align: center;
+  }
+}
+
+.text-centered-desktop {
+  text-align: center;
+
+  @media only screen and (max-width: 767px) {
+    text-align: left;
+  }
 }
 
 .text-selection-disable {
@@ -86,24 +136,45 @@
   -ms-user-select: none;
   user-select: none;
 }
-.hover{
+
+.hover {
   cursor: pointer;
-  &:hover{
+
+  &:hover {
     opacity: 0.8;
   }
 }
-.show-desktop-only{
-  display: block;
-}
-.show-mobile-only{
-  display: none;
+
+.leaflet-bar {
+  border: none !important;
+  box-shadow: 0 10px 26px rgba(16, 24, 40, 0.18) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
 }
 
-@media only screen and (max-width: 767px) {
-  .show-desktop-only{
+.leaflet-bar a {
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px !important;
+  box-shadow: 0 14px 30px rgba(16, 24, 40, 0.18) !important;
+}
+
+.desktop-only {
+  display: block;
+
+  @media only screen and (max-width: 767px) {
     display: none;
   }
-  .show-mobile-only{
+}
+
+.mobile-only {
+  display: none;
+
+  @media only screen and (max-width: 767px) {
     display: block;
   }
 }
@@ -119,19 +190,517 @@
 ::-webkit-scrollbar-track {
   border-radius: 4px;
   position: absolute;
-
 }
 
 ::-webkit-scrollbar-thumb {
   background: #c5c6ca;
   border-radius: 4px;
   position: absolute;
-
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #9a9b9e;
   position: absolute;
-
 }
 
+//color classes
+.light-blue-100 {
+  color: $light-blue-100 !important;
+}
+
+.light-blue-200 {
+  color: $light-blue-200 !important;
+}
+
+.light-blue-300 {
+  color: $light-blue-300 !important;
+}
+
+.light-blue-400 {
+  color: $light-blue-400 !important;
+}
+
+.light-blue-500 {
+  color: $light-blue-500 !important;
+}
+
+.light-blue-600 {
+  color: $light-blue-600 !important;
+}
+
+.light-blue-700 {
+  color: $light-blue-700 !important;
+}
+
+.dark-blue-100 {
+  color: $dark-blue-100 !important;
+}
+
+.dark-blue-200 {
+  color: $dark-blue-200 !important;
+}
+
+.dark-blue-300 {
+  color: $dark-blue-300 !important;
+}
+
+.dark-blue-400 {
+  color: $dark-blue-400 !important;
+}
+
+.dark-blue-500 {
+  color: $dark-blue-500 !important;
+}
+
+.dark-blue-600 {
+  color: $dark-blue-600 !important;
+}
+
+.dark-blue-700 {
+  color: $dark-blue-700 !important;
+}
+
+.success-color {
+  color: $color-success !important;
+}
+
+.red-color {
+  color: $red-color !important;
+}
+
+.blue-color {
+  color: $blue-color !important;
+}
+
+.error-color {
+  color: $color-error !important;
+}
+
+.info-color {
+  color: $color-info !important;
+}
+
+.orange {
+  color: $orange !important;
+}
+
+.white {
+  color: $white !important;
+}
+
+.black {
+  color: $black !important;
+}
+
+.gray-100 {
+  color: $gray-100 !important;
+}
+
+.gray-200 {
+  color: $gray-200 !important;
+}
+
+.gray-300 {
+  color: $gray-300 !important;
+}
+
+.gray-400 {
+  color: $gray-400 !important;
+}
+
+.gray-500 {
+  color: $gray-500 !important;
+}
+
+//background classes
+.back-light-blue-100 {
+  background-color: $light-blue-100 !important;
+}
+
+.back-light-blue-200 {
+  background-color: $light-blue-200 !important;
+}
+
+.back-light-blue-300 {
+  background-color: $light-blue-300 !important;
+}
+
+.back-light-blue-400 {
+  background-color: $light-blue-400 !important;
+}
+
+.back-light-blue-500 {
+  background-color: $light-blue-500 !important;
+}
+
+.back-light-blue-600 {
+  background-color: $light-blue-600 !important;
+}
+
+.back-light-blue-700 {
+  background-color: $light-blue-700 !important;
+}
+
+.back-dark-blue-100 {
+  background-color: $dark-blue-100 !important;
+}
+
+.back-dark-blue-200 {
+  background-color: $dark-blue-200 !important;
+}
+
+.back-dark-blue-300 {
+  background-color: $dark-blue-300 !important;
+}
+
+.back-dark-blue-400 {
+  background-color: $dark-blue-400 !important;
+}
+
+.back-dark-blue-500 {
+  background-color: $dark-blue-500 !important;
+}
+
+.back-dark-blue-600 {
+  background-color: $dark-blue-600 !important;
+}
+
+.back-dark-blue-700 {
+  background-color: $dark-blue-700 !important;
+}
+
+.back-success-color {
+  background-color: $color-success !important;
+}
+
+.back-error-color {
+  background-color: $color-error !important;
+}
+
+.back-info-color {
+  background-color: $color-info !important;
+}
+
+.back-orange {
+  background-color: $orange !important;
+}
+
+.back-white {
+  background-color: $white !important;
+}
+
+.back-black {
+  background-color: $black !important;
+}
+
+.back-gray-100 {
+  background-color: $gray-100 !important;
+}
+
+.back-gray-200 {
+  background-color: $gray-200 !important;
+}
+
+.back-gray-300 {
+  background-color: $gray-300 !important;
+}
+
+.back-gray-400 {
+  background-color: $gray-400 !important;
+}
+
+.back-gray-500 {
+  background-color: $gray-500 !important;
+}
+
+.back-red-color {
+  background-color: $red-color !important;
+}
+
+.primary-button {
+  border: none;
+  border-radius: 3rem;
+  min-width: 9rem;
+  padding: 0.55rem 1rem !important;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.75;
+    cursor: no-drop !important;
+  }
+
+  @media only screen and (max-width: 767px) {
+    min-width: 7rem;
+    padding: 0.55rem 0.8rem !important;
+  }
+}
+
+.link-button {
+  border: none;
+  background: transparent !important;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.75;
+    cursor: no-drop !important;
+  }
+}
+
+.big-button {
+  padding: 0.65rem 1.8rem;
+  font-size: 1.2rem;
+
+  @media only screen and (max-width: 767px) {
+    font-size: 1rem;
+  }
+}
+
+.anon-input-custom {
+  border: 1px solid $gray-400;
+  border-radius: 0.375rem !important;
+
+  .p-inputtext {
+    border: transparent !important;
+    border-left: none !important;
+    background: $gray-600;
+    padding-left: 0.8rem !important;
+    font-family: $font-family !important;
+  }
+
+  .p-inputgroup-addon {
+    background: $white !important;
+    background: $gray-600 !important;
+    border: transparent !important;
+    border-right: none !important;
+    padding: 0 !important;
+    padding-left: 1rem !important;
+
+    img {
+      width: 1.3rem !important;
+    }
+  }
+
+  .p-inputtext:enabled:focus {
+    box-shadow: none;
+    border: transparent !important;
+  }
+
+  .p-inputtext:enabled:hover {
+    border: transparent !important;
+  }
+
+  p-inputnumber.ng-dirty.ng-invalid > .p-inputnumber > .p-inputtext {
+    border: transparent !important;
+  }
+}
+
+.anon-textarea {
+  border: 1px solid $gray-400;
+  border-radius: 6px !important;
+
+  .p-inputgroup-addon {
+    display: block !important;
+
+    img {
+      margin-top: 0.625rem !important;
+    }
+  }
+}
+
+.anon-input-date-custom {
+  border: 1px solid $gray-400;
+  border-radius: 6px !important;
+
+  .p-calendar {
+    width: 100% !important;
+  }
+
+  .p-inputtext {
+    background: $gray-600;
+    border: transparent !important;
+    padding-left: 1.2rem !important;
+    font-family: $font-family !important;
+    padding-left: 0.8rem !important;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+  }
+
+  .p-inputtext:enabled:focus {
+    box-shadow: none;
+    border-color: $gray-400;
+  }
+
+  .p-inputtext:enabled:hover {
+    border-color: $gray-400;
+  }
+}
+
+.anon-select-custom {
+  .p-dropdown {
+    width: 100% !important;
+    border-left: none !important;
+    background: $gray-600;
+    border: transparent !important;
+    padding-left: 0rem !important;
+    font-family: $font-family !important;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+  }
+
+  .p-dropdown:not(.p-disabled):hover,
+  p-dropdown.ng-dirty.ng-invalid > .p-dropdown {
+    border-color: $gray-400;
+  }
+
+  .p-dropdown:not(.p-disabled).p-focus {
+    box-shadow: none !important;
+    border-color: $gray-400;
+  }
+}
+
+.anon-multiselect-custom {
+  border: 1px solid $gray-400;
+  border-radius: 6px !important;
+
+  .p-multiselect {
+    width: 100% !important;
+    border-left: none !important;
+    background: $gray-600;
+    border: transparent !important;
+    padding-left: 0rem !important;
+    font-family: $font-family !important;
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+  }
+
+  .p-multiselect-panel .p-multiselect-header {
+    display: none !important;
+  }
+
+  .p-multiselect:not(.p-disabled):hover,
+  p-multiselect.ng-dirty.ng-invalid > .p-multiselect {
+    border-color: $gray-400;
+  }
+
+  .p-multiselect:not(.p-disabled).p-focus {
+    box-shadow: none !important;
+    border-color: $gray-400;
+  }
+
+  .p-multiselect.p-multiselect-chip .p-multiselect-token {
+    padding: 0.3rem 0.4rem !important;
+    color: $gray-500;
+  }
+}
+
+.anon-checkbox {
+  .p-checkbox-box {
+    border: 1px solid $gray-400;
+  }
+
+  p-checkbox.ng-dirty.ng-invalid > .p-checkbox > .p-checkbox-box {
+    border: 1px solid $gray-400;
+  }
+
+  .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+    border-color: $gray-400;
+  }
+
+  .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
+    box-shadow: none;
+    border-color: $gray-400;
+  }
+}
+
+.custom-error {
+  border: 1px solid red !important;
+}
+
+// Style bussines line in insurers
+.card-line {
+  height: 2rem;
+  border-radius: 0.25rem;
+}
+
+.background-yellow {
+  background: $color-warning;
+  color: $white;
+  border: 1px solid $color-warning;
+}
+
+.background-blue {
+  background: $light-blue-400;
+  color: $white;
+  border: 1px solid $light-blue-400;
+}
+
+.background-green {
+  background: $color-success;
+  color: $white;
+  border: 1px solid $color-success;
+}
+
+.background-disabled {
+  background: $gray-100;
+  color: $gray-300;
+  border: 1px solid $gray-200;
+}
+
+.transparent-modal-container {
+  background: transparent !important;
+  .mat-mdc-dialog-surface {
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
+.redirect-link {
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.table-responsive {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: $gray-300 transparent;
+}
+
+.table-responsive::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background-color: $gray-300;
+  border-radius: 8px;
+}
+
+.mat-mdc-option:nth-child(even) {
+  background-color: $gray-100 !important;
+}
+
+.mat-mdc-option:nth-child(odd) {
+  background-color: $white !important;
+}

@@ -1,0 +1,101 @@
+<nav
+  class="anon-navbar align-items-center d-flex"
+  [ngClass]="{ 'anon-navbar-register': currenUser ,
+    'justify-content-between': !currenUser ,
+  }">
+  <div class="anon-navbar-logo" [ngClass]="{ 'd-block d-xl-none': currenUser }">
+    <img src="/assets/images/logo.svg" alt="masterbook" />
+  </div>
+  <div class="d-flex d-xl-none anon-navbar-mobile-toggle pe-2 pe-md-0">
+    <app-language-selector
+      class="me-4 d-flex align-items-center justify-content-center"></app-language-selector>
+    <div
+      class="anon-navbar-mobile-toggle"
+      (click)="isMobileOpen = !isMobileOpen">
+      <img src="/assets/icons/mobile-toggle-white.svg" alt="mobile toggle" />
+    </div>
+  </div>
+  <div
+    class="anon-navbar-menu"
+    [ngClass]="{ 'anon-navbar-menu-show': isMobileOpen }">
+    <div class="d-flex mb-3 mb-xl-0" *ngIf="!currenUser">
+      <button
+        class="primary-button white mx-2"
+        [class.inactive-button]="currentType !== 'clients'"
+        [class.back-light-blue-500]="currentType === 'clients'"
+        (click)="navigateClient()">
+        {{ 'GENERAL.CLIENT' | translate }}
+      </button>
+
+      <button
+        class="primary-button white mx-2"
+        [class.inactive-button]="currentType !== 'agents'"
+        [class.back-light-blue-500]="currentType === 'agents'"
+        (click)="navigateAgent()">
+        {{ 'GENERAL.AGENT' | translate }}
+      </button>
+    </div>
+    <app-language-selector
+      class="d-none d-xl-flex mx-3 align-items-center justify-content-center"></app-language-selector>
+    <div class="ms-3 d-flex align-items-center" *ngIf="currenUser">
+      <button
+        class="primary-button big-button back-orange white mx-2"
+        (click)="logout()">
+        {{ 'GENERAL.LOG_OUT' | translate }}
+      </button>
+    </div>
+    <div class="d-flex" *ngIf="!currenUser">
+      <button
+        class="link-button big-button white mx-2"
+        (click)="visibleSingUp = true">
+        {{ 'GENERAL.SIGN_UP' | translate }}
+      </button>
+      <button
+        class="primary-button big-button back-orange white mx-2"
+        (click)="visibleLogin = true">
+        {{ 'GENERAL.LOG_IN' | translate }}
+      </button>
+    </div>
+  </div>
+</nav>
+
+<app-anon-modal
+  [visible]="visibleLogin"
+  (visibleChange)="visibleLogin = $event"
+  [width]="32">
+  <ng-container content>
+    <app-login-modal></app-login-modal>
+  </ng-container>
+</app-anon-modal>
+
+<app-anon-modal
+  [visible]="visibleSingUp"
+  [width]="60"
+  [height]="40"
+  (visibleChange)="visibleSingUp = $event">
+  <ng-container content>
+    <app-sign-up-modal></app-sign-up-modal>
+  </ng-container>
+</app-anon-modal>
+
+<app-anon-modal
+  [visible]="visibleForgot"
+  [width]="31"
+  [height]="39"
+  [hideClose]="true"
+  (visibleChange)="visibleForgot = $event">
+  <ng-container content>
+    <app-forgot-password-modal
+      (closeModalForgot)="visibleForgot = $event"></app-forgot-password-modal>
+  </ng-container>
+</app-anon-modal>
+
+<app-anon-modal
+  [visible]="visibleNotification"
+  [width]="34"
+  [hideClose]="true"
+  (visibleChange)="visibleNotification = $event">
+  <ng-container content>
+    <app-anon-modal-notification></app-anon-modal-notification>
+  </ng-container>
+</app-anon-modal>

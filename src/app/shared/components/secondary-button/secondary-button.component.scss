@@ -1,10 +1,11 @@
 @import 'theme';
 
 .secondary-button{
-  border-radius: 47px;
-  min-width: 160px;
-  font-family: $font-title;
-  font-size: 1.5rem;
+  border-radius: 3rem;
+  min-width: 10rem;
+  font-family: $font-family;
+  font-size: 1.2rem;
+  font-weight: 600;
   line-height: 1.5rem;
   padding: 10px 25px;
   letter-spacing: 0.6px;
@@ -16,14 +17,14 @@
 
 //color classes
 .blue-primary{
-  border: $blue-primary 2px solid;
-  color: $blue-primary;
+  border: $light-blue-500 2px solid;
+  color: $light-blue-500;
   background: #049dd926;
 }
 
 .blue-dark{
-  border: $blue-dark 2px solid;
-  color: $blue-dark;
+  border: $dark-blue-400 2px solid;
+  color: $dark-blue-400;
   background: #02385926;
 }
 
@@ -31,4 +32,22 @@
   border: $orange 2px solid;
   color: $orange;
   background: #de773126;
+}
+
+.blue-primary-normal{
+  border: none;
+  color: white;
+  background: $light-blue-500;
+}
+
+.blue-dark-normal{
+  border: none;
+  color: white;
+  background: $dark-blue-400;
+}
+
+.orange-normal{
+  border: none;
+  color: white;
+  background: $orange;
 }

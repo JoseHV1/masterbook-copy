@@ -16,27 +16,34 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 export class TextareaComponent implements ControlValueAccessor {
   @Input() placeholder?: string;
   @Input() widthValue: string = '100%';
+  @Input() heightValue: string = '130px';
   @Input() marginValue: string = '0px';
   value!: string;
-  diseable: boolean = false;
+  disabled: boolean = false;
   hidePlaceholder: boolean = false;
 
   constructor() {}
 
-  onChange: (_: string) => void | undefined = () => undefined;
-  onTouched: () => void | undefined = () => undefined;
+  onChange: (value: any) => void | undefined = () => undefined;
+  onTouch: (value: string) => void | undefined = () => undefined;
+
+  changeText($event: any): void {
+    this.onChange($event);
+  }
 
   writeValue(value: string): void {
     this.value = value;
-    this.onChange(value);
   }
-  registerOnChange(fn: string): void {
-    this.onChange(fn);
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
   }
+
   registerOnTouched(fn: any): void {
-    this.onTouched = fn;
+    this.onTouch = fn;
   }
+
   setDisabledState?(isDisabled: boolean): void {
-    this.diseable = isDisabled;
+    this.disabled = isDisabled;
   }
 }

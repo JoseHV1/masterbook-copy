@@ -1,0 +1,139 @@
+<div class="px-4 ps-md-0 pe-md-2 px-lg-3 pb-3 row">
+  <div
+    class="col-6 d-none d-md-block pe-1 pe-lg-4 d-flex justify-content-center align-items-center">
+    <img
+      class="img-form text-selection-disable"
+      src="/assets/images/home/ilustration_form_singup.png"
+      alt="mobile toggle" />
+  </div>
+
+  <div class="col-12 col-md-6 ps-2 ps-md-5">
+    <h6 class="title-form text-center mb-3 mb-md-4">
+      {{ 'GENERAL.REGISTRATION_FORM' | translate }}
+    </h6>
+    <form [formGroup]="form">
+      <div class="row mb-3">
+        <div class="col-12 col-md-6 mb-3 mb-md-0">
+          <app-input
+            style="width: 11.25rem"
+            type="text"
+            formControlName="first_name"
+            [placeholder]="'SINGUP.INPUT_NAME' | translate"></app-input>
+        </div>
+        <div class="col-12 col-md-6">
+          <app-input
+            style="width: 11.25rem"
+            type="text"
+            formControlName="last_name"
+            [placeholder]="'SINGUP.INPUT_LAST_NAME' | translate"></app-input>
+        </div>
+      </div>
+      <div class="mb-3">
+        <app-input
+          style="width: 11.25rem"
+          type="email"
+          formControlName="email"
+          [placeholder]="'SINGUP.INPUT_MAIL' | translate"
+          class="{{ invalidEmail() ? 'ng-invalid ng-dirty' : '' }}"></app-input>
+        <small
+          *ngIf="invalidEmail()"
+          class="text-danger"
+          style="font-size: 12px"
+          >{{ 'SINGUP.TEXT_EMAIL_INVALID' | translate }}</small
+        >
+      </div>
+      <div class="mb-3">
+        <div class="password-input">
+          <app-input
+            style="width: 11.25rem"
+            [type]="showNew ? 'text' : 'password'"
+            formControlName="password"
+            [placeholder]="'SINGUP.INPUT_PASSWORD' | translate"
+            class="{{
+              invalidMinLength('password') ? 'ng-invalid ng-dirty' : ''
+            }}"></app-input>
+          <button type="button" class="btn-eye" (click)="showNew = !showNew">
+            <mat-icon>{{ showNew ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+
+        <div
+          *ngIf="
+            form.get('password')?.invalid &&
+            (form.get('password')?.touched || form.get('password')?.dirty)
+          ">
+          <small
+            *ngIf="form.get('password')?.errors?.['minlength'] || form.get('password')?.errors?.['MIN_LENGTH']"
+            class="text-danger d-block"
+            style="font-size: 12px">
+            {{ 'SINGUP.TEXT_PASSWORD_MINLEGHT_INVALID' | translate }}
+          </small>
+
+          <small
+            *ngIf="form.get('password')?.errors?.['UPPERCASE']"
+            class="text-danger d-block"
+            style="font-size: 12px">
+            {{ 'SINGUP.TEXT_PASSWORD_UPPERCASE_INVALID' | translate }}
+          </small>
+
+          <small
+            *ngIf="form.get('password')?.errors?.['NUMBER']"
+            class="text-danger d-block"
+            style="font-size: 12px">
+            {{ 'SINGUP.TEXT_PASSWORD_NUMBER_INVALID' | translate }}
+          </small>
+
+          <small
+            *ngIf="form.get('password')?.errors?.['SPECIAL_CHAR']"
+            class="text-danger d-block"
+            style="font-size: 12px">
+            {{ 'SINGUP.TEXT_PASSWORD_SPECIAL_CHAR_INVALID' | translate }}
+          </small>
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="password-input">
+          <app-input
+            style="width: 11.25rem"
+            [type]="showRepeat ? 'text' : 'password'"
+            formControlName="passwordConfirm"
+            [placeholder]="'SINGUP.INPUT_RECTIFY_PASSWORD' | translate"
+            class="{{
+              invalidMinLength('passwordConfirm') ? 'ng-invalid ng-dirty' : ''
+            }}"></app-input>
+          <button
+            type="button"
+            class="btn-eye"
+            (click)="showRepeat = !showRepeat">
+            <mat-icon>{{
+              showRepeat ? 'visibility_off' : 'visibility'
+            }}</mat-icon>
+          </button>
+        </div>
+        <small
+          *ngIf="invalidMinLength('passwordConfirm')"
+          class="text-danger"
+          style="font-size: 12px"
+          >{{
+            'SINGUP.TEXT_RECTIFY_PASSWORD_MINLEGHT_INVALID' | translate
+          }}</small
+        >
+        <small
+          *ngIf="isEqualsPasswords()"
+          class="d-block text-danger"
+          style="font-size: 12px"
+          >{{ 'SINGUP.TEXT_PASSWORDS_NOT_EQUALS' | translate }}</small
+        >
+      </div>
+      <div
+        class="d-flex aling-items-content justify-content-center pt-2 pt-md-0">
+        <button
+          class="primary-button big-button back-light-blue-500 white"
+          (click)="singUp()"
+          [disabled]="form.invalid">
+          {{ 'GENERAL.SIGN_UP' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

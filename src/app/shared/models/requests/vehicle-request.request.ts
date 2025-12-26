@@ -1,0 +1,35 @@
+export interface VehicleRequest {
+  birthDate: string;
+  fullName: Date;
+  gender: any;
+  maritalStatus: any;
+  country: any;
+  address: string;
+  accidents: any;
+  fines: string;
+  vehicleMake: string;
+  vehicleModel: string;
+  manufactureYear: string;
+  vehicleIdentificationNumber: string;
+  driveUse: any;
+  mileage: string;
+  additionalDriver: string;
+  extraDriver: string;
+  previous_insurance: string;
+  previous_company: string;
+  security_mechanisms: string;
+  defensive_drive_course: string;
+  coverage_type: string;
+  limit_person: string;
+  limit_accident: string;
+  damage_liability_coverage: string;
+  collision_coverage: string;
+  deductible: string;
+  rental_coverage: string;
+  limit: string;
+  roadside_assistance: string;
+  limit_coverage: string;
+  pip: string;
+  limit_coverage_occurrence: string;
+  email: string;
+}

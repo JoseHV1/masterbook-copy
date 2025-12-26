@@ -1,0 +1,16 @@
+@import 'theme';
+
+:host {
+  label {
+    font-family: $font-family;
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: $black;
+  }
+  
+  .sub-title {
+    color: $dark-blue-400;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+}

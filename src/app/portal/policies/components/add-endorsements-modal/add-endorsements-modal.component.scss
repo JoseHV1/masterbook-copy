@@ -1,0 +1,30 @@
+@import 'theme';
+
+:host {
+  .ui-modal {
+    border-radius: 1.25rem;
+    width: 49rem;
+    max-width: 100%;
+    background: $white !important;
+    .ui-modal-header {
+      border-radius: 1.25rem 1.25rem 0 0;
+      width: 100%;
+    }
+
+    .ui-modal-body {
+      max-height: 55vh;
+      height: 800px;
+      overflow-y: auto;
+    }
+  }
+
+  ::ng-deep {
+    .endorsement-selector {
+      padding: 0 !important;
+    }
+
+    .endorsement-padding {
+      padding: 0 !important;
+    }
+  }
+}

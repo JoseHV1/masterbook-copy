@@ -1,0 +1,54 @@
+<div class="section-title">
+  <span>Recent History</span>
+</div>
+
+<div class="py-3 d-flex justify-content-center" *ngIf="loading">
+  <mat-progress-spinner
+    mode="indeterminate"
+    diameter="32"></mat-progress-spinner>
+</div>
+
+<mat-list *ngIf="!loading && items?.length; else empty">
+  <div *ngFor="let h of items">
+    <div class="history-row">
+      <div matListItemIcon class="history-icon">
+        <mat-icon *ngIf="h.format === 'xlsx'">table_view</mat-icon>
+        <mat-icon *ngIf="h.format === 'csv'">grid_on</mat-icon>
+        <mat-icon *ngIf="h.format === 'pdf'">picture_as_pdf</mat-icon>
+      </div>
+      <div class="history-text">
+        <div>{{ h.title }}</div>
+
+        <div class="text-muted small">
+          Generated: {{ h.createdAt | date : 'MMM d, y, h:mm a' }}
+        </div>
+
+        <!-- STATUS BADGE -->
+        <div class="status-badge" [ngClass]="h.status">
+          <mat-icon class="status-icon" *ngIf="h.status === 'queued'"
+            >schedule</mat-icon
+          >
+          <mat-icon class="status-icon" *ngIf="h.status === 'processing'"
+            >autorenew</mat-icon
+          >
+          <mat-icon class="status-icon" *ngIf="h.status === 'completed'"
+            >check_circle</mat-icon
+          >
+          <mat-icon class="status-icon" *ngIf="h.status === 'failed'"
+            >error</mat-icon
+          >
+
+          {{ h.status | titlecase }}
+        </div>
+      </div>
+
+      <button mat-icon-button matTooltip="Download" (click)="download.emit(h)">
+        <mat-icon color="primary">download</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-list>
+
+<ng-template #empty>
+  <div class="text-center text-muted py-4">No history yet.</div>
+</ng-template>

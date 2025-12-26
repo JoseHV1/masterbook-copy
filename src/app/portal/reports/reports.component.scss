@@ -1,0 +1,16 @@
+.report-container {
+background: #fff;
+border-radius: 8px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.06);
+}
+
+
+.report-header {
+border-top-left-radius: 8px;
+border-top-right-radius: 8px;
+}
+
+
+@media (max-width: 900px) {
+.border-end { border-right: 0 !important; border-bottom: 1px solid #e0e0e0; }
+}

@@ -1,0 +1,319 @@
+<div class="row px-2 px-md-5 mx-2">
+  <div
+    class="d-none d-md-block col-12 col-md-6 col-lg-7 px-0 pt-5 pt-md-0 pe-0 px-lg-5 pe-lg-1 order-2 order-md-1">
+    <div class="mb-4">
+      <h1 class="title-1 gray-500">
+        Welcome to <span class="dark-blue-400">MasterBook</span>
+      </h1>
+      <h3 class="title-3 gray-500 mb-0">Tell us more about you</h3>
+    </div>
+    <div class="d-flex align-items-center justify-content-center">
+      <img
+        class="img-form mb-5 mb-md-0 px-0 px-md-3"
+        src="/assets/images/register_two/illustration-insured.svg"
+        alt="insured image" />
+    </div>
+  </div>
+
+  <div class="col-12 col-md-6 col-lg-5 ps-md-5 ps-md-1 order-1 order-md-2">
+    <div class="d-block d-md-none mb-5">
+      <h3 class="title-3 gray-500 mb-0">
+        Tell us more about <span class="dark-blue-400">You</span>
+      </h3>
+    </div>
+
+    <div class="d-flex justify-content-around mb-5 mb-md-4">
+      <div>
+        <app-picture-selector
+          [icon]="'/assets/icons/user_two.svg'"
+          (imgChange)="
+            addImage($event, 'profile_image')
+          "></app-picture-selector>
+        <h3 class="text-center subtitle-4 light-blue-500 mt-3">Your photo</h3>
+      </div>
+    </div>
+
+    <form [formGroup]="form">
+      <div class="mb-3">
+        <div
+          class="p-inputgroup anon-input-custom"
+          [ngClass]="{
+            'custom-error': isInvalid(form.controls['first_name'])
+          }">
+          <span class="p-inputgroup-addon">
+            <img src="/assets/icons/register-two/people.svg" alt="" />
+          </span>
+          <input
+            pInputText
+            class="text-2"
+            placeholder="First Name"
+            formControlName="first_name" />
+        </div>
+        <small
+          *ngIf="hasError(form.controls['first_name'], 'required')"
+          class="text-danger mt-1">
+          This field is required
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <div
+          class="p-inputgroup anon-input-custom"
+          [ngClass]="{
+            'custom-error': isInvalid(form.controls['last_name'])
+          }">
+          <span class="p-inputgroup-addon">
+            <img src="/assets/icons/register-two/people.svg" alt="" />
+          </span>
+          <input
+            pInputText
+            class="text-2"
+            placeholder="Last Name"
+            formControlName="last_name" />
+        </div>
+        <small
+          *ngIf="hasError(form.controls['last_name'], 'required')"
+          class="text-danger mt-1">
+          This field is required
+        </small>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6 mb-3 mb-md-0">
+          <div
+            class="p-inputgroup anon-input-custom"
+            [ngClass]="{
+              'custom-error': isInvalid(form.controls['phone_number'])
+            }">
+            <span class="p-inputgroup-addon">
+              <img src="/assets/icons/register-two/phone.svg" alt="" />
+            </span>
+            <input
+              pInputText
+              class="text-2"
+              placeholder="Phone number"
+              formControlName="phone_number"
+              mask="(000) 000-0000" />
+          </div>
+          <small
+            class="text-danger mt-1"
+            *ngIf="hasError(form.controls['phone_number'], 'required')">
+            The field is required
+          </small>
+          <small
+            class="text-danger mt-1"
+            *ngIf="hasError(form.controls['phone_number'], 'mask')">
+            Please enter a valid phone
+          </small>
+        </div>
+
+        <div class="col-md-6">
+          <div
+            class="p-inputgroup anon-input-custom"
+            [ngClass]="{
+              'custom-error': isInvalid(form.controls['phone_extension'])
+            }">
+            <input
+              pInputText
+              class="text-2"
+              placeholder="Extension"
+              formControlName="phone_extension"
+              mask="0000" />
+          </div>
+          <small
+            class="text-danger mt-1"
+            *ngIf="hasError(form.controls['phone_extension'], 'required')">
+            The field is required
+          </small>
+          <small
+            class="text-danger mt-1"
+            *ngIf="hasError(form.controls['phone_extension'], 'mask')">
+            Please enter a extension phone
+          </small>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div
+          class="p-inputgroup anon-input-custom anon-select-custom"
+          [ngClass]="{
+            'custom-error': isInvalid(form.controls['marital_status'])
+          }">
+          <span class="p-inputgroup-addon">
+            <img src="/assets/icons/register-two/ring.svg" alt="Ring Icon" />
+          </span>
+          <p-dropdown
+            [options]="dropDownMaritalStatus"
+            formControlName="marital_status"
+            optionLabel="name"
+            placeholder="Marital Status">
+          </p-dropdown>
+        </div>
+        <small
+          *ngIf="hasError(form.controls['marital_status'], 'required')"
+          class="text-danger mt-1">
+          This field is required
+        </small>
+        <small
+          *ngIf="hasError(form.controls['marital_status'], 'validlength')"
+          class="text-danger mt-1">
+          Must select between 1 and 6 lines of business
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <div
+          class="p-inputgroup anon-input-custom anon-select-custom"
+          [ngClass]="{
+            'custom-error': isInvalid(form.controls['gender'])
+          }">
+          <span class="p-inputgroup-addon">
+            <img
+              src="/assets/icons/register-two/gender.svg"
+              alt="Gender Icon" />
+          </span>
+          <p-dropdown
+            [options]="dropDownGender"
+            formControlName="gender"
+            optionLabel="name"
+            placeholder="Gender">
+          </p-dropdown>
+        </div>
+
+        <small
+          *ngIf="hasError(form.controls['gender'], 'required')"
+          class="text-danger mt-1">
+          This field is required
+        </small>
+        <small
+          *ngIf="hasError(form.controls['gender'], 'validlength')"
+          class="text-danger mt-1">
+          Must select between 1 and 6 lines of business
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <div class="mb-3">
+          <div
+            class="p-inputgroup anon-input-custom"
+            [ngClass]="{
+              'custom-error': isInvalid(form.controls['address'])
+            }">
+            <span class="p-inputgroup-addon">
+              <img src="/assets/icons/register-two/location.svg" alt="" />
+            </span>
+            <input
+              pInputText
+              class="text-2"
+              [placeholder]="'Address'"
+              formControlName="address"
+              (updateAddress)="handleAddress($event)"
+              (ngModelChange)="resetAddress()"
+              appAddressAutocomplete />
+          </div>
+          <small
+            *ngIf="hasError(form.controls['address'], 'required')"
+            class="text-danger mt-1">
+            This field is required
+          </small>
+          <small
+            *ngIf="hasError(form.controls['address'], 'required')"
+            class="text-danger mt-1">
+            Please select an address
+          </small>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div
+          class="p-inputgroup anon-input-custom anon-textarea"
+          [ngClass]="{
+            'custom-error': isInvalid(form.controls['additional_address'])
+          }">
+          <span class="p-inputgroup-addon">
+            <img src="/assets/icons/register-two/location.svg" alt="" />
+          </span>
+          <textarea
+            rows="3"
+            class="w-100 text-2"
+            pInputTextarea
+            formControlName="additional_address"
+            placeholder="Additional Address Information"></textarea>
+        </div>
+        <small
+          *ngIf="hasError(form.controls['additional_address'], 'maxlength')"
+          class="text-danger mt-1">
+          This field must have maximun 100 characters
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <div
+          class="p-inputgroup anon-input-custom"
+          [ngClass]="{
+            'custom-error': isInvalid(form.controls['zipcode'])
+          }">
+          <span class="p-inputgroup-addon">
+            <img src="/assets/icons/register-two/zip.svg" alt="Zip Code icon" />
+          </span>
+          <input
+            pInputText
+            class="text-2"
+            placeholder="Zip Code"
+            formControlName="zipcode"
+            mask="00000" />
+        </div>
+        <small
+          class="text-danger mt-1"
+          *ngIf="hasError(form.controls['zipcode'], 'required')">
+          The field is required
+        </small>
+        <small
+          class="text-danger mt-1"
+          *ngIf="hasError(form.controls['zipcode'], 'mask')">
+          Please enter a valid zip code
+        </small>
+      </div>
+
+      <div class="mb-3">
+        <div class="d-flex ms-2 anon-checkbox">
+          <p-checkbox
+            formControlName="accepted_terms_conditions"
+            id="accepted_terms_conditions"
+            [binary]="true"></p-checkbox>
+          <span class="ms-2 d-flex align-items-center text-check">
+            <label style="font-weight: 500" for="accepted_terms_conditions">
+              I accept the
+              <span
+                style="cursor: pointer; color: #1472c3"
+                (click)="openModal('terms-conditions')">
+                terms and conditions</span
+              >
+              and
+              <span
+                style="cursor: pointer; color: #1472c3"
+                (click)="openModal('privacy-policies')">
+                privacy policies
+              </span>
+            </label>
+          </span>
+        </div>
+        <small
+          *ngIf="
+            hasError(form.controls['accepted_terms_conditions'], 'required')
+          "
+          class="text-danger mt-1">
+          This field is required
+        </small>
+      </div>
+
+      <div class="d-flex justify-content-center mt-4 pt-2 pt-md-0">
+        <button
+          class="primary-button big-button back-light-blue-500 white"
+          (click)="send()">
+          Continue
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

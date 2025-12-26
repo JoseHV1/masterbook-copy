@@ -1,22 +1,31 @@
 :host ::ng-deep {
-    .p-dialog-header {
-      padding: 1.4rem 1.8rem 0.7rem;
-      border-top-right-radius: 2.5rem !important;
-      border-top-left-radius: 2.5rem !important;
-    }
-  
-    .p-dialog-content {
-      border-bottom-right-radius: 2.5rem !important;
-      border-bottom-left-radius: 2.5rem !important;
-    }
-  
-    .p-dialog {
-      border-radius: 2.5rem;
-    }
+  .p-dialog-header {
+    padding: 1.4rem 1.8rem 0.7rem;
+    border-top-right-radius: 2.5rem !important;
+    border-top-left-radius: 2.5rem !important;
+    margin-bottom: -3px !important;
+  }
 
-    .hide-close{
-        .p-dialog-header-icons {
-            display: none !important;
-        }
+  .p-dialog-content {
+    border-bottom-right-radius: 2.5rem !important;
+    border-bottom-left-radius: 2.5rem !important;
+    padding: 1rem 2rem 2rem !important;
+    overflow: hidden;
+  }
+
+  .p-dialog {
+    border-radius: 2.5rem;
+  }
+
+  .hide-close {
+    .p-dialog-header-icons {
+      display: none !important;
     }
   }
+
+  @media only screen and (max-width: 767px) {
+    .p-dialog-content {
+      padding: 0px !important;
+    }
+  }
+}

@@ -1,219 +1,374 @@
 <div class="home">
-  <section class="home-section-1">
-    <div class="home-section-1-main">
-      <article class="home-section-1-main-article">
-        <h1 class="title-1">{{ 'GENERAL.MASTERBOOK' | translate }}</h1>
-        <p class="text-2">{{ 'HOME.SECTION_1.TEXT_1' | translate }}</p>
-        <p class="text-2">
-          {{ 'HOME.SECTION_1.TEXT_WITH' | translate }}
-          <span class="title-4">{{ 'GENERAL.MASTERBOOK' | translate }}</span
-          >, {{ 'HOME.SECTION_1.TEXT_2' | translate }}
+  <section
+    class="home-section-1 p-5 d-flex align-items-center justify-content-center">
+    <div
+      class="home-section-1-main white d-flex flex-column-reverse flex-lg-row align-items-center justify-content-center">
+      <article class="col-12 col-lg-6 p-3 p-lg-5">
+        <h1 class="title-1 mb-3">{{ 'GENERAL.MASTERBOOK' | translate }}</h1>
+        <h2 class="title-5 mb-3">{{ 'HOME.SECTION_1.TEXT_0' | translate }}</h2>
+        <p class="text-1 mb-3 pe-0 pe-lg-5 text-italic-home">
+          {{ 'HOME.SECTION_1.TEXT_1' | translate }}
         </p>
-      </article>
-    </div>
-    <div class="home-section-1-foot">
-      <article class="home-section-1-foot-article">
-        <p class="text-2">
-          {{ 'HOME.SECTION_1.TEXT_WITH' | translate }}
-          <span class="title-4">{{ 'GENERAL.MASTERBOOK' | translate }}</span>
+        <p class="text-2 mb-3 pe-0 pe-lg-5">
+          {{ 'HOME.SECTION_1.TEXT_2' | translate }}
+        </p>
+        <p class="text-2 mb-3 pe-0 pe-lg-5">
           {{ 'HOME.SECTION_1.TEXT_3' | translate }}
         </p>
+        <p class="text-2 pe-0 pe-lg-5">
+          {{ 'HOME.SECTION_1.TEXT_4' | translate }}
+        </p>
       </article>
+      <div class="col-12 col-lg-6 px-3 px-lg-0 mt-5 mt-lg-0">
+        <img class="w-100" src="assets/images/laptop.png" alt="" />
+      </div>
     </div>
   </section>
-  <section class="home-section-2">
-    <div class="home-section-2-container">
-      <div class="home-section-2-left">
-        <img
-          src="/assets/images/home/sit_person.webp"
-          width="100%"
-          alt="sit person" />
-      </div>
-      <div class="home-section-2-right">
-        <p class="title-4">
-          <span class="title-3 blue-text">{{
+
+  <section class="home-section-2 gray-500 back-white p-5">
+    <div
+      class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
+      <div class="col-12 col-lg-6 px-md-5">
+        <h3 class="title-3 mb-3 mb-lg-4">
+          <span class="dark-blue-400">{{
             'GENERAL.MASTERBOOK' | translate
           }}</span>
           {{ 'HOME.SECTION_2.TEXT_1' | translate }}
-        </p>
-        <p class="text-2">
-          {{ 'HOME.SECTION_2.TEXT_2' | translate }}
-        </p>
-        <ul class="text-2" style="list-style: inside">
-          <li>{{ 'HOME.SECTION_2.SALES' | translate }}</li>
-          <li>{{ 'HOME.SECTION_2.CLAIMS' | translate }}</li>
-          <li>{{ 'HOME.SECTION_2.REQUEST' | translate }}</li>
-          <li>{{ 'HOME.SECTION_2.CUSTOMER' | translate }}</li>
-        </ul>
+        </h3>
+        <div class="section-2-feature mb-2">
+          <p class="subtext-1 bold dark-blue-700">
+            {{ 'HOME.SECTION_2.FEATURE_1_TITLE' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_1_TEXT_1' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_1_TEXT_2' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_1_TEXT_3' | translate }}
+          </p>
+        </div>
+
+        <div class="section-2-feature mb-2">
+          <p class="subtext-1 bold dark-blue-700">
+            {{ 'HOME.SECTION_2.FEATURE_2_TITLE' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_2_TEXT_1' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_2_TEXT_2' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_2_TEXT_3' | translate }}
+          </p>
+        </div>
+
+        <div class="section-2-feature mb-2">
+          <p class="subtext-1 bold dark-blue-700">
+            {{ 'HOME.SECTION_2.FEATURE_3_TITLE' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_3_TEXT_1' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_3_TEXT_2' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_3_TEXT_3' | translate }}
+          </p>
+        </div>
+
+        <div class="section-2-feature mb-2">
+          <p class="subtext-1 bold dark-blue-700">
+            {{ 'HOME.SECTION_2.FEATURE_4_TITLE' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_4_TEXT_1' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_4_TEXT_2' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_4_TEXT_3' | translate }}
+          </p>
+        </div>
+
+        <div class="section-2-feature mb-2">
+          <p class="subtext-1 bold dark-blue-700">
+            {{ 'HOME.SECTION_2.FEATURE_5_TITLE' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_5_TEXT_1' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_5_TEXT_2' | translate }}
+          </p>
+        </div>
+      </div>
+      <div
+        class="col-12 col-lg-6 d-flex flex-column align-items-center justify-content-center p-0 p-lg-5">
+        <img
+          class="w-75 order-2 order-md-1 mb-0 mb-md-3 mt-md-0 mt-3"
+          src="/assets/images/home/sit_person.webp"
+          alt="sit person" />
+
+        <div class="section-2-feature mb-2 order-1 order-md-2">
+          <p class="subtext-1 bold dark-blue-700">
+            {{ 'HOME.SECTION_2.FEATURE_6_TITLE' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_6_TEXT_1' | translate }}
+          </p>
+          <p class="subtext-2">
+            {{ 'HOME.SECTION_2.FEATURE_6_TEXT_2' | translate }}
+          </p>
+        </div>
       </div>
     </div>
-    <h2 class="title-2 text-centered blue-text">
-      {{ 'HOME.SECTION_2.TEXT_3' | translate }}
-    </h2>
-    <h3 class="title-3 text-centered">
+    <h3 class="title-3 text-centered my-5">
+      <span class="dark-blue-400">{{
+        'HOME.SECTION_2.TEXT_3' | translate
+      }}</span>
       {{ 'HOME.SECTION_2.TEXT_4' | translate }}
     </h3>
-    <div class="home-section-2-container">
-      <div class="home-section-2-left">
-        <p class="title-4">{{ 'HOME.SECTION_2.TEXT_5' | translate }}</p>
-        <ul class="text-2" style="list-style: inside">
-          <li>{{ 'HOME.SECTION_2.PROPERTY' | translate }}</li>
-          <li>{{ 'HOME.SECTION_2.LIFE' | translate }}</li>
-          <li>{{ 'HOME.SECTION_2.HEALTH' | translate }}</li>
-          <li>{{ 'HOME.SECTION_2.FINANCE' | translate }}</li>
+    <div
+      class="d-flex flex-column-reverse flex-lg-row align-items-center justify-content-center">
+      <div class="col-12 col-lg-6 p-0 p-lg-5">
+        <h4 class="subtitle-1">{{ 'HOME.SECTION_2.TEXT_5' | translate }}</h4>
+        <ul class="text-2 mt-4 mt-lg-3 list">
+          <li class="d-flex align-items-center mb-1 mb-lg-2">
+            <div class="point me-2"></div>
+            {{ 'HOME.SECTION_2.PROPERTY' | translate }}
+          </li>
+          <li class="d-flex align-items-center mb-1 mb-lg-2">
+            <div class="point me-2"></div>
+            {{ 'HOME.SECTION_2.LIFE' | translate }}
+          </li>
+          <li class="d-flex align-items-center mb-1 mb-lg-2">
+            <div class="point me-2"></div>
+            {{ 'HOME.SECTION_2.HEALTH' | translate }}
+          </li>
+          <li class="d-flex align-items-center mb-1 mb-lg-2">
+            <div class="point me-2"></div>
+            {{ 'HOME.SECTION_2.FINANCE' | translate }}
+          </li>
         </ul>
-        <p class="title-4" style="margin-top: 15px">
+        <h4 class="subtitle-1 mt-3">
           {{ 'HOME.SECTION_2.TEXT_6' | translate }}
-        </p>
-        <ul class="text-2" style="list-style: inside">
-          <li>{{ 'HOME.SECTION_2.HORINZONTAL_VERTICAL' | translate }}</li>
-          <li>{{ 'HOME.SECTION_2.REAL_STATE' | translate }}</li>
+        </h4>
+        <ul class="text-2 mt-4 mt-lg-3 list">
+          <li class="d-flex align-items-center mb-1 mb-lg-2">
+            <div class="point me-2"></div>
+            {{ 'HOME.SECTION_2.HORINZONTAL_VERTICAL' | translate }}
+          </li>
+          <li class="d-flex align-items-center mb-1 mb-lg-2">
+            <div class="point me-2"></div>
+            {{ 'HOME.SECTION_2.REAL_STATE' | translate }}
+          </li>
         </ul>
       </div>
-      <div class="home-section-2-right">
-        <div class="home-section-2-plans-containter">
-          <div
-            *ngFor="let plan of plans; let i = index"
-            class="home-section-2-plan">
-            <app-plan-card
-              [plan]="plan"
-              [color]="i % 2 === 0 ? '#049DD9;' : '#023859'"></app-plan-card>
+      <div class="col-12 col-lg-6"></div>
+    </div>
+    <div class="flex-centered mt-3 mt-lg-1">
+      <button
+        class="primary-button white mx-2 back-orange"
+        (click)="showSingUp()">
+        {{ 'GENERAL.SIGN_UP' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="home-section-3 white position-relative">
+    <div
+      class="position-absolute w-100 d-none d-lg-flex justify-content-between">
+      <img
+        src="assets/images/home-client/background_circuits_blue.png"
+        alt="" />
+      <img
+        src="assets/images/home-client/background_circuits_gray.png"
+        alt="" />
+    </div>
+
+    <div class="position-relative p-5" style="z-index: 100">
+      <p class="subtitle-1 text-centered">
+        {{ 'HOME.SECTION_3.TEXT_1' | translate }}
+      </p>
+      <h3 class="title-2 text-centered">
+        {{ 'HOME.SECTION_3.TEXT_2' | translate }}
+      </h3>
+
+      <div
+        class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
+        <div
+          class="mt-5 d-flex flex-column flex-lg-row justify-content-center align-items-stretch p-0 p-lg-5 gap-5">
+          <div class="col-12 col-lg-6">
+            <div class="features-card back-white gray-500 p-3 py-4 p-lg-5">
+              <h3 class="title-4 dark-blue-500 text-centered mt-3">
+                {{ 'HOME.SECTION_3.TEXT_3' | translate }}
+              </h3>
+              <ul class="text-2 mt-4">
+                <li class="mb-1">
+                  {{ 'HOME.SECTION_3.CUSTOMERS' | translate }}
+                </li>
+                <li class="mb-1">{{ 'HOME.SECTION_3.INSURED' | translate }}</li>
+                <li class="mb-1">{{ 'HOME.SECTION_3.QUOTES' | translate }}</li>
+                <li class="mb-1">
+                  {{ 'HOME.SECTION_3.POLICIES' | translate }}
+                </li>
+                <li class="mb-1">
+                  {{ 'HOME.SECTION_3.RENEWALS' | translate }}
+                </li>
+                <li class="mb-1">{{ 'HOME.SECTION_3.CLAIMS' | translate }}</li>
+                <li class="mb-1">
+                  {{ 'HOME.SECTION_3.DOCUMENT_ARCHIVE' | translate }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="features-card back-white gray-500 p-3 py-4 p-lg-5">
+              <h3 class="title-4 dark-blue-500 text-centered mt-3">
+                {{ 'HOME.SECTION_3.TEXT_4' | translate }}
+              </h3>
+              <ul class="text-2 mt-4">
+                <li class="mb-1">
+                  {{ 'HOME.SECTION_3.DASHBOARD' | translate }}
+                </li>
+                <li class="mb-1">
+                  {{ 'HOME.SECTION_3.INTERNAL' | translate }}
+                </li>
+                <li class="mb-1">
+                  {{ 'HOME.SECTION_3.MARKETING' | translate }}
+                </li>
+                <li class="mb-1">
+                  {{ 'HOME.SECTION_3.OPPORTUNITIES' | translate }}
+                </li>
+                <li class="mb-1">{{ 'HOME.SECTION_3.SALES' | translate }}</li>
+                <li class="mb-1">
+                  {{ 'HOME.SECTION_3.RECONCILIATION' | translate }}
+                </li>
+                <li class="mb-1">
+                  {{ 'HOME.SECTION_3.DISTRIBUTION' | translate }}
+                </li>
+                <li class="mb-1">
+                  {{ 'HOME.SECTION_3.COMMISSION' | translate }}
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="flex-centered">
-      <app-primary-button
-        text="{{ 'GENERAL.SIGN_UP' | translate }}"></app-primary-button>
-    </div>
-  </section>
-  <section class="home-section-3">
-    <h4 class="title-5 text-centered">
-      {{ 'HOME.SECTION_3.TEXT_1' | translate }}
-    </h4>
-    <h2 class="title-3 text-centered">
-      {{ 'HOME.SECTION_3.TEXT_2' | translate }}
-    </h2>
-    <div class="home-section-3-features-card-container">
-      <div class="home-section-3-features-card">
-        <h3 class="title-3">{{ 'HOME.SECTION_3.TEXT_3' | translate }}</h3>
-        <ul class="text-2">
-          <li>{{ 'HOME.SECTION_3.CUSTOMERS' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.INSURED' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.QUOTES' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.POLICIES' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.RENEWALS' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.CLAIMS' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.DOCUMENT_ARCHIVE' | translate }}</li>
-        </ul>
+
+    <div
+      class="d-flex flex-column flex-lg-row align-items-center justify-content-center p-5">
+      <div
+        class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-0 p-lg-5 mb-5">
+        <img
+          class="w-75"
+          src="/assets/images/home/work_table.webp"
+          alt="work table" />
       </div>
-      <div class="home-section-3-features-card">
-        <h3 class="title-3">{{ 'HOME.SECTION_3.TEXT_4' | translate }}</h3>
-        <ul class="text-2">
-          <li>{{ 'HOME.SECTION_3.DASHBOARD' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.INTERNAL' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.MARKETING' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.OPPORTUNITIES' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.SALES' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.RECONCILIATION' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.DISTRIBUTION' | translate }}</li>
-          <li>{{ 'HOME.SECTION_3.COMMISSION' | translate }}</li>
-        </ul>
-      </div>
-    </div>
-    <div class="home-flex-middle-container">
-      <div class="home-flex-middle-container-left">
-        <img src="/assets/images/home/work_table.webp" alt="work table" />
-      </div>
-      <div class="home-flex-middle-container-right">
-        <h4 class="title-4">{{ 'HOME.SECTION_3.TEXT_5' | translate }}</h4>
+      <div class="col-12 col-lg-6 mb-5">
+        <h3 class="title-3">
+          <span class="light-blue-300"
+            >{{ 'GENERAL.MASTERBOOK' | translate }}
+          </span>
+          {{ 'HOME.SECTION_3.TEXT_5' | translate }}
+        </h3>
         <ul class="text-2" style="list-style: inside">
           <li>Google Chrome</li>
           <li>Safari</li>
           <li>Firefox</li>
           <li>Microsoft Edge</li>
         </ul>
-        <h4 class="title-4" style="margin-top: 25px">
-          {{ 'HOME.SECTION_3.TEXT_6' | translate }}
-        </h4>
-        <p class="text-2">
-          {{ 'HOME.SECTION_3.TEXT_7' | translate }}
-        </p>
-        <p class="text-2" style="margin-top: 25px">
-          <span class="title-4">{{ 'GENERAL.MASTERBOOK' | translate }}</span>
-          {{ 'HOME.SECTION_3.TEXT_8' | translate }}
-        </p>
+        <h3
+          class="title-3 mt-5 mb-3"
+          [innerHTML]="'HOME.SECTION_3.TEXT_6' | translate"></h3>
+        <p class="text-2" [innerHTML]="'HOME.SECTION_3.TEXT_7' | translate"></p>
+        <p
+          class="text-2 mt-3"
+          [innerHTML]="'HOME.SECTION_3.TEXT_8' | translate"></p>
       </div>
     </div>
   </section>
-  <section class="home-section-4">
-    <h2 class="title-2 text-centered" style="margin-bottom: 15px">
+
+  <section class="home-section-4 p-5 dark-blue-400">
+    <h2 class="title-2 text-centered mb-3">
       {{ 'GENERAL.MASTERBOOK' | translate }}
     </h2>
-    <h3 class="title-3 text-centered gray-text">
+    <p class="text-2 text-centered gray-500">
       {{ 'HOME.SECTION_4.TEXT_1' | translate }}
-    </h3>
-    <div class="home-features-container">
+    </p>
+    <div
+      class="home-features-container d-flex align-items-center justify-content-center my-4 my-lg-5">
       <ng-container *ngFor="let feature of features">
-        <div class="home-feature">
-          <div class="home-feature-image">
+        <div class="home-feature d-flex flex-column align-items-center m-3">
+          <div
+            class="home-feature-image d-flex align-items-center justify-content-center">
             <img [src]="feature.img" [alt]="feature.title" />
           </div>
-          <p class="text-2 gray-text">{{ feature.title }}</p>
+          <p class="text-1">{{ feature.title }}</p>
         </div>
       </ng-container>
     </div>
-    <div class="flex-centered" style="padding: 0 25px">
-      <div class="home-section-4-badge text-2">
+    <div class="flex-centered">
+      <div class="home-section-4-badge text-2 p-3 text-center">
         {{ 'HOME.SECTION_4.TEXT_2' | translate }}
       </div>
     </div>
-    <h2 class="title-2 text-centered" style="margin: 50px 0 15px 0">
+
+    <h2 class="title-2 text-centered mt-5">
       {{ 'HOME.SECTION_4.TEXT_3' | translate }}
     </h2>
-    <h3 class="title-3 text-centered gray-text">
+    <h3 class="title-2 text-centered gray-500 mb-5">
       {{ 'HOME.SECTION_4.TEXT_4' | translate }}
     </h3>
-    <div class="home-flex-middle-container">
-      <div class="home-flex-middle-container-left">
-        <img src="/assets/images/home/call_center.webp" alt="call center" />
+    <div
+      class="d-flex flex-column flex-lg-row align-items-center justify-content-center">
+      <div
+        class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-0 p-lg-5">
+        <img
+          class="w-75"
+          src="/assets/images/home/call_center.webp"
+          alt="call center" />
       </div>
-      <div class="home-flex-middle-container-right">
-        <p class="text-2">
-          <span class="title-4">{{ 'GENERAL.MASTERBOOK' | translate }}</span>
-          {{ 'HOME.SECTION_4.TEXT_5' | translate }}
-        </p>
-        <ul class="text-2" style="list-style: inside">
-          <li>{{ 'HOME.SECTION_4.QUOTE' | translate }}</li>
-          <li>{{ 'HOME.SECTION_4.REQUESTS' | translate }}</li>
-          <li>{{ 'HOME.SECTION_4.OTHERS' | translate }}</li>
-        </ul>
-        <div class="flex-centered" style="margin-top: 35px">
-          <app-primary-button
-            text="{{ 'HOME.SECTION_4.REQUEST_QUOTE' | translate }}"
-            [background]="'orange'"></app-primary-button>
-        </div>
+      <div class="col-12 col-lg-6">
+        <p
+          class="text-1 mb-3"
+          [innerHTML]="'HOME.SECTION_4.TEXT_5' | translate"></p>
+        <p class="m-0 p-0">{{ 'HOME.SECTION_4.ITEM_1' | translate }}</p>
+        <p class="m-0 p-0">{{ 'HOME.SECTION_4.ITEM_2' | translate }}</p>
+        <p class="m-0 p-0">{{ 'HOME.SECTION_4.ITEM_3' | translate }}</p>
+        <p class="m-0 p-0">{{ 'HOME.SECTION_4.ITEM_4' | translate }}</p>
+        <p
+          class="text-1 mb-3 mt-3"
+          [innerHTML]="'HOME.SECTION_4.TEXT_5_2' | translate"></p>
       </div>
     </div>
-    <h2 class="title-2 text-centered" style="margin: 50px 0">
+
+    <h2 class="title-3 text-centered mt-5">
       {{ 'HOME.SECTION_4.TEXT_6' | translate }}
     </h2>
-    <div class="home-flex-middle-container">
-      <div class="home-flex-middle-container-left">
-        <h4 class="title-4" style="margin: 35px 0">
+    <div
+      class="d-flex flex-column-reverse flex-lg-row align-items-center justify-content-center">
+      <div class="col-12 col-lg-6 ps-0 ps-lg-5 mb-5">
+        <h4 class="subtitle-1 mb-4">
           {{ 'HOME.SECTION_4.TEXT_7' | translate }}
         </h4>
-        <ul class="text-2" style="list-style: inside">
+        <ul class="text-2 mb-5">
           <li>{{ 'HOME.SECTION_4.CALLS' | translate }}</li>
           <li>{{ 'HOME.SECTION_4.EMAILS' | translate }}</li>
           <li>{{ 'HOME.SECTION_4.VISITS' | translate }}</li>
           <li>{{ 'HOME.SECTION_4.TASKS' | translate }}</li>
         </ul>
 
-        <h4 class="title-4" style="margin: 60px 0 35px 0">
+        <h4 class="subtitle-1 mb-4">
           {{ 'HOME.SECTION_4.TEXT_8' | translate }}
         </h4>
-        <ul class="text-2" style="list-style: inside">
+        <ul class="text-2 mb-4">
           <li>9 {{ 'HOME.SECTION_4.CLIENTS' | translate }}</li>
           <li>8 {{ 'HOME.SECTION_4.INSUREDS' | translate }}</li>
           <li>9 {{ 'HOME.SECTION_4.POLICIES' | translate }}</li>
@@ -224,8 +379,12 @@
           <li>3 {{ 'HOME.SECTION_4.WITHHOLDINGS' | translate }}</li>
         </ul>
       </div>
-      <div class="home-flex-middle-container-right">
-        <img src="/assets/images/home/statistics.webp" alt="call center" />
+      <div
+        class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-0 p-lg-5 mb-5">
+        <img
+          class="w-75"
+          src="/assets/images/home/statistics.webp"
+          alt="call center" />
       </div>
     </div>
   </section>

@@ -1,10 +1,8 @@
 <button
-  class="text-selection-disable"
+  [disabled]="disabled"
   (click)="clickEvent.emit()"
-  [ngClass]="
-    type === 'normal'
-      ? background + ' primary-button'
-      : backgroundOutline + ' primary-button'
+  [class]="
+    'primary-button ' + (type === 'normal' ? _background : backgroundOutline)
   ">
   {{ text }}
 </button>

@@ -1,0 +1,32 @@
+<app-pages-layout>
+  <ng-container content *ngIf="request">
+    <div class="d-flex align-items-center">
+      <div class="px-2">
+        <span
+          class="material-icons-outlined me-2"
+          style="cursor: pointer"
+          matTooltip="Back to last page"
+          (click)="goBack()">
+          arrow_back
+        </span>
+      </div>
+    </div>
+
+    <div class="col-12 mb-4">
+      <div class="text-center">
+        <h3 class="subtitle-1 dark-blue-400">Edit #{{ request.serial }}</h3>
+      </div>
+    </div>
+
+    <div class="px-2 px-lg-5">
+      <app-form-new-business
+        *ngIf="request.category === 'NEW_BUSINESS'"
+        (back)="goBack()"
+        [request]="request"></app-form-new-business>
+      <!--
+      <app-form-requests-from-policy
+        *ngIf="request.category !== 'NEW_BUSINESS'"
+        [req]=""></app-form-requests-from-policy> -->
+    </div>
+  </ng-container>
+</app-pages-layout>

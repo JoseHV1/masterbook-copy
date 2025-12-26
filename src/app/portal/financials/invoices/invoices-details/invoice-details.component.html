@@ -1,0 +1,152 @@
+<app-pages-layout>
+  <ng-container content>
+    <div
+      class="d-flex justify-content-between align-items-center mb-1 ms-2"
+      *ngIf="invoice">
+      <span
+        class="material-icons-outlined me-2"
+        style="cursor: pointer"
+        matTooltip="Back to last page"
+        (click)="goBack()">
+        arrow_back
+      </span>
+    </div>
+    <div
+      class="d-flex align-items-center justify-content-center"
+      *ngIf="invoice">
+      <div class="d-flex flex-column">
+        <h3 class="text-center w-100 mb-1 subtitle-1 dark-blue-400">
+          Invoice # {{ invoice.serial }}
+        </h3>
+        <p class="text-3 gray-500 text-center">
+          Created date on: {{ invoice.createdAt | date }}
+        </p>
+      </div>
+    </div>
+    <div class="row px-4 my-2 px-md-5 my-md-5" *ngIf="invoice">
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Invoice Date</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ invoice.createdAt | date : 'MM/dd/yyyy' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">
+            {{ transformLabelInvoice(invoice.serial) }}
+          </div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            <a
+              style="text-decoration: none"
+              [href]="invoice.pdf"
+              target="_blank"
+              rel="noopener noreferrer">
+              <span style="color: #00aaff; cursor: pointer"
+                >{{ 'Download' }}
+                <img
+                  src="../../../../assets/icons/pdf.svg"
+                  alt="PDF Icon"
+                  style="
+                    width: 20px;
+                    height: 20px;
+                    cursor: pointer;
+                    margin-right: 0.5rem;
+                  " />
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Invoice Amount</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ invoice.amount_due | currency : 'USD' : 'symbol' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Insurer</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ invoice.insurer?.name | notNull }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Premium amount</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ invoice.amount_due | currency : 'USD' : 'symbol' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Policy Number</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            <span
+              (click)="
+                _url.navigateTo('portal/policies', invoice.policy?.serial)
+              "
+              style="color: #00aaff; cursor: pointer"
+              >{{ invoice.policy?.serial }}</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Open Balance</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{
+              invoice.amount_due - invoice.amount_paid
+                | currency : 'USD' : 'symbol'
+            }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Agent</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ invoice.broker?.user?.first_name }}
+            {{ invoice.broker?.user?.last_name }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="my-3" *ngIf="isBroker">
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h3 class="subtitle-3 dark-blue-400">Payments</h3>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-payments-list
+            [data]="payments"
+            [parent]="'invoice-details'"></app-payments-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h3 class="subtitle-3 dark-blue-400">Commissions</h3>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-commissions-list [data]="comissions"></app-commissions-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </ng-container>
+</app-pages-layout>

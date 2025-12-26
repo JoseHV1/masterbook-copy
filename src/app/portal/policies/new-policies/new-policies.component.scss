@@ -1,0 +1,10 @@
+@import 'theme';
+
+:host {
+  .icon-back {
+    color: $dark-blue-400;
+    font-size: 1.4rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+}

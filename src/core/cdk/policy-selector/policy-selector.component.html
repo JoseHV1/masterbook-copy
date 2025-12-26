@@ -1,0 +1,24 @@
+<form [formGroup]="form">
+  <mat-form-field class="w-100" appearance="outline">
+    <input
+      matInput
+      type="text"
+      [placeholder]="placeholder"
+      formControlName="query"
+      (blur)="updateErrors()"
+      (ngModelChange)="search()"
+      [matAutocomplete]="auto" />
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let option of items"
+        (click)="selectOption(option)"
+        [value]="formatPolicy(option)">
+        <span class="autocomplete-result">{{ formatPolicy(option) }}</span>
+      </mat-option>
+    </mat-autocomplete>
+    <span matSuffix class="material-icons-outlined mx-3">search</span>
+    <mat-error *ngIf="errors.length > 0">
+      {{ errorMessage }}
+    </mat-error>
+  </mat-form-field>
+</form>

@@ -1,0 +1,17 @@
+<form [formGroup]="form">
+  <mat-form-field appearance="outline" class="w-100">
+    <input
+      matInput
+      [min]="minDate ?? undefined"
+      [max]="maxDate ?? undefined"
+      [matDatepicker]="picker"
+      [placeholder]="placeholder"
+      formControlName="value"
+      (dateChange)="changeValue()" />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="errors.length > 0">
+      {{ errorMessage }}
+    </mat-error>
+  </mat-form-field>
+</form>

@@ -1,0 +1,50 @@
+<div class="ui-modal" autofocus>
+  <div
+    class="ui-modal-header white subtitle-3 text-center py-2 back-light-blue-500">
+    {{ title }}
+  </div>
+  <div class="ui-modal-content py-3 px-2 text-center text-1 gray-500">
+    <ng-container [ngTemplateOutlet]="formTemplate"></ng-container>
+  </div>
+  <div class="ui-modal-footer d-flex justify-content-center pb-4">
+    <button
+      class="primary-button white back-gray-400 mx-1"
+      (click)="close(false)">
+      Close
+    </button>
+
+    <button
+      class="primary-button white back-light-blue-500 mx-1"
+      [disabled]="form.invalid"
+      (click)="submitForm()">
+      Save
+    </button>
+  </div>
+</div>
+
+<ng-template #formTemplate>
+  <form [formGroup]="form" class="d-flex flex-column align-items-center px-2">
+    <div class="col-12 mb-4 mb-md-0">
+      <label>Form Name *</label>
+      <app-input
+        placeholder="Enter form name"
+        type="text"
+        formControlName="name"></app-input>
+    </div>
+
+    <div class="col-12 mb-4 mb-md-0">
+      <label>Insurer *</label>
+      <app-dropdown-field
+        formControlName="insurer_ids"
+        [multiple]="true"
+        [options]="insurers"></app-dropdown-field>
+    </div>
+
+    <div class="col-12 mb-4 mb-md-0">
+      <label>Document *</label>
+      <app-file-picker
+        formControlName="form_document"
+        [mode]="fileUploadMode.INPUT"></app-file-picker>
+    </div>
+  </form>
+</ng-template>

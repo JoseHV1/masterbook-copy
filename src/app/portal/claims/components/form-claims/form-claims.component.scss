@@ -1,0 +1,71 @@
+@import 'theme';
+
+:host ::ng-deep{
+  label {
+    font-family: $font-family;
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: $black;
+    margin-bottom: 0.5rem;
+  }
+
+  .upload-button {
+    background-color: $blue-color;
+  }
+
+  .pdf-icon-container:hover {
+    background-color: $dark-blue-600;
+    transform: scale(1.1);
+  }
+
+  .icon-back {
+    color: $dark-blue-400;
+    font-size: 1.4rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .title {
+    color: $dark-blue-400;
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+
+  .file-preview-container{
+    position: absolute;
+    top: -1.2rem;
+    left: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    z-index: 10;
+  }
+
+  .file-preview-container:hover {
+    background-color: $gray-000;
+  }
+
+  .mat-icon {
+    color: $red-color;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  .pdf-icon-container:hover mat-icon {
+    color: $red-color;
+  }
+
+  .icon-preview {
+    width: 3.2rem;
+    height: 3.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

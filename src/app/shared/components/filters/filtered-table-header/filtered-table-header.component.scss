@@ -1,0 +1,30 @@
+@import 'theme';
+
+:host ::ng-deep {
+  .filter-button{
+    color: $gray-700;
+    border-radius: .3rem;
+    cursor: pointer !important;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+  }
+
+  .filter-button {
+    user-select: none;
+    outline: none;
+    background-color: transparent;
+    box-shadow: none;
+    cursor: pointer;
+  }
+
+  .filter-button:active {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .filter-button span {
+    user-select: none;
+  }
+}

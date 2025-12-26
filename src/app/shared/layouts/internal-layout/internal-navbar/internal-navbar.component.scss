@@ -1,0 +1,81 @@
+@import 'theme';
+
+nav {
+  width: 100%;
+  height: 100%;
+  background: $white;
+  
+  .logo-section {
+    width: 17.5rem;
+    transition: all 0.3s ease;
+    .logo {
+      width: 10rem;
+      height: 3rem;
+    }
+    .logo-min {
+      height: 3.75rem;
+    }
+  }
+
+  .icon-menu {
+    cursor: pointer;
+  }
+
+  .close-menu-logo-section {
+    width: 6.8rem;
+  }
+
+  .navbar {
+    width: calc(100% - 17.5rem);
+    transition: all 0.3s ease;
+
+    p{
+      font-family: $font-family;
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+  }
+
+  .close-menu-navbar {
+    width: calc(100% - 6.8rem);
+  }
+}
+
+.popup-container {
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 0.625rem 1.5rem 0 rgba(62, 57, 107, 0.18);
+}
+
+// Estilos agent
+.background-agent{
+  background: linear-gradient(
+    180deg,
+    $dark-blue-400 100%,
+    $dark-blue-700 100%
+  );
+  border-bottom: 1px solid $dark-blue-300;
+}
+
+// Estilos client
+.background-client{
+  background: $light-blue-100;
+  border-right: 1px solid $light-blue-200;
+}
+
+.logo{
+  width: 5.25rem; 
+  height: 2.25rem;
+  object-fit: cover;
+}
+
+@media only screen and (max-width: 1199px) {
+  nav {
+    padding: 0 0.5rem;
+    .logo-section {
+      display: none;
+    }
+    .navbar {
+      width: 100%;
+    }
+  }
+}

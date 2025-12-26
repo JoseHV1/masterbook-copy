@@ -1,0 +1,19 @@
+@import 'theme';
+
+:host {
+  .text-check {
+    @media only screen and (max-width: 767px) {
+      font-size: .80rem !important;
+    }
+  }
+
+  &::ng-deep {
+    div[class*='p-datepicker p-component'] {
+      left: -9rem !important;
+
+      @media only screen and (max-width: 767px) {
+        left: -0.75rem !important;
+      }
+    }
+  }
+}

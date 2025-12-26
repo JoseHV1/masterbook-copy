@@ -1,0 +1,23 @@
+@import 'theme';
+
+:host ::ng-deep {
+  .table-responsive {
+    overflow-x: auto;
+  }
+  .table-responsive table {
+    white-space: nowrap;
+  }
+  .mas-table-row:hover {
+    background: $gray-100;
+  }
+
+  .status-inactive {
+    color: $color-error;
+    font-weight: 500;
+  }
+
+  .status-active {
+    color: $color-success;
+    font-weight: 500;
+  }
+}

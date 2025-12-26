@@ -1,0 +1,296 @@
+<div class="content-box py-5 px-4">
+  <div class="my-3">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="subtitle-2 dark-blue-400"> Personal information </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-container [ngTemplateOutlet]="personalInfoTemplate"></ng-container>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <div class="my-4">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="d-flex align-items-center">
+            <span class="subtitle-2 dark-blue-400"> Request form </span>
+            <span [class]="data.category + ' category-badge px-2 ms-2 white'">
+              {{ data.category | enum }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-container [ngTemplateOutlet]="formTemplate"></ng-container>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <div class="my-4">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="subtitle-2 dark-blue-400"> Policy information </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-container [ngTemplateOutlet]="policylInfoTemplate"></ng-container>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+
+<ng-template #formTemplate>
+  <form [formGroup]="form" class="row py-4">
+    <div class="row mb-3 mb-md-4">
+      <div class="col-12 col-md-6 mb-4 mb-md-0">
+        <label>Object to insure *</label>
+        <app-input
+          placeholder="Type your object to insure"
+          type="text"
+          formControlName="insure_object"></app-input>
+      </div>
+
+      <div class="col-12 col-md-6 mb-4 mb-md-0">
+        <label>Coverage limit *</label>
+        <app-input
+          placeholder="$ 0.00"
+          type="tel"
+          [inputMask]="'separator.2'"
+          [maskPrefix]="'$ '"
+          formControlName="coverage"></app-input>
+      </div>
+
+      <div class="mb-3 mb-md-4">
+        <label class="d-block">Additional info</label>
+        <textarea
+          rows="5"
+          cols="30"
+          formControlName="additional_info"
+          class="w-100 py-1 px-2"
+          [ngClass]="{
+            'textarea-invalid': isInvalid(form.controls['additional_info'])
+          }"></textarea>
+        <small
+          *ngIf="hasError(form.controls['additional_info'], 'required')"
+          class="text-danger mt-1"
+          >This field is required</small
+        >
+      </div>
+
+      <div class="col-12">
+        <label class="d-flex align-items-center">
+          <span> Request document * </span>
+          <span
+            style="cursor: pointer"
+            class="light-blue-500 ms-3"
+            (click)="showFormsListModal()"
+            >View Forms</span
+          >
+        </label>
+        <app-multi-file-upload
+          formControlName="request_document"></app-multi-file-upload>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <button
+          class="primary-button big-button back-gray-500 white mx-2"
+          (click)="backStep()">
+          Cancel
+        </button>
+
+        <button
+          class="primary-button big-button back-light-blue-500 white mx-2"
+          (click)="openConfirmationModal(data.action)"
+          [disabled]="form.invalid">
+          {{ data.action === 'edit' ? 'Edit' : 'Save' }}
+        </button>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #personalInfoTemplate>
+  <div class="row">
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Account</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.client?.account_name | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Beneficiary</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{
+            (data.policy.client?.user?.first_name | notNull) +
+              ' ' +
+              (data.policy.client?.user?.last_name | notNull)
+          }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Date of birth</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.client?.user?.date_of_birth | date | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Gender</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.client?.user?.gender | notNull | enum }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Marital status</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.client?.user?.marital_status | notNull | enum }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Country</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.client?.user?.address_info?.country | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Full address</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.client?.user?.address_info?.address | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Zip code</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.client?.user?.address_info?.zipcode | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Email</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.client?.user?.email | notNull }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #policylInfoTemplate>
+  <div class="row">
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Insurer</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.insurer?.name | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Policy Type</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.policy_type?.name | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Object to insure</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.insure_object | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Effective date</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.start_date | date | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Expiration date</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.end_date | date | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Coverage</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.coverage | currency | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Premium amount</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.prime_amount | currency | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Deductible</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.deductible | currency | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Status</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.status | notNull | enum }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 px-4 my-2">
+      <div class="row">
+        <div class="col col-4 black px-2 py-2">Policy coverage details</div>
+        <div class="col col-8 black px-3 py-2 prop-box">
+          {{ data.policy.description | notNull }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,18 @@
+@import 'theme';
+
+:host ::ng-deep {
+  .prop-box {
+    background-color: $gray-100;
+  }
+
+  .no-wrap-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  mat-icon {
+    color: $dark-blue-400 !important;
+  }
+}

@@ -2,14 +2,14 @@
 
 .primary-button{
   border: none;
-  border-radius: 47px;
-  min-width: 160px;
-  font-family: $font-title;
-  font-size: 1.5rem;
+  border-radius: 3rem;
+  min-width: 9rem;
+  font-family: $font-family;
+  font-size: 1.2rem;
+  font-weight: 600;
   line-height: 1.5rem;
   color: $white;
-  padding: 10px 25px;
-  letter-spacing: 0.6px;
+  padding: 12px 28px !important;
   cursor: pointer;
   &:hover{
     opacity: 0.9;
@@ -18,11 +18,11 @@
 
 //color classes
 .blue-primary{
-  background: $blue-primary;
+  background: $light-blue-500;
 }
 
-.blue-dark{
-  background: $blue-dark;
+.blue-dark {
+  background: $dark-blue-400;
 }
 
 .orange{
@@ -30,16 +30,43 @@
 }
 
 .blue-primary-outline{
-  border: 2px solid $blue-primary !important;
-  color: $blue-primary !important;
+  border: 2px solid $light-blue-500 !important;
+  color: $light-blue-500 !important;
 }
 
 .blue-dark-outline{
-  border: 2px solid $blue-dark !important;
-  color: $blue-dark !important;
+  border: 2px solid $dark-blue-400 !important;
+  color: $dark-blue-400 !important;
 }
 
 .orange-outline{
   border: 2px solid $orange !important;
   color: $orange !important;
+}
+
+.primary-button:disabled {
+  cursor: no-drop;
+}
+
+.gray {
+  background: #939393 !important;
+  color: white;
+}
+
+.primary-active-outline {
+  background: $light-blue-500;
+  border: 2px solid $light-blue-500 !important;
+  color: $white !important;
+  width: 7rem !important;
+  height: 2.8rem;
+  border-radius: 5rem;
+}
+
+.primary-inactive-outline {
+  background: transparent;
+  border: 2px solid $light-blue-200 !important;
+  color: $light-blue-200 !important;
+  width: 7rem !important;
+  height: 2.8rem;
+  border-radius: 5rem;
 }

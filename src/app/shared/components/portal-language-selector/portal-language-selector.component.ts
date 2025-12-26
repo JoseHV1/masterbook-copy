@@ -13,7 +13,6 @@ export class PoprtalLanguageSelectorComponent implements OnDestroy {
   destroy$ = new Subject<void>();
   availableLangs: AvailableLanguagesEnum[] = [];
   currentLang: AvailableLanguagesEnum = AvailableLanguagesEnum.es;
-  isOpen = false;
 
   constructor(private languageService: LanguageService) {
     this.availableLangs = languageService.getAvailableLanguages();
@@ -25,7 +24,6 @@ export class PoprtalLanguageSelectorComponent implements OnDestroy {
 
   changeLang(event: any, lang: AvailableLanguagesEnum): void {
     this.languageService.changeLanguage(lang);
-    this.isOpen = false;
   }
 
   ngOnDestroy(): void {

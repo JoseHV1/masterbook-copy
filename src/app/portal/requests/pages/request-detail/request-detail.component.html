@@ -1,0 +1,606 @@
+<app-pages-layout>
+  <ng-container content>
+    <ng-container *ngIf="request">
+      <div class="d-flex justify-content-between align-items-center mb-1 ms-2">
+        <span
+          class="material-icons-outlined me-2"
+          style="cursor: pointer"
+          matTooltip="Back to last page"
+          (click)="goBack()">
+          arrow_back
+        </span>
+
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon class="dark-blue-400">more_vert</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button
+            mat-menu-item
+            *ngIf="isOwner"
+            (click)="openModalChangeLogs(request._id)">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined">history</span>
+              <span>View Change Logs</span>
+            </span>
+          </button>
+
+          <button
+            mat-menu-item
+            [disabled]="
+              request.status === 'CLOSED' || request.status === 'REJECTED'
+            "
+            (click)="openRejectRequestModal()">
+            <span class="d-flex align-items-center gap-2">
+              <span
+                class="material-icons-outlined text-muted"
+                [ngClass]="{
+                  'gray-500':
+                    request.status === 'CLOSED' || request.status === 'REJECTED'
+                }">
+                playlist_remove
+              </span>
+              <span>Reject</span>
+            </span>
+          </button>
+
+          <button
+            mat-menu-item
+            [disabled]="
+              request.status === 'CLOSED' || request.status === 'REJECTED'
+            "
+            (click)="
+              _url.navigateTo('portal/requests', request.serial, 'edit')
+            ">
+            <span class="d-flex align-items-center gap-2">
+              <span
+                class="material-icons-outlined"
+                [ngClass]="{
+                  'text-secondary':
+                    request.status === 'CLOSED' || request.status === 'REJECTED'
+                }">
+                edit
+              </span>
+              <span>Edit</span>
+            </span>
+          </button>
+
+          <button mat-menu-item (click)="deleteRequest(request._id)">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined text-danger">delete</span>
+              <span>Delete</span>
+            </span>
+          </button>
+        </mat-menu>
+      </div>
+      <div class="d-flex align-items-center justify-content-center">
+        <div class="d-flex flex-column">
+          <h3 class="text-center w-100 mb-1 subtitle-1 dark-blue-400">
+            Request #{{ request.serial }}
+          </h3>
+          <p class="text-3 gray-500 text-center">
+            Created date on:
+            {{ request.createdAt | date : 'MM/dd/yyyy' | notNull }}
+          </p>
+          <div class="d-flex justify-content-center align-items-center gap-2">
+            <span [class]="'ms-2 category-badge text-3 ' + request.category">{{
+              request.category | enum
+            }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="content-box px-3 py-2 py-md-4 px-md-4">
+        <div class="my-3">
+          <mat-accordion>
+            <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="subtitle-2 dark-blue-400">
+                    Personal Information
+                  </span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ng-container
+                [ngTemplateOutlet]="personalInfoTempalte"></ng-container>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+        <div class="my-4">
+          <mat-accordion>
+            <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="subtitle-2 dark-blue-400"> Request </span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ng-container
+                [ngTemplateOutlet]="requestInfoTempalte"></ng-container>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+        <div class="my-4">
+          <mat-accordion>
+            <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="subtitle-2 dark-blue-400"> Documents </span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ng-container
+                [ngTemplateOutlet]="documentsInfoTemplate"></ng-container>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+        <div class="my-4" *ngIf="refreredPolicy">
+          <mat-accordion>
+            <mat-expansion-panel [expanded]="false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="subtitle-2 dark-blue-400"> Refered policy </span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ng-container
+                [ngTemplateOutlet]="policylInfoTemplate"></ng-container>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+        <div
+          class="my-4"
+          *ngIf="
+            request.category !== POLICY_CATEGORY.CANCELLATION &&
+            request.status !== REQUEST_STATUS.REJECTED
+          ">
+          <mat-accordion>
+            <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="subtitle-2 dark-blue-400"> Quotes </span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ng-container
+                [ngTemplateOutlet]="quotesInfoTemplate"></ng-container>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+        <div class="my-4" *ngIf="request.status === REQUEST_STATUS.REJECTED">
+          <mat-accordion>
+            <mat-expansion-panel [expanded]="false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="subtitle-2 dark-blue-400">
+                    {{ request.status | titlecase }}
+                  </span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ng-container
+                [ngTemplateOutlet]="rejectedRequestTemplate"></ng-container>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</app-pages-layout>
+
+<ng-template #documentsInfoTemplate>
+  <div class="row mx-1 mx-md-2">
+    <ng-container *ngFor="let item of request.request_documents; let i = index">
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">
+            Document {{ i + 1 }}
+          </div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            <a (click)="openAttach(item)" target="_blank" class="attach-link">
+              {{ item | customFile }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #rejectedRequestTemplate>
+  <div class="row">
+    <ng-container>
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Rejected reason</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.rejection_reason }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #personalInfoTempalte>
+  <div class="row mx-1 mx-md-2">
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Account name</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.client?.account_name | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Full name</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{
+            (request.client?.user?.first_name | notNull) +
+              ' ' +
+              (request.client?.user?.last_name | notNull)
+          }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Date of birth</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.client?.user?.date_of_birth | date | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Gender</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.client?.user?.gender | notNull | enum }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Marital status</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.client?.user?.marital_status | notNull | enum }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Country</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.client?.user?.address_info?.country | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Full address</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.client?.user?.address_info?.address | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Zip code</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.client?.user?.address_info?.zipcode | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Email</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.client?.user?.email | notNull }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #requestInfoTempalte>
+  <div
+    class="row mx-1 mx-md-2"
+    *ngIf="request.category !== POLICY_CATEGORY.CANCELLATION">
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Policy type</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.policy_type.name | notNull | enum }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Business line</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.policy_type.business_line.name | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Object of insure</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.insure_object | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Coverage limit</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ request.coverage | currency | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Agent</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{
+            (request.client?.broker?.user?.first_name | notNull) +
+              ' ' +
+              (request.client?.broker?.user?.last_name | notNull)
+          }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="request.category !== POLICY_CATEGORY.NEW_BUSINESS">
+    <div class="col col-12 px-4 my-2">
+      <div class="row">
+        <div class="col col-2 black px-2 py-2">additional Info</div>
+        <div class="col col-10 black px-3 py-2 prop-box">
+          {{ request.additional_info | notNull }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="row my-4"
+    *ngIf="request.category === POLICY_CATEGORY.CANCELLATION && !isInsured">
+    <div class="d-flex justify-content-center">
+      <button
+        class="primary-button back-red-color white mx-2"
+        (click)="cancelPolicy()"
+        [disabled]="request.status === REQUEST_STATUS.CLOSED">
+        Accept cancellation
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #quotesInfoTemplate>
+  <div class="table-responsive quotes-table">
+    <form [formGroup]="quotesForm" *ngIf="quotesForm">
+      <table>
+        <!-- head -->
+        <tr>
+          <th class="text-nowrap px-2">Quote ID</th>
+          <th class="text-nowrap px-2">Insurance company</th>
+          <th class="text-nowrap px-2">Date of quotes</th>
+          <th class="text-nowrap px-2">Premium amount</th>
+          <th class="text-nowrap px-2">Coverage</th>
+          <th class="text-nowrap px-2">Deductible $</th>
+          <th></th>
+          <th></th>
+        </tr>
+
+        <!-- list -->
+        <tr *ngFor="let element of quotes">
+          <td class="text-nowrap px-2">{{ '#' + element.serial }}</td>
+          <td class="text-nowrap px-2">
+            {{ element.insurer?.name | notNull }}
+          </td>
+          <td class="text-nowrap px-2">
+            {{ element.quote_date | date | notNull }}
+          </td>
+          <td class="text-nowrap px-2">
+            {{ element.prime_amount | currency | notNull }}
+          </td>
+          <td class="text-nowrap px-2">
+            {{ element.coverage | currency | notNull }}
+          </td>
+          <td class="text-nowrap px-2">
+            {{ element.deductible | currency | notNull }}
+          </td>
+          <td>
+            <img
+              src="/assets/icons/pdf.svg"
+              (click)="openAttach(element.document)"
+              style="cursor: pointer; height: 45px !important"
+              class="pb-3"
+              *ngIf="element.document" />
+          </td>
+          <td>
+            <app-quote-selection-button
+              [quote]="element"
+              (createPolicy)="goToPolicy($event)"
+              (changeStatus)="setQuoteStatus($event, element._id)"
+              [request]="request"></app-quote-selection-button>
+          </td>
+        </tr>
+
+        <!-- form -->
+        <tr *ngIf="request.status !== REQUEST_STATUS.CLOSED">
+          <td class="text-nowrap px-2 py-3">
+            <app-input
+              placeholder="#QT-XXXX"
+              type="text"
+              formControlName="quote_id"></app-input>
+          </td>
+          <td class="text-nowrap px-2 py-3">
+            <app-insurance-company-selector
+              [placeholder]="'Select a company'"
+              formControlName="insurer_id"></app-insurance-company-selector>
+          </td>
+          <td class="text-nowrap px-2 py-3">
+            <app-date-field
+              [placeholder]="'Select a date'"
+              formControlName="quote_date"></app-date-field>
+          </td>
+          <td class="text-nowrap px-2 py-3">
+            <app-input
+              placeholder="$ 0.00"
+              type="tel"
+              [inputMask]="'separator.2'"
+              [maskPrefix]="'$ '"
+              formControlName="prime_amount"></app-input>
+          </td>
+          <td class="text-nowrap px-2 py-3">
+            <app-input
+              placeholder="$ 0.00"
+              type="tel"
+              [inputMask]="'separator.2'"
+              [maskPrefix]="'$ '"
+              formControlName="coverage"></app-input>
+          </td>
+          <td class="text-nowrap px-2 py-3">
+            <app-input
+              placeholder="$ 0.00"
+              type="tel"
+              [inputMask]="'separator.2'"
+              [maskPrefix]="'$ '"
+              formControlName="deductible"></app-input>
+          </td>
+          <td class="px-2 py-3">
+            <app-file-picker
+              formControlName="document"
+              [mode]="fileUploadMode.ICON"></app-file-picker>
+          </td>
+          <td
+            class="px-2 py-3 d-flex align-items-center justify-content-center">
+            <button
+              class="primary-button big-button back-light-blue-500 white m-2"
+              (click)="saveQuote()"
+              [disabled]="quotesForm.invalid">
+              Add
+            </button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #policylInfoTemplate>
+  <div class="row mx-1 mx-md-2">
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Insurer</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ refreredPolicy?.insurer?.name | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Policy Type</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ refreredPolicy?.policy_type?.name | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Object to insure</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ refreredPolicy?.insure_object | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Effective date</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ refreredPolicy?.start_date | date | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Expiration date</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ refreredPolicy?.end_date | date | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Coverage</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ refreredPolicy?.coverage | currency | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Premium amount</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ refreredPolicy?.prime_amount | currency | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Deductible</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ refreredPolicy?.deductible | currency | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Status</div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ refreredPolicy?.status | notNull | enum }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">Policy cycle</div>
+        <div
+          class="col col-8 black px-3 py-2 prop-box"
+          [class]="'C-' + refreredPolicy?.category + ' fw-semibold'">
+          {{ refreredPolicy?.category | notNull | enum }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div class="col-12 col-md-4 black px-2 py-2">
+          Policy coverage details
+        </div>
+        <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+          {{ refreredPolicy?.description | notNull }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,23 @@
+<div class="floating-actions">
+  <!-- Botón Modal Ticket -->
+  <a class="action-button survey" (click)="openModalTicket()">
+    <img src="/assets/images/portal/image_ticket.png" alt="Ticket" />
+    <span class="tooltip-text survey">Create support ticket</span>
+  </a>
+
+  <!-- Botón Encuesta -->
+  <a [href]="surveyUrl" target="_blank" class="action-button survey">
+    <img src="/assets/images/logo_min.png" alt="Survey" />
+    <span class="tooltip-text survey">Respond to Survey</span>
+  </a>
+
+  <!-- Botón WhatsApp -->
+  <a
+    *ngIf="isInsured"
+    [href]="'https://wa.me/' + contactNumberBroker"
+    target="_blank"
+    class="action-button whatsapp">
+    <img src="/assets/images/whatsapp.png" alt="WhatsApp" />
+    <span class="tooltip-text whatsapp">Contact my Broker</span>
+  </a>
+</div>

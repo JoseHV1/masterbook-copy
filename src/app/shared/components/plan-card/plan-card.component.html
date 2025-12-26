@@ -6,7 +6,10 @@
   <div class="plan-card-body" [style]="'color: ' + color">
     <p class="price-line text-centered">$89.00<span>monthly</span></p>
     <div class="flex-centered">
-      <app-secondary-button text="Read more"></app-secondary-button>
+      <app-secondary-button
+        text="{{ textButton }}"
+        [color]="colorButton"
+        (clickEvent)="selectPlan.emit(plan)"></app-secondary-button>
     </div>
   </div>
 </div>

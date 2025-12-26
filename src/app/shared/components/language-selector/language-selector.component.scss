@@ -1,53 +1,58 @@
 @import 'theme';
 
-.language-selector{
-  position: relative;
-  font-family: $font-text-2;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  font-weight: 700;
-  padding: 8px 15px;
-  border-radius: 80px;
-  cursor: pointer;
-  &:hover{
-    opacity: 0.8;
-  }
-}
-
-.language-menu{
-  display: none;
-  position: absolute;
-  z-index: 1000;
-  top: 80px;
-  background: #02385980;
-  backdrop-filter: blur(8px);
-  border-radius: 5px;
-  .language-menu-option{
-    padding: 6px 30px;
-    border-radius: 5px;
-    color: $white;
-    font-family: $font-text-2;
-    font-size: 1rem;
+:host {
+  .language-selector {
+    position: relative;
+    font-size: 1.2rem;
     line-height: 1.5rem;
-    font-weight: 700;
+    font-weight: 600;
+    border-radius: 80px;
+    font-family: $font-family;
+    margin-top: 4px;
     cursor: pointer;
-    &:hover{
-      background: #02385999;
+    &:hover {
+      opacity: 0.8;
     }
   }
-}
-
-.language-menu-show{
-  display: block;
-}
-
-// color classes
-.blue-light{
-  color: $blue-light;
-  border: $blue-light 2px solid;
-}
-
-.white{
-  color: $white;
-  border: $white 2px solid;
+  
+  .language-menu {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    top: 80px;
+    background: #02385980;
+    backdrop-filter: blur(8px);
+    border-radius: 5px;
+    .language-menu-option {
+      padding: 6px 30px;
+      border-radius: 5px;
+      color: $white;
+      font-family: $font-family;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      font-weight: 700;
+      cursor: pointer;
+      &:hover {
+        background: #02385999;
+      }
+    }
+  }
+  
+  .language-menu-show {
+    display: block;
+  }
+  
+  .blue-light {
+    color: $light-blue-200;
+  }
+  
+  .white {
+    color: $white;
+  }
+  
+  @media only screen and (max-width: 767px) {
+    .language-menu {
+      right: 70px;
+    }
+  }
 }

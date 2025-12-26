@@ -1,0 +1,50 @@
+<div class="section-title">
+  <mat-icon color="primary">visibility</mat-icon>
+  <span>Preview</span>
+</div>
+
+<!-- Loading -->
+<div class="preview-placeholder" *ngIf="loading">
+  <mat-progress-spinner
+    mode="indeterminate"
+    diameter="32"></mat-progress-spinner>
+  <div class="mt-2 text-muted">Loading preview…</div>
+</div>
+
+<!-- Not loading -->
+<ng-container *ngIf="!loading">
+  <!-- If we have info, show it; else show empty state -->
+  <ng-container *ngIf="info as p; else emptyState">
+    <div class="preview-info">
+      <div class="row g-2">
+        <div class="col-12 d-flex justify-content-between py-2 border-bottom">
+          <span class="text-muted">Report Type:</span>
+          <span class="fw-medium">{{ p.reportTypeLabel }}</span>
+        </div>
+        <div class="col-12 d-flex justify-content-between py-2 border-bottom">
+          <span class="text-muted">Estimated Records:</span>
+          <span class="fw-medium">{{ p.estimatedRecords | number }}</span>
+        </div>
+        <div class="col-12 d-flex justify-content-between py-2 border-bottom">
+          <span class="text-muted">Date Range:</span>
+          <span class="fw-medium">{{ p.dateRangeLabel }}</span>
+        </div>
+        <div class="col-12 d-flex justify-content-between py-2">
+          <span class="text-muted">Estimated Size:</span>
+          <span class="fw-medium">{{ p.estimatedSizeLabel }}</span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<!-- Empty state template -->
+<ng-template #emptyState>
+  <mat-card>
+    <div class="preview-placeholder text-muted">
+      <mat-icon>bar_chart</mat-icon>
+      <div>Select filters and click “Preview”</div>
+      <div class="small">or generate the report to see complete data</div>
+    </div>
+  </mat-card>
+</ng-template>

@@ -1,0 +1,46 @@
+@import 'theme';
+
+// .separator {
+//   border-top: 1px solid black;
+//   height: 2px;
+//   max-width: 200px;
+//   padding: 0;
+//   margin: 20px auto 0 auto;
+// }
+
+:host {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  .input-component {
+    position: relative;
+    width: 3rem;
+    border-radius: 12px;
+    height: 3.2rem;
+    background: rgba(167, 213, 242, 0.19);
+
+    .input-code {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border: none;
+      border: 2px solid #969696;
+      background: transparent;
+      border-radius: 12px;
+
+      &:focus {
+        outline: none;
+        border-color: #049dd9 !important;
+      }
+    }
+  }
+}
