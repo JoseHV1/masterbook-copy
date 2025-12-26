@@ -1,0 +1,41 @@
+<div class="notification-overlay text-selection-disable">
+  <div
+    class="overlay-header mb-3 pb-3 d-flex align-items-center justify-content-between">
+    <h6 class="fw-bold text-dark">Notifications</h6>
+    <div
+      class="text-end ms-auto d-flex align-items-center justify-content-between"
+      style="cursor: pointer">
+      <span class="material-icons-outlined" style="color: #17c666">check</span>
+      <span class="check_all_read">Make as Read</span>
+    </div>
+  </div>
+
+  <div>
+    <div
+      class="container-notify"
+      *ngFor="let item of notifications; let i = index">
+      <p class="title-notification fw-medium">{{ item.title }}</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <p class="text-muted times">{{ item.timestamp }}</p>
+        <div class="d-flex align-items-center justify-content-center">
+          <div class="form-check" style="min-height: 0 !important">
+            <input
+              class="form-check-input"
+              type="radio"
+              [name]="i"
+              [id]="i"
+              pTooltip="Make as read"
+              [tooltipOptions]="tooltipOptions" />
+          </div>
+          <span class="material-icons-outlined cancel">cancel</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay-footer d-flex justify-content-center align-items-center">
+    <a href="" class="fw-bold text-dark mt-3" style="font-size: 13px"
+      >Alls Notifications</a
+    >
+  </div>
+</div>

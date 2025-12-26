@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { ProductModel } from 'src/business-logic/product/port/models/product.model';
+import { ProductPort } from 'src/business-logic/product/port/product.port';
 import { HOME_FEATURES, HomeFeatureModel } from './home-content.data';
-import { AuthModalService } from '../../shared/services/auth.modal.service';
-import { PlansService } from 'src/app/shared/services/plans.service';
 
 @Component({
   selector: 'app-home',
@@ -9,16 +9,13 @@ import { PlansService } from 'src/app/shared/services/plans.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  // plans: ProductModel[] = [];
+  plans: ProductModel[] = [];
   features: HomeFeatureModel[] = HOME_FEATURES;
 
-  constructor(
-    private _authModal: AuthModalService // private _plans: PlansService
-  ) {
-    // this.plans = this._plans.getPlans();
-  }
-
-  showSingUp() {
-    this._authModal.openSignUp();
+  constructor(private productPort: ProductPort) {
+    this.productPort.getProducts().then(products => {
+      this.plans = products.concat(products);
+      console.log(this.plans);
+    });
   }
 }

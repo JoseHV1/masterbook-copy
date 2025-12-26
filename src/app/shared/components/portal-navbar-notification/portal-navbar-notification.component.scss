@@ -1,0 +1,52 @@
+@import 'theme';
+
+.notification-overlay {
+  width: 17.5rem;
+  min-width: 95%;
+  font-family: $portal-font;
+
+  .overlay-header {
+    border-bottom: 1px solid #eaebef;
+
+    .check_all_read {
+      font-size: 0.813rem;
+      font-family: $portal-font;
+      color: #17c666;
+    }
+  }
+
+  .container-notify {
+    cursor: pointer;
+    padding: 0.813rem;
+    border-bottom: 1px dashed #eaebef;
+
+    .title-notification {
+      font-size: 0.875rem;
+      font-family: $portal-font;
+      cursor: pointer;
+      &:hover {
+        color: #3454d1;
+      }
+    }
+
+    .times{
+      font-size: 11px;
+      border-bottom: 1px dashed #eaebef;
+    }
+
+    .cancel {
+      color: #ea4d4d !important;
+      font-size: 17px !important;
+      margin-top: 2px !important;
+    }
+  }
+
+  .overlay-footer {
+    border-top: 1px solid #eaebef;
+    height: 2rem;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}

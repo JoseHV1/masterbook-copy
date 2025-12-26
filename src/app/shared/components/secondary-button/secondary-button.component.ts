@@ -7,6 +7,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class SecondaryButtonComponent {
   @Input() text = '';
-  @Input() color: any = 'blue-primary';
+  @Input() color: 'blue-primary' | 'blue-dark' | 'orange' = 'blue-primary';
   @Output() clickEvent = new EventEmitter<void>();
 }

@@ -1,0 +1,69 @@
+<nav class="anon-navbar">
+  <div class="anon-navbar-logo">
+    <img src="/assets/images/logo.svg" alt="masterbook" />
+  </div>
+  <div class="anon-navbar-mobile-toggle" (click)="isMobileOpen = !isMobileOpen">
+    <img src="/assets/icons/mobile-toggle-white.svg" alt="mobile toggle" />
+  </div>
+  <div
+    class="anon-navbar-menu"
+    [ngClass]="{ 'anon-navbar-menu-show': isMobileOpen }">
+    <app-language-selector
+      class="anon-navbar-buttons-margin"></app-language-selector>
+    <app-link-button
+      class="show-desktop-only anon-navbar-buttons-margin"
+      [text]="'GENERAL.SIGN_UP' | translate"
+      (click)="visibleSingUp = true"></app-link-button>
+    <app-secondary-button
+      class="show-mobile-only anon-navbar-buttons-margin"
+      [text]="'GENERAL.SIGN_UP' | translate"
+      [color]="'orange'"
+      (click)="visibleSingUp = true"></app-secondary-button>
+    <app-primary-button
+      [text]="'GENERAL.LOG_IN' | translate"
+      class="anon-navbar-buttons-margin"
+      [background]="'orange'"
+      (click)="visibleLogin = true"></app-primary-button>
+  </div>
+</nav>
+
+<app-anon-modal
+  [visible]="visibleLogin"
+  (visibleChange)="visibleLogin = $event"
+  [width]="31">
+  <ng-container content>
+    <app-anon-modal-login></app-anon-modal-login>
+  </ng-container>
+</app-anon-modal>
+
+<app-anon-modal
+  [visible]="visibleSingUp"
+  [width]="60"
+  [height]="38"
+  (visibleChange)="visibleSingUp = $event">
+  <ng-container content>
+    <app-anon-modal-singup></app-anon-modal-singup>
+  </ng-container>
+</app-anon-modal>
+
+<app-anon-modal
+  [visible]="visibleForgot"
+  [width]="31"
+  [height]="39"
+  [hideClose]="true"
+  (visibleChange)="visibleForgot = $event">
+  <ng-container content>
+    <app-anon-modal-forgot-password></app-anon-modal-forgot-password>
+  </ng-container>
+</app-anon-modal>
+
+<app-anon-modal
+  [visible]="visibleNotification"
+  [width]="28"
+  [height]="10"
+  [hideClose]="true"
+  (visibleChange)="visibleNotification = $event">
+  <ng-container content>
+    <app-anon-modal-notification></app-anon-modal-notification>
+  </ng-container>
+</app-anon-modal>

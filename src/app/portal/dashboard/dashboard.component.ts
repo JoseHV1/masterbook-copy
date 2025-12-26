@@ -1,18 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { DashboardService } from '../../shared/services/dashboard.service';
+import { Component } from '@angular/core';
+import { STATISTICS_CARD } from './statistics-card-information';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  metabaseUrl: any;
-
-  constructor(private _dashboard: DashboardService) {}
-
-  // ngOnInit() {
-  //   this._dashboard.getDashboardUrl().subscribe(res => {
-  //     this.metabaseUrl = res.data;
-  //   });
-  // }
+  STATISTICS_CARD = STATISTICS_CARD;
 }

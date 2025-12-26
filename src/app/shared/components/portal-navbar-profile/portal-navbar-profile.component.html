@@ -1,0 +1,59 @@
+<div class="portal-profile-selector" (click)="profileOverlay.toggle($event)">
+  <img
+    class="text-selection-disable mt-1 ms-2"
+    [src]="'/assets/images/portal/user.png'" />
+</div>
+
+<p-overlayPanel #profileOverlay>
+  <div class="profile-overlay">
+    <div
+      class="overlay-header d-flex justify-content-between align-items-center">
+      <img
+        class="text-selection-disable"
+        [src]="'/assets/images/portal/user.png'"
+        style="width: 3rem" />
+      <div>
+        <h6 class="text-dark mb-0">
+          Alexandra Della
+          <span class="badge badge-profile-success ms-1">PRO</span>
+        </h6>
+        <span class="fw-medium text-muted" style="font-size: 12px"
+          >alex.della@outlook.com</span
+        >
+      </div>
+    </div>
+    <div class="mt-1">
+      <div
+        class="d-flex align-items-center justify-content-start gap-2 option py-2 px-3 mb-2">
+        <span class="material-icons-outlined">person_outline</span>
+        <a href="" class="text-menu">Profile Details</a>
+      </div>
+      <div
+        class="d-flex align-items-center justify-content-start gap-2 option py-2 px-3 mb-2">
+        <span class="material-icons-outlined">show_chart</span>
+        <a href="" class="text-menu">Activity Feed</a>
+      </div>
+      <div
+        class="d-flex align-items-center justify-content-start gap-2 option py-2 px-3 mb-2">
+        <span class="material-icons-outlined">attach_money</span>
+        <a href="" class="text-menu">Billing Details</a>
+      </div>
+      <div
+        class="d-flex align-items-center justify-content-start gap-2 option py-2 px-3 mb-2">
+        <span class="material-icons-outlined">notifications_none</span>
+        <a href="" class="text-menu">Notifications</a>
+      </div>
+      <div
+        class="d-flex align-items-center justify-content-start gap-2 option py-2 px-3 mb-2">
+        <span class="material-icons-outlined">settings</span>
+        <a href="" class="text-menu">Account Settings</a>
+      </div>
+      <div style="border-bottom: 1px solid #e5e7eb"></div>
+      <div
+        class="d-flex align-items-center justify-content-start gap-2 option py-2 px-3 mb-2">
+        <span class="material-icons-outlined">logout</span>
+        <a href="" class="text-menu">Logout</a>
+      </div>
+    </div>
+  </div>
+</p-overlayPanel>

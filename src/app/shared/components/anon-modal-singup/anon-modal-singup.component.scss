@@ -1,0 +1,58 @@
+@import 'theme';
+
+:host ::ng-deep {
+  [class~='p-dialog-header'] {
+    padding: 1.4rem 1.8rem 0.7rem;
+    border-top-right-radius: 2.5rem !important;
+    border-top-left-radius: 2.5rem !important;
+  }
+
+  [class~='p-dialog-content'] {
+    border-bottom-right-radius: 2.5rem !important;
+    border-bottom-left-radius: 2.5rem !important;
+  }
+
+  [class~='p-dialog'] {
+    border-radius: 2.5rem;
+  }
+  
+  [ng-reflect-style-class='p-dropdown-clear-icon'] {
+    display: none !important;
+  }
+  
+  .p-dropdown {
+    border-radius: 80px;
+    width: 100%;
+    height: 48px;
+    border: 2px solid #969696;
+    background: rgba(167, 213, 242, 0.19);
+
+    .p-dropdown-trigger {
+      color: #6c757d;
+      width: 2rem;
+    }
+  }
+}
+
+.link-forgot-pass {
+  font-family: $font-text-1;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  color: $blue-primary;
+  cursor: pointer;
+}
+
+.img-form {
+  width: 30.4rem;
+  height: auto;
+}
+
+.title-form {
+  font-family: $font-text-1;
+  font-weight: 700;
+  font-size: 3.1rem;
+  line-height: 2.5rem;
+  color: $blue-primary;
+  text-align: center;
+}
