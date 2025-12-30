@@ -1,5 +1,7 @@
 <ng-template #table>
   <app-pages-layout
+    [showButtonInfo]="true"
+    (btnInfoClick)="showTutor()"
     [button]="{
       text: 'Create request',
       icon: 'add',

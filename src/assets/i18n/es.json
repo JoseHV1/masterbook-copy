@@ -294,7 +294,8 @@
     "DO_NOT_HAVE_PERMISSION_FOR_ACTION": "No tienes permiso para realizar esta acción.",
     "NETWORK_ERROR": "Ocurrió un error de red.",
     "PLATFORM_SETTINGS_NOT_FOUND": "No se encontraron las configuraciones de la plataforma.",
-    "INVALID_ATTACHMENT": "No se encontró el contenido del archivo adjunto."
+    "INVALID_ATTACHMENT": "No se encontró el contenido del archivo adjunto.",
+    "UNAUTHORIZED": "Su sesion a caducado, por favor ingrese nuevamente"
   },
   "NOTIFICATIONS": {
     "READ": "Leído",

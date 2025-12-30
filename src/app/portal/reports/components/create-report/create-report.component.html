@@ -93,6 +93,8 @@
             <app-dropdown-field
               [placeholder]="'Select a status'"
               formControlName="status"
+              [clearable]="true"
+              [multiple]="true"
               [options]="dropDownStatus"></app-dropdown-field>
           </div>
         </div>
@@ -105,6 +107,7 @@
             <app-dropdown-field
               [placeholder]="'Select a business line'"
               formControlName="businessLine"
+              [clearable]="true"
               [options]="dropDownBusinessLine"></app-dropdown-field>
           </div>
 
@@ -116,6 +119,7 @@
             <app-dropdown-field
               [placeholder]="'Select a policy category'"
               formControlName="policyCategory"
+              [clearable]="true"
               [options]="dropDownPolicyCategory"></app-dropdown-field>
           </div>
 
@@ -127,34 +131,8 @@
             <app-dropdown-field
               [placeholder]="'Select a policy type'"
               formControlName="policyType"
+              [clearable]="true"
               [options]="dropDownPolicyType"></app-dropdown-field>
-          </div>
-
-          <!-- Insurer -->
-          <div class="col-12 col-md-6" *ngIf="show.insurer">
-            <mat-label>Insurer</mat-label>
-            <app-dropdown-field
-              [placeholder]="'Select a insurer'"
-              formControlName="insurer"
-              [options]="dropDownInsurers"></app-dropdown-field>
-          </div>
-
-          <!-- Agent -->
-          <div class="col-12 col-md-6" *ngIf="show.broker">
-            <mat-label>Agent</mat-label>
-            <app-dropdown-field
-              [placeholder]="'Select a agent'"
-              formControlName="broker"
-              [options]="dropDownBrokers"></app-dropdown-field>
-          </div>
-
-          <!-- Account -->
-          <div class="col-12 col-md-6" *ngIf="show.account">
-            <mat-label>Account</mat-label>
-            <app-dropdown-field
-              [placeholder]="'Select a account'"
-              formControlName="account"
-              [options]="dropDownAccounts"></app-dropdown-field>
           </div>
 
           <!-- Payment From -->
@@ -163,7 +141,44 @@
             <app-dropdown-field
               [placeholder]="'Select a option'"
               formControlName="paymentFrom"
-              [options]="dropDownpaymentFrom"></app-dropdown-field>
+              [clearable]="true"
+              [options]="dropDownpaymentFrom"
+              (changeSelection)="
+                onPaymentFromChange($event)
+              "></app-dropdown-field>
+          </div>
+
+          <!-- Insurer -->
+          <div class="col-12 col-md-6" *ngIf="show.insurer">
+            <mat-label>Insurer</mat-label>
+            <app-dropdown-field
+              [placeholder]="'Select a insurer'"
+              formControlName="insurer"
+              [clearable]="true"
+              [multiple]="true"
+              [options]="dropDownInsurers"></app-dropdown-field>
+          </div>
+
+          <!-- Account -->
+          <div class="col-12 col-md-6" *ngIf="show.account">
+            <mat-label>Account</mat-label>
+            <app-dropdown-field
+              [placeholder]="'Select a account'"
+              formControlName="account"
+              [clearable]="true"
+              [multiple]="true"
+              [options]="dropDownAccounts"></app-dropdown-field>
+          </div>
+
+          <!-- Agent -->
+          <div class="col-12 col-md-6" *ngIf="show.broker">
+            <mat-label>Agent</mat-label>
+            <app-dropdown-field
+              [placeholder]="'Select a agent'"
+              formControlName="broker"
+              [clearable]="true"
+              [multiple]="true"
+              [options]="dropDownBrokers"></app-dropdown-field>
           </div>
 
           <!-- Minimum Premium -->
@@ -174,6 +189,7 @@
               type="tel"
               [inputMask]="'separator.2'"
               [maskPrefix]="'$ '"
+              [clearable]="true"
               formControlName="minPrimeAmount"></app-input>
           </div>
 
@@ -185,6 +201,7 @@
               type="tel"
               [inputMask]="'separator.2'"
               [maskPrefix]="'$ '"
+              [clearable]="true"
               formControlName="maxPrimeAmount"></app-input>
           </div>
 
@@ -196,6 +213,7 @@
               type="tel"
               [inputMask]="'separator.2'"
               [maskPrefix]="'$ '"
+              [clearable]="true"
               formControlName="minCoverage"></app-input>
           </div>
 
@@ -207,6 +225,7 @@
               type="tel"
               [inputMask]="'separator.2'"
               [maskPrefix]="'$ '"
+              [clearable]="true"
               formControlName="maxCoverage"></app-input>
           </div>
 
@@ -218,6 +237,7 @@
               type="tel"
               [inputMask]="'separator.2'"
               [maskPrefix]="'$ '"
+              [clearable]="true"
               formControlName="minDeductible"></app-input>
           </div>
 
@@ -229,6 +249,7 @@
               type="tel"
               [inputMask]="'separator.2'"
               [maskPrefix]="'$ '"
+              [clearable]="true"
               formControlName="maxDeductible"></app-input>
           </div>
 
@@ -240,6 +261,7 @@
               type="tel"
               [inputMask]="'separator.2'"
               [maskPrefix]="'$ '"
+              [clearable]="true"
               formControlName="minTotalAmount"></app-input>
           </div>
 
@@ -251,6 +273,7 @@
               type="tel"
               [inputMask]="'separator.2'"
               [maskPrefix]="'$ '"
+              [clearable]="true"
               formControlName="maxTotalAmount"></app-input>
           </div>
 
@@ -262,6 +285,7 @@
               type="tel"
               [inputMask]="'separator.2'"
               [maskPrefix]="'$ '"
+              [clearable]="true"
               formControlName="minCommissionPay"></app-input>
           </div>
 
@@ -273,6 +297,7 @@
               type="tel"
               [inputMask]="'separator.2'"
               [maskPrefix]="'$ '"
+              [clearable]="true"
               formControlName="maxCommissionPay"></app-input>
           </div>
         </div>

@@ -18,7 +18,7 @@ import { PolicyStatus } from '../enums/policy-status.enum';
 import { PaginatedResponse } from '../interfaces/models/paginated-response.model';
 import { PopulatedPolicyModel } from '../interfaces/models/policy.model';
 import { EditPolicyRequest } from '../interfaces/requests/policies/edit-policy.request';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfiguredInsurerAsyncValidator } from 'src/app/shared/helpers/configured-insurer.validator';
 import { InsurerService } from './insurer.service';
 import { PolicyCategoryEnum } from '../enums/policy-category.enum';
@@ -36,6 +36,13 @@ export class PoliciesService {
     private _dataset: DatasetsService,
     private _auth: AuthService
   ) {}
+
+  createUploadFileForm(): FormGroup {
+    return new FormGroup({
+      upload_file: new FormControl(null, []),
+      insurers_mapping: new FormArray([]),
+    });
+  }
 
   createPolicyPreForm(): FormGroup {
     return new FormGroup({

@@ -14,10 +14,12 @@ import { tap } from 'rxjs';
 })
 export class PagesLayoutComponent {
   @Input() button?: PagesLayoutButtonModel;
+  @Input() showButtonInfo: boolean = false;
   @Input() filters: boolean = false;
   @Input() statistics: boolean = false;
   @Input() attachs: boolean = false;
   @Output() btnClick: EventEmitter<void> = new EventEmitter();
+  @Output() btnInfoClick: EventEmitter<void> = new EventEmitter();
 
   isPaid = false;
   isOwner = false;

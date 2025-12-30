@@ -9,6 +9,7 @@ import { HttpResponseModel } from '../models/response/http.response.model';
 import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
 import { ApiResponseModel } from '../interfaces/models/api-response.model';
+import { AgencyPaymentStatusEnum } from '../enums/agency-payment-status';
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +54,13 @@ export class AdminPanelService {
           type: FilterTypeEnum.DATE_RANGE,
         },
         {
-          label: 'Agency type',
+          label: 'Status',
+          name: 'status',
+          type: FilterTypeEnum.SELECT,
+          options: of(enumToDropDown(AgencyPaymentStatusEnum)),
+        },
+        {
+          label: 'Entity type',
           name: 'role',
           type: FilterTypeEnum.SELECT,
           options: of(enumToDropDown(CompleteRegisterRolesEnum)),

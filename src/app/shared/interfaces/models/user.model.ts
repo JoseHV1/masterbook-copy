@@ -22,6 +22,7 @@ export interface UserModel {
   phone_number: string;
   phone_extension?: string;
   address_info?: AddressInfoModel;
+  complete_tutors?: string[];
   email_verified_at?: Date;
   last_login_at?: Date;
   createdAt: Date;

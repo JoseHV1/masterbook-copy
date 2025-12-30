@@ -43,6 +43,13 @@ const routes: Routes = [
             module => module.CommunicationModule
           ),
       },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('../portal/profile/profile.module').then(
+            module => module.ProfileModule
+          ),
+      },
     ],
   },
   { path: '', redirectTo: defaultRoute, pathMatch: 'full' },

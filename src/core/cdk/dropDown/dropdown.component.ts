@@ -12,6 +12,7 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
   @Input() placeholder: string = '';
   @Input() multiple: boolean = false;
   @Input() options: DropdownOption[] = [];
+  @Input() clearable: boolean = false;
   @Output() changeSelection: EventEmitter<DropdownOption[]> =
     new EventEmitter();
 
@@ -71,6 +72,16 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
     }
 
     this.onChange(control.value);
+    this.updateErrors();
+  }
+
+  clearSelection(event: MouseEvent): void {
+    event.stopPropagation();
+    this.form.get('value')?.setValue(null);
+    this.onChange(null);
+    this.onTouched();
+    this.resetDisabledState();
+    this.changeSelection.emit([]);
     this.updateErrors();
   }
 

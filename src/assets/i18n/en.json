@@ -294,7 +294,8 @@
     "DO_NOT_HAVE_PERMISSION_FOR_ACTION": "You do not have permission to perform this action.",
     "NETWORK_ERROR": "Network error occurred.",
     "PLATFORM_SETTINGS_NOT_FOUND": "Platform settings not found.",
-    "INVALID_ATTACHMENT": "Attachment content not found."
+    "INVALID_ATTACHMENT": "Attachment content not found.",
+    "UNAUTHORIZED": "Your session has expired, please log in again."
   },
   "NOTIFICATIONS": {
     "READ": "Read",
