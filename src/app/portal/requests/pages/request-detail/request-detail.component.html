@@ -387,8 +387,8 @@
 
 <ng-template #quotesInfoTemplate>
   <div class="table-responsive quotes-table">
-    <form [formGroup]="quotesForm" *ngIf="quotesForm && !isInsured">
-      <table>
+    <form [formGroup]="quotesForm" *ngIf="quotesForm">
+      <table class="w-100">
         <!-- head -->
         <tr>
           <th class="text-nowrap px-2">Quote ID</th>
@@ -437,24 +437,24 @@
         </tr>
 
         <!-- form -->
-        <tr *ngIf="request.status !== REQUEST_STATUS.CLOSED">
-          <td class="text-nowrap px-2 py-3">
+        <tr *ngIf="request.status !== REQUEST_STATUS.CLOSED && !isInsured">
+          <td class="text-nowrap px-2">
             <app-input
               placeholder="#QT-XXXX"
               type="text"
               formControlName="quote_id"></app-input>
           </td>
-          <td class="text-nowrap px-2 py-3">
+          <td class="text-nowrap px-2">
             <app-insurance-company-selector
               [placeholder]="'Select a company'"
               formControlName="insurer_id"></app-insurance-company-selector>
           </td>
-          <td class="text-nowrap px-2 py-3">
+          <td class="text-nowrap px-2">
             <app-date-field
               [placeholder]="'Select a date'"
               formControlName="quote_date"></app-date-field>
           </td>
-          <td class="text-nowrap px-2 py-3">
+          <td class="text-nowrap px-2">
             <app-input
               placeholder="$ 0.00"
               type="tel"
@@ -462,7 +462,7 @@
               [maskPrefix]="'$ '"
               formControlName="prime_amount"></app-input>
           </td>
-          <td class="text-nowrap px-2 py-3">
+          <td class="text-nowrap px-2">
             <app-input
               placeholder="$ 0.00"
               type="tel"
@@ -470,7 +470,7 @@
               [maskPrefix]="'$ '"
               formControlName="coverage"></app-input>
           </td>
-          <td class="text-nowrap px-2 py-3">
+          <td class="text-nowrap px-2">
             <app-input
               placeholder="$ 0.00"
               type="tel"
@@ -478,16 +478,15 @@
               [maskPrefix]="'$ '"
               formControlName="deductible"></app-input>
           </td>
-          <td class="px-2 py-3">
+          <td class="px-2">
             <app-file-picker
               [id]="'request-file-upload'"
               formControlName="document"
               [mode]="fileUploadMode.ICON"></app-file-picker>
           </td>
-          <td
-            class="px-2 py-3 d-flex align-items-center justify-content-center">
+          <td class="px-2">
             <button
-              class="primary-button big-button back-light-blue-500 white m-2"
+              class="primary-button big-button back-light-blue-500 white"
               (click)="saveQuote()"
               [disabled]="quotesForm.invalid">
               Add
