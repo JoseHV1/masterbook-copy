@@ -36,6 +36,18 @@ export class InsurerConfigService {
       );
   }
 
+  getInsurersWithConfig(): Observable<InsurerModel[]> {
+    return this._http
+      .get<HttpResponseModel<InsurerModel[]>>(
+        environment.apiUrl + `insurer/list/config`
+      )
+      .pipe(
+        map(response => {
+          return response.data;
+        })
+      );
+  }
+
   getInsurer(id: string): Observable<InsurerModel> {
     return this._http
       .get<HttpResponseModel<InsurerModel>>(

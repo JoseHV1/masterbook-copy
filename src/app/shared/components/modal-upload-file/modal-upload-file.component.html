@@ -10,7 +10,7 @@
   <form [formGroup]="form" *ngIf="form">
     <h6 class="title-form text-center mb-4 mb-md-5">Upload File</h6>
     <div class="row">
-      <div class="col-12 col-6 mb-4 mb-md-5">
+      <div class="col-12 mb-4 mb-md-5">
         <label class="form-label fw-bold">File *</label>
         <app-file-picker
           placeholder="Attach file"
@@ -19,12 +19,14 @@
         </app-file-picker>
       </div>
 
-      <div class="col-12 mb-3" *ngIf="entity === 'policies'">
+      <div
+        class="col-12 mb-3"
+        *ngIf="entity === 'policies' && insurers.length > 0">
         <label class="form-label fw-bold">
           Indicate how you know each of these insurance companies *
         </label>
 
-        <div formArrayName="insurers_mapping">
+        <div formArrayName="insurers_mapping" class="insurers-scroll-container">
           <div
             *ngFor="let item of insurersArray.controls; let i = index"
             [formGroupName]="i"
@@ -49,7 +51,7 @@
       <button
         class="primary-button big-button back-light-blue-400 white mx-1"
         (click)="save()"
-        [disabled]="form.invalid">
+        [disabled]="isInvalidForm">
         Upload
       </button>
     </div>

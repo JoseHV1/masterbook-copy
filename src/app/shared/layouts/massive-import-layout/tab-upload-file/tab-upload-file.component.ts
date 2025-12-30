@@ -64,7 +64,7 @@ export class TabUploadFileComponent {
     };
 
     if (this.entity === 'policies' && result.insurers_mapping) {
-      payload.insurers = result.insurers_mapping.map((item: any) => ({
+      payload.dictionary = result.insurers_mapping.map((item: any) => ({
         id: item.id,
         custom_name: item.custom_name,
       }));
