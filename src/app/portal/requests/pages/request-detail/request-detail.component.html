@@ -387,7 +387,7 @@
 
 <ng-template #quotesInfoTemplate>
   <div class="table-responsive quotes-table">
-    <form [formGroup]="quotesForm" *ngIf="quotesForm">
+    <form [formGroup]="quotesForm" *ngIf="quotesForm && !isInsured">
       <table>
         <!-- head -->
         <tr>
