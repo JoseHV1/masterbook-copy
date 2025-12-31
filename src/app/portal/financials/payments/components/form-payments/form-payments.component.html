@@ -10,14 +10,14 @@
       </mat-radio-group>
     </div>
 
-    <div class="col-12 col-md-3 mb-4">
+    <div class="col-12 col-md-4 mb-4">
       <label>Payment Date *</label>
       <app-date-field
         [placeholder]="'Select a date'"
         formControlName="payment_date"></app-date-field>
     </div>
 
-    <div class="col-12 col-md-3 mb-4">
+    <div class="col-12 col-md-4 mb-4">
       <label>Total Amount *</label>
       <app-input
         placeholder="$ 0"
@@ -28,7 +28,7 @@
     </div>
 
     <ng-container *ngIf="form.get('payment_from')?.value === '1'">
-      <div class="col-12 col-md-3 mb-4">
+      <div class="col-12 col-md-4 mb-4">
         <label>Account *</label>
         <app-account-selector
           [extendedInfo]="true"
@@ -38,7 +38,7 @@
     </ng-container>
 
     <ng-container *ngIf="form.get('payment_from')?.value === '2'">
-      <div class="col-12 col-md-3 mb-4">
+      <div class="col-12 col-md-4 mb-4">
         <label>Insurer Company *</label>
         <app-insurer-selector
           (ngModelChange)="onSelectInsurer($event)"
@@ -46,11 +46,19 @@
       </div>
     </ng-container>
 
-    <div class="col-12 col-md-3 mb-4">
+    <div class="col-12 col-md-4 mb-4">
       <label>Check / ACH Number *</label>
       <app-input
         placeholder="Enter Check / ACH Number"
         formControlName="check_number"></app-input>
+    </div>
+
+    <div class="col-12 col-md-4 mb-4">
+      <label>Payment Method*</label>
+      <app-dropdown-field
+        [placeholder]="'Select a payment method'"
+        formControlName="method"
+        [options]="dropDownPaymentMethod"></app-dropdown-field>
     </div>
   </div>
 

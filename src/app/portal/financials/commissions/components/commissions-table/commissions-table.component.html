@@ -20,7 +20,7 @@
         class="light-blue-700"
         style="cursor: pointer"
         (click)="
-          _url.navigateTo('portal/insurer', element.payment.insurer._id)
+          _url.navigateTo('portal/insurer', element.payment.insurer.serial)
         ">
         {{ element.payment.insurer.name | notNull }}
       </td>

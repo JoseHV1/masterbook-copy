@@ -45,6 +45,7 @@ export class PaymentsService {
     const paymentForm = new FormGroup({
       payment_from: new FormControl(null, [Validators.required]),
       payment_date: new FormControl(null, [Validators.required]),
+      method: new FormControl(null, [Validators.required]),
       total_amount: new FormControl(null, [
         Validators.required,
         Validators.maxLength(10),

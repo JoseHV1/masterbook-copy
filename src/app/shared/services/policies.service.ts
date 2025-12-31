@@ -39,7 +39,7 @@ export class PoliciesService {
 
   createUploadFileForm(): FormGroup {
     return new FormGroup({
-      upload_file: new FormControl(null, [Validators.required]),
+      upload_file: new FormControl(null, []),
       insurers_mapping: new FormArray([]),
     });
   }

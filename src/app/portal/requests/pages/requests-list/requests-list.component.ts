@@ -42,7 +42,7 @@ export class RequestsListComponent
 
   ngAfterViewInit(): void {
     if (!this._tutor.isCompleted(TutorsSlugsEnum.CREATE_REQUEST))
-      requestTutor(this._tutor).drive();
+      this.showTutor();
   }
 
   _fetchData(page: number, limit?: number): void {
@@ -58,5 +58,9 @@ export class RequestsListComponent
 
   refresh(): void {
     this._fetchData(this.data.page - 1, this.data.limit);
+  }
+
+  showTutor() {
+    requestTutor(this._tutor).drive();
   }
 }

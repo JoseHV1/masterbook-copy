@@ -39,7 +39,7 @@ export class AccountsListComponent
 
   ngAfterViewInit(): void {
     if (!this._tutor.isCompleted(TutorsSlugsEnum.CREATE_ACCOUNT))
-      accountTutor(this._tutor).drive();
+      this.showTutor();
   }
 
   _fetchData(page: number, hitsPerPAge?: number): void {
@@ -55,5 +55,9 @@ export class AccountsListComponent
 
   refresh(): void {
     this._fetchData(this.data.page - 1, this.data.limit);
+  }
+
+  showTutor() {
+    accountTutor(this._tutor).drive();
   }
 }

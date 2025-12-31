@@ -387,16 +387,14 @@ export class ReportConfigComponent implements OnInit {
 
   onPreview() {
     if (!this.form.valid) return;
-    const v = this.value();
-    if (v.businessLine && !v.policyType) return;
-    this.preview.emit(v);
+    const values = this.value();
+    this.preview.emit(values);
   }
 
   onGenerate() {
     if (!this.form.valid) return;
-    const v = this.value();
-    if (v.businessLine && !v.policyType) return;
-    this.generate.emit(v);
+    const values = this.value();
+    this.generate.emit(values);
   }
 
   onPaymentFromChange(selected: any[]): void {

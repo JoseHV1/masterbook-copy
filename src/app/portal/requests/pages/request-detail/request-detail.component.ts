@@ -267,7 +267,7 @@ export class RequestDetailComponent implements OnDestroy {
       .pipe(
         switchMap(() =>
           forkJoin([
-            this._fetchRequestData(this.request._id),
+            this._fetchRequestData(this.request.serial),
             this._fetchQuotesData(this.request._id),
           ])
         ),

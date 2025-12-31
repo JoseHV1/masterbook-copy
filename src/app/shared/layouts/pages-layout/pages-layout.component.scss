@@ -7,6 +7,10 @@
     border-radius: 0px;
   }
 
+  .back-blue {
+    background-color: $dark-blue-100;
+  }
+
   .p-breadcrumb ul li .p-menuitem-link .p-menuitem-text {
     color: $gray-400;
     font-size: 14px;
@@ -50,6 +54,13 @@
     transform: rotate(45deg);
   }
 
+  .info-button {
+    min-width: auto;
+    padding: 8px !important;
+    border-radius: 100%;
+    justify-content: center;
+  }
+
   .btn-header {
     height: 2.6rem;
     border-radius: 1.4rem;
@@ -69,10 +80,10 @@
 
   .header-section {
     width: 100%;
-    border-bottom: 1px solid #D9D9D9;
+    border-bottom: 1px solid #d9d9d9;
     background: $white;
 
-    .justify-content{
+    .justify-content {
       justify-content: end;
     }
   }
@@ -84,9 +95,9 @@
 
   @media only screen and (max-width: 768px) {
     .header-section {
-      .justify-content{
+      .justify-content {
         justify-content: flex-start;
-        border-top: 1px solid #D9D9D9;
+        border-top: 1px solid #d9d9d9;
       }
     }
 
@@ -98,7 +109,7 @@
   .not-paid-info {
     background-color: lighten($red-color, 30%);
     border: 2px $red-color solid;
-    border-radius: .4rem;
+    border-radius: 0.4rem;
     text-align: justify;
   }
 
@@ -110,9 +121,9 @@
   }
 
   .payment-button {
-    cursor:  pointer !important;
+    cursor: pointer !important;
     font-weight: 600;
-    &:hover{
+    &:hover {
       opacity: 80%;
     }
   }

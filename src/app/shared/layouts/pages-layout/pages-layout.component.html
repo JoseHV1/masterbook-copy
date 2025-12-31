@@ -17,6 +17,17 @@
         >attach_file</span
       >
       <button
+        class="primary-button back-blue white d-flex align-items-center info-button"
+        [disabled]="!isPaid"
+        *ngIf="showButtonInfo"
+        [matTooltip]="'How this module works?'"
+        (click)="btnInfoClick.emit()">
+        <span class="material-icons-outlined" style="color: white !important"
+          >info</span
+        >
+      </button>
+
+      <button
         [id]="button.id ?? null"
         class="primary-button back-orange white mx-1 d-flex align-items-center"
         [disabled]="!isPaid"

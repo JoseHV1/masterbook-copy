@@ -259,8 +259,9 @@ export const CONFIG_BY_TYPE: Record<ReportType, ReportTypeConfig> = {
       sort: true,
     },
     statusOptions: [
-      { code: 'full_paid', name: 'Fully Used' },
-      { code: 'partially_paid', name: 'Partially Used' },
+      { code: 'available', name: 'Available' },
+      { code: 'partially_paid', name: 'Partially Paid' },
+      { code: 'full_paid', name: 'Full Paid' },
     ],
     groupByOptions: [
       { code: '', name: 'No grouping' },
