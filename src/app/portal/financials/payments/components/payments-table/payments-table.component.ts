@@ -21,6 +21,7 @@ export class PaymentsTableComponent {
     'ach_number',
     'payment_from',
     'payment_for',
+    'payment_method',
     'payment_date',
     'total_amount',
     'subtotal',
