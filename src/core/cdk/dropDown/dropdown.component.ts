@@ -45,9 +45,11 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
     let selected = control.value;
 
     if (this.multiple && Array.isArray(selected)) {
-      const allSelected = selected.includes('');
+      const hasAllSelected = selected.some(val => val === '');
 
-      if (allSelected && selected.length === 1) {
+      if (hasAllSelected) {
+        this.form.get('value')?.setValue([''], { emitEvent: false });
+
         this.options = this.options.map(opt => ({
           ...opt,
           disabled: opt.code !== '',
@@ -67,8 +69,10 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
         this.changeSelection.emit(selectedItems);
       }
     } else {
-      const completeItem = this.options.find(opt => opt.code === selected);
-      if (completeItem) this.changeSelection.emit([completeItem]);
+      if (selected !== null && selected !== undefined) {
+        const completeItem = this.options.find(opt => opt.code === selected);
+        if (completeItem) this.changeSelection.emit([completeItem]);
+      }
     }
 
     this.onChange(control.value);
@@ -96,9 +100,28 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
   }
 
   writeValue(value: any): void {
-    this.resetDisabledState();
-    this.form.get('value')?.setValue(value, { emitEvent: false });
+    if (!value || (Array.isArray(value) && value.length === 0)) {
+      this.resetDisabledState();
+      this.form
+        .get('value')
+        ?.setValue(this.multiple ? [] : null, { emitEvent: false });
+    } else {
+      this.form.get('value')?.setValue(value, { emitEvent: false });
+      this.syncDisabledState(value);
+    }
     this.updateErrors();
+  }
+
+  private syncDisabledState(value: any): void {
+    if (this.multiple && Array.isArray(value)) {
+      const hasAll = value.includes('');
+      this.options = this.options.map(opt => ({
+        ...opt,
+        disabled: hasAll
+          ? opt.code !== ''
+          : opt.code === '' && value.length > 0,
+      }));
+    }
   }
 
   registerOnChange(fn: any): void {
@@ -120,6 +143,25 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
       ...opt,
       disabled: false,
     }));
+  }
+
+  hasValue(): boolean {
+    const value = this.form.get('value')?.value;
+
+    if (this.multiple) {
+      return Array.isArray(value) && value.length > 0;
+    }
+
+    return (
+      value !== null &&
+      value !== undefined &&
+      (value !== '' || this.isOptionSelected(''))
+    );
+  }
+
+  private isOptionSelected(code: string): boolean {
+    const controlValue = this.form.get('value')?.value;
+    return controlValue === code;
   }
 }
 

@@ -135,6 +135,19 @@
               [options]="dropDownPolicyType"></app-dropdown-field>
           </div>
 
+          <!-- Payment Method -->
+          <div
+            class="col-12 col-md-6"
+            *ngIf="show.paymentMethod && dropDownPaymentMethod.length > 0">
+            <mat-label>Payment Method</mat-label>
+            <app-dropdown-field
+              [placeholder]="'Select a payment method'"
+              formControlName="paymentMethod"
+              [clearable]="true"
+              [multiple]="true"
+              [options]="dropDownPaymentMethod"></app-dropdown-field>
+          </div>
+
           <!-- Payment From -->
           <div class="col-12 col-md-6" *ngIf="show.paymentFrom">
             <mat-label>Payment From</mat-label>

@@ -17,9 +17,9 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- Brokers (multi) -->
+    <!-- Agents (multi) -->
     <mat-form-field *ngIf="showAgents" appearance="outline">
-      <mat-label>Brokers</mat-label>
+      <mat-label>Agents</mat-label>
       <mat-select [(value)]="selectedAgents" multiple>
         <mat-option *ngFor="let agent of agents" [value]="agent.code">
           {{ agent.name }}

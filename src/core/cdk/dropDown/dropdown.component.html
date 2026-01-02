@@ -17,7 +17,7 @@
     <mat-icon
       matSuffix
       class="clear-icon"
-      *ngIf="clearable && form.get('value')?.value"
+      *ngIf="clearable && hasValue()"
       (click)="clearSelection($event)">
       close
     </mat-icon>
