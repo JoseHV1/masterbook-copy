@@ -10,6 +10,8 @@ import { PaginatedResponse } from 'src/app/shared/interfaces/models/paginated-re
 import { requestTutor } from '../../../../shared/tutors/request-tutor';
 import { TutorService } from '@app/shared/services/tutor.service';
 import { TutorsSlugsEnum } from '@app/shared/enums/tutors-slugs.enum';
+import { AuthService } from '@app/shared/services/auth.service';
+import { AuthModel } from '@app/shared/interfaces/models/auth.model';
 
 @Component({
   selector: 'app-requests-list',
@@ -33,10 +35,14 @@ export class RequestsListComponent
     private _requests: RequestsService,
     private _ui: UiService,
     public _url: UrlService,
-    private _tutor: TutorService
+    private _tutor: TutorService,
+    private _auth: AuthService
   ) {
     super();
-    this.filterConfig = this._requests.getRequestsListFilters();
+    const currentUser = this._auth.getAuth() as AuthModel;
+    this.filterConfig = this._requests.getRequestsListFilters(
+      currentUser.user.role as string
+    );
     this._fetchData(this.data.page, this.data.limit);
   }
 

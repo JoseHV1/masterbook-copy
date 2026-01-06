@@ -130,19 +130,29 @@
             formControlName="allow_email_notifications"
             color="primary"
             class="custom-checkbox"
-            >Would you like to receive email notifications?</mat-checkbox
+            >I accept to receive email notification?</mat-checkbox
           >
         </div>
 
         <ng-container *ngIf="dataUser.role !== 'INSURED'">
           <div class="col-12 col-md-6 mb-4 mb-md-0">
             <mat-checkbox
+              formControlName="allow_show_whatsapp_number"
+              color="primary"
+              class="custom-checkbox"
+              >I would like to share my WhatsApp number with my
+              insureds</mat-checkbox
+            >
+          </div>
+
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <mat-checkbox
               formControlName="allow_expiring_policies_notifications"
               color="primary"
               class="custom-checkbox"
-              >Would you like to receive notifications for upcoming policy
-              expirations and enable filters to view policies nearing their
-              expiration date?</mat-checkbox
+              >I would like to receive notifications for upcoming policy
+              expirations and filter policies nearing their expiration
+              date</mat-checkbox
             >
 
             <div

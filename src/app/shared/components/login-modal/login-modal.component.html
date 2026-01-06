@@ -19,16 +19,26 @@
         }}</small>
       </div>
       <div class="form-group mb-4">
-        <app-input
-          style="width: 23.75rem"
-          [icon]="'/assets/icons/lock.svg'"
-          type="password"
-          [placeholder]="'LOGIN.INPUT_PASSWORD' | translate"
-          formControlName="password"
-          [align]="'center'"
-          class="{{
-            invalidMinLength ? 'ng-invalid ng-dirty' : ''
-          }}"></app-input>
+        <div class="password-input">
+          <app-input
+            style="width: 23.75rem"
+            [icon]="'/assets/icons/lock.svg'"
+            [type]="showPassword ? 'text' : 'password'"
+            [placeholder]="'LOGIN.INPUT_PASSWORD' | translate"
+            formControlName="password"
+            [align]="'center'"
+            class="{{
+              invalidMinLength ? 'ng-invalid ng-dirty' : ''
+            }}"></app-input>
+          <button
+            type="button"
+            class="btn-eye"
+            (click)="showPassword = !showPassword">
+            <mat-icon>{{
+              showPassword ? 'visibility_off' : 'visibility'
+            }}</mat-icon>
+          </button>
+        </div>
         <small *ngIf="invalidMinLength" class="text-danger">{{
           'LOGIN.TEXT_PASSWORD_MINLEGHT_INVALID' | translate
         }}</small>

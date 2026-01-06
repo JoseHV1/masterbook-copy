@@ -9,5 +9,6 @@ export interface EditProfileRequest {
   gender: string;
   address_info: AddressInfoRequest;
   allow_email_notifications: boolean;
+  allow_show_whatsapp_number: boolean;
   days_expiring_policies_notifications: number | null;
 }

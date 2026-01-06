@@ -34,6 +34,11 @@ export class InternalMenuComponent {
     RolesEnum.AGENCY_OWNER,
   ];
 
+  canSeeInsurers: RolesEnum[] = [
+    RolesEnum.INDEPENDANT_BROKER,
+    RolesEnum.AGENCY_OWNER,
+  ];
+
   constructor(private _auth: AuthService) {
     const userRole = this._auth.getAuth()?.user.role as RolesEnum | undefined;
 
@@ -43,13 +48,18 @@ export class InternalMenuComponent {
       this.role = 'agent';
     }
 
-    this.menuItemRole = this.MENU_ITEMS[this.role];
+    this.menuItemRole = [...this.MENU_ITEMS[this.role]];
 
-    if (userRole === RolesEnum.INDEPENDANT_BROKER) {
-      this.menuItemRole = this.menuItemRole.filter(item => {
-        const isUsersItem = item.title === 'Users' || item.url === 'users';
-        return !isUsersItem;
-      });
+    if (userRole !== RolesEnum.AGENCY_OWNER) {
+      this.menuItemRole = this.menuItemRole.filter(
+        item => item.title !== 'Users' && item.url !== 'users'
+      );
+    }
+
+    if (!userRole || !this.canSeeInsurers.includes(userRole)) {
+      this.menuItemRole = this.menuItemRole.filter(
+        item => item.title !== 'Insurers' && item.url !== 'insurers'
+      );
     }
 
     if (!userRole || !this.canSeeReports.includes(userRole)) {

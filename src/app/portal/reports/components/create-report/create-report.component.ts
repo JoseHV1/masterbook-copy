@@ -24,6 +24,7 @@ export class ReportConfigComponent implements OnInit {
   form: FormGroup = new FormGroup({});
   accountsOptions!: DropdownOptionModel[];
   dropDownAccounts!: DropdownOptionModel[];
+  dropDownPaymentMethod: DropdownOptionModel[] = [];
   dropDownpaymentFrom!: DropdownOptionModel[];
   dropDownInsurers!: DropdownOptionModel[];
   dropDownBrokers!: DropdownOptionModel[];
@@ -183,6 +184,14 @@ export class ReportConfigComponent implements OnInit {
       { code: 'Insurer', name: 'Insurer' },
     ]);
 
+    // Select payment method
+    this.dropDownPaymentMethod = this.addAllOption([
+      { code: 'check', name: 'Check' },
+      { code: 'bank_transfer', name: 'Bank Transfer' },
+      { code: 'credit_card', name: 'Credit Card' },
+      { code: 'cash', name: 'Cash' },
+    ]);
+
     // Select insurer
     this._datasets.getInsuranceCompaniesDataset().subscribe({
       next: companies => {
@@ -246,6 +255,7 @@ export class ReportConfigComponent implements OnInit {
       insurer: !!cfg.show.insurer,
       account: !!cfg.show.account,
       paymentFrom: !!cfg.show.paymentFrom,
+      paymentMethod: !!cfg.show.paymentMethod,
       minTotalAmount: !!cfg.show.minTotalAmount,
       maxTotalAmount: !!cfg.show.maxTotalAmount,
       minCommissionPay: !!cfg.show.minCommissionPay,
@@ -387,16 +397,14 @@ export class ReportConfigComponent implements OnInit {
 
   onPreview() {
     if (!this.form.valid) return;
-    const v = this.value();
-    if (v.businessLine && !v.policyType) return;
-    this.preview.emit(v);
+    const values = this.value();
+    this.preview.emit(values);
   }
 
   onGenerate() {
     if (!this.form.valid) return;
-    const v = this.value();
-    if (v.businessLine && !v.policyType) return;
-    this.generate.emit(v);
+    const values = this.value();
+    this.generate.emit(values);
   }
 
   onPaymentFromChange(selected: any[]): void {
@@ -422,6 +430,6 @@ export class ReportConfigComponent implements OnInit {
     options: DropdownOptionModel[],
     label: string = 'All'
   ): DropdownOptionModel[] {
-    return [{ code: 'All', name: label }, ...options];
+    return [{ code: '', name: label }, ...options];
   }
 }

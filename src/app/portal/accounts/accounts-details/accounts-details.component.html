@@ -201,24 +201,23 @@
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <span class="subtitle-2 dark-blue-400"> Last Requests </span>
+              <span class="subtitle-2 dark-blue-400">Requests</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <app-requests-table
             *ngIf="requests"
             [filtersActive]="filtersActive"
             (refresh)="refreshRequests()"
-            [data]="requests"></app-requests-table>
-          <div
-            class="d-flex align-items-center justify-content-center"
-            *ngIf="account">
-            <button
-              class="primary-button back-light-blue-400 white my-2"
-              [routerLink]="['/portal/requests/new']"
-              [queryParams]="{ account: account._id }">
-              Create request
-            </button>
-          </div>
+            [data]="requests.records"></app-requests-table>
+
+          <mat-paginator
+            [length]="requests.total_records"
+            [pageSize]="requests.limit"
+            [pageIndex]="requests.page - 1"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event, 'requests')"
+            showFirstLastButtons>
+          </mat-paginator>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
@@ -228,14 +227,101 @@
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <span class="subtitle-2 dark-blue-400"> Last Policies </span>
+              <span class="subtitle-2 dark-blue-400">Policies</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <app-policies-table
             *ngIf="policies"
             [filtersActive]="filtersActive"
             (refresh)="refreshPolicies()"
-            [data]="policies"></app-policies-table>
+            [data]="policies.records"></app-policies-table>
+
+          <mat-paginator
+            [length]="policies.total_records"
+            [pageSize]="policies.limit"
+            [pageIndex]="policies.page - 1"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event, 'policies')"
+            showFirstLastButtons>
+          </mat-paginator>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="my-3">
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="subtitle-2 dark-blue-400">Claims</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-claims-table
+            *ngIf="claims"
+            [filtersActive]="filtersActive"
+            (refresh)="refreshClaims()"
+            [data]="claims.records"></app-claims-table>
+
+          <mat-paginator
+            [length]="claims.total_records"
+            [pageSize]="claims.limit"
+            [pageIndex]="claims.page - 1"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event, 'claims')"
+            showFirstLastButtons>
+          </mat-paginator>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="my-3">
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="subtitle-2 dark-blue-400">Payments</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-payments-table
+            *ngIf="payments"
+            [filtersActive]="filtersActive"
+            (refresh)="refreshPayments()"
+            [data]="payments.records"></app-payments-table>
+
+          <mat-paginator
+            [length]="payments.total_records"
+            [pageSize]="payments.limit"
+            [pageIndex]="payments.page - 1"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event, 'payments')"
+            showFirstLastButtons>
+          </mat-paginator>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="my-3">
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="subtitle-2 dark-blue-400">Invoices</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-invoices-table
+            *ngIf="invoices"
+            [filtersActive]="filtersActive"
+            (refresh)="refreshInvoices()"
+            [data]="invoices.records"></app-invoices-table>
+
+          <mat-paginator
+            [length]="invoices.total_records"
+            [pageSize]="invoices.limit"
+            [pageIndex]="invoices.page - 1"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event, 'invoices')"
+            showFirstLastButtons>
+          </mat-paginator>
         </mat-expansion-panel>
       </mat-accordion>
     </div>

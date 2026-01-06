@@ -34,10 +34,6 @@ export class ProfileFormComponent implements OnInit {
   dropDownGender: DropdownOptionModel[] = enumToDropDown(GenderEnum);
   today: Date = new Date();
   isEditing: boolean = false;
-
-  // -----------------------------
-  // Fake Google OAuth Connection
-  // -----------------------------
   googleConnection: FakeGoogleConnection | null = null;
   private readonly GOOGLE_STORAGE_KEY = 'masterbook_google_connection';
 
@@ -71,7 +67,6 @@ export class ProfileFormComponent implements OnInit {
         this._cd.detectChanges();
       },
       error: err => {
-        console.error('[Google Status API ERROR]', err);
         this.googleConnection = null;
       },
     });
@@ -100,23 +95,17 @@ export class ProfileFormComponent implements OnInit {
     this._profile
       .disconnectGoogle()
       .pipe(
-        // optional: refresh status after disconnect
         switchMap(() => this._profile.getGoogleStatus()),
         finalize(() => this._ui.hideLoader())
       )
       .subscribe({
         next: status => {
-          // if you keep a boolean like isGoogleConnected:
-          // this.isGoogleConnected = status.google.connected;
-
-          // If you keep googleConnection object:
           if (!status.google.connected) this.googleConnection = null;
 
           this._ui.showAlertSuccess('Google disconnected');
           this._cd.detectChanges();
         },
         error: () => {
-          // use whatever your app uses for errors
           this._ui.showAlertError?.('Failed to disconnect Google');
         },
       });
@@ -134,9 +123,6 @@ export class ProfileFormComponent implements OnInit {
     }
   }
 
-  // -----------------------------
-  // Existing Profile Logic
-  // -----------------------------
   handleEditSave(): void {
     if (this.isEditing) {
       this.send();
@@ -165,6 +151,7 @@ export class ProfileFormComponent implements OnInit {
       license_expires_at: user.broker?.license_expires_at,
       profile_image: user?.photo_url,
       allow_email_notifications: user?.allow_email_notifications ?? false,
+      allow_show_whatsapp_number: user?.allow_show_whatsapp_number ?? false,
       allow_expiring_policies_notifications:
         !!user?.days_expiring_policies_notifications,
       days_expiring_policies_notifications:
@@ -217,6 +204,7 @@ export class ProfileFormComponent implements OnInit {
         zipcode: this.form.value.zipcode ?? '',
       },
       allow_email_notifications: this.form.value.allow_email_notifications,
+      allow_show_whatsapp_number: this.form.value.allow_show_whatsapp_number,
       days_expiring_policies_notifications:
         this.form.value.days_expiring_policies_notifications ?? null,
     };

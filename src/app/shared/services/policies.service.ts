@@ -23,6 +23,7 @@ import { ConfiguredInsurerAsyncValidator } from 'src/app/shared/helpers/configur
 import { InsurerService } from './insurer.service';
 import { PolicyCategoryEnum } from '../enums/policy-category.enum';
 import { AuthService } from './auth.service';
+import { RolesEnum } from '../enums/roles.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +40,7 @@ export class PoliciesService {
 
   createUploadFileForm(): FormGroup {
     return new FormGroup({
-      upload_file: new FormControl(null, []),
+      upload_file: new FormControl(null, [Validators.required]),
       insurers_mapping: new FormArray([]),
     });
   }
@@ -175,7 +176,7 @@ export class PoliciesService {
       .pipe(map(resp => resp.data));
   }
 
-  getPolicyListFilters(): FilterWrapperModel {
+  getPolicyListFilters(role: string): FilterWrapperModel {
     let filters = [
       {
         label: 'Creation date',
@@ -257,19 +258,27 @@ export class PoliciesService {
 
     this._auth.refreshAuth().subscribe(authUser => {
       if (authUser.days_expiring_policies_notifications) {
-        policyOptions.splice(1, 0, {
+        policyOptions.push({
           code: 'nearing_expired',
           name: 'Policies Nearing Expired',
         });
       }
     });
 
-    filters.splice(3, 0, {
+    filters.push({
       label: 'Policies',
       name: 'policies',
       type: FilterTypeEnum.MULTISELECT,
       options: of(policyOptions),
     });
+
+    if (role === RolesEnum.INSURED) {
+      filters = filters.filter(
+        f => f.name !== 'broker_id' && f.name !== 'client_id'
+      );
+    } else if (role === RolesEnum.AGENCY_BROKER) {
+      filters = filters.filter(f => f.name !== 'broker_id');
+    }
 
     return { filters };
   }

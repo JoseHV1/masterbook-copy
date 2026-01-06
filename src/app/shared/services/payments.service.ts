@@ -17,16 +17,7 @@ import {
 import { CreatePaymentsTransactionsRequest } from '../interfaces/requests/payments-transactions/create-payments-transactions.request';
 import { DatasetsService } from './dataset.service';
 import { PaymentEntityEnum } from '../enums/payment-entity.enum';
-
-export type PaymentsQuery = {
-  status?: string;
-  policy_id?: string;
-  client_id?: string;
-  broker_id?: string;
-  sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
-  search?: string;
-};
+import { PaymentMethodEnum } from '../enums/payment-method.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +36,7 @@ export class PaymentsService {
     const paymentForm = new FormGroup({
       payment_from: new FormControl(null, [Validators.required]),
       payment_date: new FormControl(null, [Validators.required]),
+      method: new FormControl(null, [Validators.required]),
       total_amount: new FormControl(null, [
         Validators.required,
         Validators.maxLength(10),
@@ -131,6 +123,12 @@ export class PaymentsService {
           name: 'status',
           type: FilterTypeEnum.MULTISELECT,
           options: of(enumToDropDown(PaymentTransactionStatusEnum)),
+        },
+        {
+          label: 'Payment Method',
+          name: 'payment_method',
+          type: FilterTypeEnum.MULTISELECT,
+          options: of(enumToDropDown(PaymentMethodEnum)),
         },
         {
           label: 'Entity',

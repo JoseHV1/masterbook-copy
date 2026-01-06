@@ -12,6 +12,7 @@ import { finalize } from 'rxjs';
 import { ModalUploadFileComponent } from '@app/shared/components/modal-upload-file/modal-upload-file.component';
 import { UploadFileService } from './../../../services/upload_file.service';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { InsurerService } from 'src/app/shared/services/insurer.service';
 import { hasError } from 'src/app/shared/helpers/has-error.helper.ts';
 import { UploadFileRequest } from 'src/app/shared/interfaces/requests/upload-file/upload-file.request';
 
@@ -37,16 +38,21 @@ export class TabUploadFileComponent {
   constructor(
     private _ui: UiService,
     private _uploadFile: UploadFileService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _insurer: InsurerService
   ) {
     this.form = this._uploadFile.createNewUploadFileForm();
   }
 
-  openModal(): void {
+  openModal(fileData?: any, insurers: any[] = []): void {
     const dialogRef = this._dialog.open(ModalUploadFileComponent, {
       width: '600px',
       panelClass: 'custom-dialog-container',
-      data: { entity: this.entity },
+      data: {
+        entity: this.entity,
+        upload_file: fileData,
+        insurers: insurers,
+      },
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -64,7 +70,7 @@ export class TabUploadFileComponent {
     };
 
     if (this.entity === 'policies' && result.insurers_mapping) {
-      payload.insurers = result.insurers_mapping.map((item: any) => ({
+      payload.dictionary = result.insurers_mapping.map((item: any) => ({
         id: item.id,
         custom_name: item.custom_name,
       }));
@@ -88,17 +94,47 @@ export class TabUploadFileComponent {
     reader.readAsDataURL(file);
     reader.onload = () => {
       const base64 = reader.result as string;
+      const fileData = { name: file.name, document: base64 };
 
-      const payload: UploadFileRequest = {
-        file_name: file.name,
-        file_base64: base64,
-        entity: this.entity,
-      };
-
-      this.sendToApi(payload);
+      if (this.entity === 'policies') {
+        this.loadInsurersAndOpenModal(fileData);
+      } else {
+        this.sendToApi({
+          file_name: file.name,
+          file_base64: base64,
+          entity: this.entity,
+        });
+      }
     };
 
     event.target.value = '';
+  }
+
+  private loadInsurersAndOpenModal(fileData: {
+    name: string;
+    document: string;
+  }): void {
+    this._ui.showLoader();
+    this.isLoading = true;
+
+    this._insurer
+      .getInsurers()
+      .pipe(
+        finalize(() => {
+          this._ui.hideLoader();
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        next: (insurers: any[]) => {
+          this.openModal(fileData, insurers);
+        },
+        error: () => {
+          this._ui.showAlertError(
+            'Could not load insurers list. Please try again.'
+          );
+        },
+      });
   }
 
   private sendToApi(payload: any): void {

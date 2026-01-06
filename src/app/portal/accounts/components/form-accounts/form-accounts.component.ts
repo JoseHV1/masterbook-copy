@@ -224,7 +224,7 @@ export class FormAccountsComponent implements OnChanges, OnDestroy {
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: clientName,
-          url: ['/portal/accounts', account._id],
+          url: ['/portal/accounts', account.serial],
         },
       })
       .subscribe(result => {

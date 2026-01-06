@@ -20,6 +20,7 @@ export interface ReportTypeConfig {
     insurer?: boolean;
     account?: boolean;
     paymentFrom?: boolean;
+    paymentMethod?: boolean;
     minTotalAmount?: boolean;
     maxTotalAmount?: boolean;
     minCommissionPay?: boolean;
@@ -70,6 +71,7 @@ export interface ReportFilters {
   insurer: string | '';
   account: string | '';
   paymentFrom: 'Account' | 'Insurer' | string;
+  paymentMethod: string | '';
   minTotalAmount: number | null;
   maxTotalAmount: number | null;
   minCommissionPay: number | null;
@@ -252,6 +254,7 @@ export const CONFIG_BY_TYPE: Record<ReportType, ReportTypeConfig> = {
       insurer: true,
       account: true,
       paymentFrom: true,
+      paymentMethod: true,
       minTotalAmount: true,
       maxTotalAmount: true,
       groupBy: true,
@@ -259,8 +262,9 @@ export const CONFIG_BY_TYPE: Record<ReportType, ReportTypeConfig> = {
       sort: true,
     },
     statusOptions: [
-      { code: 'full_paid', name: 'Fully Used' },
-      { code: 'partially_paid', name: 'Partially Used' },
+      { code: 'available', name: 'Available' },
+      { code: 'partially_paid', name: 'Partially Paid' },
+      { code: 'full_paid', name: 'Full Paid' },
     ],
     groupByOptions: [
       { code: '', name: 'No grouping' },

@@ -5,6 +5,8 @@ import { FilterWrapperModel } from 'src/app/shared/models/filters.model';
 import { PaginatedResponse } from 'src/app/shared/interfaces/models/paginated-response.model';
 import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filtered-table.base';
 import { CommissionsService } from 'src/app/shared/services/commissions.service';
+import { AuthService } from '@app/shared/services/auth.service';
+import { AuthModel } from '@app/shared/interfaces/models/auth.model';
 
 @Component({
   selector: 'app-commissions-list',
@@ -22,10 +24,14 @@ export class CommissionsListComponent extends FilteredTable<any> {
 
   constructor(
     private _commissions: CommissionsService,
-    private _ui: UiService
+    private _ui: UiService,
+    private _auth: AuthService
   ) {
     super();
-    this.filterConfig = this._commissions.getCommissionsListFilters();
+    const currentUser = this._auth.getAuth() as AuthModel;
+    this.filterConfig = this._commissions.getCommissionsListFilters(
+      currentUser.user.role as string
+    );
     this._fetchData(this.data.page, this.data.limit);
   }
 

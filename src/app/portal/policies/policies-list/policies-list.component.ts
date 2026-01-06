@@ -9,6 +9,8 @@ import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filter
 import { PaginatedResponse } from 'src/app/shared/interfaces/models/paginated-response.model';
 import { PopulatedPolicyModel } from 'src/app/shared/interfaces/models/policy.model';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '@app/shared/services/auth.service';
+import { AuthModel } from '@app/shared/interfaces/models/auth.model';
 
 @Component({
   selector: 'app-policies-list',
@@ -29,7 +31,8 @@ export class PoliciesListComponent extends FilteredTable<PopulatedPolicyModel> {
     private _policies: PoliciesService,
     private _ui: UiService,
     public url: UrlService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _auth: AuthService
   ) {
     super();
 
@@ -38,7 +41,10 @@ export class PoliciesListComponent extends FilteredTable<PopulatedPolicyModel> {
       this.filterText = '&policies=nearing_expired';
     }
 
-    this.filterConfig = this._policies.getPolicyListFilters();
+    const currentUser = this._auth.getAuth() as AuthModel;
+    this.filterConfig = this._policies.getPolicyListFilters(
+      currentUser.user.role as string
+    );
     this._fetchData(this.data.page, this.data.limit);
   }
 

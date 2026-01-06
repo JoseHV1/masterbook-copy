@@ -17,6 +17,7 @@ import { ERRORS_LIBRARY } from '../../enums/error-library';
 })
 export class LoginModalComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
+  showPassword = false;
   formLogin!: FormGroup;
   emailNotVerified: boolean = false;
   email_to_resend?: string;

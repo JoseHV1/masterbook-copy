@@ -7,7 +7,6 @@ import { MatTableModule } from '@angular/material/table';
 import { ClaimsTableComponent } from './claims-table.component';
 import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
 import { FiltersModule } from 'src/app/shared/components/filters/filters.module';
-import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [ClaimsTableComponent],

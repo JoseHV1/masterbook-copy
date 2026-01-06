@@ -30,6 +30,8 @@ import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { PaymentTransactionModel } from 'src/app/shared/models/payment-transaction.model';
 import { DropdownOptionModel } from 'src/app/shared/models/dropdown-option.model';
 import { SearchCheckCommissionConfig } from 'src/app/shared/interfaces/models/search-check-commission-config';
+import { enumToDropDown } from '@app/shared/helpers/enum-to-dropdown.helper';
+import { PaymentMethodEnum } from '@app/shared/enums/payment-method.enum';
 
 @Component({
   selector: 'app-form-payments',
@@ -49,6 +51,9 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
   showPaymentApplications: boolean = false;
   lastOpenBalanceValue: number = 0;
   paramsBySearchPolicies!: { param: string; id: string };
+
+  dropDownPaymentMethod: DropdownOptionModel[] =
+    enumToDropDown(PaymentMethodEnum);
 
   isInvalid = isInvalid;
   hasError = hasError;
@@ -473,7 +478,7 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
             total_amount: formValues.total_amount,
             ach_number: formValues.check_number || null,
             date: formValues.payment_date,
-            method: 'bank_transfer',
+            method: formValues.method,
             retentions: formValues.retentions ?? 0,
             taxes: formValues.taxes ?? 0,
             subtotal: formValues.subtotal ?? 0,
@@ -507,7 +512,7 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: paymentSerial,
-          url: ['/portal/payments', payment._id],
+          url: ['/portal/payments', payment.serial],
         },
       })
       .subscribe(result => {

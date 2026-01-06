@@ -277,7 +277,7 @@ export class PolicyFormComponent implements OnInit {
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: `#${serial}`,
-          url: ['/portal/policies', _id],
+          url: ['/portal/policies', serial],
         },
       })
       .subscribe(result => {

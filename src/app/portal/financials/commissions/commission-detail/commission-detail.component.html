@@ -43,7 +43,7 @@
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             <span
               (click)="
-                _url.navigateTo('portal/invoices', commission.invoice?._id)
+                _url.navigateTo('portal/invoices', commission.invoice?.serial)
               "
               style="color: #00aaff; cursor: pointer"
               >{{ commission.invoice?.serial | notNull }}</span
@@ -58,7 +58,7 @@
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             <span
               (click)="
-                _url.navigateTo('portal/policies', commission.policy?._id)
+                _url.navigateTo('portal/policies', commission.policy?.serial)
               "
               style="color: #00aaff; cursor: pointer"
               >{{ commission.policy?.serial | notNull }}</span
@@ -69,10 +69,12 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Broker</div>
+          <div class="col-12 col-md-4 black px-2 py-2">Agent</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             <span
-              (click)="_url.navigateTo('portal/users', commission.broker?._id)"
+              (click)="
+                _url.navigateTo('portal/users', commission.broker?.serial)
+              "
               style="color: #00aaff; cursor: pointer"
               >{{
                 commission.broker?.user?.first_name +

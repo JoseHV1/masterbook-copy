@@ -21,9 +21,10 @@ export class PagesLayoutComponent {
   @Output() btnClick: EventEmitter<void> = new EventEmitter();
   @Output() btnInfoClick: EventEmitter<void> = new EventEmitter();
 
-  isPaid = false;
-  isOwner = false;
-  isInsured = false;
+  isPaid: boolean = false;
+  isOwner: boolean = false;
+  isInsured: boolean = false;
+  canShowNumberBroker: boolean = false;
   contactNumberBroker?: string;
 
   constructor(
@@ -35,25 +36,22 @@ export class PagesLayoutComponent {
     const userRole = user?.role as RolesEnum | undefined;
     const agency = user?.agency;
 
-    // 🔹 For ADMIN, consider pages "paid"/unrestricted
     this.isPaid =
       userRole === RolesEnum.ADMIN ||
       agency?.payment_status === PAYMENT_STATUS.PAYED;
 
-    // 🔹 Who can manage payments (owner / independent broker)
     this.isOwner =
       userRole === RolesEnum.AGENCY_OWNER ||
       userRole === RolesEnum.INDEPENDANT_BROKER;
 
-    // 🔹 Insured flag
     this.isInsured = userRole === RolesEnum.INSURED;
     if (this.isInsured) {
       this.contactNumberBroker = user?.broker?.contact_number;
+      this.canShowNumberBroker = user?.broker?.can_show_contact_number ?? false;
     }
   }
 
   goToPaymentIntent(): void {
-    // only owners / independent brokers can pay
     if (!this.isOwner) return;
 
     const userRole = this._auth.getAuth()?.user.role as RolesEnum | undefined;

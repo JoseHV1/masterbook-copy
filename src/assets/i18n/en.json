@@ -271,6 +271,7 @@
     "INVALID_STATUS": "Invalid status.",
     "INVALID_AGENCY_ID": "Invalid agency ID.",
     "INVALID_INVOICE_ID": "Invalid invoice ID.",
+    "INVALID_CLAIM_ID": "Invalid claim ID.",
     "PROPERTY_AGENT_ID_REQUIRED": "The agent_id field is required.",
     "PROPERTY_BROKER_ID_REQUIRED": "The broker_id field is required.",
     "INVALID_COMMISSION_CONFIG": "Invalid commission configuration.",

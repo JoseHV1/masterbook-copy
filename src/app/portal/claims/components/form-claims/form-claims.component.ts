@@ -337,7 +337,7 @@ export class FormClaimsComponent implements OnInit {
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: claimSerial,
-          url: ['/portal/claims', claimId],
+          url: ['/portal/claims', claimSerial],
         },
       })
       .subscribe(result => {
