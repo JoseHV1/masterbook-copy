@@ -101,8 +101,62 @@ export class RequestsService {
       .pipe(map(resp => resp.data));
   }
 
+  // getRequestsListFilters(role: string): FilterWrapperModel {
+  //   const isInsured = role === RolesEnum.INSURED;
+
+  //   const allFilters = [
+  //     {
+  //       label: 'Creation date',
+  //       name: 'created_at_date',
+  //       type: FilterTypeEnum.DATE_RANGE,
+  //     },
+  //     {
+  //       label: 'Status',
+  //       name: 'status',
+  //       type: FilterTypeEnum.MULTISELECT,
+  //       options: of(enumToDropDown(RequestStatusEnum)),
+  //     },
+  //     {
+  //       label: 'Agent',
+  //       name: 'broker_id',
+  //       type: FilterTypeEnum.AGENT_SELECTOR,
+  //     },
+  //     {
+  //       label: 'Client',
+  //       name: 'client_id',
+  //       type: FilterTypeEnum.CLIENT_SELECTOR,
+  //     },
+  //     {
+  //       label: 'Category',
+  //       name: 'category',
+  //       type: FilterTypeEnum.MULTISELECT,
+  //       options: of(enumToDropDown(PolicyCategoryEnum)),
+  //     },
+  //     {
+  //       label: 'Min coverage',
+  //       name: 'min_coverage',
+  //       type: FilterTypeEnum.CURRENCY,
+  //     },
+  //     {
+  //       label: 'Max coverage',
+  //       name: 'max_coverage',
+  //       type: FilterTypeEnum.CURRENCY,
+  //     },
+  //   ];
+
+  //   const filteredFilters = allFilters.filter(item => {
+  //     if (isInsured) {
+  //       return item.name !== 'broker_id' && item.name !== 'client_id';
+  //     }
+  //     return true;
+  //   });
+
+  //   return { filters: filteredFilters };
+  // }
+
   getRequestsListFilters(role: string): FilterWrapperModel {
     const isInsured = role === RolesEnum.INSURED;
+    const isAgencyBroker = role === RolesEnum.AGENCY_BROKER;
 
     const allFilters = [
       {
@@ -148,6 +202,11 @@ export class RequestsService {
       if (isInsured) {
         return item.name !== 'broker_id' && item.name !== 'client_id';
       }
+
+      if (isAgencyBroker) {
+        return item.name !== 'broker_id';
+      }
+
       return true;
     });
 

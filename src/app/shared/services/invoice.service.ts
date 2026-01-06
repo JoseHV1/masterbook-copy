@@ -40,6 +40,7 @@ export class InvoiceService {
 
   getInvoicesListFilters(role: string): FilterWrapperModel {
     const isInsured = role === RolesEnum.INSURED;
+    const isAgencyBroker = role === RolesEnum.AGENCY_BROKER;
 
     const filters = [
       {
@@ -98,6 +99,11 @@ export class InvoiceService {
           item.name !== 'account_id'
         );
       }
+
+      if (isAgencyBroker) {
+        return item.name !== 'broker_id';
+      }
+
       return true;
     });
 

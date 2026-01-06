@@ -276,6 +276,8 @@ export class PoliciesService {
       filters = filters.filter(
         f => f.name !== 'broker_id' && f.name !== 'client_id'
       );
+    } else if (role === RolesEnum.AGENCY_BROKER) {
+      filters = filters.filter(f => f.name !== 'broker_id');
     }
 
     return { filters };
