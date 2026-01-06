@@ -512,7 +512,7 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: paymentSerial,
-          url: ['/portal/payments', payment._id],
+          url: ['/portal/payments', payment.serial],
         },
       })
       .subscribe(result => {

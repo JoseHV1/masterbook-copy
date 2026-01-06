@@ -144,7 +144,7 @@ export class FormUsersComponent implements OnInit, OnChanges {
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: fullname,
-          url: ['/portal/users', user._id],
+          url: ['/portal/users', user.serial],
         },
       })
       .subscribe(result => {

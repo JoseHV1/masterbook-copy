@@ -13,7 +13,7 @@
 
   <!-- Botón WhatsApp -->
   <a
-    *ngIf="isInsured"
+    *ngIf="isInsured && canShowNumberBroker"
     [href]="'https://wa.me/' + contactNumberBroker"
     target="_blank"
     class="action-button whatsapp">

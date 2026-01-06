@@ -17,6 +17,7 @@ export interface BrokerModel {
   createdAt: Date;
   updatedAt: Date;
   contact_number?: string;
+  can_show_contact_number?: boolean;
 }
 
 export interface PopulatedBrokerModel extends BrokerModel {

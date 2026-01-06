@@ -137,6 +137,16 @@
         <ng-container *ngIf="dataUser.role !== 'INSURED'">
           <div class="col-12 col-md-6 mb-4 mb-md-0">
             <mat-checkbox
+              formControlName="allow_show_whatsapp_number"
+              color="primary"
+              class="custom-checkbox"
+              >I would like to show your whatsapp number my
+              insureds</mat-checkbox
+            >
+          </div>
+
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <mat-checkbox
               formControlName="allow_expiring_policies_notifications"
               color="primary"
               class="custom-checkbox"
