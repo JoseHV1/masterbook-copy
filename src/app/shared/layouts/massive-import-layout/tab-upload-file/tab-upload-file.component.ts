@@ -161,9 +161,11 @@ export class TabUploadFileComponent {
   downloadTemplate(): void {
     const templates: Record<string, string> = {
       accounts:
-        'https://accounts-template.s3.us-east-1.amazonaws.com/accounts-template.xlsx',
+        'https://my-masterbook-prod.s3.us-west-2.amazonaws.com/templates/accounts-template.xlsx',
+      // 'https://accounts-template.s3.us-east-1.amazonaws.com/accounts-template.xlsx', //TODO ESTO ES PARA DEV Y PRUEBAS
       policies:
-        'https://policies-template.s3.us-east-1.amazonaws.com/policies-template.xlsx',
+        'https://my-masterbook-prod.s3.us-west-2.amazonaws.com/templates/policies-template.xlsx',
+      // 'https://policies-template.s3.us-east-1.amazonaws.com/policies-template.xlsx', //TODO ESTO ES PARA DEV Y PRUEBAS
     };
 
     const url = templates[this.entity];
