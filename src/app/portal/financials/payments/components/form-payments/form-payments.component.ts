@@ -12,7 +12,7 @@ import {
   AbstractControl,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { hasError } from 'src/app/shared/helpers/has-error.helper.ts';
 import { isInvalid } from 'src/app/shared/helpers/is-invalid.helper';
@@ -64,6 +64,7 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
     private authService: AuthService,
     private _invoices: InvoiceService,
     private _commissions: CommissionsService,
+    private _activateRoute: ActivatedRoute,
     private _agencySettings: AgencySettingsService,
     private _ui: UiService,
     public _url: UrlService
@@ -71,6 +72,17 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     this.form = this._payments.getPaymentsForm();
+
+    this.selectedAccountId =
+      this._activateRoute.snapshot.queryParams['account'];
+    if (this.selectedAccountId) {
+      this.form.patchValue({
+        payment_from: '1',
+        account: this.selectedAccountId,
+      });
+      this.onSelectAccount(this.selectedAccountId);
+    }
+
     this.addPaymentApplication();
 
     this.paymentApplications.valueChanges.subscribe(() => {
@@ -350,13 +362,18 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
 
   onSelectAccount(account: any): void {
     if (account) {
-      this.selectedAccountId = account;
+      const accountId = typeof account === 'string' ? account : account._id;
+
+      this.selectedAccountId = accountId;
       this.paramsBySearchPolicies = {
         param: 'account_id',
-        id: account,
+        id: accountId,
       };
+
       this.form.setControl('paymentApplications', new FormArray([]));
       this.addPaymentApplication();
+
+      this.showPaymentApplications = true;
     }
   }
 
