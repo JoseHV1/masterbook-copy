@@ -40,7 +40,7 @@
           class="light-blue-700"
           matTooltip="Go to policy details"
           style="cursor: pointer">
-          #{{ element.policy.serial | notNull }}
+          #{{ element.policy.policy_number | notNull }}
         </span>
         <ng-template #notPolicyNumber>N/A</ng-template>
       </td>

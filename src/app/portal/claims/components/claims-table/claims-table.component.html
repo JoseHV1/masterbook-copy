@@ -26,7 +26,7 @@
         *matCellDef="let element"
         class="light-blue-700"
         style="cursor: pointer"
-        (click)="_url.navigateTo('portal/policies', element.policy_id)">
+        (click)="_url.navigateTo('portal/policies', element.serial)">
         {{ element.policy.policy_number | notNull }}
       </td>
     </ng-container>
