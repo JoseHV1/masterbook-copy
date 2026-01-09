@@ -1,48 +1,72 @@
-<div class="px-3 px-md-4 pb-4">
+<div data-testid="login-modal" class="px-3 px-md-4 pb-4">
   <div
     class="d-flex aling-items-center justify-content-center mb-4 text-selection-disable">
-    <img src="/assets/images/home/logo.png" alt="mobile toggle" />
+    <img
+      src="/assets/images/home/logo.png"
+      alt="mobile toggle"
+      data-testid="login-logo" />
   </div>
+
   <div class="d-flex flex-column justify-content-between gap-4">
-    <form [formGroup]="formLogin">
+    <form [formGroup]="formLogin" data-testid="login-form">
+      <!-- EMAIL -->
       <div class="form-group mb-4">
         <app-input
+          data-testid="login-email-wrapper"
+          [dataTestId]="'login-email'"
           style="width: 23.75rem"
           [icon]="'/assets/icons/email.svg'"
           type="email"
           [placeholder]="'LOGIN.INPUT_EMAIL' | translate"
           formControlName="email"
           [align]="'center'"
-          class="{{ invalidEmail ? 'ng-invalid ng-dirty' : '' }}"></app-input>
-        <small *ngIf="invalidEmail" class="text-danger" style="font-size: 12">{{
-          'LOGIN.TEXT_EMAIL_INVALID' | translate
-        }}</small>
+          class="{{ invalidEmail ? 'ng-invalid ng-dirty' : '' }}">
+        </app-input>
+
+        <small
+          *ngIf="invalidEmail"
+          class="text-danger"
+          style="font-size: 12"
+          data-testid="login-email-error">
+          {{ 'LOGIN.TEXT_EMAIL_INVALID' | translate }}
+        </small>
       </div>
+
+      <!-- PASSWORD -->
       <div class="form-group mb-4">
         <div class="password-input">
           <app-input
+            data-testid="login-password-wrapper"
+            [dataTestId]="'login-password'"
             style="width: 23.75rem"
             [icon]="'/assets/icons/lock.svg'"
             [type]="showPassword ? 'text' : 'password'"
             [placeholder]="'LOGIN.INPUT_PASSWORD' | translate"
             formControlName="password"
             [align]="'center'"
-            class="{{
-              invalidMinLength ? 'ng-invalid ng-dirty' : ''
-            }}"></app-input>
+            class="{{ invalidMinLength ? 'ng-invalid ng-dirty' : '' }}">
+          </app-input>
+
           <button
             type="button"
             class="btn-eye"
-            (click)="showPassword = !showPassword">
-            <mat-icon>{{
-              showPassword ? 'visibility_off' : 'visibility'
-            }}</mat-icon>
+            (click)="showPassword = !showPassword"
+            data-testid="login-toggle-password">
+            <mat-icon>
+              {{ showPassword ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
           </button>
         </div>
-        <small *ngIf="invalidMinLength" class="text-danger">{{
-          'LOGIN.TEXT_PASSWORD_MINLEGHT_INVALID' | translate
-        }}</small>
+
+        <small
+          *ngIf="invalidMinLength"
+          class="text-danger"
+          data-testid="login-password-error">
+          {{ 'LOGIN.TEXT_PASSWORD_MINLEGHT_INVALID' | translate }}
+        </small>
       </div>
+
+      <!-- ACTIONS -->
       <div class="d-flex align-items-content justify-content-center">
         <div
           class="col-6 d-block d-md-flex align-items-center justify-content-end text-center ps-lg-4 order-2"
@@ -50,6 +74,7 @@
             'col-12 justify-content-center': currencyRoute !== 'agents'
           }">
           <button
+            data-testid="login-submit"
             class="primary-button big-button back-light-blue-500 white"
             (click)="login()"
             [disabled]="formLogin.invalid">
@@ -61,6 +86,7 @@
           class="col-6 d-block d-md-flex align-items-center justify-content-start text-center order-1"
           *ngIf="currencyRoute === 'agents'">
           <button
+            data-testid="login-signup"
             class="primary-button big-button back-gray-500 white"
             (click)="showModalSignup()">
             {{ 'GENERAL.SIGN_UP' | translate }}
@@ -68,18 +94,31 @@
         </div>
       </div>
     </form>
-    <div class="text-center mt-1" *ngIf="emailNotVerified">
+
+    <!-- EMAIL NOT VERIFIED -->
+    <div
+      class="text-center mt-1"
+      *ngIf="emailNotVerified"
+      data-testid="login-email-not-verified">
       <p class="resend-token text-2-small">
         {{ 'LOGIN.TEXT_1_ALERT' | translate }}
-        <a class="link-resend-token" (click)="resendToken()">{{
-          'LOGIN.TEXT_2_ALERT' | translate
-        }}</a>
+        <a
+          class="link-resend-token"
+          (click)="resendToken()"
+          data-testid="login-resend-token">
+          {{ 'LOGIN.TEXT_2_ALERT' | translate }}
+        </a>
         {{ 'LOGIN.TEXT_3_ALERT' | translate }}
       </p>
     </div>
+
+    <!-- FORGOT PASSWORD -->
     <div
       class="d-flex align-items-content justify-content-center text-selection-disable my-3">
-      <h5 class="link-forgot-pass" (click)="showModalForgot()">
+      <h5
+        class="link-forgot-pass"
+        (click)="showModalForgot()"
+        data-testid="login-forgot-password">
         {{ 'GENERAL.FORGOT_PASSWORD' | translate }}
       </h5>
     </div>

@@ -67,7 +67,7 @@ export class PolicySelectorComponent implements ControlValueAccessor {
       this._policy.findPolicies().subscribe(response => {
         this.items = (response as any).map((policy: any) => ({
           ...policy,
-          display: `${policy.policy_number} - ${policy.client_id.account_name} (${policy.policy_type_id.business_line_id.name} - ${policy.policy_type_id.name})`,
+          display: `${policy.serial} - ${policy.client_id.account_name} (${policy.policy_type_id.business_line_id.name} - ${policy.policy_type_id.name})`,
         }));
       });
     } else {
@@ -76,7 +76,7 @@ export class PolicySelectorComponent implements ControlValueAccessor {
         .subscribe(response => {
           this.items = (response as any).map((policy: any) => ({
             ...policy,
-            display: `${policy.policy_number} - ${policy.client_id.account_name} (${policy.policy_type_id.business_line_id.name} - ${policy.policy_type_id.name})`,
+            display: `${policy.serial} - ${policy.client_id.account_name} (${policy.policy_type_id.business_line_id.name} - ${policy.policy_type_id.name})`,
           }));
         });
     }
@@ -102,7 +102,7 @@ export class PolicySelectorComponent implements ControlValueAccessor {
   }
 
   formatPolicy(policy: any) {
-    return `${policy.policy_number} - ${policy.client_id.account_name} (${policy.policy_type_id.business_line_id.name} - ${policy.policy_type_id.name}) `;
+    return `${policy.serial} - ${policy.client_id.account_name} (${policy.policy_type_id.business_line_id.name} - ${policy.policy_type_id.name}) `;
   }
 
   writeValue(value: PolicyListModel): void {

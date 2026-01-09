@@ -40,6 +40,8 @@ export class FormAccountsComponent implements OnChanges, OnDestroy {
   addZero = addZero;
   today = new Date();
 
+  private submitting = false;
+
   constructor(
     private _accounts: AccountsService,
     private _router: Router,
@@ -165,33 +167,33 @@ export class FormAccountsComponent implements OnChanges, OnDestroy {
   }
 
   sendForm() {
+    if (this.submitting) return;
+    this.submitting = true;
+
     this.form.markAsDirty();
     this.form.markAllAsTouched();
 
     if (this.form.invalid) {
+      this.submitting = false;
       return;
     }
 
     this._ui.showLoader();
-    if (!this.data) {
-      const req = this._getDataAsRequest() as CreateAccountRequest;
-      this._accounts
-        .createAccount(req)
-        .pipe(finalize(() => this._ui.hideLoader()))
-        .subscribe(account => {
-          this.form.reset();
-          this._openSuccessModal(account);
-        });
-    } else {
-      const req = this._getDataAsRequest() as UpdateAccountRequest;
-      this._accounts
-        .updateAccount(this.data._id, req)
-        .pipe(finalize(() => this._ui.hideLoader()))
-        .subscribe(account => {
-          this.form.reset();
-          this._openSuccessModal(account);
-        });
-    }
+
+    const req = this._getDataAsRequest() as CreateAccountRequest;
+
+    this._accounts
+      .createAccount(req)
+      .pipe(
+        finalize(() => {
+          this.submitting = false;
+          this._ui.hideLoader();
+        })
+      )
+      .subscribe(account => {
+        this.form.reset();
+        this._openSuccessModal(account);
+      });
   }
 
   private _getDataAsRequest() {

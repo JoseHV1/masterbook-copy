@@ -18,11 +18,11 @@ export class InputComponent implements ControlValueAccessor {
   @Input() icon?: string;
   @Input() placeholder?: string;
   @Input() align?: 'center' | 'start' = 'start';
+  @Input() dataTestId?: string;
+
   value!: string;
   disabled: boolean = false;
   hidePlaceholder: boolean = false;
-
-  constructor() {}
 
   onChange: (value: any) => void | undefined = () => undefined;
   onTouch: (value: string) => void | undefined = () => undefined;

@@ -5,6 +5,7 @@
       [placeholder]="placeholder"
       formControlName="value"
       multiple
+      [attr.data-testid]="dataTestId ?? null"
       (selectionChange)="onMatSelectChange($event.value)">
       <mat-option
         *ngFor="let option of items"
@@ -19,6 +20,7 @@
     <ng-template #singleSelectBlock>
       <input
         matInput
+        [attr.data-testid]="dataTestId ?? null"
         [placeholder]="placeholder"
         formControlName="value"
         [matAutocomplete]="auto"

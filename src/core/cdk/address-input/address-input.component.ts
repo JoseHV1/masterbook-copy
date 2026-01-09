@@ -21,6 +21,7 @@ export class AddressInputComponent implements ControlValueAccessor {
   @Input() placeholder: string = '';
   @Output() updateAddress: EventEmitter<AddressAutocompleteModel | undefined> =
     new EventEmitter();
+  @Input() dataTestId?: string;
 
   form: FormGroup;
   disabled = false;

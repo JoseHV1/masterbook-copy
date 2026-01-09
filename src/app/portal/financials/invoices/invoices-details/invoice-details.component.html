@@ -35,21 +35,6 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Policy Number</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            <span
-              (click)="
-                _url.navigateTo('portal/policies', invoice.policy?.serial)
-              "
-              style="color: #00aaff; cursor: pointer"
-              >{{ invoice.policy?.policy_number }}</span
-            >
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
-        <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">
             {{ transformLabelInvoice(invoice.serial) }}
           </div>
@@ -78,9 +63,54 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Invoice Amount</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ invoice.amount_due | currency : 'USD' : 'symbol' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">Insurer</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ invoice.insurer?.name | notNull }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Premium amount</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ invoice.amount_due | currency : 'USD' : 'symbol' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Policy Number</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            <span
+              (click)="
+                _url.navigateTo('portal/policies', invoice.policy?.serial)
+              "
+              style="color: #00aaff; cursor: pointer"
+              >{{ invoice.policy?.serial }}</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Open Balance</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{
+              invoice.amount_due - invoice.amount_paid
+                | currency : 'USD' : 'symbol'
+            }}
           </div>
         </div>
       </div>
@@ -91,36 +121,6 @@
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ invoice.broker?.user?.first_name }}
             {{ invoice.broker?.user?.last_name }}
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
-        <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Invoice amount</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ invoice.amount_due | currency : 'USD' : 'symbol' }}
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
-        <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Payment applied</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ invoice.amount_paid | currency : 'USD' : 'symbol' }}
-          </div>
-        </div>
-      </div>
-
-      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
-        <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Open balance</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{
-              invoice.amount_due - invoice.amount_paid
-                | currency : 'USD' : 'symbol'
-            }}
           </div>
         </div>
       </div>

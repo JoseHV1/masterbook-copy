@@ -27,11 +27,11 @@
       <td mat-cell *matCellDef="let element">
         <span
           *ngIf="element.policy_id?.serial; else notPolicyNumber"
-          (click)="_url.navigateTo('portal/policies', element.policy_id.serial)"
+          (click)="_url.navigateTo('portal/policies', element.policy_id._id)"
           class="light-blue-700"
           matTooltip="Go to policy details"
           style="cursor: pointer">
-          #{{ element.policy_id.policy_number | notNull }}
+          #{{ element.policy_id.serial | notNull }}
         </span>
         <ng-template #notPolicyNumber>N/A</ng-template>
       </td>

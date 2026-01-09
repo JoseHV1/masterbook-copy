@@ -335,12 +335,12 @@ export class AccountSelectorComponent
 
     if (this.multiple) {
       const codes: string[] = Array.isArray(value) ? value : [value as string];
+
       const correctedCodes = this.applyAllExclusionLogic(codes);
 
       if (this.showAllOption && correctedCodes.includes('ALL')) {
         this.selectedItems = this.items.filter(item => item.code === 'ALL');
         this.form.get('value')?.setValue(correctedCodes, { emitEvent: false });
-        this.selectionChange.emit(this.selectedItems.map(i => i.item));
         return;
       }
 
@@ -348,24 +348,20 @@ export class AccountSelectorComponent
       const loadObservables = correctedCodes.map(id =>
         this._accounts.getAccount(id)
       );
-
       forkJoin(loadObservables)
         .pipe(finalize(() => (this.loading = false)))
         .subscribe(accounts => {
-          const validAccounts = accounts.filter(a => a != null);
-          this.selectedItems = validAccounts.map(account => ({
-            code: account._id,
-            item: account,
-            name: this.getAccountText(account),
-            disabled: false,
-          }));
-
+          this.selectedItems = accounts
+            .filter(a => a != null)
+            .map(account => ({
+              code: account._id,
+              item: account,
+              name: this.getAccountText(account),
+              disabled: false,
+            }));
           this.form
             .get('value')
             ?.setValue(correctedCodes, { emitEvent: false });
-
-          this.selectionChange.emit(validAccounts);
-
           this.updateErrors();
         });
     } else if (typeof value === 'string') {
@@ -379,7 +375,6 @@ export class AccountSelectorComponent
         this.form
           .get('value')
           ?.setValue(this.selectedItem, { emitEvent: false });
-        this.selectionChange.emit(this.selectedItem.item);
         this.updateErrors();
         return;
       }
@@ -391,12 +386,9 @@ export class AccountSelectorComponent
           name: this.getAccountText(account),
           disabled: false,
         };
-
         this.form
           .get('value')
           ?.setValue(this.selectedItem, { emitEvent: false });
-
-        this.selectionChange.emit(account);
         this.updateErrors();
       });
     }

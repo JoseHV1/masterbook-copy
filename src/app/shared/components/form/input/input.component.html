@@ -11,9 +11,12 @@
       {{ placeholder }}
     </p>
   </div>
+
   <input
     class="text-2 anon-input"
     [type]="type"
+    [disabled]="disabled"
+    [attr.data-testid]="dataTestId"
     (ngModelChange)="changeText($event)"
     [(ngModel)]="value"
     (focus)="hidePlaceholder = true"

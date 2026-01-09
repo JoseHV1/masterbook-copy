@@ -2,6 +2,7 @@
   <mat-form-field appearance="outline" class="w-100">
     <input
       matInput
+      [attr.data-testid]="dataTestId ?? null"
       [placeholder]="placeholder"
       formControlName="value"
       (blur)="updateErrors()"

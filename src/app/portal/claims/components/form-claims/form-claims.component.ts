@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { finalize, take } from 'rxjs';
 import { addZero } from 'src/app/shared/helpers/add-zero';
@@ -23,6 +23,7 @@ import { AuthModel } from 'src/app/shared/interfaces/models/auth.model';
 import { PoliciesService } from 'src/app/shared/services/policies.service';
 import { CreateClaimRequest } from 'src/app/shared/interfaces/requests/claims/create-claim.request';
 import { PopulatedClaimModel } from 'src/app/shared/interfaces/models/claims.model';
+import { ClaimModel } from 'src/app/shared/models/claim.model';
 
 @Component({
   selector: 'app-form-claims',
@@ -63,11 +64,10 @@ export class FormClaimsComponent implements OnInit {
     private _auth: AuthService,
     private _claims: ClaimsService,
     private _policies: PoliciesService,
-    private dialog: MatDialog,
-    private _activateRoute: ActivatedRoute
+    private dialog: MatDialog
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.auth = this._auth.getAuth() as AuthModel;
     this.userIsAgent =
       this.auth.user.role === RolesEnum.AGENCY_BROKER ||
@@ -80,17 +80,14 @@ export class FormClaimsComponent implements OnInit {
       .get('policy_id')
       ?.valueChanges.subscribe(policyId => this.onPolicySelected(policyId));
 
-    this.accountId = this._activateRoute.snapshot.queryParams['account'];
-    this.form.patchValue({ account: this.accountId });
-
     if (this.data) {
       this.accountId = this.data.client?._id ?? this.data.client_id;
       this.policyId = this.data.policy?._id ?? this.data.policy_id;
       this.insuranceCompanyId = this.data.insurer_id ?? '';
       this.accountName = this.data.client?.account_name ?? '';
-    }
 
-    if (this.accountId) this.loadPolicies(this.accountId);
+      await this.loadPolicies(this.accountId);
+    }
   }
 
   onlyAllowNumbers(event: KeyboardEvent) {
