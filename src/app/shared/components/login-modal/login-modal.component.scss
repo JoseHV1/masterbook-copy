@@ -52,4 +52,22 @@
       margin-left: -1.8rem;
     }
   }
+
+  .recaptcha-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    ::ng-deep re-captcha > div {
+      transform: scale(1.1, 0.9);
+      transform-origin: center center;
+    }
+  }
+
+  @media (max-width: 767) {
+    .recaptcha-wrapper ::ng-deep re-captcha > div {
+      transform: scale(0.9, 0.85);
+    }
+  }
 }

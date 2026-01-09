@@ -45,11 +45,11 @@
         </small>
       </div>
 
-      <div
-        class="form-group mb-4 d-flex justify-content-center"
-        *ngIf="!isLocal">
-        <re-captcha formControlName="recaptcha" (resolved)="onResolved($event)">
-        </re-captcha>
+      <div class="mb-4 d-flex justify-content-center" *ngIf="!isLocal">
+        <div class="recaptcha-wrapper">
+          <re-captcha formControlName="recaptcha" (resolved)="onResolved($event)">
+          </re-captcha>
+        </div>
       </div>
 
       <div class="d-flex align-items-content justify-content-center">
