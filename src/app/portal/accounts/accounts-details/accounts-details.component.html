@@ -218,6 +218,17 @@
             (page)="onPageChange($event, 'requests')"
             showFirstLastButtons>
           </mat-paginator>
+
+          <div
+            class="d-flex align-items-center justify-content-center"
+            *ngIf="account">
+            <button
+              class="primary-button back-light-blue-400 white my-2"
+              [routerLink]="['/portal/requests/new']"
+              [queryParams]="{ account: account._id }">
+              Create request
+            </button>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
@@ -244,6 +255,17 @@
             (page)="onPageChange($event, 'policies')"
             showFirstLastButtons>
           </mat-paginator>
+
+          <div
+            class="d-flex align-items-center justify-content-center"
+            *ngIf="account">
+            <button
+              class="primary-button back-light-blue-400 white my-2"
+              [routerLink]="['/portal/policies/new']"
+              [queryParams]="{ account: account._id }">
+              Create policies
+            </button>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
@@ -270,6 +292,17 @@
             (page)="onPageChange($event, 'claims')"
             showFirstLastButtons>
           </mat-paginator>
+
+          <div
+            class="d-flex align-items-center justify-content-center"
+            *ngIf="account">
+            <button
+              class="primary-button back-light-blue-400 white my-2"
+              [routerLink]="['/portal/claims/new']"
+              [queryParams]="{ account: account._id }">
+              Create claims
+            </button>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
@@ -296,6 +329,17 @@
             (page)="onPageChange($event, 'payments')"
             showFirstLastButtons>
           </mat-paginator>
+
+          <div
+            class="d-flex align-items-center justify-content-center"
+            *ngIf="account">
+            <button
+              class="primary-button back-light-blue-400 white my-2"
+              [routerLink]="['/portal/payments/new']"
+              [queryParams]="{ account: account._id }">
+              Create payments
+            </button>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
     </div>

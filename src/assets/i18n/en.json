@@ -296,7 +296,8 @@
     "NETWORK_ERROR": "Network error occurred.",
     "PLATFORM_SETTINGS_NOT_FOUND": "Platform settings not found.",
     "INVALID_ATTACHMENT": "Attachment content not found.",
-    "UNAUTHORIZED": "Your session has expired, please log in again."
+    "UNAUTHORIZED": "Your session has expired, please log in again.",
+    "INVALID_CAPTCHA": "The captcha verification has failed or the token has expired"
   },
   "NOTIFICATIONS": {
     "READ": "Read",

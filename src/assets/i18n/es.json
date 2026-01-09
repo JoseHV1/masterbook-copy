@@ -296,7 +296,8 @@
     "NETWORK_ERROR": "Ocurrió un error de red.",
     "PLATFORM_SETTINGS_NOT_FOUND": "No se encontraron las configuraciones de la plataforma.",
     "INVALID_ATTACHMENT": "No se encontró el contenido del archivo adjunto.",
-    "UNAUTHORIZED": "Su sesion a caducado, por favor ingrese nuevamente"
+    "UNAUTHORIZED": "Su sesion a caducado, por favor ingrese nuevamente",
+    "INVALID_CAPTCHA": "La verificación del captcha ha fallado o el token ha expirado"
   },
   "NOTIFICATIONS": {
     "READ": "Leído",
