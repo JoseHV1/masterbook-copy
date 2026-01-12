@@ -91,7 +91,7 @@
         </div>
       </div>
 
-      <div class="mb-4">
+      <div class="mb-3">
         <div class="password-input">
           <app-input
             style="width: 11.25rem"
@@ -124,7 +124,7 @@
         </small>
       </div>
 
-      <div class="mb-4 d-flex justify-content-center" *ngIf="!isLocal">
+      <div class="mb-3 d-flex justify-content-center" *ngIf="!isLocal">
         <re-captcha formControlName="recaptcha" (resolved)="onResolved($event)">
         </re-captcha>
       </div>
