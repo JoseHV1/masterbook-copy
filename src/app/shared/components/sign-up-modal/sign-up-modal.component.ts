@@ -6,6 +6,7 @@ import { UiService } from '../../services/ui.service';
 import { MyMasterbookValidators } from '../../helpers/mymasterbook-validator';
 import { Subject, finalize, takeUntil } from 'rxjs';
 import { RegisterRequest } from '../../interfaces/requests/auth/register.request';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sign-up-modal',
@@ -17,6 +18,8 @@ export class SingupModalComponent implements OnDestroy {
   destroy$: Subject<void> = new Subject();
   showNew = false;
   showRepeat = false;
+  recaptchaSiteKey = environment.RECAPTCHA_SITE_KEY;
+  isLocal = environment.text === 'local';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,6 +48,7 @@ export class SingupModalComponent implements OnDestroy {
         ],
       ],
       passwordConfirm: ['', [Validators.required, Validators.minLength(8)]],
+      recaptcha: ['', this.isLocal ? [] : [Validators.required]],
     });
 
     this.form
@@ -61,6 +65,10 @@ export class SingupModalComponent implements OnDestroy {
 
         passwordConfirmControl?.updateValueAndValidity();
       });
+  }
+
+  onResolved(token: string | null) {
+    this.form.get('recaptcha')?.setValue(token);
   }
 
   isEqualsPasswords() {
@@ -81,21 +89,25 @@ export class SingupModalComponent implements OnDestroy {
 
   singUp() {
     if (this.form.invalid) {
-      return true;
+      return;
     }
 
-    const req = this.form.value;
+    const req = { ...this.form.value };
     delete req.passwordConfirm;
 
     this._ui.showLoader();
     this._auth
       .register(req as RegisterRequest)
       .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe(() => {
-        this.form.reset();
-        this._authModal.openNotification();
+      .subscribe({
+        next: () => {
+          this.form.reset();
+          this._authModal.openNotification();
+        },
+        error: () => {
+          this.form.get('recaptcha')?.setValue('');
+        },
       });
-    return true;
   }
 
   ngOnDestroy(): void {

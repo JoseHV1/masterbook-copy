@@ -4,11 +4,12 @@ import { AuthModalService } from '../../services/auth.modal.service';
 import { UiService } from '../../services/ui.service';
 import { AuthService } from '../../services/auth.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subject, filter, finalize, pipe, takeUntil } from 'rxjs';
+import { Subject, filter, finalize, takeUntil } from 'rxjs';
 import { LoginRequest } from '../../interfaces/requests/auth/login.request';
 import { PopulatedUserModel } from '../../interfaces/models/user.model';
 import { RolesEnum } from '../../enums/roles.enum';
 import { ERRORS_LIBRARY } from '../../enums/error-library';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login-modal',
@@ -22,6 +23,9 @@ export class LoginModalComponent implements OnDestroy {
   emailNotVerified: boolean = false;
   email_to_resend?: string;
   currencyRoute: string = 'agents';
+
+  recaptchaSiteKey = environment.RECAPTCHA_SITE_KEY;
+  isLocal = environment.text === 'local';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,6 +45,7 @@ export class LoginModalComponent implements OnDestroy {
         ],
       ],
       password: ['', [Validators.required, Validators.minLength(8)]],
+      recaptcha: ['', this.isLocal ? [] : [Validators.required]],
     });
 
     this.router.events
@@ -61,6 +66,10 @@ export class LoginModalComponent implements OnDestroy {
 
   get invalidMinLength() {
     return this.formLogin.get('password')?.hasError('minlength');
+  }
+
+  onResolved(token: string | null) {
+    this.formLogin.get('recaptcha')?.setValue(token);
   }
 
   login() {
@@ -95,6 +104,8 @@ export class LoginModalComponent implements OnDestroy {
           }
         },
         error: err => {
+          this.formLogin.get('recaptcha')?.setValue('');
+
           if (err.error.code === ERRORS_LIBRARY.EMAIL_IS_NOT_VERIFIED) {
             this.emailNotVerified = true;
             this.email_to_resend = this.formLogin.value.email ?? '';
