@@ -16,6 +16,7 @@ export class DateFieldComponent implements ControlValueAccessor {
   @Input() set max(value: Date) {
     this.maxDate = value;
   }
+  @Input() dataTestId?: string;
 
   minDate?: Date;
   maxDate?: Date;

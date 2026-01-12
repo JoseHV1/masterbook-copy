@@ -237,7 +237,6 @@ export class ActivitiesComponent implements OnInit {
           .pipe(finalize(() => this._ui.hideLoader()))
           .subscribe((resp: any) => {
             this.dashboardTotals = resp.data;
-            console.log('[summaryCards] totals:', this.dashboardTotals);
           });
 
       case 'accounts':
@@ -256,14 +255,15 @@ export class ActivitiesComponent implements OnInit {
         return this._dashboard
           .getTotalRequests(dateRange, agentIds, companyIds, null, null)
           .pipe(finalize(() => this._ui.hideLoader()))
-          .subscribe((resp: any) => (this.requestsDataResponse = resp.data));
+          .subscribe((resp: any) => {
+            this.requestsDataResponse = resp.data;
+          });
 
       case 'commissions':
         return this._dashboard
           .getCommissionsTrend(dateRange, agentIds)
           .pipe(finalize(() => this._ui.hideLoader()))
           .subscribe((resp: any) => {
-            console.log(resp);
             this.commissionsStackedData = resp.data;
           });
 

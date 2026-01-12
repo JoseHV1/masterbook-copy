@@ -63,6 +63,35 @@ export class InternalMenuOptionsComponent implements OnDestroy, OnInit {
     );
   }
 
+  private _slug(value?: string): string {
+    return (value ?? '')
+      .toLowerCase()
+      .trim()
+      .replace(/^\//, '') // remove leading /
+      .replace(/[^\w]+/g, '-') // non-word -> dash
+      .replace(/-+/g, '-') // collapse dashes
+      .replace(/(^-|-$)/g, ''); // trim dashes
+  }
+
+  public navTestId(item: {
+    title?: string;
+    name?: string;
+    url?: string;
+  }): string {
+    // prefer url because it's the most stable key in your config
+    const key = this._slug(item.url || item.title || item.name);
+    return `nav-${key}`;
+  }
+
+  public navChildTestId(
+    parent: { title?: string; url?: string },
+    child: { name?: string; title?: string; url?: string }
+  ): string {
+    const p = this._slug(parent.url || parent.title);
+    const c = this._slug(child.url || child.name || child.title);
+    return `nav-${p}-${c}`;
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

@@ -3,4 +3,5 @@ export interface PagesLayoutButtonModel {
   url?: string;
   icon?: string;
   id?: string;
+  testId?: string;
 }

@@ -45,6 +45,7 @@ export class AgentSelectorComponent implements ControlValueAccessor, OnDestroy {
   @Input() showAllOption: boolean = false;
 
   @Input() multiple: boolean = false;
+  @Input() dataTestId?: string;
 
   @ViewChild(MatAutocomplete) autoComplete!: MatAutocomplete;
   @ViewChild('agentInput') agentInput!: ElementRef<HTMLInputElement>;

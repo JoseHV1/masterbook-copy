@@ -21,6 +21,7 @@ export class InputComponent implements ControlValueAccessor {
   @Input() isTextArea: boolean = false;
   @Input() rows: number = 3;
   @Input() clearable: boolean = false;
+  @Input() dataTestId?: string;
 
   form: FormGroup;
   disabled = false;
