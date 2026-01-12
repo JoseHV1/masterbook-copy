@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthModalService } from '../../services/auth.modal.service';
 import { UiService } from '../../services/ui.service';
@@ -10,6 +10,7 @@ import { PopulatedUserModel } from '../../interfaces/models/user.model';
 import { RolesEnum } from '../../enums/roles.enum';
 import { ERRORS_LIBRARY } from '../../enums/error-library';
 import { environment } from 'src/environments/environment';
+import { RecaptchaComponent } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-login-modal',
@@ -17,6 +18,9 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./login-modal.component.scss'],
 })
 export class LoginModalComponent implements OnDestroy {
+  // Referencia al elemento de Recaptcha para control manual
+  @ViewChild('captchaElem') captchaElem!: RecaptchaComponent;
+
   private destroy$ = new Subject<void>();
   showPassword = false;
   formLogin!: FormGroup;
@@ -90,30 +94,41 @@ export class LoginModalComponent implements OnDestroy {
 
           this.formLogin.reset(undefined, { emitEvent: false });
 
+          this.resetCaptcha();
+
           switch (resp.role) {
             case RolesEnum.INSURED:
               this.router.navigate(['/portal-client']);
               break;
-
             case RolesEnum.ADMIN:
               this.router.navigate(['/portal-admin']);
               break;
-
             default:
               this.router.navigate(['/portal']);
               break;
           }
         },
         error: (err: { error: { code: ERRORS_LIBRARY; }; }) => {
+          this.resetCaptcha();
+
           this.formLogin.get('recaptcha')?.setValue('', { emitEvent: false });
 
           if (err.error?.code === ERRORS_LIBRARY.EMAIL_IS_NOT_VERIFIED) {
             this.emailNotVerified = true;
             this.email_to_resend = this.formLogin.value.email ?? '';
-            return;
           }
         },
       });
+  }
+
+  private resetCaptcha() {
+    if (this.captchaElem) {
+      try {
+        this.captchaElem.reset();
+      } catch (e) {
+        console.error('Error reseteando Recaptcha:', e);
+      }
+    }
   }
 
   resendToken() {
