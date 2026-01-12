@@ -50,7 +50,7 @@ export class LoginModalComponent implements OnDestroy {
 
     this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event: any) => event instanceof NavigationEnd),
         takeUntil(this.destroy$)
       )
       .subscribe((event: any) => {
@@ -86,8 +86,9 @@ export class LoginModalComponent implements OnDestroy {
       .subscribe({
         next: (resp: Partial<PopulatedUserModel>) => {
           const fullname = `${resp.first_name ?? ''} ${resp.last_name ?? ''}`;
-          this._ui.showAlertSuccess(`welcome ${fullname}`);
-          this.formLogin.reset();
+          this._ui.showAlertSuccess(`Welcome ${fullname}`);
+
+          this.formLogin.reset(undefined, { emitEvent: false });
 
           switch (resp.role) {
             case RolesEnum.INSURED:
@@ -103,10 +104,10 @@ export class LoginModalComponent implements OnDestroy {
               break;
           }
         },
-        error: err => {
-          this.formLogin.get('recaptcha')?.setValue('');
+        error: (err: { error: { code: ERRORS_LIBRARY; }; }) => {
+          this.formLogin.get('recaptcha')?.setValue('', { emitEvent: false });
 
-          if (err.error.code === ERRORS_LIBRARY.EMAIL_IS_NOT_VERIFIED) {
+          if (err.error?.code === ERRORS_LIBRARY.EMAIL_IS_NOT_VERIFIED) {
             this.emailNotVerified = true;
             this.email_to_resend = this.formLogin.value.email ?? '';
             return;
