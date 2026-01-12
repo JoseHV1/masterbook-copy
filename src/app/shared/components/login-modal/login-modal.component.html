@@ -8,8 +8,7 @@
   </div>
 
   <div class="d-flex flex-column justify-content-between gap-4">
-    <form [formGroup]="formLogin" data-testid="login-form">
-      <!-- EMAIL -->
+    <form [formGroup]="formLogin" (ngSubmit)="login()">
       <div class="form-group mb-4">
         <app-input
           data-testid="login-email-wrapper"
@@ -20,14 +19,8 @@
           [placeholder]="'LOGIN.INPUT_EMAIL' | translate"
           formControlName="email"
           [align]="'center'"
-          class="{{ invalidEmail ? 'ng-invalid ng-dirty' : '' }}">
-        </app-input>
-
-        <small
-          *ngIf="invalidEmail"
-          class="text-danger"
-          style="font-size: 12"
-          data-testid="login-email-error">
+          class="{{ invalidEmail ? 'ng-invalid ng-dirty' : '' }}"></app-input>
+        <small *ngIf="invalidEmail" class="text-danger" style="font-size: 12px">
           {{ 'LOGIN.TEXT_EMAIL_INVALID' | translate }}
         </small>
       </div>
@@ -66,7 +59,16 @@
         </small>
       </div>
 
-      <!-- ACTIONS -->
+      <div
+        class="form-group mb-4 d-flex justify-content-center"
+        *ngIf="!isLocal">
+        <re-captcha
+          #captchaElem
+          [siteKey]="recaptchaSiteKey"
+          (resolved)="onResolved($event)">
+        </re-captcha>
+      </div>
+
       <div class="d-flex align-items-content justify-content-center">
         <div
           class="col-6 d-block d-md-flex align-items-center justify-content-end text-center ps-lg-4 order-2"
@@ -74,9 +76,8 @@
             'col-12 justify-content-center': currencyRoute !== 'agents'
           }">
           <button
-            data-testid="login-submit"
+            type="submit"
             class="primary-button big-button back-light-blue-500 white"
-            (click)="login()"
             [disabled]="formLogin.invalid">
             {{ 'GENERAL.LOG_IN' | translate }}
           </button>
@@ -86,7 +87,7 @@
           class="col-6 d-block d-md-flex align-items-center justify-content-start text-center order-1"
           *ngIf="currencyRoute === 'agents'">
           <button
-            data-testid="login-signup"
+            type="button"
             class="primary-button big-button back-gray-500 white"
             (click)="showModalSignup()">
             {{ 'GENERAL.SIGN_UP' | translate }}
@@ -112,7 +113,6 @@
       </p>
     </div>
 
-    <!-- FORGOT PASSWORD -->
     <div
       class="d-flex align-items-content justify-content-center text-selection-disable my-3">
       <h5
