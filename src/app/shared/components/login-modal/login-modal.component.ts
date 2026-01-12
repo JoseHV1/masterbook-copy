@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthModalService } from '../../services/auth.modal.service';
 import { UiService } from '../../services/ui.service';
@@ -10,6 +10,7 @@ import { PopulatedUserModel } from '../../interfaces/models/user.model';
 import { RolesEnum } from '../../enums/roles.enum';
 import { ERRORS_LIBRARY } from '../../enums/error-library';
 import { environment } from 'src/environments/environment';
+import { RecaptchaComponent } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-login-modal',
@@ -17,6 +18,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./login-modal.component.scss'],
 })
 export class LoginModalComponent implements OnDestroy {
+  @ViewChild('captchaElem') captchaElem!: RecaptchaComponent;
+
   private destroy$ = new Subject<void>();
   showPassword = false;
   formLogin!: FormGroup;
@@ -50,7 +53,7 @@ export class LoginModalComponent implements OnDestroy {
 
     this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event: any) => event instanceof NavigationEnd),
         takeUntil(this.destroy$)
       )
       .subscribe((event: any) => {
@@ -69,7 +72,7 @@ export class LoginModalComponent implements OnDestroy {
   }
 
   onResolved(token: string | null) {
-    this.formLogin.get('recaptcha')?.setValue(token);
+    this.formLogin.get('recaptcha')?.setValue(token, { emitEvent: false });
   }
 
   login() {
@@ -77,7 +80,7 @@ export class LoginModalComponent implements OnDestroy {
       return;
     }
 
-    const req = this.formLogin.value as LoginRequest;
+    const req = this.formLogin.getRawValue() as LoginRequest;
 
     this._ui.showLoader();
     this._auth
@@ -86,33 +89,48 @@ export class LoginModalComponent implements OnDestroy {
       .subscribe({
         next: (resp: Partial<PopulatedUserModel>) => {
           const fullname = `${resp.first_name ?? ''} ${resp.last_name ?? ''}`;
-          this._ui.showAlertSuccess(`welcome ${fullname}`);
-          this.formLogin.reset();
+          this._ui.showAlertSuccess(`Welcome ${fullname}`);
 
-          switch (resp.role) {
-            case RolesEnum.INSURED:
-              this.router.navigate(['/portal-client']);
-              break;
+          this.formLogin.reset(undefined, { emitEvent: false });
+          this.safeCaptchaReset();
 
-            case RolesEnum.ADMIN:
-              this.router.navigate(['/portal-admin']);
-              break;
-
-            default:
-              this.router.navigate(['/portal']);
-              break;
-          }
+          this.handleNavigation(resp.role);
         },
-        error: err => {
-          this.formLogin.get('recaptcha')?.setValue('');
+        error: (err: { error: { code: ERRORS_LIBRARY } }) => {
+          this.safeCaptchaReset();
 
-          if (err.error.code === ERRORS_LIBRARY.EMAIL_IS_NOT_VERIFIED) {
+          if (err.error?.code === ERRORS_LIBRARY.EMAIL_IS_NOT_VERIFIED) {
             this.emailNotVerified = true;
             this.email_to_resend = this.formLogin.value.email ?? '';
             return;
           }
         },
       });
+  }
+
+  private safeCaptchaReset() {
+    this.formLogin.get('recaptcha')?.setValue('', { emitEvent: false });
+    if (this.captchaElem) {
+      try {
+        this.captchaElem.reset();
+      } catch (e) {
+        console.warn('Recaptcha reset ignored: component not ready');
+      }
+    }
+  }
+
+  private handleNavigation(role?: RolesEnum) {
+    switch (role) {
+      case RolesEnum.INSURED:
+        this.router.navigate(['/portal-client']);
+        break;
+      case RolesEnum.ADMIN:
+        this.router.navigate(['/portal-admin']);
+        break;
+      default:
+        this.router.navigate(['/portal']);
+        break;
+    }
   }
 
   resendToken() {
