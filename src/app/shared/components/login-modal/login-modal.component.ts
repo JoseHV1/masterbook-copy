@@ -18,7 +18,6 @@ import { RecaptchaComponent } from 'ng-recaptcha';
   styleUrls: ['./login-modal.component.scss'],
 })
 export class LoginModalComponent implements OnDestroy {
-  // Referencia al elemento de Recaptcha para control manual
   @ViewChild('captchaElem') captchaElem!: RecaptchaComponent;
 
   private destroy$ = new Subject<void>();
@@ -73,7 +72,7 @@ export class LoginModalComponent implements OnDestroy {
   }
 
   onResolved(token: string | null) {
-    this.formLogin.get('recaptcha')?.setValue(token);
+    this.formLogin.get('recaptcha')?.setValue(token, { emitEvent: false });
   }
 
   login() {
@@ -81,7 +80,7 @@ export class LoginModalComponent implements OnDestroy {
       return;
     }
 
-    const req = this.formLogin.value as LoginRequest;
+    const req = this.formLogin.getRawValue() as LoginRequest;
 
     this._ui.showLoader();
     this._auth
@@ -93,41 +92,44 @@ export class LoginModalComponent implements OnDestroy {
           this._ui.showAlertSuccess(`Welcome ${fullname}`);
 
           this.formLogin.reset(undefined, { emitEvent: false });
+          this.safeCaptchaReset();
 
-          this.resetCaptcha();
-
-          switch (resp.role) {
-            case RolesEnum.INSURED:
-              this.router.navigate(['/portal-client']);
-              break;
-            case RolesEnum.ADMIN:
-              this.router.navigate(['/portal-admin']);
-              break;
-            default:
-              this.router.navigate(['/portal']);
-              break;
-          }
+          this.handleNavigation(resp.role);
         },
         error: (err: { error: { code: ERRORS_LIBRARY; }; }) => {
-          this.resetCaptcha();
-
-          this.formLogin.get('recaptcha')?.setValue('', { emitEvent: false });
+          this.safeCaptchaReset();
 
           if (err.error?.code === ERRORS_LIBRARY.EMAIL_IS_NOT_VERIFIED) {
             this.emailNotVerified = true;
             this.email_to_resend = this.formLogin.value.email ?? '';
+            return;
           }
         },
       });
   }
 
-  private resetCaptcha() {
+  private safeCaptchaReset() {
+    this.formLogin.get('recaptcha')?.setValue('', { emitEvent: false });
     if (this.captchaElem) {
       try {
         this.captchaElem.reset();
       } catch (e) {
-        console.error('Error reseteando Recaptcha:', e);
+        console.warn('Recaptcha reset ignored: component not ready');
       }
+    }
+  }
+
+  private handleNavigation(role?: RolesEnum) {
+    switch (role) {
+      case RolesEnum.INSURED:
+        this.router.navigate(['/portal-client']);
+        break;
+      case RolesEnum.ADMIN:
+        this.router.navigate(['/portal-admin']);
+        break;
+      default:
+        this.router.navigate(['/portal']);
+        break;
     }
   }
 

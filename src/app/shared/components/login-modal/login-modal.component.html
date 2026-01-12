@@ -15,7 +15,7 @@
           formControlName="email"
           [align]="'center'"
           class="{{ invalidEmail ? 'ng-invalid ng-dirty' : '' }}"></app-input>
-        <small *ngIf="invalidEmail" class="text-danger" style="font-size: 12">
+        <small *ngIf="invalidEmail" class="text-danger" style="font-size: 12px">
           {{ 'LOGIN.TEXT_EMAIL_INVALID' | translate }}
         </small>
       </div>
@@ -45,7 +45,7 @@
       <div class="form-group mb-4 d-flex justify-content-center" *ngIf="!isLocal">
         <re-captcha
           #captchaElem
-          formControlName="recaptcha"
+          [siteKey]="recaptchaSiteKey"
           (resolved)="onResolved($event)">
         </re-captcha>
       </div>
