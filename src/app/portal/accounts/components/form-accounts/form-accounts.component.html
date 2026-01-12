@@ -1,8 +1,9 @@
-<form [formGroup]="form">
+<form [formGroup]="form" data-testid="account-form">
   <div class="row mb-4">
     <div class="col-12 d-flex flex-column">
       <label>Account name*</label>
       <app-input
+        [dataTestId]="'account-name'"
         placeholder="Enter account name"
         type="text"
         formControlName="account_name"></app-input>
@@ -13,6 +14,7 @@
     <div class="col-12 col-md-4 mb-4 mb-md-0">
       <label>First name*</label>
       <app-input
+        [dataTestId]="'account-first-name'"
         placeholder="Enter First Name"
         type="text"
         formControlName="first_name"></app-input>
@@ -21,6 +23,7 @@
     <div class="col-12 col-md-4 mb-4 mb-md-0">
       <label>Last name*</label>
       <app-input
+        [dataTestId]="'account-last-name'"
         placeholder="Enter Last Name"
         type="text"
         formControlName="last_name"></app-input>
@@ -29,6 +32,7 @@
     <div class="col-12 col-md-4 mb-4 mb-md-0">
       <label>SSN/EIN*</label>
       <app-input
+        [dataTestId]="'account-ssn-last4'"
         placeholder="Enter last 4 number SSN/EIN"
         type="text"
         [inputMask]="'9999'"
@@ -38,6 +42,7 @@
     <div class="col-12 col-md-4 mb-4 mb-md-0">
       <label>Email*</label>
       <app-input
+        [dataTestId]="'account-email'"
         placeholder="Enter Email Address"
         type="email"
         formControlName="email"></app-input>
@@ -46,6 +51,7 @@
     <div class="col-12 col-md-4 mb-4 mb-md-0" *ngIf="!data">
       <label>Confirm email*</label>
       <app-input
+        [dataTestId]="'account-email-confirm'"
         placeholder="Confirm Email Address"
         type="email"
         formControlName="email_confirmation"></app-input>
@@ -54,6 +60,7 @@
     <div class="col-12 col-md-4 mb-4 mb-md-0" *ngIf="data">
       <label>Status*</label>
       <app-dropdown-field
+        data-testid="account-status"
         [placeholder]="'Select a status'"
         formControlName="status"
         [options]="dropDownStatus"></app-dropdown-field>
@@ -62,6 +69,7 @@
     <div class="col-12 col-md-2 mb-4 mb-md-0">
       <label>Phone number*</label>
       <app-input
+        [dataTestId]="'account-phone'"
         placeholder="(XXX) XXX-XXXX"
         type="tel"
         [inputMask]="'(000) 000-0000'"
@@ -71,6 +79,7 @@
     <div class="col-12 col-md-2 mb-4 mb-md-0">
       <label>Extension</label>
       <app-input
+        [dataTestId]="'account-ext'"
         placeholder="XXXX"
         type="tel"
         [inputMask]="'9999'"
@@ -80,6 +89,7 @@
     <div class="col-8 mb-4 mb-md-0">
       <label>Address*</label>
       <app-address-input
+        [dataTestId]="'account-address-input'"
         placeholder="Enter address"
         formControlName="address"></app-address-input>
     </div>
@@ -87,6 +97,7 @@
     <div class="col-4 mb-4 mb-md-0">
       <label>Zip code*</label>
       <app-input
+        [dataTestId]="'account-zip'"
         placeholder="XXXXX"
         type="tel"
         [inputMask]="'99999'"
@@ -98,6 +109,7 @@
       class="mb-4 mb-md-0">
       <label>Additional address information</label>
       <app-input
+        [dataTestId]="'account-address2'"
         placeholder="Address additional information"
         type="text"
         formControlName="additional_address_information"></app-input>
@@ -106,6 +118,7 @@
     <div class="col-4 mb-4 mb-md-0" *ngIf="showAgentSelector">
       <label>Agent*</label>
       <app-agent-selector
+        [dataTestId]="'account-agent-trigger'"
         [placeholder]="'Select an agent'"
         formControlName="broker_id"></app-agent-selector>
     </div>
@@ -113,6 +126,8 @@
     <div class="col-12 col-md-4 mb-4 mb-md-0">
       <label>Gender*</label>
       <app-dropdown-field
+        [dataTestId]="'account-gender-trigger'"
+        data-testid="account-gender"
         [placeholder]="'Select a gender'"
         formControlName="gender"
         [options]="dropDownGender"></app-dropdown-field>
@@ -121,6 +136,7 @@
     <div class="col-12 col-md-4 mb-4 mb-md-0">
       <label>Date of birth*</label>
       <app-date-field
+        [dataTestId]="'account-dob-input'"
         [placeholder]="'Select a date'"
         formControlName="date_of_birth"
         [max]="today">
@@ -130,6 +146,7 @@
     <div class="col-12 col-md-4 mb-4 mb-md-0">
       <label>Marital status*</label>
       <app-dropdown-field
+        [dataTestId]="'account-marital-status-trigger'"
         [placeholder]="'Select marital status'"
         formControlName="marital_status"
         [options]="dropDownMaritalStatus"></app-dropdown-field>
@@ -138,12 +155,14 @@
 
   <div class="d-flex align-items-center justify-content-center">
     <button
+      data-testid="account-cancel"
       class="primary-button big-button back-gray-400 white mx-1"
       (click)="cancelForm()">
       Cancel
     </button>
 
     <button
+      data-testid="account-save"
       class="primary-button big-button back-light-blue-400 white mx-1"
       [disabled]="form.invalid"
       (click)="openConfirmationModal()">

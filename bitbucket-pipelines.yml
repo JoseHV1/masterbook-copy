@@ -13,27 +13,27 @@ pipelines:
             - yarn --version
             - yarn install --immutable
 
-    #develop:
-      #- step:
-          #name: Instalar dependencias
-          #caches:
-            #- node
-          #script:
-            #- corepack enable
-            #- corepack prepare yarn@4.12.0 --activate
-            #- yarn --version
-            #- yarn install --immutable
+    develop:
+      - step:
+          name: Instalar dependencias
+          caches:
+            - node
+          script:
+            - corepack enable
+            - corepack prepare yarn@4.12.0 --activate
+            - yarn --version
+            - yarn install --immutable
 
-      #- step:
-          #name: Revisar C�digo (Linting)
-          #caches:
-            #- node
-          #script:
-            #- corepack enable
-            #- corepack prepare yarn@4.12.0 --activate
-            #- yarn --version
-            #- yarn install --immutable
-            #- yarn lint
+      - step:
+          name: Revisar C�digo (Linting)
+          caches:
+            - node
+          script:
+            - corepack enable
+            - corepack prepare yarn@4.12.0 --activate
+            - yarn --version
+            - yarn install --immutable
+            - yarn lint
 
     master:
       - step:

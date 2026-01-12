@@ -4,6 +4,7 @@
       formControlName="value"
       [placeholder]="placeholder"
       [multiple]="multiple"
+      [attr.data-testid]="dataTestId ?? null"
       (blur)="updateErrors()"
       (selectionChange)="changeValue()">
       <mat-option

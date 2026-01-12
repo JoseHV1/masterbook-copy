@@ -47,3 +47,12 @@ s_index.js
 .yarn
 package-lock.json
 # yarn.lock
+
+# Playwright artifacts
+/test-results/
+/playwright-report/
+test-results/**/*.png
+test-results/**/*.webm
+test-results/**/*.zip
+/e2e/.auth/
+

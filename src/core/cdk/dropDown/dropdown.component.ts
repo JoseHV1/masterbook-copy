@@ -13,6 +13,8 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
   @Input() multiple: boolean = false;
   @Input() options: DropdownOption[] = [];
   @Input() clearable: boolean = false;
+  @Input() dataTestId?: string;
+
   @Output() changeSelection: EventEmitter<DropdownOption[]> =
     new EventEmitter();
 
