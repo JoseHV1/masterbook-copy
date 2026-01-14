@@ -28,8 +28,8 @@ export class ReportConfigComponent implements OnInit {
   dropDownpaymentFrom!: DropdownOptionModel[];
   dropDownInsurers!: DropdownOptionModel[];
   dropDownBrokers!: DropdownOptionModel[];
-  dropDownBusinessLine!: DropdownOptionModel[];
-  dropDownPolicyCategory: DropdownOptionModel[] = [];
+  dropDownPolicyCategory!: DropdownOptionModel[];
+  dropDownBusinessLine: DropdownOptionModel[] = [];
   dropDownPolicyType: DropdownOptionModel[] = [];
   dropDownReportType: DropdownOptionModel[] = [];
   dropDownDateRange: DropdownOptionModel[] = [];
@@ -54,41 +54,41 @@ export class ReportConfigComponent implements OnInit {
       this.emitChanged();
     });
 
-    this.form.get('businessLine')?.valueChanges.subscribe(value => {
-      this.dropDownPolicyCategory = [];
+    this.form.get('policyCategory')?.valueChanges.subscribe(value => {
+      this.dropDownBusinessLine = [];
       this.dropDownPolicyType = [];
-      this.form.get('policyCategory')?.setValue(null);
+      this.form.get('businessLine')?.setValue(null);
       this.form.get('policyType')?.setValue(null);
 
       if (value) {
-        this._datasets.getPolicyCategoriesDataset(value).subscribe({
+        this._datasets.getBusinessLinesByCategoriesDataset(value).subscribe({
           next: policyCategory => {
-            this.dropDownPolicyCategory = policyCategory.map(item => ({
-              code: item._id,
-              name: item.name,
-            }));
+            this.dropDownBusinessLine = this.addAllOption(
+              policyCategory.map(item => ({
+                code: item._id,
+                name: item.name,
+              }))
+            );
           },
         });
       }
     });
 
-    this.form.get('policyCategory')?.valueChanges.subscribe(value => {
+    this.form.get('businessLine')?.valueChanges.subscribe(value => {
       this.dropDownPolicyType = [];
       this.form.get('policyType')?.setValue(null);
 
-      const businessLineSelected = this.form.get('businessLine')?.value;
-
       if (value) {
-        this._datasets
-          .getPolicyTypesDataset(businessLineSelected, value)
-          .subscribe({
-            next: policyType => {
-              this.dropDownPolicyType = policyType.map(item => ({
+        this._datasets.getPolicyTypesByBusinessLines(value).subscribe({
+          next: policyCategory => {
+            this.dropDownPolicyType = this.addAllOption(
+              policyCategory.map(item => ({
                 code: item._id,
                 name: item.name,
-              }));
-            },
-          });
+              }))
+            );
+          },
+        });
       }
     });
 
@@ -153,7 +153,7 @@ export class ReportConfigComponent implements OnInit {
 
   resetAllFieldsExceptReportType() {
     this._report.resetForm(this.form);
-    this.dropDownPolicyCategory = [];
+    this.dropDownBusinessLine = [];
     this.dropDownPolicyType = [];
   }
 
@@ -186,10 +186,10 @@ export class ReportConfigComponent implements OnInit {
 
     // Select payment method
     this.dropDownPaymentMethod = this.addAllOption([
-      { code: 'check', name: 'Check' },
       { code: 'bank_transfer', name: 'Bank Transfer' },
-      { code: 'credit_card', name: 'Credit Card' },
       { code: 'cash', name: 'Cash' },
+      { code: 'check', name: 'Check' },
+      { code: 'credit_card', name: 'Credit Card' },
     ]);
 
     // Select insurer
@@ -215,13 +215,17 @@ export class ReportConfigComponent implements OnInit {
       },
     });
 
-    // Select business line
-    this._datasets.getBusinessLinesDataset().subscribe({
-      next: businessLine => {
-        this.dropDownBusinessLine = businessLine.map(item => ({
-          code: item._id,
-          name: item.name,
-        }));
+    // Select policy category
+    this._datasets.getPolicyCategoriesDataset().subscribe({
+      next: item => {
+        console.log(item);
+        this.dropDownPolicyCategory = this.addAllOption(
+          item.map(item => ({
+            code: item._id,
+            name: item.name,
+          }))
+        );
+        console.log(this.dropDownPolicyCategory);
       },
     });
 

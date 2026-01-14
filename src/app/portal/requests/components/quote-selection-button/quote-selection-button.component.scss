@@ -20,26 +20,16 @@
     .policy-side {
       position: relative;
       border-radius: 0 3rem 3rem 0;
-      padding: 0.5rem 0.4rem 0.5rem 0.2rem;
-      background: $dark-blue-400;
+      padding: 0.5rem 0.4rem 0.5rem 0.3rem;
+      background: $dark-blue-300;
 
       span {
-        font-size: 1.2rem !important;
+        font-size: 1rem !important;
         font-weight: 700;
       }
 
       &:hover {
         opacity: 0.9;
-      }
-
-      &:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 25%;
-        height: 50%;
-        width: 1px;
-        background: white;
       }
     }
   }
