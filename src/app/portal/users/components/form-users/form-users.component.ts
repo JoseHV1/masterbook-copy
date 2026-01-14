@@ -25,9 +25,16 @@ export class FormUsersComponent implements OnInit, OnChanges {
   form!: FormGroup;
   maxDate: Date = new Date();
   today: Date = new Date();
-  dropDownUserTypes = enumToDropDown(NewBrokerRolesEnum);
+  dropDownUserTypes: DropdownOptionModel[] = enumToDropDown(
+    NewBrokerRolesEnum
+  ).map(option => {
+    if (option.code === NewBrokerRolesEnum.AGENCY_BROKER) {
+      return { ...option, name: 'Agency Agent' };
+    }
+    return option;
+  });
   businessLineOptions: DropdownOptionModel[] = [];
-  dropDownGender = enumToDropDown(GenderEnum);
+  dropDownGender: DropdownOptionModel[] = enumToDropDown(GenderEnum);
 
   constructor(
     private _router: Router,

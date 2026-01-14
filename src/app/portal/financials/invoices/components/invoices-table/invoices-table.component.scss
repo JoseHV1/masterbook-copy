@@ -11,12 +11,17 @@
     background: $gray-100;
   }
 
-  .status-inactive {
+  .status-partially {
+    color: $color-warning;
+    font-weight: 500;
+  }
+
+  .status-unpaid {
     color: $color-error;
     font-weight: 500;
   }
 
-  .status-active {
+  .status-paid {
     color: $color-success;
     font-weight: 500;
   }

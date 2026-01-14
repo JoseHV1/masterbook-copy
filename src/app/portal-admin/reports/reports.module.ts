@@ -18,24 +18,15 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatListModule } from '@angular/material/list';
 
-import { ReportConfigComponent } from '../reports/components/create-report/create-report.component';
-import { ReportPreviewComponent } from './components/preview-report/preview-report.component';
-import { ReportHistoryComponent } from './components/download-center/download-center.component';
 import { ReportsComponent } from './reports.component';
 import { RouterModule, Routes } from '@angular/router';
-import { InternalLayoutModule } from '@app/shared/layouts/internal-layout/internal-layout.module';
 import { PagesLayoutModule } from '@app/shared/layouts/pages-layout/pages-layout.module';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 
 const routes: Routes = [{ path: '', component: ReportsComponent }];
 
 @NgModule({
-  declarations: [
-    ReportConfigComponent,
-    ReportPreviewComponent,
-    ReportHistoryComponent,
-    ReportsComponent,
-  ],
+  declarations: [ReportsComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

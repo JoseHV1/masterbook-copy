@@ -103,12 +103,15 @@ export class InvoicesTableComponent implements OnInit {
   hasErrorForRow(id: string): boolean {
     return this.errorRowIds.has(id);
   }
+
   getStatusClass(status: string | null): string {
     switch (status) {
-      case 'ACTIVE':
-        return 'status-active';
+      case 'paid':
+        return 'status-paid';
+      case 'partially_paid':
+        return 'status-partially';
       default:
-        return 'status-inactive';
+        return 'status-unpaid';
     }
   }
 
