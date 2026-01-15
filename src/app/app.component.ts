@@ -24,7 +24,6 @@ declare var gtag: Function;
 export class AppComponent implements OnInit, OnDestroy {
   static isBrowser = new BehaviorSubject<boolean>(false);
   destroy$ = new Subject<void>();
-
   isLoading: boolean = false;
 
   constructor(
@@ -49,17 +48,36 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this._router.events
-        .pipe(
-          filter(event => event instanceof NavigationEnd),
-          takeUntil(this.destroy$)
-        )
-        .subscribe((event: NavigationEnd) => {
-          gtag('config', environment.GOOGLE_ANALYTICS_KEY, {
-            page_path: event.urlAfterRedirects,
-          });
-        });
+      this.initGoogleAnalytics();
     }
+  }
+
+  private initGoogleAnalytics(): void {
+    const analyticsId = environment.GOOGLE_ANALYTICS_KEY;
+    if (!analyticsId) return;
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${analyticsId}`;
+    document.head.appendChild(script);
+
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    (window as any).gtag = function () {
+      (window as any).dataLayer.push(arguments);
+    };
+
+    gtag('js', new Date());
+
+    this._router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((event: NavigationEnd) => {
+        gtag('config', analyticsId, {
+          page_path: event.urlAfterRedirects,
+        });
+      });
   }
 
   ngOnDestroy(): void {
