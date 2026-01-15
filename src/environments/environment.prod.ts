@@ -3,6 +3,7 @@ export const environment = {
   apiUrl: 'https://apiprd2.mymasterbook.net/',
   text: 'production',
   STRIPE_PUBLIC_KEY:
-    'pk_test_51Mr5saHsG1LCjqV07j8ZKZqlZdGVevqrSM66zNAjBV0RM3pI6pQWi9V2gm1h0CgmwYZJUtoVvDtfDLQ5Tq3uCO6h00ZwohoKXi',
+    'pk_live_51Mr5saHsG1LCjqV0qO84aoptCtNsP9NELMLxemtIOqWlsk9KBjDM1WGaMIK8ogwhWaaDVPAjMAdRXUkVv4UqTESi00ObhJmIBc',
   RECAPTCHA_SITE_KEY: '6LcIREQsAAAAAB_Wr5vEM92Z-9NdREhLI5lxSZMU',
+  GOOGLE_ANALYTICS_KEY: 'G-WE215JVNDQ',
 };
