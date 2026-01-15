@@ -9,7 +9,7 @@ import {
 import { BehaviorSubject, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, Event as RouterEvent } from '@angular/router';
 import { UiService } from './shared/services/ui.service';
 import { AuthService } from './shared/services/auth.service';
 import { environment } from 'src/environments/environment';
@@ -54,7 +54,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private initGoogleAnalytics(): void {
     const analyticsId = environment.GOOGLE_ANALYTICS_KEY;
-    if (!analyticsId) return;
+
+    if (!analyticsId) {
+      console.warn('Google Analytics Key no encontrada en el environment.');
+      return;
+    }
 
     const script = document.createElement('script');
     script.async = true;
@@ -70,7 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this._router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event: RouterEvent): event is NavigationEnd => event instanceof NavigationEnd),
         takeUntil(this.destroy$)
       )
       .subscribe((event: NavigationEnd) => {
