@@ -386,7 +386,7 @@
 </ng-template>
 
 <ng-template #quotesInfoTemplate>
-  <div class="table-responsive quotes-table">
+  <div class="table-responsive quotes-table" data-testid="quotes-section">
     <form [formGroup]="quotesForm" *ngIf="quotesForm">
       <table class="w-100">
         <!-- head -->
@@ -402,7 +402,7 @@
         </tr>
 
         <!-- list -->
-        <tr *ngFor="let element of quotes">
+        <tr *ngFor="let element of quotes" data-testid="quote-row">
           <td class="text-nowrap px-2">{{ '#' + element.serial }}</td>
           <td class="text-nowrap px-2">
             {{ element.insurer?.name | notNull }}
@@ -437,24 +437,30 @@
         </tr>
 
         <!-- form -->
-        <tr *ngIf="request.status !== REQUEST_STATUS.CLOSED && !isInsured">
+        <tr
+          *ngIf="request.status !== REQUEST_STATUS.CLOSED && !isInsured"
+          data-testid="quote-form-row">
           <td class="text-nowrap px-2">
             <app-input
               placeholder="#QT-XXXX"
               type="text"
-              formControlName="quote_id"></app-input>
+              formControlName="quote_id"
+              data-testid="quote-id"></app-input>
           </td>
-          <td class="text-nowrap px-2">
+
+          <td class="text-nowrap px-2" data-testid="quote-company">
             <app-insurance-company-selector
               [placeholder]="'Select a company'"
               formControlName="insurer_id"></app-insurance-company-selector>
           </td>
-          <td class="text-nowrap px-2">
+
+          <td class="text-nowrap px-2" data-testid="quote-date">
             <app-date-field
               [placeholder]="'Select a date'"
               formControlName="quote_date"></app-date-field>
           </td>
-          <td class="text-nowrap px-2">
+
+          <td class="text-nowrap px-2" data-testid="quote-premium">
             <app-input
               placeholder="$ 0.00"
               type="tel"
@@ -462,7 +468,8 @@
               [maskPrefix]="'$ '"
               formControlName="prime_amount"></app-input>
           </td>
-          <td class="text-nowrap px-2">
+
+          <td class="text-nowrap px-2" data-testid="quote-coverage">
             <app-input
               placeholder="$ 0.00"
               type="tel"
@@ -470,7 +477,8 @@
               [maskPrefix]="'$ '"
               formControlName="coverage"></app-input>
           </td>
-          <td class="text-nowrap px-2">
+
+          <td class="text-nowrap px-2" data-testid="quote-deductible">
             <app-input
               placeholder="$ 0.00"
               type="tel"
@@ -478,17 +486,20 @@
               [maskPrefix]="'$ '"
               formControlName="deductible"></app-input>
           </td>
-          <td class="px-2">
+
+          <td class="px-2" data-testid="quote-upload">
             <app-file-picker
               [id]="'request-file-upload'"
               formControlName="document"
               [mode]="fileUploadMode.ICON"></app-file-picker>
           </td>
+
           <td class="px-2">
             <button
               class="primary-button big-button back-light-blue-500 white"
               (click)="saveQuote()"
-              [disabled]="quotesForm.invalid">
+              [disabled]="quotesForm.invalid"
+              data-testid="quote-add">
               Add
             </button>
           </td>

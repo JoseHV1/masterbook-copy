@@ -23,6 +23,7 @@ import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { RolesEnum } from 'src/app/shared/enums/roles.enum';
 import { brokersAdminDataset } from 'src/app/shared/datatsets/roles.datasets';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-forms-modal',
@@ -43,7 +44,8 @@ export class FormsModalComponent {
     private _dialogCreate: MatDialog,
     private _forms: FormService,
     private _ui: UiService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _uploadFile: UploadFileService
   ) {
     this.title = `${this._data.policy_type.name} forms`.toUpperCase();
 
@@ -118,5 +120,20 @@ export class FormsModalComponent {
 
   close(resp: boolean) {
     this._dialog.close(resp);
+  }
+
+  openFile(url: string | undefined): void {
+    if (!url) return;
+
+    this._uploadFile.getUrlFile(url).subscribe({
+      next: (res) => {
+        if (res) {
+          window.open(res, '_blank');
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener el acceso al archivo', err);
+      }
+    });
   }
 }

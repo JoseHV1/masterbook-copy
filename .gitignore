@@ -48,6 +48,8 @@ s_index.js
 package-lock.json
 # yarn.lock
 
+.env
+
 # Playwright artifacts
 /test-results/
 /playwright-report/

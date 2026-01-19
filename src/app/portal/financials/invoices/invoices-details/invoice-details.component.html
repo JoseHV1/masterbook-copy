@@ -55,8 +55,8 @@
           </div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             <a
-              style="text-decoration: none"
-              [href]="invoice.pdf"
+              style="text-decoration: none; cursor: pointer"
+              (click)="openFile(invoice.pdf)"
               target="_blank"
               rel="noopener noreferrer">
               <span style="color: #00aaff; cursor: pointer"

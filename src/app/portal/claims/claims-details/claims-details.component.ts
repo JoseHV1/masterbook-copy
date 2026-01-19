@@ -1,7 +1,17 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { finalize, switchMap, take, tap } from 'rxjs';
+import {
+  catchError,
+  finalize,
+  forkJoin,
+  map,
+  Observable,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ClaimsService } from 'src/app/shared/services/claims.service';
 import { UiService } from 'src/app/shared/services/ui.service';
@@ -14,6 +24,7 @@ import { ModalChangeLogsComponent } from '@app/shared/components/modal-change-lo
 import { AuthService } from '@app/shared/services/auth.service';
 import { ownersRolesDataset } from '@app/shared/datatsets/roles.datasets';
 import { RolesEnum } from '@app/shared/enums/roles.enum';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-claims-details',
@@ -33,7 +44,8 @@ export class ClaimsDetailsComponent {
     private dialog: MatDialog,
     private _location: Location,
     public _url: UrlService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _uploadFile: UploadFileService
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -48,10 +60,12 @@ export class ClaimsDetailsComponent {
           return this._loadClaim(id);
         }),
         tap((claim: PopulatedClaimModel) => {
-          this.files = (claim.attachments || []).map((file: any) => ({
-            ...file,
-            file_type: (file.file_type || '').toLowerCase(),
-          }));
+          this._processAttachments(claim.attachments || []).subscribe(files => {
+            this.files = files.map((file: any) => ({
+              ...file,
+              file_type: (file.file_type || '').toLowerCase(),
+            }));
+          });
         }),
         finalize(() => this._ui.hideLoader())
       )
@@ -78,10 +92,9 @@ export class ClaimsDetailsComponent {
       submitted: 'bg-info-subtle text-info',
     };
 
-    return `${baseClasses} ${
-      colorMap[(status || '').toLowerCase()] ||
+    return `${baseClasses} ${colorMap[(status || '').toLowerCase()] ||
       'bg-secondary-subtle text-secondary'
-    }`;
+      }`;
   }
 
   isImage(fileType: string): boolean {
@@ -91,7 +104,45 @@ export class ClaimsDetailsComponent {
   }
 
   openFile(url: string): void {
-    window.open(url, '_blank');
+    if (!url) return;
+
+    if (url.startsWith('http')) {
+      window.open(url, '_blank');
+      return;
+    }
+
+    this._uploadFile.getUrlFile(url).subscribe({
+      next: res => {
+        if (res) {
+          window.open(res, '_blank');
+        }
+      },
+      error: err => {
+        console.error('Error al obtener el acceso al archivo', err);
+      },
+    });
+  }
+
+  private _processAttachments(attachments: any[]): Observable<any[]> {
+    if (!attachments || attachments.length === 0) return of([]);
+
+    const requests = attachments.map(file => {
+      // If it doesn't have a URL or it's not a string, return as is
+      if (!file.url || typeof file.url !== 'string') return of(file);
+
+      return this._uploadFile.getUrlFile(file.url).pipe(
+        map(signedUrl => ({
+          ...file,
+          // Replace with signed URL if available, otherwise keep original
+          url: signedUrl ? signedUrl : file.url,
+          // Keep original key just in case
+          originalKey: file.url,
+        })),
+        catchError(() => of(file))
+      );
+    });
+
+    return forkJoin(requests);
   }
 
   _loadClaim(serial: string) {

@@ -42,6 +42,7 @@ import { RolesEnum } from '@app/shared/enums/roles.enum';
 import { AuthService } from '@app/shared/services/auth.service';
 import { ModalChangeLogsComponent } from '@app/shared/components/modal-change-logs/modal-change-logs.component';
 import { ownersRolesDataset } from '@app/shared/datatsets/roles.datasets';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-request-detail',
@@ -85,7 +86,8 @@ export class RequestDetailComponent implements OnDestroy {
     private _dialog: MatDialog,
     private _insurer: InsurerService,
     private _auth: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _uploadFile: UploadFileService
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -307,7 +309,22 @@ export class RequestDetailComponent implements OnDestroy {
   }
 
   openAttach(data: string | FileInfoModel): void {
-    window.open(typeof data === 'string' ? data : data.document, '_blank');
+    /*console.log(data);
+    window.open(typeof data === 'string' ? data : data.document, '_blank');*/
+    const fileKey = typeof data === 'string' ? data : data.document;
+
+    if (!fileKey) return;
+
+    this._uploadFile.getUrlFile(fileKey).subscribe({
+      next: (res) => {
+        if (res) {
+          window.open(res, '_blank');
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener el acceso al archivo', err);
+      }
+    });
   }
 
   goBack(): void {

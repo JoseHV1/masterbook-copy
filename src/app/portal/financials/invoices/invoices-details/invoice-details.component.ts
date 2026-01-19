@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { InvoiceService } from 'src/app/shared/services/invoice.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-payment-details',
@@ -32,7 +33,8 @@ export class InvoiceDetailsComponent {
     private router: Router,
     private _auth: AuthService,
     private _location: Location,
-    private _ui: UiService
+    private _ui: UiService,
+    private _uploadFile: UploadFileService
   ) {
     this.isBroker = brokerRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -64,6 +66,21 @@ export class InvoiceDetailsComponent {
 
   navigateTo(url: string): void {
     this.router.navigate([`portal/invoices/${url}`]);
+  }
+
+  openFile(url: string | undefined): void {
+    if (!url) return;
+
+    this._uploadFile.getUrlFile(url).subscribe({
+      next: (res) => {
+        if (res) {
+          window.open(res, '_blank');
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener el acceso al archivo', err);
+      }
+    });
   }
 
   goBack(): void {

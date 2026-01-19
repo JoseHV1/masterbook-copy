@@ -6,6 +6,7 @@ import { FilterActive } from 'src/app/shared/models/filters.model';
 import { InvoiceService } from 'src/app/shared/services/invoice.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-invoices-table',
@@ -39,8 +40,9 @@ export class InvoicesTableComponent implements OnInit {
     private _invoices: InvoiceService,
     private _ui: UiService,
     public _url: UrlService,
-    private _location: Location
-  ) {}
+    private _location: Location,
+    private _uploadFile: UploadFileService
+  ) { }
 
   ngOnInit(): void {
     const path = this._location.path();
@@ -133,7 +135,19 @@ export class InvoicesTableComponent implements OnInit {
     return days < 0 ? 0 : days;
   }
 
-  openDownload(url: string) {
-    window.open(url, '_blank');
+  openDownload(url: string | undefined) {
+    /*window.open(url, '_blank');*/
+    if (!url) return;
+
+    this._uploadFile.getUrlFile(url).subscribe({
+      next: (res) => {
+        if (res) {
+          window.open(res, '_blank');
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener el acceso al archivo', err);
+      }
+    });
   }
 }
