@@ -27,7 +27,7 @@ export class InternalNavbarOptionsComponent {
   ) {
     const auth = this._auth.getAuth();
 
-    if (auth) {
+    if (auth && auth.user.photo_url != null) {
       this._uploadFile.getUrlFile(auth.user.photo_url ?? '').subscribe(url => {
         this.imageProfile =
           url ?? '/assets/images/portal/image_default.webp';
