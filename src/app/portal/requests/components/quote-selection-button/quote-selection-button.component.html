@@ -5,30 +5,29 @@
       request.status !== RequestStatusEnum.CLOSED;
     else defaultTemplate
   ">
-  <div
-    class="selected-quote-button white m-2 d-flex"
-    data-testid="quote-selected">
-    <div
-      class="selection-side"
-      (click)="toggleStatus()"
-      data-testid="quote-toggle-status">
-      Selected
-    </div>
-
-    <div
-      class="policy-side"
-      [matMenuTriggerFor]="menu"
-      data-testid="quote-actions">
+  <div class="m-2 d-flex">
+    <button
+      class="primary-button big-button back-dark-blue-400 white d-flex align-items-center justify-content-center"
+      style="gap: 10px"
+      data-testid="quote-selected">
       <span
-        class="material-icons-outlined white p-0"
+        (click)="toggleStatus()"
+        class="flex-grow-1"
+        style="cursor: pointer">
+        Selected
+      </span>
+
+      <span
+        [matMenuTriggerFor]="menu"
+        class="material-icons-outlined white"
         style="cursor: pointer"
-        matTooltip="Options">
+        data-testid="quote-actions">
         arrow_drop_down
       </span>
-    </div>
+    </button>
   </div>
 
-  <mat-menu #menu="matMenu">
+  <mat-menu #menu="matMenu" xPosition="before">
     <button
       mat-menu-item
       (click)="goToPolicy()"
@@ -45,9 +44,8 @@
     (click)="toggleStatus()"
     data-testid="quote-choose"
     [disabled]="
-      [RequestStatusEnum.QUOTE_SELECTED, RequestStatusEnum.CLOSED].includes(
-        request.status
-      )
+      request.status === RequestStatusEnum.QUOTE_SELECTED ||
+      request.status === RequestStatusEnum.CLOSED
     ">
     Choose
   </button>
@@ -57,7 +55,7 @@
     *ngIf="quote.status === QuoteStatusEnum.ACCEPTED"
     (click)="toggleStatus()"
     data-testid="quote-selected-button"
-    [disabled]="[RequestStatusEnum.CLOSED].includes(request.status)">
+    [disabled]="request.status === RequestStatusEnum.CLOSED">
     Selected
   </button>
 </ng-template>

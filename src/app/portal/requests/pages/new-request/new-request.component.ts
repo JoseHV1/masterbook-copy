@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { PopulatedPolicyTypeModel } from 'src/app/shared/interfaces/models/policy-type.model';
+import { InsurerConfigService } from '@app/shared/services/insurer-config.service';
+import { Router } from '@angular/router';
+import { AuthService } from '@app/shared/services/auth.service';
+import { RolesEnum } from '@app/shared/enums/roles.enum';
 
 @Component({
   selector: 'app-new-request',
@@ -10,6 +14,26 @@ import { PopulatedPolicyTypeModel } from 'src/app/shared/interfaces/models/polic
 export class NewRequestComponent {
   selectedType?: PopulatedPolicyTypeModel;
   selectedEndorsements?: PopulatedPolicyTypeModel[];
+
+  constructor(
+    private _location: Location,
+    private _insurers: InsurerConfigService,
+    private router: Router,
+    private _auth: AuthService
+  ) {
+    const role = this._auth.getAuth()?.user?.role;
+
+    this._insurers.getInsurersWithConfig().subscribe(resp => {
+      if (
+        resp.length === 0 &&
+        (role === RolesEnum.AGENCY_OWNER ||
+          role === RolesEnum.AGENCY_ADMINISTRATOR ||
+          role === RolesEnum.INDEPENDANT_BROKER)
+      ) {
+        this.router.navigateByUrl(`portal/insurer?not_insurers=true`);
+      }
+    });
+  }
 
   goBack(): void {
     if (this.selectedType && this.selectedEndorsements?.length) {
@@ -23,6 +47,4 @@ export class NewRequestComponent {
     }
     this._location.back();
   }
-
-  constructor(private _location: Location) {}
 }

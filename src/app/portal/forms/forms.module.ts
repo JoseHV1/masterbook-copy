@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormComponent } from './form.component';
 import { RouterModule, Routes } from '@angular/router';
-import { OwnerGuard } from '../../shared/guards/owner.guard';
-import { PaymentGuard } from 'src/app/shared/guards/payment.guard';
 
 const routes: Routes = [
   {

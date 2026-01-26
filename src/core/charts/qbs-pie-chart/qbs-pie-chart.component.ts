@@ -61,10 +61,6 @@ export class QuotesStatusPieChartComponent
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(
-      'QuotesStatusPieChart ngOnChanges → chartData:',
-      this.chartData
-    );
     if (changes['chartData']) this.updateChart();
   }
 

@@ -87,7 +87,7 @@ export class CreateFormModalComponent {
         .pipe(finalize(() => this._ui.hideLoader()))
         .subscribe(resp => {
           this.form.reset();
-          this._openSuccessModal(resp);
+          this._openSuccessModal();
         });
     } else {
       this._forms
@@ -95,19 +95,15 @@ export class CreateFormModalComponent {
         .pipe(finalize(() => this._ui.hideLoader()))
         .subscribe(resp => {
           this.form.reset();
-          this._openSuccessModal(resp);
+          this._openSuccessModal();
         });
     }
   }
 
-  private _openSuccessModal(form: FormModel) {
-    const message = this._data.form
-      ? `The form has been updated successfully`
-      : `The form <a href="/portal/request-forms/${form._id}" style="color: #007bff; text-decoration: underline;">${form.name}</a> has been created successfully`;
-
+  private _openSuccessModal() {
     this._ui
       .showInformationModal({
-        text: message,
+        text: `The form has been updated successfully`,
         title: 'SUCCESS!',
         type: UiModalTypeEnum.SUCCESS,
       })

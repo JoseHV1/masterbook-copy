@@ -151,7 +151,6 @@ export class UserService {
     return this._http
       .get<HttpResponseModel<any>>(`${environment.apiUrl}brokers/${id}`)
       .pipe(
-        // tap(response => console.log('Response:', response)),
         catchError(error => {
           console.error('Error:', error);
           return throwError(() => error);

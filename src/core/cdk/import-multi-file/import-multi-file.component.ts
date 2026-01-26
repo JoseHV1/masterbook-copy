@@ -47,8 +47,6 @@ export class ImportMultiFileComponent implements ControlValueAccessor {
     // Limpiar el valor del input para permitir que el mismo archivo se pueda seleccionar de nuevo
     input.value = '';
 
-    console.log(this.files);
-
     // Notificar a Reactive Forms del cambio en el valor
     this.onChange(this.files);
   }

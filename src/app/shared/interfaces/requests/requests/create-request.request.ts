@@ -1,5 +1,4 @@
 import { PolicyCategoryEnum } from 'src/app/shared/enums/policy-category.enum';
-import { RequestType } from 'src/app/shared/enums/request-type.enum';
 import { AddressInfoRequest } from '../common/address-info.request';
 
 export interface CreateRequestRequest {

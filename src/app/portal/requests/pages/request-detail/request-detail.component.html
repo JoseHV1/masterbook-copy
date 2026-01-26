@@ -120,7 +120,13 @@
           </mat-accordion>
         </div>
 
-        <div class="my-4">
+        <div
+          class="my-4"
+          *ngIf="
+            (request.request_documents &&
+              request.request_documents.length > 0) ||
+            isInsured
+          ">
           <mat-accordion>
             <mat-expansion-panel [expanded]="true">
               <mat-expansion-panel-header>
@@ -158,7 +164,31 @@
             <mat-expansion-panel [expanded]="true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <span class="subtitle-2 dark-blue-400"> Quotes </span>
+                  <div
+                    class="d-flex align-items-center justify-content-between w-100">
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="subtitle-2 dark-blue-400">
+                        Available Quotes
+                      </span>
+                      <span class="badge-quotes-quantity"
+                        >{{ quotes.length }} found</span
+                      >
+                    </div>
+                    <button
+                      class="primary-button back-orange white mx-1 d-flex align-items-center"
+                      *ngIf="
+                        request.status !== REQUEST_STATUS.CLOSED && !isInsured
+                      "
+                      type="button"
+                      (click)="handleCreateQuote($event)">
+                      <span
+                        class="material-icons-outlined"
+                        style="color: white !important">
+                        add
+                      </span>
+                      Create Quote
+                    </button>
+                  </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <ng-container
@@ -189,20 +219,75 @@
 
 <ng-template #documentsInfoTemplate>
   <div class="row mx-1 mx-md-2">
-    <ng-container *ngFor="let item of request.request_documents; let i = index">
-      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+    <ng-container
+      *ngIf="
+        isBroker || (!isBroker && request.request_documents.length > 0);
+        else formRequesDocument
+      ">
+      <div
+        class="col col-12 col-md-6 px-2 px-md-4 my-2"
+        *ngFor="let item of request.request_documents; let i = index">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">
-            Document {{ i + 1 }}
+          <div
+            class="alert-login-google py-2 px-3 mt-1 mb-1"
+            *ngIf="isBroker && !connected"
+            style="font-size: 14px">
+            To send the request document to insurers, you must be logged in with
+            Google.
+            <span class="button-login-google" (click)="loginGoogle()">
+              You can log in here.</span
+            >
           </div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            <a (click)="openAttach(item)" target="_blank" class="attach-link">
-              {{ item | customFile }}
-            </a>
+
+          <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+            <div class="row">
+              <div class="col-12 col-md-4 black px-2 py-2">
+                Document {{ i + 1 }}
+              </div>
+              <div
+                class="col-12 col-md-8 black px-3 py-2 d-flex align-items-center justify-content-between prop-box">
+                <a
+                  (click)="openAttach(item)"
+                  target="_blank"
+                  class="attach-link">
+                  {{ item | customFile }}
+                </a>
+
+                <span
+                  class="material-icons-outlined ms-2 light-blue-600"
+                  style="cursor: pointer"
+                  *ngIf="isBroker && connected"
+                  matTooltip="Send this document via email"
+                  (click)="sendQuoteViaEmail(i)">
+                  send
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </ng-container>
+    <ng-template #formRequesDocument>
+      <form [formGroup]="form">
+        <div class="col-12 mb-1 mb-md-2">
+          <label>Request document *</label>
+          <app-file-picker
+            placeholder="Attach request document"
+            formControlName="request_documents"
+            data-testid="request-upload-input">
+          </app-file-picker>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center">
+          <button
+            class="primary-button big-button back-light-blue-400 white mx-1 mb-2"
+            (click)="uploadRequestForm()"
+            [disabled]="form.invalid">
+            Upload File
+          </button>
+        </div>
+      </form>
+    </ng-template>
   </div>
 </ng-template>
 
@@ -386,127 +471,81 @@
 </ng-template>
 
 <ng-template #quotesInfoTemplate>
-  <div class="table-responsive quotes-table" data-testid="quotes-section">
-    <form [formGroup]="quotesForm" *ngIf="quotesForm">
-      <table class="w-100">
-        <!-- head -->
-        <tr>
-          <th class="text-nowrap px-2">Quote ID</th>
-          <th class="text-nowrap px-2">Insurance company</th>
-          <th class="text-nowrap px-2">Date of quotes</th>
-          <th class="text-nowrap px-2">Premium amount</th>
-          <th class="text-nowrap px-2">Coverage</th>
-          <th class="text-nowrap px-2">Deductible $</th>
-          <th></th>
-          <th></th>
-        </tr>
-
-        <!-- list -->
-        <tr *ngFor="let element of quotes" data-testid="quote-row">
-          <td class="text-nowrap px-2">{{ '#' + element.serial }}</td>
-          <td class="text-nowrap px-2">
-            {{ element.insurer?.name | notNull }}
-          </td>
-          <td class="text-nowrap px-2">
-            {{ element.quote_date | date | notNull }}
-          </td>
-          <td class="text-nowrap px-2">
-            {{ element.prime_amount | currency | notNull }}
-          </td>
-          <td class="text-nowrap px-2">
-            {{ element.coverage | currency | notNull }}
-          </td>
-          <td class="text-nowrap px-2">
-            {{ element.deductible | currency | notNull }}
-          </td>
-          <td>
-            <img
-              src="/assets/icons/pdf.svg"
+  <ng-container *ngIf="quotes.length; else notQuotes">
+    <div
+      class="d-flex flex-column gap-2 align-items-center justify-content-center">
+      <div class="card w-100 py-3 px-4 mb-3" *ngFor="let element of quotes">
+        <div
+          class="col-12 col-md-6 d-flex align-items-center justify-content-between">
+          <div class="d-flex flex-column">
+            <span class="subtitle-2 dark-blue-400">
+              {{ element.insurer?.name | notNull }}
+            </span>
+            <small class="text-muted"
+              >#{{ element.serial | notNull }} |
+              {{ element.quote_date | date | notNull }}</small
+            >
+          </div>
+          <div>
+            <span
+              class="material-icons-outlined"
+              style="cursor: pointer"
+              matTooltip="View PDF"
               (click)="openAttach(element.document)"
-              style="cursor: pointer; height: 45px !important"
-              class="pb-3"
-              *ngIf="element.document" />
-          </td>
-          <td>
-            <app-quote-selection-button
-              [quote]="element"
-              (createPolicy)="goToPolicy($event)"
-              (changeStatus)="setQuoteStatus($event, element._id)"
-              [request]="request"></app-quote-selection-button>
-          </td>
-        </tr>
+              *ngIf="element.document">
+              picture_as_pdf
+            </span>
+          </div>
+        </div>
+        <div
+          class="information-card d-flex align-items-center justify-content-center w-100 mt-3 shadow-sm">
+          <div class="d-flex align-items-center flex-column stat-item">
+            <span class="stat-label">PREMIUM</span>
+            <span class="stat-value">{{
+              element.prime_amount | currency | notNull
+            }}</span>
+          </div>
 
-        <!-- form -->
-        <tr
-          *ngIf="request.status !== REQUEST_STATUS.CLOSED && !isInsured"
-          data-testid="quote-form-row">
-          <td class="text-nowrap px-2">
-            <app-input
-              placeholder="#QT-XXXX"
-              type="text"
-              formControlName="quote_id"
-              data-testid="quote-id"></app-input>
-          </td>
+          <div class="vr separator"></div>
 
-          <td class="text-nowrap px-2" data-testid="quote-company">
-            <app-insurance-company-selector
-              [placeholder]="'Select a company'"
-              formControlName="insurer_id"></app-insurance-company-selector>
-          </td>
+          <div class="d-flex align-items-center flex-column stat-item">
+            <span class="stat-label">COVERAGE</span>
+            <span class="stat-value">{{
+              element.coverage | currency | notNull
+            }}</span>
+          </div>
 
-          <td class="text-nowrap px-2" data-testid="quote-date">
-            <app-date-field
-              [placeholder]="'Select a date'"
-              formControlName="quote_date"></app-date-field>
-          </td>
+          <div class="vr separator"></div>
 
-          <td class="text-nowrap px-2" data-testid="quote-premium">
-            <app-input
-              placeholder="$ 0.00"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              formControlName="prime_amount"></app-input>
-          </td>
+          <div class="d-flex align-items-center flex-column stat-item">
+            <span class="stat-label">DEDUCTIBLE</span>
+            <span class="stat-value">
+              {{ element.deductible | currency | notNull }}</span
+            >
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center mt-2">
+          <app-quote-selection-button
+            [quote]="element"
+            (createPolicy)="goToPolicy($event)"
+            (changeStatus)="setQuoteStatus($event, element._id)"
+            [request]="request"></app-quote-selection-button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 
-          <td class="text-nowrap px-2" data-testid="quote-coverage">
-            <app-input
-              placeholder="$ 0.00"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              formControlName="coverage"></app-input>
-          </td>
-
-          <td class="text-nowrap px-2" data-testid="quote-deductible">
-            <app-input
-              placeholder="$ 0.00"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              formControlName="deductible"></app-input>
-          </td>
-
-          <td class="px-2" data-testid="quote-upload">
-            <app-file-picker
-              [id]="'request-file-upload'"
-              formControlName="document"
-              [mode]="fileUploadMode.ICON"></app-file-picker>
-          </td>
-
-          <td class="px-2">
-            <button
-              class="primary-button big-button back-light-blue-500 white"
-              (click)="saveQuote()"
-              [disabled]="quotesForm.invalid"
-              data-testid="quote-add">
-              Add
-            </button>
-          </td>
-        </tr>
-      </table>
-    </form>
-  </div>
+  <ng-template #notQuotes>
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <img
+        src="assets/images/empty/default-empty.svg"
+        alt="empty"
+        style="max-height: 10rem" />
+      <h3 class="text-center mt-3 mb-4 w-100 subtitle-2 dark-blue-300">
+        No quotes available for this request.
+      </h3>
+    </div>
+  </ng-template>
 </ng-template>
 
 <ng-template #policylInfoTemplate>

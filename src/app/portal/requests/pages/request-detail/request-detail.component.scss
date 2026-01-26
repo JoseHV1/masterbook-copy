@@ -62,4 +62,72 @@
       background-color: $white;
     }
   }
+
+  .alert-login-google {
+    background-color: $light-blue-100;
+    border: 2px $light-blue-400 solid;
+    border-radius: 0.4rem;
+    text-align: justify;
+  }
+
+  .button-login-google {
+    cursor: pointer !important;
+    font-weight: 600;
+    &:hover {
+      opacity: 80%;
+    }
+  }
+
+  .badge-quotes-quantity {
+    border-radius: 10px;
+    padding: 0 0.7rem;
+    color: $white;
+    background: $gray-300;
+    font-size: 12px;
+  }
+
+  .information-card {
+    background-color: $white;
+    border: 1px solid $portal-gray-200;
+    border-radius: 12px;
+    padding: 1rem 0.5rem;
+    width: 100%;
+  }
+
+  .stat-item {
+    flex: 1;
+    padding: 0 1rem;
+  }
+
+  .stat-label {
+    color: $gray-200;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .stat-value {
+    color: $dark-blue-400;
+    font-size: 1.15rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .separator {
+    height: 35px;
+    width: 1px;
+    background-color: $portal-gray-200;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 576px) {
+    .stat-value {
+      font-size: 0.95rem;
+    }
+    .stat-item {
+      padding: 0 0.5rem;
+    }
+  }
 }

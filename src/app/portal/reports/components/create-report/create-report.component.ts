@@ -218,14 +218,12 @@ export class ReportConfigComponent implements OnInit {
     // Select policy category
     this._datasets.getPolicyCategoriesDataset().subscribe({
       next: item => {
-        console.log(item);
         this.dropDownPolicyCategory = this.addAllOption(
           item.map(item => ({
             code: item._id,
             name: item.name,
           }))
         );
-        console.log(this.dropDownPolicyCategory);
       },
     });
 
