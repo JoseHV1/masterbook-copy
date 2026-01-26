@@ -5,19 +5,35 @@
       request.status !== RequestStatusEnum.CLOSED;
     else defaultTemplate
   ">
-  <div class="selected-quote-button white m-2 d-flex">
-    <div class="selection-side" (click)="toggleStatus()">Selected</div>
-    <div class="policy-side" [matMenuTriggerFor]="menu">
+  <div class="m-2 d-flex">
+    <button
+      class="primary-button big-button back-dark-blue-400 white d-flex align-items-center justify-content-center"
+      style="gap: 10px"
+      data-testid="quote-selected">
       <span
-        class="material-icons-outlined white p-0"
+        (click)="toggleStatus()"
+        class="flex-grow-1"
+        style="cursor: pointer">
+        Selected
+      </span>
+
+      <span
+        [matMenuTriggerFor]="menu"
+        class="material-icons-outlined white"
         style="cursor: pointer"
-        matTooltip="Options">
+        data-testid="quote-actions">
         arrow_drop_down
       </span>
-    </div>
+    </button>
   </div>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="goToPolicy()">Create policy</button>
+
+  <mat-menu #menu="matMenu" xPosition="before">
+    <button
+      mat-menu-item
+      (click)="goToPolicy()"
+      data-testid="quote-create-policy">
+      Create policy
+    </button>
   </mat-menu>
 </ng-container>
 
@@ -26,10 +42,10 @@
     class="primary-button big-button back-dark-blue-400 white m-2"
     *ngIf="quote.status !== QuoteStatusEnum.ACCEPTED"
     (click)="toggleStatus()"
+    data-testid="quote-choose"
     [disabled]="
-      [RequestStatusEnum.QUOTE_SELECTED, RequestStatusEnum.CLOSED].includes(
-        request.status
-      )
+      request.status === RequestStatusEnum.QUOTE_SELECTED ||
+      request.status === RequestStatusEnum.CLOSED
     ">
     Choose
   </button>
@@ -38,7 +54,8 @@
     class="primary-button big-button back-dark-blue-400 white m-2"
     *ngIf="quote.status === QuoteStatusEnum.ACCEPTED"
     (click)="toggleStatus()"
-    [disabled]="[RequestStatusEnum.CLOSED].includes(request.status)">
+    data-testid="quote-selected-button"
+    [disabled]="request.status === RequestStatusEnum.CLOSED">
     Selected
   </button>
 </ng-template>

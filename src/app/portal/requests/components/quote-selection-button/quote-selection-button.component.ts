@@ -24,7 +24,8 @@ export class QuoteSelectionButtonComponent {
   RequestStatusEnum = RequestStatusEnum;
 
   constructor(private _auth: AuthService) {
-    const currentUser = (this._auth.getAuth() as AuthModel).user;
+    const authData = this._auth.getAuth() as AuthModel;
+    const currentUser = authData?.user;
     this.isAgent = currentUser?.role
       ? brokerRolesDataset.includes(currentUser.role)
       : false;
@@ -33,11 +34,19 @@ export class QuoteSelectionButtonComponent {
   toggleStatus(): void {
     if (this.request.status === RequestStatusEnum.CLOSED) return;
 
-    const status =
+    if (
+      this.request.status === RequestStatusEnum.QUOTE_SELECTED &&
+      this.quote.status !== QuoteStatusEnum.ACCEPTED
+    ) {
+      return;
+    }
+
+    const newStatus =
       this.quote.status === QuoteStatusEnum.ACCEPTED
         ? QuoteStatusEnum.NOT_ACCEPTED
         : QuoteStatusEnum.ACCEPTED;
-    this.changeStatus.emit(status);
+
+    this.changeStatus.emit(newStatus);
   }
 
   goToPolicy(): void {

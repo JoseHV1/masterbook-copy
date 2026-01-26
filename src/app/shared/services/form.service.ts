@@ -14,6 +14,7 @@ import { ApiResponseModel } from '../interfaces/models/api-response.model';
 import { CreateFormRequest } from '../interfaces/requests/forms/create-form.request';
 import { UpdateFormRequest } from '../interfaces/requests/forms/update-form.request';
 import { NewFormRequest } from '../interfaces/requests/forms/new-form.request';
+import { FormViaEmailModel } from '../models/form-via-email.model';
 
 @Injectable({
   providedIn: 'root',
@@ -107,5 +108,16 @@ export class FormService {
         },
       ],
     };
+  }
+
+  sendFormViaEmail(
+    req: FormViaEmailModel
+  ): Observable<{ message: string; count: number }> {
+    return this._http
+      .post<ApiResponseModel<{ message: string; count: number }>>(
+        `${environment.apiUrl}form/send-via-email`,
+        req
+      )
+      .pipe(map(resp => resp.data));
   }
 }

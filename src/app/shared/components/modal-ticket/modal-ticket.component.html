@@ -29,6 +29,12 @@
 
     <div class="d-flex align-items-center justify-content-center">
       <button
+        class="primary-button white back-gray-400 mx-1"
+        (click)="close(false)">
+        Close
+      </button>
+
+      <button
         class="primary-button big-button back-light-blue-400 white mx-1 mt-2"
         (click)="createTicket()"
         [disabled]="form.invalid">

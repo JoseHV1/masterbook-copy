@@ -12,6 +12,7 @@ import { TutorService } from '@app/shared/services/tutor.service';
 import { TutorsSlugsEnum } from '@app/shared/enums/tutors-slugs.enum';
 import { AuthService } from '@app/shared/services/auth.service';
 import { AuthModel } from '@app/shared/interfaces/models/auth.model';
+import { RolesEnum } from '@app/shared/enums/roles.enum';
 
 @Component({
   selector: 'app-requests-list',
@@ -22,6 +23,7 @@ export class RequestsListComponent
   extends FilteredTable<PopulatedRequestModel>
   implements AfterViewInit
 {
+  isInsured!: boolean;
   filterConfig!: FilterWrapperModel;
 
   data: PaginatedResponse<PopulatedRequestModel[]> = {
@@ -40,6 +42,7 @@ export class RequestsListComponent
   ) {
     super();
     const currentUser = this._auth.getAuth() as AuthModel;
+    this.isInsured = currentUser.user.role !== RolesEnum.INSURED ? true : false;
     this.filterConfig = this._requests.getRequestsListFilters(
       currentUser.user.role as string
     );

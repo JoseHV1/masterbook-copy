@@ -113,7 +113,7 @@ export class FormNewBusinessComponent implements OnChanges, OnInit {
       client_id: new FormControl(null, [Validators.required]),
       insure_object: new FormControl(null, [Validators.required]),
       coverage: new FormControl(null, [Validators.required]),
-      request_documents: new FormControl(null, [Validators.required]),
+      request_documents: new FormControl(null, []), // TODO: If the property is null, the request status will be "Request for Completion".
       address_info: new FormControl(null, [Validators.required]),
     });
   }

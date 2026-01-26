@@ -5,6 +5,7 @@ import { finalize } from 'rxjs';
 import { RolesEnum } from 'src/app/shared/enums/roles.enum';
 import { PaymetGatewayService } from 'src/app/shared/services/payment-gateway.service';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-internal-navbar-options',
@@ -21,13 +22,18 @@ export class InternalNavbarOptionsComponent {
     private _auth: AuthService,
     private _router: Router,
     private _paymentGateway: PaymetGatewayService,
-    private _ui: UiService
+    private _ui: UiService,
+    private _uploadFile: UploadFileService
   ) {
     const auth = this._auth.getAuth();
 
-    if (auth) {
-      this.imageProfile =
-        auth.user.photo_url ?? '/assets/images/portal/image_default.webp';
+    if (auth && auth.user.photo_url != null) {
+      this._uploadFile.getUrlFile(auth.user.photo_url ?? '').subscribe(url => {
+        this.imageProfile =
+          url ?? '/assets/images/portal/image_default.webp';
+      });
+      /*this.imageProfile =
+        auth.user.photo_url ?? '/assets/images/portal/image_default.webp';*/
       this.userRole = auth.user.role;
     } else {
       this.imageProfile = '/assets/images/portal/image_default.webp';

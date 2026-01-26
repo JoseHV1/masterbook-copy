@@ -297,10 +297,304 @@
     "PLATFORM_SETTINGS_NOT_FOUND": "Platform settings not found.",
     "INVALID_ATTACHMENT": "Attachment content not found.",
     "UNAUTHORIZED": "Your session has expired, please log in again.",
-    "INVALID_CAPTCHA": "The captcha verification has failed or the token has expired"
+    "INVALID_CAPTCHA": "The captcha verification has failed or the token has expired",
+    "DOCUMENT_NOT_FOUND": "Document not found.",
+    "INVALID_DOCUMENT": "Invalid document."
   },
   "NOTIFICATIONS": {
     "READ": "Read",
     "UNREAD": "Unread"
+  },
+  "TERMS": {
+    "TITLE": "Terms and Conditions of Service for MyMasterBook",
+    "LAST_UPDATE": "Last Updated: July 29, 2025",
+    "INTRO": {
+      "WELCOME": "Welcome to",
+      "DESC": "(the \"Service\"), a cloud-based insurance management platform designed specifically for insurance brokers (the \"Users\" or \"You\") and insurance agencies. The Service is provided by",
+      "COMPANY_INFO": "a company registered in San Juan, PR (\"We\", \"Our\" or \"the Company\").",
+      "ACCEPTANCE": "By registering, accessing or using the Service, You agree and commit to comply with these Terms and Conditions (the \"Terms\") and our Privacy Policy, which is incorporated into these Terms by reference. If you do not agree with these Terms, you must not use the Service."
+    },
+    "SECTIONS": {
+      "S1_DEFINITIONS": {
+        "TITLE": "1. Key Definitions",
+        "SERVICE_L": "Service:",
+        "SERVICE_T": "The software as a service (SaaS) platform provided by Quantum Spot Media LLC, including all its features, functionalities, software, mobile applications, websites and any other related service offered.",
+        "USER_L": "User/You:",
+        "USER_T": "Any natural or legal person who registers and uses the Service, including, but not limited to, insurance brokers, insurance agencies and their authorized employees.",
+        "CONTENT_L": "User Content:",
+        "CONTENT_T": "Any data, information, text, image, file or other material that You or your authorized users upload, process or transmit through the Service.",
+        "IP_L": "Intellectual Property (IP):",
+        "IP_T": "Copyright, patents, trademarks, trade secrets and other intellectual property rights.",
+        "DATA_L": "Personal Data:",
+        "DATA_T": "Any information related to an identified or identifiable natural person.",
+        "LAW_L": "Applicable Law:",
+        "LAW_T": "The laws and regulations of the specific jurisdiction that govern a particular part of these Terms or the provision of the Service."
+      },
+      "S2_ACCEPTANCE": {
+        "TITLE": "2. Acceptance of Terms",
+        "TEXT": "By accessing and using the Service, You represent and warrant that you have the legal capacity to enter into a binding contract with Quantum Spot Media LLC and that you agree to comply with all the Terms set forth herein. If You use the Service on behalf of an entity, You represent that you have the authority to bind such entity to these Terms."
+      },
+      "S3_DESCRIPTION": {
+        "TITLE": "3. Description of the Service",
+        "NAME_L": "MyMasterBook.net",
+        "TEXT": "is an integrated management platform (SaaS) designed for insurance brokers, which centralizes the administration of clients and policies, optimizes the processing of applications and quotes with insurers, allows advanced management of commissions and accounts receivable, and facilitates efficient claims management, all complemented by financial reports and communication tools to streamline internal operations."
+      },
+      "S4_ACCOUNTS": {
+        "TITLE": "4. Registration and User Accounts",
+        "REQ_L": "Requirements:",
+        "REQ_T": "To use the Service, you must register and create an account. You must provide accurate, complete and up-to-date information during the registration process.",
+        "CONF_L": "Account Confidentiality:",
+        "CONF_T": "You are solely responsible for maintaining the confidentiality of your username and password and for all activities that occur under your account. Notify us immediately of any unauthorized use of your account.",
+        "AGE_L": "Age Restrictions:",
+        "AGE_T": "The Service is not intended for individuals under 18 years of age. If you are under 18, you must not use the Service."
+      },
+      "S5_PAYMENTS": {
+        "TITLE": "5. Subscription, Pricing, and Payments",
+        "PLANS_L": "Subscription Plans:",
+        "PLANS_T": "The Service is offered through paid subscription plans. Details are available at [pricing link].",
+        "BILLING_L": "Billing and Payments:",
+        "BILLING_T": "Payments are recurring and billed monthly or annually. You authorize us to charge your payment method.",
+        "RENEWAL_L": "Automatic Renewal:",
+        "RENEWAL_T": "Your subscription will automatically renew unless canceled before the renewal date.",
+        "TAX_L": "Taxes:",
+        "TAX_T": "Prices do not include applicable taxes. You are responsible for all government-imposed duties.",
+        "CHANGES_L": "Price Changes:",
+        "CHANGES_T": "We reserve the right to modify prices with prior notice.",
+        "REFUNDS_L": "Refunds:",
+        "REFUNDS_T": "Refund Policy, e.g., No refunds are offered for partial subscription periods."
+      },
+      "S6_CONDUCT": {
+        "TITLE": "6. Use of the Service and Prohibited Conduct",
+        "USE_L": "Permitted Use:",
+        "USE_T": "You agree to use the Service solely for legitimate business purposes.",
+        "PROHIBITED_L": "Prohibited Conduct:",
+        "PROHIBITED_T": "You agree NOT to: violate laws, upload harmful content, reverse engineer the software, or interfere with service performance."
+      },
+      "S7_IP": {
+        "TITLE": "7. Intellectual Property (IP)",
+        "OUR_IP_L": "Our IP:",
+        "OUR_IP_T": "All rights to the Service belong exclusively to Quantum Spot Media LLC.",
+        "LICENSE_L": "User License:",
+        "LICENSE_T": "You grant us a license to use your content solely to provide the Service.",
+        "YOUR_IP_L": "Your IP:",
+        "YOUR_IP_T": "You retain all rights to your User Content."
+      },
+      "S8_PRIVACY": {
+        "TITLE": "8. Privacy and Data Protection",
+        "POLICY_L": "Privacy Policy:",
+        "POLICY_T": "Our policy governs the collection of data. Please review it at [link].",
+        "ROLES_L": "Role of the Parties:",
+        "PROCESSOR_L": "Data Processor (Us):",
+        "PROCESSOR_T": "We act on behalf of the User.",
+        "CONTROLLER_L": "Data Controller (You):",
+        "CONTROLLER_T": "You are responsible for obtaining necessary consents.",
+        "DPA_L": "DPA:",
+        "DPA_T": "We offer a Data Processing Agreement to comply with GDPR.",
+        "TRANSFERS_L": "International Transfers:",
+        "TRANSFERS_T": "Transfers outside the EEA follow valid legal mechanisms."
+      },
+      "S9_CONFIDENTIALITY": {
+        "TITLE": "9. Confidentiality",
+        "TEXT": "Both parties agree to keep all technical and business information confidential."
+      },
+      "S10_WARRANTIES": {
+        "TITLE": "10. Representations and Warranties",
+        "OUR_W_L": "Our Warranties:",
+        "OUR_W_T": "The Service will function substantially according to documentation.",
+        "DISCLAIMER_L": "Disclaimer:",
+        "DISCLAIMER_T": "THE SERVICE IS PROVIDED 'AS IS' WITHOUT ANY IMPLIED WARRANTIES."
+      },
+      "S11_LIABILITY": {
+        "TITLE": "11. Limitation of Liability",
+        "LIMITS_L": "General Limits:",
+        "LIMITS_T": "We are not liable for indirect or consequential damages.",
+        "MAX_L": "Maximum Liability:",
+        "MAX_T": "Total liability shall not exceed the amount paid in the last 12 months.",
+        "JURISDICTION_L": "Specific Jurisdictions:",
+        "JURISDICTION_T": "Some exclusions may not apply in certain regions."
+      },
+      "S12_INDEMNITY": {
+        "TITLE": "12. Indemnification",
+        "TEXT": "You agree to defend and hold us harmless from claims related to your use of the Service or breach of these Terms."
+      },
+      "S13_MODIFICATIONS": {
+        "TITLE": "13. Modifications to the Terms",
+        "TEXT": "We reserve the right to modify these terms. Continued use constitutes acceptance."
+      },
+      "S14_TERMINATION": {
+        "TITLE": "14. Term and Termination",
+        "TERM_L": "Term:",
+        "TERM_T": "Terms remain in effect while you use the Service.",
+        "USER_TERM_L": "Termination by You:",
+        "USER_TERM_T": "You may cancel your subscription at any time.",
+        "OUR_TERM_L": "Termination by Us:",
+        "OUR_TERM_T": "We may suspend access if you breach these terms.",
+        "EFFECTS_L": "Effects:",
+        "EFFECTS_T": "Rights to use the Service cease immediately upon termination."
+      },
+      "S15_GENERAL": {
+        "TITLE": "15. General Provisions",
+        "ENTIRE_L": "Entire Agreement:",
+        "ENTIRE_T": "These terms constitute the full agreement.",
+        "SEVERABILITY_L": "Severability:",
+        "SEVERABILITY_T": "Invalid provisions will be limited to the minimum extent necessary.",
+        "WAIVER_L": "Waiver:",
+        "WAIVER_T": "Failure to enforce a right does not constitute a waiver.",
+        "FORCE_L": "Force Majeure:",
+        "FORCE_T": "We are not liable for events beyond our control.",
+        "NOTICES_L": "Notices:",
+        "NOTICES_T": "Sent via email or within the Service.",
+        "ASSIGNMENT_L": "Assignment:",
+        "ASSIGNMENT_T": "You may not assign rights without our consent."
+      },
+      "S16_LAW": {
+        "TITLE": "16. Applicable Law and Dispute Resolution",
+        "OPTION2_TITLE": "Option 2: Unification under one Law",
+        "LAW_L": "Applicable Law:",
+        "LAW_T": "Governed by the laws of the Commonwealth of Puerto Rico.",
+        "DISPUTE_L": "Dispute Resolution:",
+        "DISPUTE_T": "Submitted to the exclusive jurisdiction of the courts of Puerto Rico."
+      }
+    }
+  },
+  "PRIVACY": {
+    "TITLE": "Privacy and Data Confidentiality Policy of MyMasterBook.net",
+    "DATE_VIGOR": "Effective Date: July 2025",
+    "DATE_UPDATE": "Last Updated: July 29, 2025",
+    "INTRO_P1": "At MasterBook, we understand the importance of privacy and personal data protection. This Privacy and Confidentiality Policy (the \"Policy\") describes how MasterBook (\"We\", \"Our\" or \"the Company\") collects, uses, discloses, and protects the information that You (\"User\" or \"You\") provide to us when using our software as a service (SaaS) for insurance brokers (the \"Service\").",
+    "INTRO_P2": "By using the Service, You agree to the practices described in this Policy. If you do not agree with this Policy, you must not use the Service.",
+    "SECTIONS": {
+      "S1": {
+        "TITLE": "1. Key Definitions",
+        "L1": "Personal Data:",
+        "T1": "Any information relating to an identified or identifiable natural person (\"Data Subject\"). An identifiable natural person is one who can be identified, directly or indirectly, in particular by reference to an identifier such as a name, an identification number, location data, an online identifier, or to one or more factors specific to the physical, physiological, genetic, mental, economic, cultural, or social identity of that natural person.",
+        "L2": "Processing:",
+        "T2": "Any operation or set of operations performed on Personal Data or sets of Personal Data, whether or not by automated means, such as collection, recording, organization, structuring, storage, adaptation or alteration, retrieval, consultation, use, disclosure by transmission, dissemination or otherwise making available, alignment or combination, restriction, erasure or destruction.",
+        "L3": "Data Controller (or \"Business\" in California):",
+        "T3": "The natural or legal person, public authority, agency, or other body which, alone or jointly with others, determines the purposes and means of the processing of Personal Data. In the context of your client and policy information that You upload to our Service, You are the Data Controller.",
+        "L4": "Data Processor (or \"Service Provider\" in California):",
+        "T4": "The natural or legal person, public authority, agency, or other body which processes Personal Data on behalf of the Controller. In the context of your client and policy information that You upload to our Service, MasterBook is the Data Processor.",
+        "L5": "User:",
+        "T5": "The natural or legal person who registers for and uses the Service, i.e., the insurance broker or insurance agency."
+      },
+      "S2": {
+        "TITLE": "2. Information We Collect",
+        "INTRO": "We collect two main types of information:",
+        "SUB21": "2.1. Information You Provide Directly (User Account and Usage Data):",
+        "L1": "Registration Data:",
+        "T1": "When you register for an account, we collect information such as your name, company name, email address, phone number, mailing address, billing information (e.g., credit card or bank account details), and login credentials.",
+        "L2": "Communication:",
+        "T2": "Information you provide to us when you contact our technical support, sales, or any other inquiry (e.g., emails, chat transcripts).",
+        "L3": "Survey/Feedback Information:",
+        "T3": "Information you provide when you participate in surveys or provide us with feedback about the Service.",
+        "SUB22": "2.2. Information We Collect Automatically (Usage and Technology Data):",
+        "L4": "Usage Data:",
+        "T4": "Information about how you access and use the Service, including IP addresses, browser type, operating system, pages visited, time spent on the Service, clicks, and navigation paths.",
+        "L5": "Cookies and Similar Technologies:",
+        "T5": "We use cookies and similar tracking technologies (e.g., web beacons, pixels) to collect information about your browsing activity, personalize your experience, and perform analytics. You can manage your cookie preferences through your browser settings.",
+        "SUB23": "2.3. User Content (Data Processed by Us on Your Behalf):",
+        "T6": "This is the most sensitive and crucial type of information. It comprises all the data that You (the User/Data Controller) upload, enter, or process through our Service, which may include, but is not limited to:",
+        "L6": "Personal Data of Your Clients and Potential Clients:",
+        "T6_LIST": "Names, addresses, phone numbers, emails, dates of birth, health information (if relevant to the type of insurance), financial information, policy numbers, claims history, etc.",
+        "L7": "Policy and Claims Related Data:",
+        "T7_LIST": "Insurance policy details, premiums, expiration dates, coverage information, claims data, and other operational data relevant to your insurance brokerage business.",
+        "FOOTER": "In relation to User Content, MasterBook acts strictly as a Data Processor, and You (the User) are the Data Controller. We do not use this User Content for our own purposes, except to provide and maintain the Service, prevent fraud, resolve technical issues, or as required by law."
+      },
+      "S3": {
+        "TITLE": "3. How We Use Information",
+        "INTRO": "We use the information collected for the following purposes:",
+        "SUB31": "3.1. To Provide and Maintain the Service:",
+        "I31_1": "To operate, maintain, and improve the features and functionalities of the Service.",
+        "I31_2": "To manage your account and provide you with access to the Service.",
+        "I31_3": "To process your transactions and send you invoices and notices.",
+        "SUB32": "3.2. To Communicate with You:",
+        "I32_1": "To respond to your technical support inquiries.",
+        "I32_2": "To send you service notifications, updates, security alerts, and administrative messages.",
+        "I32_3": "To send you marketing and promotional communications (with your consent, if required).",
+        "SUB33": "3.3. To Improve and Personalize the Service:",
+        "I33_1": "To understand how users interact with the Service and develop new features.",
+        "I33_2": "To personalize your experience within the Service.",
+        "SUB34": "3.4. For Security and Legal Compliance:",
+        "I34_1": "To detect and prevent fraudulent or unauthorized activities.",
+        "I34_2": "To comply with applicable legal and regulatory obligations.",
+        "I34_3": "To enforce our Terms and Conditions.",
+        "SUB35": "3.5. For Analysis and Monitoring:",
+        "I35_1": "To perform data analysis and monitor usage trends and activity within the Service.",
+        "I35_2": "This is generally done with aggregated or anonymized data whenever possible."
+      },
+      "S4": {
+        "TITLE": "4. How We Share Information",
+        "INTRO": "We do not sell, rent, or trade your personal information. We share information only in the following circumstances and for the purposes described in this Policy:",
+        "L1": "With Third-Party Service Providers:",
+        "T1": "We share information with trusted service providers who perform functions on our behalf, such as payment processing, data hosting, data analysis, marketing, and customer support. These third parties are contractually obligated to protect the confidentiality and security of your information and to use it only for the purposes for which it has been provided.",
+        "L2": "Affiliates and Subsidiaries:",
+        "T2": "We may share your information with our affiliated companies and subsidiaries to operate and improve our services.",
+        "L3": "Business Transfers:",
+        "T3": "In the event of a merger, acquisition, asset sale, or any other business transaction involving MasterBook, your information may be transferred as part of that transaction. We will notify you before your personal information is transferred and becomes subject to a different privacy policy.",
+        "L4": "Legal Compliance and Government Obligations:",
+        "T4": "We may disclose your information if we believe in good faith that it is necessary to: (a) comply with a legal obligation, such as a subpoena or court order; (b) protect and defend the rights or property of MasterBook; (c) prevent or investigate possible wrongdoing in connection with the Service; (d) protect the personal safety of Service users or the public; or (e) protect against legal liability.",
+        "L5": "With your consent:",
+        "T5": "We may share your information with third parties when we have your explicit consent to do so."
+      },
+      "S5": {
+        "TITLE": "5. User Content Data Protection (Data Processor Role)",
+        "INTRO": "As a Data Processor, we are committed to implementing appropriate technical and organizational security measures to protect User Content (which may include Personal Data of your clients) against unauthorized access, disclosure, alteration, or destruction. These measures include:",
+        "L1": "Technical Security:",
+        "T1": "Encryption in transit and at rest, robust access controls, regular security audits, malware protection, and intrusion detection systems.",
+        "L2": "Organizational Security:",
+        "T2": "Internal data access policies, staff training on data protection, and confidentiality agreements with employees and contractors.",
+        "L3": "Data Processing Agreement (DPA):",
+        "T3": "To comply with GDPR, CCPA, and other data protection laws, we offer a standard Data Processing Agreement (DPA) that governs our obligations as a Data Processor and your responsibilities as a Data Controller. You will be urged to sign this DPA if your operations require it.",
+        "FOOTER": "You, as the Data Controller, are responsible for:",
+        "I1": "Obtaining necessary consents from your clients to collect and process their Personal Data through the Service.",
+        "I2": "Ensuring that the User Content you upload to the Service is accurate, complete, and legal.",
+        "I3": "Responding to requests from Data Subjects (e.g., requests for access, rectification, erasure)."
+      },
+      "S6": {
+        "TITLE": "6. International Data Transfers",
+        "P1": "Given the global nature of our Service, information may be transferred, stored, and processed in countries outside of your jurisdiction, including [e.g., United States, European Economic Area countries]. We will implement appropriate security measures to protect your personal information in accordance with this Policy and applicable law.",
+        "L1": "For EU/EEA/UK Users:",
+        "T1": "If we transfer Personal Data outside the European Economic Area (EEA) or the United Kingdom, we will rely on valid data transfer mechanisms, such as Standard Contractual Clauses (SCCs) approved by the European Commission, the EU-U.S. Data Privacy Framework (if we are certified participants and transferring data to the U.S.), or binding corporate rules. You may request a copy of these mechanisms by contacting us."
+      },
+      "S7": {
+        "TITLE": "7. Your Privacy Rights",
+        "INTRO": "Depending on your location and applicable laws, you may have the following rights regarding your Personal Data:",
+        "L1": "Right of Access:",
+        "T1": "The right to request a copy of the Personal Data we hold about you.",
+        "L2": "Right of Rectification:",
+        "T2": "The right to request the correction of inaccurate or incomplete Personal Data.",
+        "L3": "Right to Erasure (\"Right to be Forgotten\"):",
+        "T3": "The right to request the deletion of your Personal Data under certain conditions.",
+        "L4": "Right to Restriction of Processing:",
+        "T4": "The right to request the limitation of the processing of your Personal Data under certain conditions.",
+        "L5": "Right to Data Portability:",
+        "T5": "The right to receive your Personal Data in a structured, commonly used, and machine-readable format, and to transmit it to another controller.",
+        "L6": "Right to Object:",
+        "T6": "The right to object to the processing of your Personal Data under certain conditions (e.g., for direct marketing).",
+        "L7": "Rights Related to Automated Decision-Making:",
+        "T7": "The right not to be subject to a decision based solely on automated processing, including profiling, which produces legal effects concerning you or similarly significantly affects you.",
+        "L8": "Right to Withdraw Consent:",
+        "T8": "If processing is based on your consent, you have the right to withdraw it at any time. Withdrawal of consent will not affect the lawfulness of processing based on consent before its withdrawal.",
+        "FOOTER": "To exercise any of these rights, please contact us using the information provided in Section 11. We may require you to verify your identity before processing your request."
+      },
+      "S8": {
+        "TITLE": "8. Data Retention",
+        "P1": "We will retain your Personal Data only for as long as necessary to fulfill the purposes for which it was collected, including for the purposes of satisfying any legal, accounting, or reporting requirements. The retention period for User Content (your clients' data) will depend on your instructions as the Data Controller, subject to our legal obligations as a Data Processor."
+      },
+      "S9": {
+        "TITLE": "9. Data Security",
+        "P1": "We have implemented commercially reasonable technical and organizational security measures designed to protect your Personal Data from unauthorized access, use, alteration, and disclosure. However, no data transmission over the Internet or storage system can be guaranteed to be 100% secure. Therefore, we cannot guarantee the absolute security of your information."
+      },
+      "S10": {
+        "TITLE": "10. Changes to this Privacy Policy",
+        "P1": "We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the revised Policy on our website or through direct notice. We encourage you to review this Policy periodically for any changes. Your continued use of the Service after the effective date of the revised Policy will constitute your acceptance of the changes."
+      },
+      "S11": {
+        "TITLE": "11. Contact Information",
+        "P1": "If you have any questions or concerns about this Privacy Policy or our privacy practices, or if you wish to exercise your privacy rights, please contact us at:",
+        "EMAIL_L": "MasterBook Email:",
+        "WEB_L": "Website:"
+      }
+    }
   }
 }

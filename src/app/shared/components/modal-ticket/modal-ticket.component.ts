@@ -37,6 +37,10 @@ export class ModalTicketComponent implements OnInit {
     }
   }
 
+  close(resp: boolean) {
+    this.dialogRef.close(resp);
+  }
+
   createTicket() {
     this.form.markAllAsTouched();
     this.form.updateValueAndValidity();

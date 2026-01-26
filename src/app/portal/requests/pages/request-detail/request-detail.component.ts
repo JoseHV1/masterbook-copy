@@ -1,6 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import {
   catchError,
@@ -18,50 +17,49 @@ import {
 import { PolicyCategoryEnum } from 'src/app/shared/enums/policy-category.enum';
 import { QuoteStatusEnum } from 'src/app/shared/enums/quote-status.enum';
 import { RequestStatusEnum } from 'src/app/shared/enums/request-status.enum';
-import { InsuranceCompanyModel } from 'src/app/shared/interfaces/models/insurance-company.model';
 import { PopulatedPolicyModel } from 'src/app/shared/interfaces/models/policy.model';
 import { PopulatedQuoteModel } from 'src/app/shared/interfaces/models/quote.model';
 import { PopulatedRequestModel } from 'src/app/shared/interfaces/models/request.model';
-import { CreateQuoteRequest } from 'src/app/shared/interfaces/requests/quotes/create-quote.request';
 import { UpdateQuoteStatusRequest } from 'src/app/shared/interfaces/requests/quotes/update-quote-status.request';
-import { DatasetsService } from 'src/app/shared/services/dataset.service';
 import { PoliciesService } from 'src/app/shared/services/policies.service';
 import { QuotesService } from 'src/app/shared/services/quotes.service';
 import { RequestsService } from 'src/app/shared/services/requests.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
-import { DropdownOption } from 'src/core/cdk/dropDown/dropdown.component';
-import { fileUploadMode } from 'src/core/cdk/file-upload/file-upload.component';
 import { RejectRequestModalComponent } from '../../components/reject-policy-modal/reject-request-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { FileInfoModel } from 'src/app/shared/interfaces/models/file-info.model';
-import { ConfiguredInsurerAsyncValidator } from 'src/app/shared/helpers/configured-insurer.validator';
-import { InsurerService } from 'src/app/shared/services/insurer.service';
 import { RolesEnum } from '@app/shared/enums/roles.enum';
 import { AuthService } from '@app/shared/services/auth.service';
 import { ModalChangeLogsComponent } from '@app/shared/components/modal-change-logs/modal-change-logs.component';
 import { ownersRolesDataset } from '@app/shared/datatsets/roles.datasets';
+import { IntegrationsService } from '@app/shared/services/integration.service';
+import { RequestViaEmailModel } from '@app/shared/models/request-via-email.model';
+import { ModalNewQuoteComponent } from '../../components/modal-new-quote/modal-new-quote.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UpdateRequestRequest } from '@app/shared/interfaces/requests/requests/update-request.request';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-request-detail',
   templateUrl: './request-detail.component.html',
   styleUrls: ['./request-detail.component.scss'],
 })
-export class RequestDetailComponent implements OnDestroy {
+export class RequestDetailComponent implements OnInit, OnDestroy {
   request!: PopulatedRequestModel;
   refreredPolicy?: PopulatedPolicyModel;
   REQUEST_STATUS = RequestStatusEnum;
   POLICY_CATEGORY = PolicyCategoryEnum;
-  quotesForm!: FormGroup;
-  insuranceCompaniesItems: DropdownOption[] = [];
-  fileUploadMode = fileUploadMode;
   quotes: PopulatedQuoteModel[] = [];
   showActions = false;
   rolesEnum = RolesEnum;
   isInsured = false;
   filterText = '';
   isOwner!: boolean;
+  isBroker: boolean = false;
+  connected: boolean = false;
+  form!: FormGroup;
 
   get baseRequestsPath() {
     return this.showActions ? 'portal/requests' : 'portal-client/requests';
@@ -79,19 +77,21 @@ export class RequestDetailComponent implements OnDestroy {
     private _ui: UiService,
     private _router: Router,
     private _location: Location,
-    private _dataset: DatasetsService,
     private _quotes: QuotesService,
     private _policy: PoliciesService,
     private _dialog: MatDialog,
-    private _insurer: InsurerService,
     private _auth: AuthService,
-    private dialog: MatDialog
+    private _integrations: IntegrationsService,
+    private _uploadFile: UploadFileService
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
     );
+
     this._initData();
+
     this.updateActionsVisibility(this._router.url);
+
     this._router.events
       .pipe(
         filter(e => e instanceof NavigationEnd),
@@ -100,7 +100,36 @@ export class RequestDetailComponent implements OnDestroy {
       .subscribe((e: any) => {
         this.updateActionsVisibility(e.urlAfterRedirects || e.url);
       });
+
     this.isInsured = this._auth.getAuth()?.user.role === this.rolesEnum.INSURED;
+
+    this.isBroker =
+      this._auth.getAuth()?.user.role !== RolesEnum.INSURED &&
+      this._auth.getAuth()?.user.role !== RolesEnum.ADMIN;
+
+    this.form = new FormGroup({
+      request_documents: new FormControl(null, [Validators.required]),
+    });
+  }
+
+  ngOnInit(): void {
+    this._integrations.getIntegrationsStatus().subscribe({
+      next: google => {
+        this.connected = !!google?.connected;
+      },
+      error: err => {
+        this._ui.showAlertError(`Status failed ${err}`);
+      },
+    });
+  }
+
+  loginGoogle() {
+    if (!this.connected) {
+      const returnTo = `/portal/request/${this.request.serial}`;
+      this._integrations.getGoogleAuthUrl(returnTo).subscribe(({ url }) => {
+        window.location.href = url;
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -109,9 +138,35 @@ export class RequestDetailComponent implements OnDestroy {
   }
 
   openModalChangeLogs(entityId: string): void {
-    this.dialog.open(ModalChangeLogsComponent, {
+    this._dialog.open(ModalChangeLogsComponent, {
       panelClass: 'custom-dialog-container',
       data: { entityId },
+    });
+  }
+
+  sendQuoteViaEmail(document_position: number) {
+    const payload: RequestViaEmailModel = {
+      document_id: document_position,
+      request_id: this.request._id,
+    };
+
+    this._ui.showLoader();
+    this._requests
+      .sendQuoteViaEmailToInsurers(payload)
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe({
+        next: resp => {
+          this._openSuccessModal(resp);
+        },
+        error: () => {},
+      });
+  }
+
+  private _openSuccessModal(resp: { message: string; count: number }) {
+    this._ui.showInformationModal({
+      text: `The email has been sent to ${resp.count} insurers`,
+      title: 'SUCCESS!',
+      type: UiModalTypeEnum.SUCCESS,
     });
   }
 
@@ -132,15 +187,12 @@ export class RequestDetailComponent implements OnDestroy {
         }),
         switchMap(() => {
           this.filterText = `&request_id=${this.request._id}`;
-          return forkJoin([
-            this._fetchQuotesData(this.request._id),
-            this._loadInsuranceCompanies(),
-          ]);
+          return forkJoin([this._fetchQuotesData(this.request._id)]);
         }),
         finalize(() => this._ui.hideLoader()),
         catchError(() => this._router.navigateByUrl('portal/requests'))
       )
-      .subscribe(() => this._initQuotesForm());
+      .subscribe();
   }
 
   private _fetchRequestData(
@@ -165,74 +217,23 @@ export class RequestDetailComponent implements OnDestroy {
       .pipe(tap(quotes => (this.quotes = quotes)));
   }
 
-  private _loadInsuranceCompanies(): Observable<InsuranceCompanyModel[]> {
-    return this._dataset.getInsuranceCompaniesDataset().pipe(
-      tap(
-        companies =>
-          (this.insuranceCompaniesItems = companies.map(item => ({
-            code: item._id,
-            name: item.name,
-          })))
-      )
-    );
+  handleCreateQuote(event: Event): void {
+    event.stopPropagation();
+    event.preventDefault();
+    this.openModalNewQuote();
   }
 
-  private _initQuotesForm(): void {
-    this.quotesForm = new FormGroup({
-      quote_id: new FormControl({ value: null, disabled: true }),
-      insurer_id: new FormControl(
-        null,
-        [Validators.required],
-        [
-          ConfiguredInsurerAsyncValidator(
-            this._insurer,
-            this.request.policy_type_id,
-            this._getcomissionCycleType(this.request.category)
-          ),
-        ]
-      ),
-      quote_date: new FormControl(null, [Validators.required]),
-      prime_amount: new FormControl(null, [Validators.required]),
-      coverage: new FormControl(null, [Validators.required]),
-      deductible: new FormControl(null, [Validators.required]),
-      document: new FormControl(null, [Validators.required]),
+  openModalNewQuote() {
+    const dialogRef = this._dialog.open(ModalNewQuoteComponent, {
+      panelClass: 'custom-dialog-container',
+      data: {
+        request: this.request,
+      },
     });
-  }
 
-  private _getcomissionCycleType(policyCategory: PolicyCategoryEnum) {
-    if (
-      [PolicyCategoryEnum.REINSTALLMENT, PolicyCategoryEnum.RENEWAL].includes(
-        policyCategory
-      )
-    )
-      return PolicyCategoryEnum.RENEWAL;
-    return PolicyCategoryEnum.NEW_BUSINESS;
-  }
-
-  saveQuote(): void {
-    this.quotesForm.markAsDirty();
-    this.quotesForm.markAllAsTouched();
-
-    if (this.quotesForm.invalid) {
-      return;
-    }
-
-    const req: CreateQuoteRequest = {
-      ...this.quotesForm.value,
-      request_id: this.request._id,
-    };
-
-    this._ui.showLoader();
-    this._quotes
-      .createQuote(req)
-      .pipe(
-        switchMap(() => this._fetchQuotesData(this.request._id)),
-        finalize(() => this._ui.hideLoader())
-      )
-      .subscribe(() => {
-        this._ui.showAlertSuccess('Quote created successfully!');
-        this.quotesForm.reset();
-      });
+    dialogRef.afterClosed().subscribe(() => {
+      this._fetchQuotesData(this.request._id).subscribe();
+    });
   }
 
   openRejectRequestModal(): void {
@@ -307,7 +308,20 @@ export class RequestDetailComponent implements OnDestroy {
   }
 
   openAttach(data: string | FileInfoModel): void {
-    window.open(typeof data === 'string' ? data : data.document, '_blank');
+    const fileKey = typeof data === 'string' ? data : data.document;
+
+    if (!fileKey) return;
+
+    this._uploadFile.getUrlFile(fileKey).subscribe({
+      next: res => {
+        if (res) {
+          window.open(res, '_blank');
+        }
+      },
+      error: err => {
+        console.error('Error al obtener el acceso al archivo', err);
+      },
+    });
   }
 
   goBack(): void {
@@ -327,6 +341,7 @@ export class RequestDetailComponent implements OnDestroy {
         }
       });
   }
+
   private _executeDelete(_id: string): void {
     this._ui.showLoader();
     this._requests
@@ -335,6 +350,29 @@ export class RequestDetailComponent implements OnDestroy {
       .subscribe(() => {
         this._ui.showAlertSuccess('Request deleted successfully');
         this._router.navigateByUrl('portal/requests');
+      });
+  }
+
+  uploadRequestForm() {
+    this.form.markAsDirty();
+    this.form.markAllAsTouched();
+
+    if (this.form.invalid) {
+      return;
+    }
+
+    const req: Partial<UpdateRequestRequest> = {
+      request_documents: [this.form.get('request_documents')?.value],
+    };
+
+    this._ui.showLoader();
+    this._requests
+      .editRequest(req, this.request?._id ?? '')
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe(() => {
+        this.form.reset();
+        this._ui.showAlertSuccess('Request document upload successfully!');
+        window.location.href = window.location.href;
       });
   }
 }

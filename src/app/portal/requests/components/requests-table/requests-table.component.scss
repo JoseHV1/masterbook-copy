@@ -27,7 +27,8 @@
 
   .CANCELLATION,
   .CLOSED,
-  .REJECTED {
+  .REJECTED,
+  .INCOMPLETE {
     color: $red-color !important;
   }
 

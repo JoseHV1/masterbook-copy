@@ -6,6 +6,7 @@ import {
 } from '../../shared/models/report.models';
 import { ReportService } from '../../shared/services/report.service';
 import { UiService } from '@app/shared/services/ui.service';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-reports',
@@ -19,7 +20,11 @@ export class ReportsComponent implements OnInit {
   history: HistoryItem[] = [];
   lastFilters: ReportFilters | null = null;
 
-  constructor(private reports: ReportService, private _ui: UiService) {}
+  constructor(
+    private reports: ReportService,
+    private _ui: UiService,
+    private _uploadFile: UploadFileService
+  ) { }
 
   ngOnInit(): void {
     this.loadHistory();
@@ -62,8 +67,18 @@ export class ReportsComponent implements OnInit {
   }
 
   onDownload(item: HistoryItem) {
+    /*window.open(item.url, '_blank');*/
     if (item?.url) {
-      window.open(item.url, '_blank');
+      this._uploadFile.getUrlFile(item.url).subscribe({
+        next: (res) => {
+          if (res) {
+            window.open(res, '_blank');
+          }
+        },
+        error: (err) => {
+          console.error('Error al obtener el acceso al archivo', err);
+        }
+      });
     }
   }
 }

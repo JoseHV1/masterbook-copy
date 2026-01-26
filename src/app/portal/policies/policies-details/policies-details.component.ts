@@ -22,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@app/shared/services/auth.service';
 import { ownersRolesDataset } from '@app/shared/datatsets/roles.datasets';
 import { RolesEnum } from '@app/shared/enums/roles.enum';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-policies-details',
@@ -43,7 +44,8 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _location: Location,
     private dialog: MatDialog,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _uploadFile: UploadFileService
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -109,7 +111,21 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
   }
 
   openFile(data: string | FileInfoModel): void {
-    window.open(typeof data === 'string' ? data : data.document, '_blank');
+    /*window.open(typeof data === 'string' ? data : data.document, '_blank');*/
+    const fileKey = typeof data === 'string' ? data : data.document;
+
+    if (!fileKey) return;
+
+    this._uploadFile.getUrlFile(fileKey).subscribe({
+      next: (res) => {
+        if (res) {
+          window.open(res, '_blank');
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener el acceso al archivo', err);
+      }
+    });
   }
 
   deletePolicy(_id: string): void {
