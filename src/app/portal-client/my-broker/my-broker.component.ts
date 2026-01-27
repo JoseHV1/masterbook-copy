@@ -4,6 +4,7 @@ import { AuthService } from '@app/shared/services/auth.service';
 import { UserService } from '@app/shared/services/user.service';
 import { UiService } from '@app/shared/services/ui.service';
 import { finalize } from 'rxjs';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-my-broker',
@@ -13,18 +14,22 @@ import { finalize } from 'rxjs';
 export class MyBrokerComponent implements OnInit {
   brokerId: string;
   broker: any;
+  showLogo: boolean = false;
+  logo!: string;
 
   constructor(
     private _auth: AuthService,
     private _location: Location,
     private _ui: UiService,
-    private _user: UserService
+    private _user: UserService,
+    private _uploadFile: UploadFileService
   ) {
     this.brokerId = this._auth.getAuth()?.user.broker_id ?? '';
   }
 
   ngOnInit() {
     this.fetchBrokerData();
+    console.log(this.broker);
   }
 
   goBack(): void {
@@ -38,6 +43,13 @@ export class MyBrokerComponent implements OnInit {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe((resp: any) => {
         this.broker = resp;
+
+        this._uploadFile
+          .getUrlFile(this.broker.agency?.logo_url ?? '')
+          .subscribe(url => {
+            this.logo = url ?? '/assets/images/portal/image_default.webp';
+          });
+        this.showLogo = this.broker.agency?.check_branding ?? false;
       });
   }
 }

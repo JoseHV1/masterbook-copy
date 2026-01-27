@@ -9,6 +9,15 @@
   <div class="d-flex align-items-center justify-content-center">
     <div class="row col-12 col-md-10">
       <div class="col-12 col-md-6 mb-4 mb-md-0">
+        <div
+          class="d-flex align-items-center justify-content-center flex-column">
+          <app-picture-selector
+            [icon]="logo"
+            (imgChange)="addImage($event, 'logo_image')"></app-picture-selector>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 mb-4 mb-md-0">
         <label>Percentaje Retentions</label>
         <app-input
           formControlName="retentions"

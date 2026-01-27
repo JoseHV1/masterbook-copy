@@ -69,7 +69,10 @@ export class UploadFileService {
 
   getUrlFile(fileReference: string): Observable<string> {
     return this._http
-      .post<ApiResponseModel<string>>(`${environment.apiUrl}upload-file/get-file`, {urlString: fileReference})
+      .post<ApiResponseModel<string>>(
+        `${environment.apiUrl}upload-file/get-file`,
+        { urlString: fileReference }
+      )
       .pipe(map(resp => resp.data));
   }
 }

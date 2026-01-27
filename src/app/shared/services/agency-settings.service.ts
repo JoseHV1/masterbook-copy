@@ -28,6 +28,7 @@ export class AgencySettingsService {
         Validators.max(100),
       ]),
       taxes: new FormControl(null, [Validators.min(1), Validators.max(100)]),
+      logo_image: new FormControl(null),
     });
   }
 

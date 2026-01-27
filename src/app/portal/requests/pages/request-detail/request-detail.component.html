@@ -224,28 +224,26 @@
         isBroker || (!isBroker && request.request_documents.length > 0);
         else formRequesDocument
       ">
-      <div
-        class="col col-12 col-md-6 px-2 px-md-4 my-2"
-        *ngFor="let item of request.request_documents; let i = index">
-        <div class="row">
-          <div
-            class="alert-login-google py-2 px-3 mt-1 mb-1"
-            *ngIf="isBroker && !connected"
-            style="font-size: 14px">
-            To send the request document to insurers, you must be logged in with
-            Google.
-            <span class="button-login-google" (click)="loginGoogle()">
-              You can log in here.</span
-            >
-          </div>
-
-          <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+      <div class="row">
+        <div
+          class="alert-login-google py-2 px-3 mt-1 mb-1"
+          style="font-size: 14px">
+          To send the request document to insurers, you must be logged in with
+          Google.
+          <span class="button-login-google" (click)="loginGoogle()">
+            You can log in here.</span
+          >
+        </div>
+        <div
+          class="col col-12 col-md-6 px-2 px-md-3 my-2"
+          *ngFor="let item of request.request_documents; let i = index">
+          <div class="px-2 my-1">
             <div class="row">
-              <div class="col-12 col-md-4 black px-2 py-2">
+              <div class="col-12 col-md-6 black px-2 py-2">
                 Document {{ i + 1 }}
               </div>
               <div
-                class="col-12 col-md-8 black px-3 py-2 d-flex align-items-center justify-content-between prop-box">
+                class="black px-2 py-2 d-flex align-items-center justify-content-between prop-box">
                 <a
                   (click)="openAttach(item)"
                   target="_blank"
@@ -259,7 +257,7 @@
                   *ngIf="isBroker && connected"
                   matTooltip="Send this document via email"
                   (click)="sendQuoteViaEmail(i)">
-                  send
+                  mail
                 </span>
               </div>
             </div>
@@ -475,8 +473,7 @@
     <div
       class="d-flex flex-column gap-2 align-items-center justify-content-center">
       <div class="card w-100 py-3 px-4 mb-3" *ngFor="let element of quotes">
-        <div
-          class="col-12 col-md-6 d-flex align-items-center justify-content-between">
+        <div class="w-100 d-flex align-items-center justify-content-between">
           <div class="d-flex flex-column">
             <span class="subtitle-2 dark-blue-400">
               {{ element.insurer?.name | notNull }}
@@ -486,15 +483,17 @@
               {{ element.quote_date | date | notNull }}</small
             >
           </div>
-          <div>
-            <span
-              class="material-icons-outlined"
+          <div
+            class="black px-3 py-2 d-flex align-items-center justify-content-between prop-box"
+            style="border-radius: 10px">
+            <a
+              (click)="openAttach(element.document)"
+              target="_blank"
               style="cursor: pointer"
               matTooltip="View PDF"
-              (click)="openAttach(element.document)"
-              *ngIf="element.document">
-              picture_as_pdf
-            </span>
+              class="attach-link">
+              {{ element.document | customFile }}
+            </a>
           </div>
         </div>
         <div

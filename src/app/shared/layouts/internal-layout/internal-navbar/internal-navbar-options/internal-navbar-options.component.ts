@@ -29,8 +29,7 @@ export class InternalNavbarOptionsComponent {
 
     if (auth && auth.user.photo_url != null) {
       this._uploadFile.getUrlFile(auth.user.photo_url ?? '').subscribe(url => {
-        this.imageProfile =
-          url ?? '/assets/images/portal/image_default.webp';
+        this.imageProfile = url ?? '/assets/images/portal/image_default.webp';
       });
       /*this.imageProfile =
         auth.user.photo_url ?? '/assets/images/portal/image_default.webp';*/
