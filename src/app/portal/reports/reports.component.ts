@@ -24,7 +24,7 @@ export class ReportsComponent implements OnInit {
     private reports: ReportService,
     private _ui: UiService,
     private _uploadFile: UploadFileService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadHistory();
@@ -70,14 +70,14 @@ export class ReportsComponent implements OnInit {
     /*window.open(item.url, '_blank');*/
     if (item?.url) {
       this._uploadFile.getUrlFile(item.url).subscribe({
-        next: (res) => {
+        next: res => {
           if (res) {
             window.open(res, '_blank');
           }
         },
-        error: (err) => {
+        error: err => {
           console.error('Error al obtener el acceso al archivo', err);
-        }
+        },
       });
     }
   }

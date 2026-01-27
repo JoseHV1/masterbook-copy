@@ -27,12 +27,10 @@ export class InternalNavbarOptionsComponent {
   ) {
     const auth = this._auth.getAuth();
 
-    if (auth && auth.user.photo_url != null) {
-      this._uploadFile.getUrlFile(auth.user.photo_url ?? '').subscribe(url => {
-        this.imageProfile = url ?? '/assets/images/portal/image_default.webp';
+    if (auth && auth.user.photo_url) {
+      this._uploadFile.getUrlFile(auth.user.photo_url).subscribe(url => {
+        this.imageProfile = url;
       });
-      /*this.imageProfile =
-        auth.user.photo_url ?? '/assets/images/portal/image_default.webp';*/
       this.userRole = auth.user.role;
     } else {
       this.imageProfile = '/assets/images/portal/image_default.webp';

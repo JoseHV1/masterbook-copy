@@ -117,14 +117,14 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
     if (!fileKey) return;
 
     this._uploadFile.getUrlFile(fileKey).subscribe({
-      next: (res) => {
+      next: res => {
         if (res) {
           window.open(res, '_blank');
         }
       },
-      error: (err) => {
+      error: err => {
         console.error('Error al obtener el acceso al archivo', err);
-      }
+      },
     });
   }
 

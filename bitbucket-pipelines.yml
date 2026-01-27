@@ -34,6 +34,29 @@ pipelines:
             - yarn --version
             - yarn install --immutable
             - yarn lint
+      - step:
+          name: E2E (Playwright)
+          image: mcr.microsoft.com/playwright:v1.55.0-jammy
+          caches:
+            - node
+          script:
+            - corepack enable
+            - corepack prepare yarn@4.12.0 --activate
+            - yarn --version
+            - yarn install --immutable
+
+            - npx playwright install chromium            
+            - yarn start:e2e &
+            
+            - for i in {1..60}; do curl -sSf http://localhost:4200 >/dev/null && break || sleep 2; done
+            - curl -sSf http://localhost:4200 >/dev/null
+
+            - export PLAYWRIGHT_BASE_URL="http://localhost:4200"
+            - npx playwright test --reporter=line
+
+          artifacts:
+            - test-results/**
+            - playwright-report/**
 
     master:
       - step:
