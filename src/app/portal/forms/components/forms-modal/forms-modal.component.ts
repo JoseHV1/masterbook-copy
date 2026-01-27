@@ -38,11 +38,15 @@ export class FormsModalComponent implements OnInit {
   title = '';
   displayedColumns: string[] = ['serial', 'name', 'insurer', 'actions'];
   showActions = false;
+  showSendEmailOption: boolean = false;
   connected: boolean = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    private _data: { policy_type: PopulatedPolicyTypeModel },
+    private _data: {
+      policy_type: PopulatedPolicyTypeModel;
+      show_email?: boolean;
+    },
     private _dialog: MatDialogRef<FormsModalComponent>,
     private _dialogCreate: MatDialog,
     private _forms: FormService,
@@ -52,6 +56,7 @@ export class FormsModalComponent implements OnInit {
     private _uploadFile: UploadFileService
   ) {
     this.title = `${this._data.policy_type.name} forms`.toUpperCase();
+    this.showSendEmailOption = this._data.show_email ?? false;
 
     this._ui.showLoader();
     forkJoin([this._fetchForms()])

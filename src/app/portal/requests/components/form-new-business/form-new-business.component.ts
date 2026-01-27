@@ -254,7 +254,7 @@ export class FormNewBusinessComponent implements OnChanges, OnInit {
   openModalForms(policy_type: PopulatedPolicyTypeModel) {
     this._dialog
       .open(FormsModalComponent, {
-        data: { policy_type },
+        data: { policy_type, show_email: false },
         autoFocus: false,
         panelClass: 'transparent-modal-container',
       })

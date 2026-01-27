@@ -6,25 +6,26 @@
     else defaultTemplate
   ">
   <div class="m-2 d-flex">
-    <button
-      class="primary-button big-button back-dark-blue-400 white d-flex align-items-center justify-content-center"
-      style="gap: 10px"
+    <div
+      class="selected-quote-button d-flex align-items-center"
       data-testid="quote-selected">
-      <span
+      <div
+        class="selection-side"
         (click)="toggleStatus()"
-        class="flex-grow-1"
         style="cursor: pointer">
-        Selected
-      </span>
+        <span>Selected</span>
+      </div>
 
-      <span
+      <div
+        class="policy-side"
         [matMenuTriggerFor]="menu"
-        class="material-icons-outlined white"
         style="cursor: pointer"
         data-testid="quote-actions">
-        arrow_drop_down
-      </span>
-    </button>
+        <span class="material-icons-outlined dropdown-icon">
+          arrow_drop_down
+        </span>
+      </div>
+    </div>
   </div>
 
   <mat-menu #menu="matMenu" xPosition="before">

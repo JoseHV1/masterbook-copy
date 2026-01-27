@@ -14,6 +14,7 @@ import { AddressAutocompleteModel } from 'src/app/shared/models/address-autocomp
 import { MatDialog } from '@angular/material/dialog';
 import { ModalChangePasswordComponent } from '../modal-change-password/modal-change-password.component';
 import { switchMap } from 'rxjs/operators';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 type FakeGoogleConnection = {
   email: string;
@@ -34,6 +35,7 @@ export class ProfileFormComponent implements OnInit {
   dropDownGender: DropdownOptionModel[] = enumToDropDown(GenderEnum);
   today: Date = new Date();
   isEditing: boolean = false;
+  imageProfile!: string;
   googleConnection: FakeGoogleConnection | null = null;
   private readonly GOOGLE_STORAGE_KEY = 'masterbook_google_connection';
 
@@ -43,7 +45,8 @@ export class ProfileFormComponent implements OnInit {
     private _profile: ProfileService,
     public _url: UrlService,
     private _cd: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _uploadFile: UploadFileService
   ) {
     this.form = this._profile.createEditProfileForm();
   }
@@ -52,6 +55,12 @@ export class ProfileFormComponent implements OnInit {
     this.dataUser = this._auth.getAuth()?.user as PopulatedUserModel;
     this.fillData(this.dataUser);
     this.form.disable();
+
+    this._uploadFile
+      .getUrlFile(this.dataUser.photo_url ?? '')
+      .subscribe(url => {
+        this.imageProfile = url ?? '/assets/images/portal/image_default.webp';
+      });
 
     this._profile.getGoogleStatus().subscribe({
       next: status => {

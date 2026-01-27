@@ -25,7 +25,8 @@
 <ng-template #table>
   <div
     class="alert-login-google py-2 px-3 mt-1 mb-2 mx-2"
-    style="font-size: 14px">
+    style="font-size: 14px"
+    *ngIf="showSendEmailOption">
     <span *ngIf="!connected">
       Please sign in with your Google account to send forms to your clients
       (accounts).
@@ -72,10 +73,10 @@
           <span
             class="material-icons-outlined me-2 light-blue-600"
             style="cursor: pointer"
-            *ngIf="showActions && connected"
+            *ngIf="showActions && connected && showSendEmailOption"
             matTooltip="Send this form via email"
             (click)="openModalAccounts(element)">
-            send
+            email
           </span>
 
           <a

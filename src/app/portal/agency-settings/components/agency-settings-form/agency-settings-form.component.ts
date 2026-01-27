@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 import { finalize } from 'rxjs';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { AgencyModel } from 'src/app/shared/interfaces/models/agency.model';
@@ -15,10 +16,12 @@ import { UiService } from 'src/app/shared/services/ui.service';
 export class AgencySettingsFormComponent implements OnInit {
   form!: FormGroup;
   dataAgency!: AgencyModel;
+  logo?: string;
 
   constructor(
     private _ui: UiService,
-    private _agencySettings: AgencySettingsService
+    private _agencySettings: AgencySettingsService,
+    private _uploadFile: UploadFileService
   ) {
     this.form = this._agencySettings.createEditSettingsForm();
   }
@@ -27,6 +30,13 @@ export class AgencySettingsFormComponent implements OnInit {
     this._agencySettings.getAgencySettings().subscribe(resp => {
       this.dataAgency = resp;
       this.fillData(resp);
+
+      this._uploadFile
+        .getUrlFile(this.dataAgency.logo_url ?? '')
+        .subscribe(url => {
+          console.log(url);
+          this.logo = url ?? '/assets/images/portal/image_default.webp';
+        });
     });
   }
 
@@ -37,6 +47,10 @@ export class AgencySettingsFormComponent implements OnInit {
     });
   }
 
+  addImage(img: string, field: string): void {
+    this.form.controls[field].patchValue(img);
+  }
+
   send() {
     this.form.markAllAsTouched();
     this.form.updateValueAndValidity();
@@ -45,6 +59,7 @@ export class AgencySettingsFormComponent implements OnInit {
     const req: EditAgencySettingsRequest = {
       retentions: this.form.value.retentions ?? null,
       taxes: this.form.value.taxes ?? null,
+      logo_image: this.form.value.logo_image ?? undefined,
     };
 
     this._ui.showLoader();

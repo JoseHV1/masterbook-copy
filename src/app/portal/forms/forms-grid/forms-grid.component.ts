@@ -71,7 +71,7 @@ export class FormGridComponent implements OnDestroy {
   openModalForms(policy_type: PopulatedPolicyTypeModel) {
     this._dialog
       .open(FormsModalComponent, {
-        data: { policy_type },
+        data: { policy_type, show_email: true },
         autoFocus: false,
         panelClass: 'transparent-modal-container',
       })
