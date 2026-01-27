@@ -105,3 +105,20 @@ export function requireIfFilled(
     return null;
   };
 }
+
+export function youtubeLinkValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+
+    if (!value) {
+      return null;
+    }
+
+    const youtubeRegex =
+      /^(https?:\/\/)?(www\.|music\.|m\.)?(youtube\.com|youtu\.be)\/(watch\?v=|embed\/|shorts\/)?([\w-]{11})([?&]\S+)?$/;
+
+    const valid = youtubeRegex.test(value);
+
+    return valid ? null : { invalidYoutubeUrl: { value: control.value } };
+  };
+}

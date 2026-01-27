@@ -21,10 +21,10 @@
     "PASSWORD_RECOVERY": "Password Recovery",
     "VERIFICATION_EMAIL": "We will send you a verification email",
     "SEND": "Send",
-    "VERIFICATION":"Verification",
+    "VERIFICATION": "Verification",
     "EMAIL_SENT": " email sent.",
-    "CLIENT":"Client",
-    "AGENT":"Agent",
+    "CLIENT": "Client",
+    "AGENT": "Agent",
     "SUPPORT": "Support",
     "YOU_NEED_SUPPORT": "Do you need support?",
     "CLICK_HERE": "Click here",
@@ -32,7 +32,7 @@
   },
   "HOME": {
     "SECTION_1": {
-      "TEXT_0":"FOR AGENTS & AGENCY",
+      "TEXT_0": "FOR AGENTS & AGENCY",
       "TEXT_1": "Transform Your Insurance Agency with MasterBook: The Comprehensive Solution for Insurance Brokers",
       "TEXT_2": "In the highly competitive insurance industry, MasterBook is the ultimate tool that simplifies and optimizes every aspect of your agency’s operations. Specifically designed for insurance brokers, our SaaS (Software as a Service) platform centralizes all critical operations, from managing clients and policies to tracking commissions and claims.",
       "TEXT_3": "With MasterBook, forget the chaos of managing scattered information or inefficient tools. Now you can focus on what truly matters: delivering exceptional service to your clients while maximizing your business’s profitability.",
@@ -175,18 +175,18 @@
       "FEATURE_3": "Others."
     }
   },
-  "EMAIL_VERIFY":{
+  "EMAIL_VERIFY": {
     "TEXT_1": "Your email was successfully verified"
   },
-  "RESET_PASSWORD":{
+  "RESET_PASSWORD": {
     "TEXT_1": "Enter your",
     "TEXT_2": "new password"
   },
-  "MODAL-PASSWORD-CHANGE":{
+  "MODAL-PASSWORD-CHANGE": {
     "TEXT_1": "Successful password",
     "TEXT_2": "change"
   },
-  "REGISTER_TWO":{
+  "REGISTER_TWO": {
     "TEXT_1": "Tell us more about your",
     "TEXT_2": "Agency",
     "INPUT_NAME": "Agency name",
@@ -240,7 +240,8 @@
     "MIN_LENGTH": "Password must be at least 8 characters",
     "UPPERCASE": "Password must include an uppercase letter",
     "NUMBER": "Password must include a number",
-    "SPECIAL_CHAR": "Password must include a special character"
+    "SPECIAL_CHAR": "Password must include a special character",
+    "INVALIDYOUTUBEURL": "Invalid youtube link video"
   },
   "BACKEND_MESSAGES_ERRORS": {
     "INTERNAL_SERVER_ERROR": "An internal server error occurred.",

@@ -27,6 +27,8 @@ import { CustomPipesModule } from '@app/shared/pipes/custom-pipes.module';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { RichTextInputComponent } from './rich-text-input/rich-text-input.component';
+import { NgxEditorModule } from 'ngx-editor';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import { MatInputModule } from '@angular/material/input';
     MultiFileUploadComponent,
     FilePickerComponent,
     InsuranceCompanySelectorComponent,
+    RichTextInputComponent,
   ],
   imports: [
     CommonModule,
@@ -62,6 +65,7 @@ import { MatInputModule } from '@angular/material/input';
     MatChipsModule,
     MatIconModule,
     MatInputModule,
+    NgxEditorModule,
   ],
   providers: [provideNgxMask()],
   exports: [
@@ -81,6 +85,7 @@ import { MatInputModule } from '@angular/material/input';
     MultiFileUploadComponent,
     FilePickerComponent,
     InsuranceCompanySelectorComponent,
+    RichTextInputComponent,
   ],
 })
 export class CDKModule {}

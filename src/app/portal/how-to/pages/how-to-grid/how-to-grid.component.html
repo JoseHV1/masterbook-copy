@@ -1,0 +1,30 @@
+<app-pages-layout>
+  <ng-container content>
+    <div class="d-flex justify-content-between align-items-center mb-1 ms-2">
+      <span class="material-icons-outlined me-2" style="cursor: pointer"
+        >arrow_back</span
+      >
+    </div>
+    <div class="row py-4" *ngIf="data.records">
+      <mat-action-list class="col-md-4">
+        <button
+          mat-list-item
+          *ngFor="let video of data.records"
+          (click)="selectVideo(video)"
+          [class.item-active]="selectedVideo === video"
+          class="list-item-color">
+          <span class="list-item-text-color">{{ video.title }}</span>
+        </button>
+      </mat-action-list>
+      <div *ngIf="selectedVideo && safeUrlVideo" class="col-md-8">
+        <div class="video-wrapper" [class.short-mode]="isShort">
+          <iframe
+            class="video-iframe"
+            [src]="safeUrlVideo"
+            frameborder="0"></iframe>
+        </div>
+        <div [innerHTML]="selectedVideo.description"></div>
+      </div>
+    </div>
+  </ng-container>
+</app-pages-layout>

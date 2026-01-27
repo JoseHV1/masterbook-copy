@@ -21,6 +21,7 @@ export const AgentGuard: CanActivateFn = (_route, state) => {
   }
 
   const isBroker = role ? brokerRolesDataset.includes(role) : false;
+  const isAdmin = role ? role === RolesEnum.ADMIN : false;
   const hasAcceptedTerms = !!auth.user.accepted_terms_conditions_at;
   const isWelcomeRole = role ? welcomeRolesDataset.includes(role) : false;
   const isWelcomeAgencyRole = role
@@ -37,9 +38,11 @@ export const AgentGuard: CanActivateFn = (_route, state) => {
     return router.createUrlTree(['welcome-agency-broker-admin']);
   }
 
-  // not broker → send to client portal
+  // not broker → send to client or admin portal
   if (!isBroker) {
-    return router.createUrlTree(['portal-client']);
+    return isAdmin
+      ? router.createUrlTree(['portal-admin'])
+      : router.createUrlTree(['portal-client']);
   }
 
   // broker with terms accepted → ok
