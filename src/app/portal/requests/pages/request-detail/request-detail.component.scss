@@ -11,79 +11,36 @@
       color: $white;
       padding: 0 0.5rem;
     }
-  }
 
-  .ENDORSEMENT {
-    background: $color-success !important;
-  }
-
-  .RENEWAL {
-    background: $light-blue-400 !important;
-  }
-
-  .REINSTALLMENT {
-    background: $blue-color !important;
-  }
-
-  .CANCELLATION {
-    background: $red-color !important;
-  }
-
-  .NEW_BUSINESS {
-    background: $light-blue-700 !important;
-  }
-
-  .ENDORSEMENT {
-    background: $color-success !important;
-  }
-
-  .C-RENEWAL {
-    color: $light-blue-400 !important;
-  }
-
-  .C-REINSTALLMENT {
-    color: $blue-color !important;
-  }
-
-  .C-CANCELLATION {
-    color: $red-color !important;
-  }
-
-  .C-NEW_BUSINESS {
-    color: $light-blue-700 !important;
-  }
-
-  .quotes-table {
-    table tr:nth-child(even) {
-      background-color: $light-blue-100;
-    }
-
-    table tr:last-child {
-      background-color: $white;
+    @media (max-width: 576px) {
+      .mat-expansion-panel-body {
+        padding: 0px 8px 14px;
+      }
     }
   }
 
-  .alert-login-google {
-    background-color: $light-blue-100;
-    border: 2px $light-blue-400 solid;
-    border-radius: 0.4rem;
-    text-align: justify;
-  }
+  .ENDORSEMENT { background: $color-success !important; }
+  .RENEWAL { background: $light-blue-400 !important; }
+  .REINSTALLMENT { background: $blue-color !important; }
+  .CANCELLATION { background: $red-color !important; }
+  .NEW_BUSINESS { background: $light-blue-700 !important; }
 
-  .button-login-google {
-    cursor: pointer !important;
-    font-weight: 600;
-    &:hover {
-      opacity: 80%;
-    }
-  }
+  .C-RENEWAL { color: $light-blue-400 !important; }
+  .C-REINSTALLMENT { color: $blue-color !important; }
+  .C-CANCELLATION { color: $red-color !important; }
+  .C-NEW_BUSINESS { color: $light-blue-700 !important; }
 
   .badge-quotes-quantity {
-    border-radius: 10px;
-    padding: 0 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 10px;
     color: $white;
     background: $gray-300;
     font-size: 12px;
+    font-weight: 700;
+    min-width: 24px;
+    line-height: 1;
   }
 
   .information-card {
@@ -123,11 +80,49 @@
   }
 
   @media (max-width: 576px) {
-    .stat-value {
-      font-size: 0.95rem;
+    .information-card {
+      padding: 0.4rem;
+      gap: 0px;
     }
+
     .stat-item {
-      padding: 0 0.5rem;
+      padding: 6px 0;
+      flex: none;
+      width: 100%;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+    }
+
+    .separator {
+      display: none;
+    }
+
+    hr {
+      margin: 2px 15%;
+      border: 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.35);
+      opacity: 1;
+      width: 70%;
+    }
+
+    .custom-fab-btn {
+      min-width: 40px !important;
+      width: 40px !important;
+      height: 40px !important;
+      border-radius: 50% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+
+      span.material-icons-outlined {
+        margin: 0 !important;
+        font-size: 24px;
+      }
     }
   }
 }

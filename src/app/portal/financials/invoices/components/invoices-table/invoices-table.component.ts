@@ -42,7 +42,7 @@ export class InvoicesTableComponent implements OnInit {
     public _url: UrlService,
     private _location: Location,
     private _uploadFile: UploadFileService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const path = this._location.path();
@@ -140,14 +140,14 @@ export class InvoicesTableComponent implements OnInit {
     if (!url) return;
 
     this._uploadFile.getUrlFile(url).subscribe({
-      next: (res) => {
+      next: res => {
         if (res) {
           window.open(res, '_blank');
         }
       },
-      error: (err) => {
+      error: err => {
         console.error('Error al obtener el acceso al archivo', err);
-      }
+      },
     });
   }
 }

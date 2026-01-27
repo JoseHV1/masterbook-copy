@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { finalize, switchMap, take } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { finalize, Subject, switchMap, take, takeUntil } from 'rxjs';
 
 import { UiService } from 'src/app/shared/services/ui.service';
 import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filtered-table.base';
@@ -16,7 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class InsurersListComponent
   extends FilteredTable<InsurerModel>
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   filterConfig!: FilterWrapperModel;
   data: PaginatedResponse<InsurerModel[]> = {
@@ -25,6 +25,7 @@ export class InsurersListComponent
     limit: 10,
     total_records: 0,
   };
+  private destroy$ = new Subject<void>();
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -37,7 +38,7 @@ export class InsurersListComponent
   }
 
   ngOnInit(): void {
-    this.activateRoute.queryParams.subscribe({
+    this.activateRoute.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
       next: params => {
         const notInsurers = params['not_insurers'];
         if (notInsurers === 'true') {
@@ -65,5 +66,10 @@ export class InsurersListComponent
 
   refresh(): void {
     this._fetchData(this.data.page - 1, this.data.limit);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

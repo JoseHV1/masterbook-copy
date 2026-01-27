@@ -46,11 +46,11 @@ export class InternalNavbarComponent implements OnDestroy {
 
       this.role = this.roleMap[userRole] ?? 'agent';
 
-      this._uploadFile
-        .getUrlFile(user.agency?.logo_url ?? '')
-        .subscribe(url => {
-          this.logo = url ?? '/assets/images/portal/image_default.webp';
+      if (user.agency?.logo_url) {
+        this._uploadFile.getUrlFile(user.agency?.logo_url).subscribe(url => {
+          this.logo = url;
         });
+      }
       this.showLogo = user.agency?.check_branding ?? false;
     });
   }

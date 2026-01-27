@@ -17,7 +17,17 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- Agents (multi) -->
+    <!-- Agencies (multi) - ADMIN -->
+    <mat-form-field *ngIf="showAgencies" appearance="outline">
+      <mat-label>Agencies</mat-label>
+      <mat-select [(value)]="selectedAgencies" multiple>
+        <mat-option *ngFor="let agency of agencies" [value]="agency.code">
+          {{ agency.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Agents (multi) - AGENCY DASHBOARD -->
     <mat-form-field *ngIf="showAgents" appearance="outline">
       <mat-label>Agents</mat-label>
       <mat-select [(value)]="selectedAgents" multiple>

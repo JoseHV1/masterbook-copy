@@ -72,14 +72,14 @@ export class InvoiceDetailsComponent {
     if (!url) return;
 
     this._uploadFile.getUrlFile(url).subscribe({
-      next: (res) => {
+      next: res => {
         if (res) {
           window.open(res, '_blank');
         }
       },
-      error: (err) => {
+      error: err => {
         console.error('Error al obtener el acceso al archivo', err);
-      }
+      },
     });
   }
 

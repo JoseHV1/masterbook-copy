@@ -14,6 +14,13 @@ export class KpiChartComponent implements OnChanges {
   accountsChartOptions: any = null;
 
   ngOnChanges(changes: SimpleChanges) {
+    // 🔍 Log every change
+    console.group('[KPI CHART]');
+    console.log('dateRange:', this.dateRange);
+    console.log('raw chartOptions:', this.chartOptions);
+    console.log('changes:', changes);
+    console.groupEnd();
+
     if (changes['chartOptions'] || changes['dateRange']) {
       if (this.chartOptions && Array.isArray(this.chartOptions)) {
         this.formatData(this.chartOptions);

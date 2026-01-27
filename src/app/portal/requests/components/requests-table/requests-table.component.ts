@@ -44,7 +44,7 @@ export class RequestsTableComponent implements OnInit {
     private _dialog: MatDialog,
     private _location: Location,
     private _uploadFile: UploadFileService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     const path = this._location.path();
@@ -98,14 +98,14 @@ export class RequestsTableComponent implements OnInit {
     if (!url) return;
 
     this._uploadFile.getUrlFile(url).subscribe({
-      next: (res) => {
+      next: res => {
         if (res) {
           window.open(res, '_blank');
         }
       },
-      error: (err) => {
+      error: err => {
         console.error('Error al obtener el acceso al archivo', err);
-      }
+      },
     });
   }
 }
