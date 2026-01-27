@@ -50,6 +50,13 @@ const routes: Routes = [
             module => module.ProfileModule
           ),
       },
+      {
+        path: 'how-to',
+        loadChildren: () =>
+          import('../portal/how-to/how-to.module').then(
+            module => module.HowToModule
+          ),
+      },
     ],
   },
   { path: '', redirectTo: defaultRoute, pathMatch: 'full' },

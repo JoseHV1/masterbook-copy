@@ -1,0 +1,59 @@
+<app-pages-layout>
+  <ng-container content>
+    <div
+      class="d-flex justify-content-between align-items-center mb-1 ms-2"
+      *ngIf="howTo">
+      <span
+        class="material-icons-outlined me-2"
+        style="cursor: pointer"
+        matTooltip="Back to last page"
+        (click)="goBack()">
+        arrow_back
+      </span>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon class="dark-blue-400">more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button
+          mat-menu-item
+          (click)="
+            _url.navigateTo('portal-admin/how-to', howTo.serial, 'edit')
+          ">
+          <span class="d-flex align-items-center gap-2">
+            <span class="material-icons-outlined dark-blue-400">edit</span>
+            Edit
+          </span>
+        </button>
+
+        <button mat-menu-item (click)="deleteHowTo(howTo._id)">
+          <span class="d-flex align-items-center gap-2">
+            <span class="material-icons-outlined text-danger">delete</span>
+            Delete
+          </span>
+        </button>
+      </mat-menu>
+    </div>
+    <div
+      class="d-flex flex-column align-items-center justify-content-center"
+      *ngIf="howTo">
+      <h3 class="text-center w-100 mt-3 mb-1 title-3 dark-blue-400">
+        {{ howTo.title }}
+      </h3>
+      <div class="text-center text-3 gray-500 w-100">
+        Created date on: {{ howTo.createdAt | date }}
+      </div>
+    </div>
+    <div class="row" *ngIf="howTo && video">
+      <div
+        class="row my-3 d-flex flex-column align-items-center justify-content-center">
+        <div style="max-width: 700px; width: 100%">
+          <div class="video-wrapper" [class.short-mode]="isShort">
+            <iframe class="video-iframe" [src]="video" frameborder="0"></iframe>
+          </div>
+          <div [innerHTML]="howTo.description"></div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</app-pages-layout>

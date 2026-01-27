@@ -147,6 +147,11 @@ const routes: Routes = [
             module => module.PaymentErrorModule
           ),
       },
+      {
+        path: 'how-to',
+        loadChildren: () =>
+          import('./how-to/how-to.module').then(module => module.HowToModule),
+      },
       { path: '', redirectTo: defaultRoute, pathMatch: 'full' },
       { path: '**', redirectTo: defaultRoute, pathMatch: 'full' },
     ],

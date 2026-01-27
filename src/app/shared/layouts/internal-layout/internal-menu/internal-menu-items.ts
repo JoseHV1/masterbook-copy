@@ -78,6 +78,11 @@ export const MENU_ITEMS: iternalMenuModel = {
       title: 'Email',
       url: 'email',
     },
+    {
+      icon: 'help',
+      title: 'How To',
+      url: 'how-to/help',
+    },
   ],
   client: [
     {
@@ -149,6 +154,11 @@ export const MENU_ITEMS: iternalMenuModel = {
       icon: 'mail',
       title: 'Email',
       url: 'communication',
+    },
+    {
+      icon: 'help',
+      title: 'How To',
+      url: 'how-to',
     },
   ],
 };

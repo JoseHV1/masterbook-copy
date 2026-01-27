@@ -1,0 +1,25 @@
+<app-pages-layout>
+  <ng-container content *ngIf="howTo">
+    <div class="d-flex align-items-center">
+      <div class="px-2">
+        <span
+          class="material-icons-outlined me-2"
+          style="cursor: pointer"
+          matTooltip="Back to last page"
+          (click)="goBack()">
+          arrow_back
+        </span>
+      </div>
+    </div>
+
+    <div class="col-12 mb-4" *ngIf="howTo">
+      <div class="text-center">
+        <h3 class="subtitle-1 dark-blue-400">Edit #{{ howTo.serial }}</h3>
+      </div>
+    </div>
+
+    <div class="px-2 px-lg-5">
+      <app-form-new-how-to [howTo]="howTo"></app-form-new-how-to>
+    </div>
+  </ng-container>
+</app-pages-layout>
