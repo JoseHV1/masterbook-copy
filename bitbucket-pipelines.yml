@@ -25,7 +25,7 @@ pipelines:
             - yarn install --immutable
 
       - step:
-          name: Revisar C�digo (Linting)
+          name: Revisar Código (Linting)
           caches:
             - node
           script:
@@ -34,6 +34,7 @@ pipelines:
             - yarn --version
             - yarn install --immutable
             - yarn lint
+
       - step:
           name: E2E (Playwright)
           image: mcr.microsoft.com/playwright:v1.55.0-jammy
@@ -45,18 +46,49 @@ pipelines:
             - yarn --version
             - yarn install --immutable
 
-            - npx playwright install chromium            
-            - yarn start:e2e &
-            
-            - for i in {1..60}; do curl -sSf http://localhost:4200 >/dev/null && break || sleep 2; done
-            - curl -sSf http://localhost:4200 >/dev/null
+            # Playwright image already has browsers; keeping this is ok
+            - npx playwright install --with-deps chromium
 
+            # Start Angular in the SAME shell so $! is the correct PID
+            - yarn start:e2e > /tmp/ng.log 2>&1 & echo $! > /tmp/ng.pid
+
+            # Prove it didn't crash immediately
+            - sleep 2
+            - |
+              if [ ! -s /tmp/ng.pid ]; then
+                echo "Angular did not start (no PID captured)"
+                tail -n 200 /tmp/ng.log || true
+                exit 1
+              fi
+
+              NG_PID="$(cat /tmp/ng.pid)"
+
+              if ! ps -p "$NG_PID" >/dev/null 2>&1; then
+                echo "Angular crashed early (PID $NG_PID not running)"
+                tail -n 200 /tmp/ng.log || true
+                exit 1
+              fi
+
+            # Wait until the server is reachable
+            - for i in {1..60}; do curl -sSf http://localhost:4200/ >/dev/null && break || (echo "waiting for http://localhost:4200 ..."; sleep 2); done
+            - curl -sSf http://localhost:4200/ >/dev/null || (echo "Angular never became ready"; tail -n 200 /tmp/ng.log; exit 1)
+
+            # Base URL for Playwright (matches your globalSetup)
             - export PLAYWRIGHT_BASE_URL="http://localhost:4200"
+
+            # Run tests
             - npx playwright test --reporter=line
+
+          after-script:
+            # Always stop Angular
+            - if [ -s /tmp/ng.pid ]; then kill "$(cat /tmp/ng.pid)" || true; fi
+            - echo "---- Angular log (last 200 lines) ----"
+            - tail -n 200 /tmp/ng.log || true
 
           artifacts:
             - test-results/**
             - playwright-report/**
+            - /tmp/ng.log
 
     master:
       - step:
@@ -102,4 +134,3 @@ pipelines:
             - export AWS_REGION=$AWS_REGION
             - echo "Desplegando con Serverless..."
             - npx serverless deploy --stage production
-

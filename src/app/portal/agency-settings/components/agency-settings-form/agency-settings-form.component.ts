@@ -31,12 +31,13 @@ export class AgencySettingsFormComponent implements OnInit {
       this.dataAgency = resp;
       this.fillData(resp);
 
-      this._uploadFile
-        .getUrlFile(this.dataAgency.logo_url ?? '')
-        .subscribe(url => {
-          console.log(url);
-          this.logo = url ?? '/assets/images/portal/image_default.webp';
+      if (this.dataAgency.logo_url) {
+        this._uploadFile.getUrlFile(this.dataAgency.logo_url).subscribe(url => {
+          this.logo = '/assets/images/portal/image_default.webp';
         });
+      } else {
+        this.logo = '/assets/images/portal/image_default.webp';
+      }
     });
   }
 

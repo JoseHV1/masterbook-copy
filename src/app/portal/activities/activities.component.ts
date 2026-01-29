@@ -16,6 +16,7 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { ChartFiltersPayload } from './components/chart-filters/chart-filters.component';
 import { ActivatedRoute } from '@angular/router';
+import { UiModalTypeEnum } from '@app/shared/enums/ui-modal-type.enum';
 
 export type ChartKey =
   | 'summaryCards'
@@ -199,9 +200,13 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
       next: params => {
         const notInsurers = params['not_insurers'];
         if (notInsurers === 'true') {
-          this._ui.showAlertError(
-            'You must have at least one insurer configured, only Agency Owner or Agency Administrator can perform this configuration.'
-          );
+          this._ui
+            .showInformationModal({
+              text: "Please set up the insurer's email and commission rates before submitting a request.",
+              title: 'ERROR!',
+              type: UiModalTypeEnum.ERROR,
+            })
+            .subscribe();
         }
       },
       error: err => {

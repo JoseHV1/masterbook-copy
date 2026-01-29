@@ -23,4 +23,4 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   exports: [RequestsTableComponent],
 })
-export class RequestsTableModule { }
+export class RequestsTableModule {}

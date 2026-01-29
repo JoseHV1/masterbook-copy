@@ -8,6 +8,7 @@ import { FilterWrapperModel } from 'src/app/shared/models/filters.model';
 import { PaginatedResponse } from 'src/app/shared/interfaces/models/paginated-response.model';
 import { InsurerConfigService } from 'src/app/shared/services/insurer-config.service';
 import { ActivatedRoute } from '@angular/router';
+import { UiModalTypeEnum } from '@app/shared/enums/ui-modal-type.enum';
 
 @Component({
   selector: 'app-insurers-list',
@@ -42,9 +43,13 @@ export class InsurersListComponent
       next: params => {
         const notInsurers = params['not_insurers'];
         if (notInsurers === 'true') {
-          this._ui.showAlertError(
-            'You must have at least one insurer configured'
-          );
+          this._ui
+            .showInformationModal({
+              text: "Please set up the insurer's email and commission rates before submitting a request.",
+              title: 'ERROR!',
+              type: UiModalTypeEnum.ERROR,
+            })
+            .subscribe();
         }
       },
       error: err => {

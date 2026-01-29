@@ -25,16 +25,15 @@ export class NewRequestComponent {
 
     this._insurers.getInsurersWithConfig().subscribe(resp => {
       if (resp.length === 0) {
-        this.router.navigateByUrl(`portal/insurer?not_insurers=true`);
-
         if (
           role === RolesEnum.AGENCY_OWNER ||
           role === RolesEnum.AGENCY_ADMINISTRATOR ||
           role === RolesEnum.INDEPENDANT_BROKER
-        )
+        ) {
           this.router.navigateByUrl(`portal/insurer?not_insurers=true`);
-      } else {
-        this.router.navigateByUrl(`portal/dashboard?not_insurers=true`);
+        } else {
+          this.router.navigateByUrl(`portal/dashboard?not_insurers=true`);
+        }
       }
     });
   }

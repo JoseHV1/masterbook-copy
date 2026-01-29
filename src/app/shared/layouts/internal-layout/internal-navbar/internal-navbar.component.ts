@@ -50,8 +50,8 @@ export class InternalNavbarComponent implements OnDestroy {
         this._uploadFile.getUrlFile(user.agency?.logo_url).subscribe(url => {
           this.logo = url;
         });
+        this.showLogo = user.agency?.check_branding ?? false;
       }
-      this.showLogo = user.agency?.check_branding ?? false;
     });
   }
 

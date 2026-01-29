@@ -5,7 +5,7 @@ export default defineConfig({
   globalSetup: './e2e/global-setup.ts',
 
   use: {
-    baseURL: process.env['E2E_BASE_URL'] ?? 'http://localhost:4200',
+    baseURL: 'http://localhost:4200',
     storageState: 'e2e/.auth/state.json',
     trace: 'on', // record trace for every test
     screenshot: 'on', // take screenshots for every test
