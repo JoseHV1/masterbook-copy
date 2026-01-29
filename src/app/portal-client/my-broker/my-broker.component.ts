@@ -44,12 +44,16 @@ export class MyBrokerComponent implements OnInit {
       .subscribe((resp: any) => {
         this.broker = resp;
 
-        this._uploadFile
-          .getUrlFile(this.broker.agency?.logo_url ?? '')
-          .subscribe(url => {
-            this.logo = url ?? '/assets/images/portal/image_default.webp';
-          });
-        this.showLogo = this.broker.agency?.check_branding ?? false;
+        if (this.broker.agency?.logo_url) {
+          this._uploadFile
+            .getUrlFile(this.broker.agency?.logo_url)
+            .subscribe(url => {
+              this.logo = url;
+            });
+          this.showLogo = this.broker.agency?.check_branding ?? false;
+        } else {
+          this.logo = '/assets/images/portal/image_default.webp';
+        }
       });
   }
 }

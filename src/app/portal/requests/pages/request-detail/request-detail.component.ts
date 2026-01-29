@@ -6,6 +6,7 @@ import {
   filter,
   finalize,
   forkJoin,
+  map,
   Observable,
   of,
   Subject,
@@ -40,6 +41,8 @@ import { ModalNewQuoteComponent } from '../../components/modal-new-quote/modal-n
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UpdateRequestRequest } from '@app/shared/interfaces/requests/requests/update-request.request';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
+import { FormsModalComponent } from '@app/portal/forms/components/forms-modal/forms-modal.component';
+import { DatasetsService } from '@app/shared/services/dataset.service';
 
 @Component({
   selector: 'app-request-detail',
@@ -82,7 +85,8 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog,
     private _auth: AuthService,
     private _integrations: IntegrationsService,
-    private _uploadFile: UploadFileService
+    private _uploadFile: UploadFileService,
+    private _datasets: DatasetsService
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -209,6 +213,28 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
         return of(request);
       })
     );
+  }
+
+  openModalForms() {
+    this._ui.showLoader();
+    this._datasets
+      .getPolcyTpesDataset()
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe(resp => {
+        const policy_type = resp.find(
+          item => item._id === this.request.policy_type_id
+        );
+        console.log(policy_type);
+        this._dialog
+          .open(FormsModalComponent, {
+            data: { policy_type, show_email: false },
+            autoFocus: false,
+            panelClass: 'transparent-modal-container',
+          })
+          .afterClosed()
+          .pipe(take(1))
+          .subscribe();
+      });
   }
 
   private _fetchQuotesData(id: string): Observable<PopulatedQuoteModel[]> {

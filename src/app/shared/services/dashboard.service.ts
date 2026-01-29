@@ -172,7 +172,9 @@ export class DashboardService {
    * If your route is different (ex: 'agencies', 'admin/agencies'), change it here.
    */
   getAgenciesList(): Observable<HttpResponseModel<any>> {
-    return this._api.get<HttpResponseModel<any>>('agency');
+    return this._api.get<HttpResponseModel<any>>(
+      'dashboard/admin/filters/agencies'
+    );
   }
 
   /**

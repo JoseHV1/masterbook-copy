@@ -37,7 +37,7 @@
 
   .selected-quote-button {
     @extend .big-button;
-    background: $dark-blue-400;
+    background: $color-success !important;
     padding: 0 !important;
     overflow: hidden;
     display: flex;
@@ -58,7 +58,7 @@
       height: 100%;
       padding: 0.6rem 0.8rem;
       border-left: 1px solid $gray-200;
-      background: $dark-blue-300;
+      background: $color-success !important;
 
       .dropdown-icon {
         font-size: 2rem;

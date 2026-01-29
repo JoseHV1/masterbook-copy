@@ -1,27 +1,27 @@
 <div class="summary-grid container">
-  <!-- Total Commissions (MTD) -->
+  <!-- Total Sales (MTD) -->
   <div class="summary-card">
     <div class="icon">
       <i class="pi pi-dollar"></i>
     </div>
     <div class="meta">
-      <div class="label">Total Commissions</div>
+      <div class="label">Total Sales</div>
       <div class="value">
-        {{ formatMoney(animatedTotals.total_commissions_mtd) }}
+        {{ formatMoney((animatedTotals.total_sales_mtd_cents || 0) / 100) }}
       </div>
       <div class="hint">MTD</div>
     </div>
   </div>
 
-  <!-- Total Commissions (YTD) -->
+  <!-- Total Sales (YTD) -->
   <div class="summary-card">
     <div class="icon">
       <i class="pi pi-chart-line"></i>
     </div>
     <div class="meta">
-      <div class="label">Total Commissions</div>
+      <div class="label">Total Sales</div>
       <div class="value">
-        {{ formatMoney(animatedTotals.total_commissions_ytd) }}
+        {{ formatMoney((animatedTotals.total_sales_ytd_cents || 0) / 100) }}
       </div>
       <div class="hint">YTD</div>
     </div>

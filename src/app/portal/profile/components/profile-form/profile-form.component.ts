@@ -56,11 +56,13 @@ export class ProfileFormComponent implements OnInit {
     this.fillData(this.dataUser);
     this.form.disable();
 
-    this._uploadFile
-      .getUrlFile(this.dataUser.photo_url ?? '')
-      .subscribe(url => {
-        this.imageProfile = url ?? '/assets/images/portal/image_default.webp';
+    if (this.dataUser.photo_url) {
+      this._uploadFile.getUrlFile(this.dataUser.photo_url).subscribe(url => {
+        this.imageProfile = url;
       });
+    } else {
+      this.imageProfile = '/assets/images/portal/image_default.webp';
+    }
 
     this._profile.getGoogleStatus().subscribe({
       next: status => {

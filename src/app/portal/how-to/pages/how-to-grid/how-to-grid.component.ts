@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   DomSanitizer,
   SafeHtml,
@@ -18,7 +18,7 @@ import { finalize, tap } from 'rxjs';
   templateUrl: './how-to-grid.component.html',
   styleUrls: ['./how-to-grid.component.scss'],
 })
-export class HowToGridComponent {
+export class HowToGridComponent implements OnInit {
   selectedVideo: HowToModel | null = null;
   description!: SafeHtml;
   data: PaginatedResponse<HowToModel[]> = {

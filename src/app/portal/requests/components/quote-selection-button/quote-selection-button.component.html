@@ -52,7 +52,7 @@
   </button>
 
   <button
-    class="primary-button big-button back-dark-blue-400 white m-2"
+    class="selected-quote-button primary-button big-button back-dark-blue-400 white m-2"
     *ngIf="quote.status === QuoteStatusEnum.ACCEPTED"
     (click)="toggleStatus()"
     data-testid="quote-selected-button"

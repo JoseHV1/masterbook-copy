@@ -92,9 +92,10 @@ export class ClaimsDetailsComponent {
       submitted: 'bg-info-subtle text-info',
     };
 
-    return `${baseClasses} ${colorMap[(status || '').toLowerCase()] ||
+    return `${baseClasses} ${
+      colorMap[(status || '').toLowerCase()] ||
       'bg-secondary-subtle text-secondary'
-      }`;
+    }`;
   }
 
   isImage(fileType: string): boolean {
