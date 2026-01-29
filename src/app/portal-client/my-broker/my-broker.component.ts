@@ -29,7 +29,6 @@ export class MyBrokerComponent implements OnInit {
 
   ngOnInit() {
     this.fetchBrokerData();
-    console.log(this.broker);
   }
 
   goBack(): void {

@@ -1,136 +1,149 @@
-image: node:20
+# image: node:20
 
-pipelines:
-  branches:
-    default:
-      - step:
-          name: Instalar dependencias
-          caches:
-            - node
-          script:
-            - corepack enable
-            - corepack prepare yarn@4.12.0 --activate
-            - yarn --version
-            - yarn install --immutable
+# pipelines:
+#   branches:
+#     default:
+#       - step:
+#           name: Instalar dependencias
+#           caches:
+#             - node
+#           script:
+#             - corepack enable
+#             - corepack prepare yarn@4.12.0 --activate
+#             - yarn --version
+#             - yarn install --immutable
 
-    develop:
-      - step:
-          name: Instalar dependencias
-          caches:
-            - node
-          script:
-            - corepack enable
-            - corepack prepare yarn@4.12.0 --activate
-            - yarn --version
-            - yarn install --immutable
+#     develop:
+#       - step:
+#           name: Instalar dependencias
+#           caches:
+#             - node
+#           script:
+#             - corepack enable
+#             - corepack prepare yarn@4.12.0 --activate
+#             - yarn --version
+#             - yarn install --immutable
 
-      - step:
-          name: Revisar Código (Linting)
-          caches:
-            - node
-          script:
-            - corepack enable
-            - corepack prepare yarn@4.12.0 --activate
-            - yarn --version
-            - yarn install --immutable
-            - yarn lint
+#       - step:
+#           name: Revisar Código (Linting)
+#           caches:
+#             - node
+#           script:
+#             - corepack enable
+#             - corepack prepare yarn@4.12.0 --activate
+#             - yarn --version
+#             - yarn install --immutable
+#             - yarn lint
 
-      - step:
-          name: E2E (Playwright)
-          image: mcr.microsoft.com/playwright:v1.55.0-jammy
-          caches:
-            - node
-          script:
-            - corepack enable
-            - corepack prepare yarn@4.12.0 --activate
-            - yarn --version
-            - yarn install --immutable
+#       - step:
+#           name: E2E (Playwright)
+#           image: mcr.microsoft.com/playwright:v1.55.0-jammy
+#           caches:
+#             - node
+#           script:
+#             - corepack enable
+#             - corepack prepare yarn@4.12.0 --activate
+#             - yarn --version
+#             - yarn install --immutable
 
-            # Playwright image already has browsers; keeping this is ok
-            - npx playwright install --with-deps chromium
+#             # Playwright image already has browsers; keeping this is ok
+#             - npx playwright install --with-deps chromium
 
-            # Start Angular in the SAME shell so $! is the correct PID
-            - yarn start:e2e > /tmp/ng.log 2>&1 & echo $! > /tmp/ng.pid
+#             # Start Angular in the SAME shell so $! is the correct PID
+#             - yarn start:e2e > /tmp/ng.log 2>&1 & echo $! > /tmp/ng.pid
 
-            # Prove it didn't crash immediately
-            - sleep 2
-            - |
-              if [ ! -s /tmp/ng.pid ]; then
-                echo "Angular did not start (no PID captured)"
-                tail -n 200 /tmp/ng.log || true
-                exit 1
-              fi
+#             # Prove it didn't crash immediately
+#             - sleep 2
+#             - |
+#               if [ ! -s /tmp/ng.pid ]; then
+#                 echo "Angular did not start (no PID captured)"
+#                 tail -n 200 /tmp/ng.log || true
+#                 exit 1
+#               fi
 
-              NG_PID="$(cat /tmp/ng.pid)"
+#               NG_PID="$(cat /tmp/ng.pid)"
 
-              if ! ps -p "$NG_PID" >/dev/null 2>&1; then
-                echo "Angular crashed early (PID $NG_PID not running)"
-                tail -n 200 /tmp/ng.log || true
-                exit 1
-              fi
+#               if ! ps -p "$NG_PID" >/dev/null 2>&1; then
+#                 echo "Angular crashed early (PID $NG_PID not running)"
+#                 tail -n 200 /tmp/ng.log || true
+#                 exit 1
+#               fi
 
-            # Wait until the server is reachable
-            - for i in {1..60}; do curl -sSf http://localhost:4200/ >/dev/null && break || (echo "waiting for http://localhost:4200 ..."; sleep 2); done
-            - curl -sSf http://localhost:4200/ >/dev/null || (echo "Angular never became ready"; tail -n 200 /tmp/ng.log; exit 1)
+#             # Wait until the server is reachable
+#             - for i in {1..60}; do curl -sSf http://localhost:4200/ >/dev/null && break || (echo "waiting for http://localhost:4200 ..."; sleep 2); done
+#             - curl -sSf http://localhost:4200/ >/dev/null || (echo "Angular never became ready"; tail -n 200 /tmp/ng.log; exit 1)
 
-            # Base URL for Playwright (matches your globalSetup)
-            - export PLAYWRIGHT_BASE_URL="http://localhost:4200"
+#             # Base URL for Playwright (matches your globalSetup)
+#             - export PLAYWRIGHT_BASE_URL="http://localhost:4200"
 
-            # Run tests
-            - npx playwright test --reporter=line
+#             # Run tests
+#             - npx playwright test --reporter=line
 
-          after-script:
-            # Always stop Angular
-            - if [ -s /tmp/ng.pid ]; then kill "$(cat /tmp/ng.pid)" || true; fi
-            - echo "---- Angular log (last 200 lines) ----"
-            - tail -n 200 /tmp/ng.log || true
+#           after-script:
+#             # Always stop Angular
+#             - if [ -s /tmp/ng.pid ]; then kill "$(cat /tmp/ng.pid)" || true; fi
+#             - echo "---- Angular log (last 200 lines) ----"
+#             - tail -n 200 /tmp/ng.log || true
 
-          artifacts:
-            - test-results/**
-            - playwright-report/**
-            - /tmp/ng.log
+#           artifacts:
+#             - test-results/**
+#             - playwright-report/**
+#             - /tmp/ng.log
 
-    master:
-      - step:
-          name: Instalar dependencias
-          caches:
-            - node
-          script:
-            - corepack enable
-            - corepack prepare yarn@4.12.0 --activate
-            - yarn --version
-            - rm -rf node_modules
-            - yarn cache clean
-            - yarn install --immutable
+#     master:
+#       - step:
+#           name: Instalar dependencias
+#           caches:
+#             - node
+#           script:
+#             - corepack enable
+#             - corepack prepare yarn@4.12.0 --activate
+#             - yarn --version
+#             - rm -rf node_modules
+#             - yarn cache clean
+#             - yarn install --immutable
+#     master:
+#       - step:
+#           name: Instalar dependencias
+#           caches:
+#             - node
+#           script:
+#             - corepack enable
+#             - corepack prepare yarn@4.12.0 --activate
+#             - yarn --version
+#             - rm -rf node_modules
+#             - yarn cache clean
+#             - yarn install --immutable
 
-      - step:
-          name: Construir SSR
-          caches:
-            - node
-          script:
-            - corepack enable
-            - corepack prepare yarn@4.12.0 --activate
-            - yarn --version
-            - yarn install --immutable
-            - yarn build-to-deploy:ssr
-          artifacts:
-            - dist/**
-            - serverless.yml
-            - lambda.js
-            - package.json
-            - node_modules/**
+#       - step:
+#           name: Construir SSR
+#           caches:
+#             - node
+#           script:
+#             - corepack enable
+#             - corepack prepare yarn@4.12.0 --activate
+#             - yarn --version
+#             - yarn install --immutable
+#             - yarn build-to-deploy:ssr
+#           artifacts:
+#             - dist/**
+#             - serverless.yml
+#             - lambda.js
+#             - package.json
+#             - node_modules/**
 
-      - step:
-          name: Desplegar en AWS usando SLS
-          caches:
-            - node
-          script:
-            - corepack enable
-            - corepack prepare yarn@4.12.0 --activate
-            - yarn --version
-            - echo "Exportando variables de AWS..."
-            - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-            - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-            - export AWS_REGION=$AWS_REGION
-            - echo "Desplegando con Serverless..."
-            - npx serverless deploy --stage production
+#       - step:
+#           name: Desplegar en AWS usando SLS
+#           caches:
+#             - node
+#           script:
+#             - corepack enable
+#             - corepack prepare yarn@4.12.0 --activate
+#             - yarn --version
+#             - echo "Exportando variables de AWS..."
+#             - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+#             - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+#             - export AWS_REGION=$AWS_REGION
+#             - echo "Desplegando con Serverless..."
+#             - npx serverless deploy --stage production
+

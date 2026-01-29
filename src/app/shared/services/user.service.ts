@@ -152,7 +152,6 @@ export class UserService {
       .get<HttpResponseModel<any>>(`${environment.apiUrl}brokers/${id}`)
       .pipe(
         catchError(error => {
-          console.error('Error:', error);
           return throwError(() => error);
         })
       );

@@ -3,6 +3,7 @@ import { InsuranceCompanyStatus } from '../../enums/insurance-company-status.enu
 export interface InsuranceCompanyModel {
   _id: string;
   name: string;
+  serial: string;
   logo_url?: string;
   website?: string;
   phone_number?: string;

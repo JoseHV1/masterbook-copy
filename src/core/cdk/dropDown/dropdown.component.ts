@@ -170,5 +170,6 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
 export interface DropdownOption {
   name: string;
   code: string;
+  serial?: string;
   disabled?: boolean;
 }

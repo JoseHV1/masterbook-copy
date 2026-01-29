@@ -4,12 +4,13 @@ import { PortalAdminComponent } from './portal-admin.component';
 import { RouterModule, Routes } from '@angular/router';
 import { InternalLayoutModule } from '../shared/layouts/internal-layout/internal-layout.module';
 
-const defaultRoute = 'dashboard';
 const routes: Routes = [
   {
     path: '',
     component: PortalAdminComponent,
     children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
       {
         path: 'dashboard',
         loadChildren: () =>
@@ -59,8 +60,8 @@ const routes: Routes = [
       },
     ],
   },
-  { path: '', redirectTo: defaultRoute, pathMatch: 'full' },
-  { path: '**', redirectTo: defaultRoute, pathMatch: 'full' },
+
+  { path: '**', redirectTo: 'dashboard' },
 ];
 
 @NgModule({

@@ -26,15 +26,14 @@ export class InternalNavbarOptionsComponent {
     private _uploadFile: UploadFileService
   ) {
     const auth = this._auth.getAuth();
+    this.userRole = auth?.user.role;
 
     if (auth && auth.user.photo_url) {
       this._uploadFile.getUrlFile(auth.user.photo_url).subscribe(url => {
         this.imageProfile = url;
       });
-      this.userRole = auth.user.role;
     } else {
       this.imageProfile = '/assets/images/portal/image_default.webp';
-      this.userRole = undefined;
     }
   }
 
@@ -63,15 +62,10 @@ export class InternalNavbarOptionsComponent {
       this.userRole === RolesEnum.PREREGISTER_INSURED
     ) {
       this._router.navigateByUrl(`portal-client/${url}`);
-      return;
-    }
-
-    if (this.userRole === RolesEnum.ADMIN) {
+    } else if (this.userRole === RolesEnum.ADMIN) {
       this._router.navigateByUrl(`portal-admin/${url}`);
-      return;
+    } else {
+      this._router.navigateByUrl(`portal/${url}`);
     }
-
-    // default: agents / brokers / agency roles
-    this._router.navigateByUrl(`portal/${url}`);
   }
 }

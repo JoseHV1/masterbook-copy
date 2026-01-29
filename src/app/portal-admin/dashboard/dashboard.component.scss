@@ -2,12 +2,12 @@
 
 :host ::ng-deep {
   .chart-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform: none;
-    top: auto;
-    left: auto;
+    flex: 1 1 auto;
+    min-height: 200px; // ensures chart has space
+    height: auto; // stop forcing 100%
+  }
+  .admin-dashboard-page {
+    padding-bottom: 48px;
   }
 
   h3 {
@@ -23,51 +23,37 @@
   }
 
   .card-content {
-    margin-top: 1%;
-    text-align: right;
-
-    &-timeline {
-      margin-top: 0px;
-      text-align: right;
-    }
+    margin-top: 10px;
+    flex: 0 0 auto;
   }
-
-  // .card-labels{
-  //   width: 100%;
-  //   display: flex;
-  //   justify-content: space-between;
-  // }
 
   .card-header {
     display: flex;
     justify-content: space-between;
   }
 
-.dashboard-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 10px 0 14px; // space above summary cards
-}
+  .dashboard-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px 0 14px;
+  }
 
-.export-btn {
-  height: 36px;
-  border-radius: 10px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
+  .export-btn {
+    height: 36px;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    box-shadow: none;
+  }
 
-  // keeps it “light” like your UI
-  box-shadow: none;
-}
-
-.exporting .export-icon-btn {
-  display: none !important;
-}
+  .exporting .export-icon-btn {
+    display: none !important;
+  }
 
   .kpi-card {
     position: relative;
     padding: 1.25rem 1.25rem;
-    // margin-bottom: 2rem;
     height: 360px;
     width: 100%;
     overflow: hidden;
@@ -127,7 +113,11 @@
   display: block;
   width: 100%;
   height: 4px;
-  background: linear-gradient(to right, #5faaff, #7baffe);
+  background: linear-gradient(
+    to right,
+    rgba(91, 124, 250, 0.28),
+    rgba(91, 124, 250, 0.12)
+  );
   border-radius: 2px;
   margin-top: 1rem;
 }

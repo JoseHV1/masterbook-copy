@@ -1,120 +1,118 @@
 <ng-container content>
-  <!-- ADMIN summary cards -->
-  <app-summary-cards [dashboardTotals]="adminTotals"></app-summary-cards>
+  <div class="admin-dashboard-page">
+    <!-- ADMIN summary cards -->
+    <app-summary-cards [dashboardTotals]="adminTotals"></app-summary-cards>
 
-  <div class="container">
-    <div class="row g-4">
-      <!-- Agencies Added Trend (REQUIRED bar chart) -->
-      <div class="col-12 col-lg-6">
-        <mat-card class="kpi-card">
-          <div class="chart-container">
-            <app-kpi-chart
-              [chartOptions]="agenciesAddedTrend"
-              [dateRange]="selectedDateRange.agenciesAddedTrend">
-            </app-kpi-chart>
-          </div>
+    <div class="container">
+      <div class="row g-4">
+        <!-- Agencies Added Trend (REQUIRED bar chart) -->
+        <div class="col-12 col-lg-6">
+          <mat-card class="kpi-card">
+            <div class="chart-container">
+              <app-kpi-chart
+                [chartOptions]="agenciesAddedTrend"
+                [dateRange]="selectedDateRange.agenciesAddedTrend">
+              </app-kpi-chart>
+            </div>
 
-          <div class="divider-wrapper">
-            <mat-divider class="styled-divider"></mat-divider>
-          </div>
+            <div class="divider-wrapper">
+              <mat-divider class="styled-divider"></mat-divider>
+            </div>
 
-          <div class="card-content">
-            <div class="card-header">
-              <app-chart-filters
-                chart="agenciesAddedTrend"
-                [showDateRange]="true"
-                [showAgencies]="true"
-                [showAgents]="false"
-                [showCompanies]="false"
-                [dateRanges]="dateRanges"
-                [agencies]="agenciesList"
-                (filtersApplied)="onFiltersApplied($event)">
-              </app-chart-filters>
+            <div class="card-content">
+              <div class="card-header">
+                <app-chart-filters
+                  chart="agenciesAddedTrend"
+                  [showDateRange]="true"
+                  [showAgencies]="false"
+                  [showAgents]="false"
+                  [showCompanies]="false"
+                  [dateRanges]="dateRanges"
+                  [agencies]="agenciesList"
+                  (filtersApplied)="onFiltersApplied($event)">
+                </app-chart-filters>
 
-              <div>
-                <h3>Agencies Added</h3>
-                <p>{{ selectedDateRange.agenciesAddedTrend }}</p>
+                <div>
+                  <h3>Agencies Added</h3>
+                  <p>{{ selectedDateRange.agenciesAddedTrend }}</p>
+                </div>
               </div>
             </div>
-          </div>
-        </mat-card>
-      </div>
+          </mat-card>
+        </div>
 
-      <!-- Active Agencies Trend (✅ SINGLE LINE CHART) -->
-      <div class="col-12 col-lg-6">
-        <mat-card class="kpi-card">
-          <div class="chart-container">
-            <!-- ✅ replace KPI bar chart with your single line chart component -->
-            <app-single-line-chart
-              [chartData]="activeAgenciesTrend"
-              [title]="'Active Agencies'">
-            </app-single-line-chart>
-          </div>
+        <!-- Active Agencies Trend (SINGLE LINE CHART) -->
+        <div class="col-12 col-lg-6">
+          <mat-card class="kpi-card">
+            <div class="chart-container">
+              <app-single-line-chart
+                [chartData]="activeAgenciesTrend"
+                [title]="'Active Agencies'">
+              </app-single-line-chart>
+            </div>
 
-          <div class="divider-wrapper">
-            <mat-divider class="styled-divider"></mat-divider>
-          </div>
+            <div class="divider-wrapper">
+              <mat-divider class="styled-divider"></mat-divider>
+            </div>
 
-          <div class="card-content">
-            <div class="card-header">
-              <app-chart-filters
-                chart="activeAgenciesTrend"
-                [showDateRange]="true"
-                [showAgencies]="true"
-                [showAgents]="false"
-                [showCompanies]="false"
-                [dateRanges]="dateRanges"
-                [agencies]="agenciesList"
-                (filtersApplied)="onFiltersApplied($event)">
-              </app-chart-filters>
+            <div class="card-content">
+              <div class="card-header">
+                <app-chart-filters
+                  chart="activeAgenciesTrend"
+                  [showDateRange]="true"
+                  [showAgencies]="false"
+                  [showAgents]="false"
+                  [showCompanies]="false"
+                  [dateRanges]="dateRanges"
+                  [agencies]="agenciesList"
+                  (filtersApplied)="onFiltersApplied($event)">
+                </app-chart-filters>
 
-              <div>
-                <h3>Active Agencies</h3>
-                <p>{{ selectedDateRange.activeAgenciesTrend }}</p>
+                <div>
+                  <h3>Active Agencies</h3>
+                  <p>{{ selectedDateRange.activeAgenciesTrend }}</p>
+                </div>
               </div>
             </div>
-          </div>
-        </mat-card>
-      </div>
+          </mat-card>
+        </div>
 
-      <!-- Usage Breakdown -->
-      <div class="col-12">
-        <mat-card class="kpi-card">
-          <div class="chart-container">
-            <app-kpi-chart
-              [chartOptions]="usageBreakdown"
-              [dateRange]="selectedDateRange.usageBreakdown">
-            </app-kpi-chart>
-          </div>
+        <!-- Usage Breakdown -->
+        <div class="col-12">
+          <mat-card class="kpi-card">
+            <div class="chart-container">
+              <app-stacked-bar-chart
+                [chartOptions]="usageBreakdown"
+                [dateRange]="selectedDateRange.usageBreakdown">
+              </app-stacked-bar-chart>
+            </div>
 
-          <div class="divider-wrapper">
-            <mat-divider class="styled-divider"></mat-divider>
-          </div>
+            <div class="divider-wrapper">
+              <mat-divider class="styled-divider"></mat-divider>
+            </div>
 
-          <div class="card-content">
-            <div class="card-header">
-              <app-chart-filters
-                chart="usageBreakdown"
-                [showDateRange]="true"
-                [showAgencies]="true"
-                [showAgents]="false"
-                [showCompanies]="false"
-                [dateRanges]="dateRanges"
-                [agencies]="agenciesList"
-                (filtersApplied)="onFiltersApplied($event)">
-              </app-chart-filters>
+            <div class="card-content">
+              <div class="card-header">
+                <app-chart-filters
+                  chart="usageBreakdown"
+                  [showDateRange]="true"
+                  [showAgencies]="false"
+                  [showAgents]="false"
+                  [showCompanies]="false"
+                  [dateRanges]="dateRanges"
+                  [agencies]="agenciesList"
+                  (filtersApplied)="onFiltersApplied($event)">
+                </app-chart-filters>
 
-              <div>
-                <h3>Platform Usage</h3>
-                <p>{{ selectedDateRange.usageBreakdown }}</p>
+                <div>
+                  <h3>Platform Usage</h3>
+                  <p>{{ selectedDateRange.usageBreakdown }}</p>
+                </div>
               </div>
             </div>
-          </div>
-        </mat-card>
+          </mat-card>
+        </div>
       </div>
     </div>
   </div>
-  <br />
-  <br />
-  <br />
 </ng-container>

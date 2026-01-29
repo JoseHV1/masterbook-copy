@@ -55,11 +55,6 @@ export class AppComponent implements OnInit, OnDestroy {
   private initGoogleAnalytics(): void {
     const analyticsId = environment.GOOGLE_ANALYTICS_KEY;
 
-    if (!analyticsId) {
-      console.warn('Google Analytics Key no encontrada en el environment.');
-      return;
-    }
-
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${analyticsId}`;

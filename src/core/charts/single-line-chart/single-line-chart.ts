@@ -29,7 +29,6 @@ export class SingleLineChartComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chartData']) {
-      console.log(this.chartData);
       this.buildOptions(this.chartData ?? []);
     }
   }

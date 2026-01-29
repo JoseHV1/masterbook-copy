@@ -42,12 +42,8 @@ export class DashboardComponent implements OnInit {
 
   // --- responses ---
   adminTotals: any;
-
-  // KPI bar charts expect: [{day/month, count}]
   agenciesAddedTrend: TrendPoint[] = [];
-  usageBreakdown: any; // depends on what you return; keep any for now
-
-  //  NEW chart (single line) expects: [{day/month, count}]
+  usageBreakdown: any;
   activeAgenciesTrend: TrendPoint[] = [];
 
   constructor(private _dashboard: DashboardService, private _ui: UiService) {}
@@ -101,7 +97,6 @@ export class DashboardComponent implements OnInit {
           .getAgenciesAddedTrend(period, agencyIds)
           .pipe(finalize(() => this._ui.hideLoader()))
           .subscribe((resp: any) => {
-            // backend now returns: [{ day/month, count }]
             this.agenciesAddedTrend = (resp?.data ??
               resp ??
               []) as TrendPoint[];
@@ -112,7 +107,6 @@ export class DashboardComponent implements OnInit {
           .getActiveAgenciesTrend(period, agencyIds)
           .pipe(finalize(() => this._ui.hideLoader()))
           .subscribe((resp: any) => {
-            console.log('Active account trend:', resp);
             this.activeAgenciesTrend = (resp?.data ??
               resp ??
               []) as TrendPoint[];

@@ -9,8 +9,8 @@ import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 type DashboardTotals = Partial<{
-  total_commissions_mtd: number;
-  total_commissions_ytd: number;
+  total_sales_mtd_cents: number;
+  total_sales_ytd_cents: number;
 
   active_agencies_last_30_days: number;
   total_active_policies: number;
@@ -20,8 +20,8 @@ type DashboardTotals = Partial<{
 }>;
 
 type KpiKey =
-  | 'total_commissions_mtd'
-  | 'total_commissions_ytd'
+  | 'total_sales_mtd_cents'
+  | 'total_sales_ytd_cents'
   | 'active_agencies_last_30_days'
   | 'total_active_policies'
   | 'renewals_next_30_days'
@@ -36,8 +36,8 @@ export class SummaryCardsComponent implements OnChanges, OnDestroy {
   @Input() dashboardTotals: DashboardTotals | null = null;
 
   animatedTotals: Record<KpiKey, number> = {
-    total_commissions_mtd: 0,
-    total_commissions_ytd: 0,
+    total_sales_mtd_cents: 0,
+    total_sales_ytd_cents: 0,
     active_agencies_last_30_days: 0,
     total_active_policies: 0,
     renewals_next_30_days: 0,
@@ -77,7 +77,7 @@ export class SummaryCardsComponent implements OnChanges, OnDestroy {
       const tickMs = 16;
       const steps = Math.max(12, Math.floor(durationMs / tickMs));
 
-      const increment = Math.max(1, Math.floor(finalValue / steps));
+      const increment = Math.max(1, Math.ceil(finalValue / steps));
       let current = 0;
 
       const sub = interval(tickMs)
@@ -107,5 +107,9 @@ export class SummaryCardsComponent implements OnChanges, OnDestroy {
       currency,
       maximumFractionDigits: 2,
     }).format(value ?? 0);
+  }
+
+  formatMoneyFromCents(cents: number, currency = 'USD'): string {
+    return this.formatMoney((cents ?? 0) / 100, currency);
   }
 }
