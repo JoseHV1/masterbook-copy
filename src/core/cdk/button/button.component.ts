@@ -30,7 +30,6 @@ export class ButtonComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['disabled']) {
-      console.log('Disabled state updated:', changes['disabled'].currentValue);
       console.log(this.combinedClasses);
     }
   }

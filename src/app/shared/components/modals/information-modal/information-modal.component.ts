@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { UrlService } from '@app/shared/services/url.service';
 import { UiModalConfig } from 'src/app/shared/models/ui-modal-config.model';
 
 @Component({
@@ -17,7 +18,8 @@ export class InformationModalComponent {
   constructor(
     private _dialog: MatDialogRef<InformationModalComponent>,
     @Inject(MAT_DIALOG_DATA)
-    private _config: UiModalConfig
+    private _config: UiModalConfig,
+    public _url: UrlService
   ) {
     this.config = this._config;
     this.typeClass = `back-${this.config.type}-color`;

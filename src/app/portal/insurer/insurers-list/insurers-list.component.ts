@@ -45,9 +45,9 @@ export class InsurersListComponent
         if (notInsurers === 'true') {
           this._ui
             .showInformationModal({
-              text: "Please set up the insurer's email and commission rates before submitting a request.",
-              title: 'ERROR!',
-              type: UiModalTypeEnum.ERROR,
+              text: 'Please set up the commission rates\nbefore submitting a request.',
+              title: 'ALERT!',
+              type: UiModalTypeEnum.WARNING,
             })
             .subscribe();
         }

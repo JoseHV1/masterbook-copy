@@ -224,7 +224,6 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
         const policy_type = resp.find(
           item => item._id === this.request.policy_type_id
         );
-        console.log(policy_type);
         this._dialog
           .open(FormsModalComponent, {
             data: { policy_type, show_email: false },

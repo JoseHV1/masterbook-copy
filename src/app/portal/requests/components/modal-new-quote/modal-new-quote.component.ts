@@ -9,10 +9,10 @@ import { InsurerService } from '@app/shared/services/insurer.service';
 import { PolicyCategoryEnum } from '@app/shared/enums/policy-category.enum';
 import { DatasetsService } from '@app/shared/services/dataset.service';
 import { InsuranceCompanyModel } from 'src/app/shared/interfaces/models/insurance-company.model';
-import { DropdownOption } from 'src/core/cdk/dropDown/dropdown.component';
 import { PopulatedRequestModel } from '@app/shared/interfaces/models/request.model';
 import { CreateQuoteRequest } from '@app/shared/interfaces/requests/quotes/create-quote.request';
 import { QuotesService } from '@app/shared/services/quotes.service';
+import { UiModalTypeEnum } from '@app/shared/enums/ui-modal-type.enum';
 
 @Component({
   selector: 'app-modal-new-quote',
@@ -23,7 +23,7 @@ export class ModalNewQuoteComponent {
   request!: PopulatedRequestModel;
   form!: FormGroup;
   fileUploadMode = fileUploadMode;
-  insuranceCompaniesItems: DropdownOption[] = [];
+  insuranceCompaniesItems: any[] = [];
 
   constructor(
     private _insurer: InsurerService,
@@ -40,9 +40,14 @@ export class ModalNewQuoteComponent {
 
   private _initData(): void {
     this._ui.showLoader();
-    this._loadInsuranceCompanies();
-    this._initQuotesForm();
-    this._ui.hideLoader();
+    this._loadInsuranceCompanies().subscribe({
+      next: () => {
+        this._initQuotesForm();
+        this._listenToInsurerChanges();
+        this._ui.hideLoader();
+      },
+      error: () => this._ui.hideLoader(),
+    });
   }
 
   private _initQuotesForm(): void {
@@ -67,6 +72,45 @@ export class ModalNewQuoteComponent {
     });
   }
 
+  private _listenToInsurerChanges(): void {
+    const insurerControl = this.form.get('insurer_id');
+
+    if (insurerControl) {
+      insurerControl.statusChanges.subscribe(status => {
+        if (status === 'INVALID') {
+          const errors = insurerControl.errors;
+
+          if (errors && errors['UNCONFIGINSURER']) {
+            const selectedInsurer = this.insuranceCompaniesItems.find(
+              opt => opt.code === insurerControl.value
+            );
+
+            if (selectedInsurer) {
+              this._ui
+                .showInformationModal({
+                  text:
+                    'To issue this policy, commission settings must be configured for the selected insurance company.<br><br>' +
+                    'This information is required to calculate agent commissions and to ensure accurate financial reporting.<br><br>' +
+                    'We suggest to complete this setup based on your contractual agreement with this insurer.',
+                  title: 'ALERT!',
+                  type: UiModalTypeEnum.WARNING,
+                  redirectButton: {
+                    text: 'Go to Insurance Configuration',
+                    url: `/portal/insurer/${selectedInsurer.serial}`,
+                  },
+                })
+                .subscribe(result => {
+                  if (result === 'redirect') {
+                    this.dialogRef.close(true);
+                  }
+                });
+            }
+          }
+        }
+      });
+    }
+  }
+
   private _getcomissionCycleType(policyCategory: PolicyCategoryEnum) {
     if (
       [PolicyCategoryEnum.REINSTALLMENT, PolicyCategoryEnum.RENEWAL].includes(
@@ -84,6 +128,7 @@ export class ModalNewQuoteComponent {
           (this.insuranceCompaniesItems = companies.map(item => ({
             code: item._id,
             name: item.name,
+            serial: item.serial,
           })))
       )
     );
@@ -113,7 +158,7 @@ export class ModalNewQuoteComponent {
       .subscribe(() => {
         this._ui.showAlertSuccess('Quote created successfully!');
         this.form.reset();
-        this.dialogRef.close();
+        this.dialogRef.close(true);
       });
   }
 }

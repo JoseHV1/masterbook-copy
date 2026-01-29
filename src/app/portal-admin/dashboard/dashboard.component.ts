@@ -61,7 +61,6 @@ export class DashboardComponent implements OnInit {
   private loadAgencies(): void {
     this._dashboard.getAgenciesList().subscribe({
       next: (resp: any) => {
-        console.log('Agencies list response:', resp);
         const rows = resp?.data ?? resp ?? [];
         this.agenciesList = (rows ?? []).map((a: any) => ({
           code: a._id ?? a.id ?? a.code,

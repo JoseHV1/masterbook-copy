@@ -58,7 +58,6 @@ export class HowToGridComponent implements OnInit {
           }
           this.data = resp;
           this.selectVideo(resp.records[0]);
-          console.log(this.safeUrlVideo);
         }),
         finalize(() => this._ui.hideLoader())
       )

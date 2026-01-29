@@ -84,6 +84,7 @@ export class PolicyFormComponent implements OnInit {
           (this.insuranceCompanyOptions = companies.map(item => ({
             code: item._id,
             name: item.name,
+            serial: item.serial,
           })))
       )
     );
@@ -107,6 +108,43 @@ export class PolicyFormComponent implements OnInit {
     if (!this.showAgentSelector) {
       this.form.get('agent_id')?.setValidators(null);
       this.form.get('agent_id')?.disable();
+    }
+
+    this._listenToInsurerChanges();
+  }
+
+  private _listenToInsurerChanges(): void {
+    const insurerControl = this.form.get('insurer_id');
+
+    if (insurerControl) {
+      insurerControl.statusChanges.subscribe(status => {
+        if (status === 'INVALID') {
+          const errors = insurerControl.errors;
+
+          if (errors && errors['UNCONFIGINSURER']) {
+            const selectedInsurer = this.insuranceCompanyOptions.find(
+              opt => opt.code === insurerControl.value
+            );
+
+            if (selectedInsurer) {
+              this._ui
+                .showInformationModal({
+                  text:
+                    'To issue this policy, commission settings must be configured for the selected insurance company.<br><br>' +
+                    'This information is required to calculate agent commissions and to ensure accurate financial reporting.<br><br>' +
+                    'We suggest to complete this setup based on your contractual agreement with this insurer.',
+                  title: 'ALERT!',
+                  type: UiModalTypeEnum.WARNING,
+                  redirectButton: {
+                    text: 'Go to Insurance Configuration',
+                    url: `/portal/insurer/${selectedInsurer.serial}`,
+                  },
+                })
+                .subscribe();
+            }
+          }
+        }
+      });
     }
   }
 
