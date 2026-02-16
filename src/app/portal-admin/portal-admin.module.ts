@@ -58,6 +58,13 @@ const routes: Routes = [
             module => module.HowToModule
           ),
       },
+      {
+        path: 'request-forms',
+        loadChildren: () =>
+          import('../portal/forms/forms.module').then(
+            module => module.FormsModule
+          ),
+      },
     ],
   },
 

@@ -1,5 +1,15 @@
 <app-pages-layout>
   <ng-container content>
+    <div class="d-flex justify-content-end" *ngIf="canShowForms()">
+      <mat-slide-toggle
+        [color]="'primary'"
+        [checked]="showDefaultForms"
+        (change)="setShowDefaultForms()">
+        <span class="mat-mdc-menu-item-text">
+          {{ 'Show default forms' }}
+        </span>
+      </mat-slide-toggle>
+    </div>
     <h3 class="subtitle-1 dark-blue-400 text-center w-100 mb-4">FORMS</h3>
     <form [formGroup]="form" class="px-md-5 mb-3">
       <app-input formControlName="query" placeholder="Search policy type">
@@ -40,28 +50,54 @@
 
             <div class="d-flex flex-wrap pt-3 justify-content-center">
               <ng-container *ngFor="let type of lob.policy_types">
-                <div class="policy-type-card my-1 mx-md-1 py-2 py-md-3 px-2">
+                <div
+                  class="policy-type-card my-1 mx-md-1 py-2 py-md-3 px-2"
+                  [class]="{
+                    'have-forms-card': type.count_forms > 0
+                  }">
                   <div class="policy-type-card--data">
-                    <p class="dark-blue-400 text-2 fw-semibold text-center">
-                      <span class="material-icons-outlined">
+                    <p class="text-2 fw-semibold text-center">
+                      <span
+                        class="material-icons-outlined"
+                        [class]="
+                          type.count_forms > 0 ? 'color-white' : 'dark-blue-400'
+                        ">
                         {{ type.icon ?? 'circle' }}
                       </span>
                     </p>
-                    <p class="dark-blue-400 text-2 fw-semibold text-center">
+                    <p
+                      class="text-2 fw-semibold text-center"
+                      [class]="
+                        type.count_forms > 0 ? 'color-white' : 'dark-blue-400'
+                      ">
                       {{ type.name }}
                     </p>
-                    <p class="gray-500 text-3 text-center">
+                    <p
+                      class="text-3 text-center"
+                      [class]="
+                        type.count_forms > 0 ? 'color-white' : 'gray-500'
+                      ">
                       ({{ type.naic_code }})
                     </p>
                     <div class="d-flex justify-content-center">
                       <div
-                        class="light-blue-600 text-center px-2 py-1 my-1 fw-semibold">
+                        class="text-center px-2 py-1 my-1 fw-semibold"
+                        [class]="
+                          type.count_forms > 0
+                            ? 'color-white'
+                            : 'light-blue-600'
+                        ">
                         Forms count: {{ type.count_forms }}
                       </div>
                     </div>
                     <div class="text-center mt-1">
                       <button
-                        class="primary-button back-dark-blue-300 white mx-1"
+                        class="primary-button mx-1"
+                        [class]="
+                          type.count_forms > 0
+                            ? 'have-form-button'
+                            : 'back-dark-blue-300 white'
+                        "
                         (click)="openModalForms(type)">
                         View forms
                       </button>

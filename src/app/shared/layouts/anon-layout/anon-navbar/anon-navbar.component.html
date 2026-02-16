@@ -29,8 +29,8 @@
 
       <button
         class="primary-button white mx-2"
-        [class.inactive-button]="currentType !== 'agents'"
-        [class.back-light-blue-500]="currentType === 'agents'"
+        [class.inactive-button]="currentType !== ''"
+        [class.back-light-blue-500]="currentType === ''"
         (click)="navigateAgent()">
         {{ 'GENERAL.AGENT' | translate }}
       </button>

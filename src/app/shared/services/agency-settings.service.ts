@@ -6,6 +6,7 @@ import { ApiResponseModel } from '../interfaces/models/api-response.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EditAgencySettingsRequest } from '../interfaces/requests/agencies/edit-agency-settings.request';
 import { AgencyModel } from '../interfaces/models/agency.model';
+import { EditAgenciesDefaultforms } from '../interfaces/requests/agencies/edit-agencies-default-forms.request';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,14 @@ export class AgencySettingsService {
         `${environment.apiUrl}auth/agency-settings`,
         data
       )
+      .pipe(map(resp => resp.data));
+  }
+
+  editAgencyShowDefaultforms(
+    data: EditAgenciesDefaultforms
+  ): Observable<AgencyModel> {
+    return this._http
+      .put<ApiResponseModel<AgencyModel>>(`${environment.apiUrl}agency`, data)
       .pipe(map(resp => resp.data));
   }
 }

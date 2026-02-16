@@ -3,6 +3,7 @@ import { UiService } from 'src/app/shared/services/ui.service';
 import { EstructuredBusinessLineModel } from 'src/app/shared/interfaces/models/business-line.model';
 import { DatasetsService } from 'src/app/shared/services/dataset.service';
 import {
+  filter,
   finalize,
   forkJoin,
   Observable,
@@ -17,6 +18,10 @@ import { FormsModalComponent } from '../components/forms-modal/forms-modal.compo
 import { PopulatedPolicyTypeModel } from 'src/app/shared/interfaces/models/policy-type.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { mapEstructuredBusinessLines } from '@app/shared/helpers/estructured-business-lines.mapper';
+import { AgencySettingsService } from '@app/shared/services/agency-settings.service';
+import { EditAgenciesDefaultforms } from '@app/shared/interfaces/requests/agencies/edit-agencies-default-forms.request';
+import { RolesEnum } from '@app/shared/enums/roles.enum';
+import { AuthService } from '@app/shared/services/auth.service';
 
 @Component({
   selector: 'app-forms-grid',
@@ -31,22 +36,62 @@ export class FormGridComponent implements OnDestroy {
 
   form: FormGroup = new FormGroup({ query: new FormControl('') });
   policyTypes: PopulatedPolicyTypeModel[] = [];
+  showDefaultForms?: boolean;
 
   constructor(
     private _dataset: DatasetsService,
     private _ui: UiService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _agency: AgencySettingsService,
+    private _auth: AuthService
   ) {
-    this._ui.showLoader();
-    forkJoin([this._loadBusinessLines()])
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe(() => this._filterPolicyTypes());
+    this._loadData();
     this.form
       .get('query')
       ?.valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this._filterPolicyTypes();
       });
+
+    this._initDefaultforms();
+  }
+
+  private _loadData(): void {
+    this._ui.showLoader();
+    forkJoin([this._loadBusinessLines()])
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe(() => this._filterPolicyTypes());
+  }
+
+  private _initDefaultforms(): void {
+    this._auth.auth$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(user => !!user),
+        tap(
+          user =>
+            (this.showDefaultForms = !!user?.user?.agency?.show_default_forms)
+        )
+      )
+      .subscribe();
+  }
+
+  canShowForms() {
+    const user = this._auth.getAuth()?.user;
+
+    if (!user || !user.role) return false;
+
+    const admiteShowformsRole = [
+      RolesEnum.AGENCY_ADMINISTRATOR,
+      RolesEnum.INDEPENDANT_BROKER,
+      RolesEnum.AGENCY_OWNER,
+    ];
+
+    const canSetShowforms = admiteShowformsRole.includes(user?.role)
+      ? true
+      : false;
+
+    return canSetShowforms;
   }
 
   private _loadBusinessLines(): Observable<PopulatedPolicyTypeModel[]> {
@@ -83,6 +128,25 @@ export class FormGridComponent implements OnDestroy {
         )
       )
       .subscribe();
+  }
+
+  setShowDefaultForms(): void {
+    this.showDefaultForms = !this.showDefaultForms;
+    this._ui.showLoader();
+    const req: EditAgenciesDefaultforms = {
+      show_default_forms: this.showDefaultForms,
+    };
+    this._agency
+      .editAgencyShowDefaultforms(req)
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe({
+        next: () => {
+          this._ui.showAlertSuccess(
+            'Show default forms status has been changed'
+          );
+          this._loadData();
+        },
+      });
   }
 
   ngOnDestroy(): void {

@@ -141,6 +141,11 @@ export const MENU_ITEMS: iternalMenuModel = {
       url: 'agencies',
     },
     {
+      icon: 'article',
+      title: 'Forms',
+      url: 'request-forms',
+    },
+    {
       icon: 'analytics',
       title: 'Reports',
       url: 'reports',

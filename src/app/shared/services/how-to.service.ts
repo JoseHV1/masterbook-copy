@@ -8,7 +8,10 @@ import { ApiResponseModel } from '../interfaces/models/api-response.model';
 import { PaginatedResponse } from '../interfaces/models/paginated-response.model';
 import { CreateHowToRequest } from '../interfaces/requests/how-to/create-request.request';
 import { HowToModel } from '../interfaces/models/how-to.model';
-import { UpdateHowToRequest } from '../interfaces/requests/how-to/update-how-to.request';
+import {
+  MoveHowToOrder,
+  UpdateHowToRequest,
+} from '../interfaces/requests/how-to/update-how-to.request';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +29,15 @@ export class HowToService {
     return this._http
       .put<ApiResponseModel<HowToModel>>(
         `${environment.apiUrl}how-to/${id}`,
+        req
+      )
+      .pipe(map(resp => resp.data));
+  }
+
+  moveHowToItem(id: string, req: MoveHowToOrder): Observable<HowToModel> {
+    return this._http
+      .put<ApiResponseModel<HowToModel>>(
+        `${environment.apiUrl}how-to/move/${id}`,
         req
       )
       .pipe(map(resp => resp.data));

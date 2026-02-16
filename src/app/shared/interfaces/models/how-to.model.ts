@@ -4,6 +4,7 @@ export interface HowToModel {
   title: string;
   description?: string;
   video: string;
+  order: number;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date;
