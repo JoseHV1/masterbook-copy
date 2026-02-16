@@ -59,10 +59,13 @@ export class CreateFormModalComponent {
         finalize(() => this._ui.hideLoader())
       )
       .subscribe((resp: InsurerModel[]) => {
-        this.insurers = resp.map(insurer => ({
-          code: insurer._id,
-          name: insurer.name,
-        }));
+        this.insurers = [
+          { code: '', name: 'All' },
+          ...resp.map(insurer => ({
+            code: insurer._id,
+            name: insurer.name,
+          })),
+        ];
       });
   }
 
@@ -78,6 +81,12 @@ export class CreateFormModalComponent {
     const payload = {
       ...this.form.value,
       policy_type_id: this._data.policy_type._id,
+      insurer_ids:
+        this.form.value.insurer_ids[0] === ''
+          ? this.insurers
+              .slice(1, this.insurers.length)
+              .map(insurer => insurer.code)
+          : this.form.value.insurer_ids,
     };
 
     this._ui.showLoader();

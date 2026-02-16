@@ -20,6 +20,7 @@ import { finalize, tap } from 'rxjs';
 })
 export class HowToGridComponent implements OnInit {
   selectedVideo: HowToModel | null = null;
+  selectedIndex: number = -1;
   description!: SafeHtml;
   data: PaginatedResponse<HowToModel[]> = {
     records: [],
@@ -27,8 +28,10 @@ export class HowToGridComponent implements OnInit {
     limit: 1000,
     total_records: 0,
   };
+  filterdResults: HowToModel[] = [];
   safeUrlVideo: SafeResourceUrl | null = null;
   isShort: boolean = false;
+  query = '';
 
   constructor(
     private readonly _howToService: HowToService,
@@ -57,19 +60,31 @@ export class HowToGridComponent implements OnInit {
             });
           }
           this.data = resp;
-          this.selectVideo(resp.records[0]);
+          this.filterHowTo();
         }),
         finalize(() => this._ui.hideLoader())
       )
-      .subscribe({
-        error: () => this._router.navigateByUrl('portal/dashboard'),
-      });
+      .subscribe();
+  }
+
+  filterHowTo(): void {
+    this.filterdResults = this.data.records.filter(item =>
+      item.title.toLowerCase().includes(this.query.toLowerCase())
+    );
+    if (this.filterdResults[0]) {
+      this.selectVideo(this.filterdResults[0]);
+      this.selectedIndex = 0;
+      return;
+    }
+    this.selectedIndex = -1;
   }
 
   selectVideo(video: HowToModel) {
     this.selectedVideo = video;
 
-    this.processVideoUrl(this.selectedVideo.video);
+    if (this.selectedVideo) {
+      this.processVideoUrl(this.selectedVideo.video);
+    }
   }
 
   processVideoUrl(url: string) {

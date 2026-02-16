@@ -5,18 +5,27 @@
         >arrow_back</span
       >
     </div>
-    <div class="row py-4" *ngIf="data.records">
-      <mat-action-list class="col-md-4">
+    <div
+      class="d-flex flex-column-reverse flex-md-row gap-1 py-4"
+      *ngIf="data.records">
+      <mat-action-list class="col-md-4 px-1 how-to-list">
+        <p>How to:</p>
+        <app-input
+          [(ngModel)]="query"
+          placeholder="How to ..."
+          (ngModelChange)="filterHowTo()"></app-input>
         <button
           mat-list-item
-          *ngFor="let video of data.records"
-          (click)="selectVideo(video)"
-          [class.item-active]="selectedVideo === video"
-          class="list-item-color">
+          *ngFor="let video of filterdResults; let i = index"
+          (click)="selectVideo(video); selectedIndex = i"
+          [class.item-active]="selectedIndex === i"
+          class="list-item-color my-1">
           <span class="list-item-text-color">{{ video.title }}</span>
         </button>
       </mat-action-list>
-      <div *ngIf="selectedVideo && safeUrlVideo" class="col-md-8">
+      <div
+        *ngIf="selectedVideo && safeUrlVideo; else noDataRecords"
+        class="col-md-8">
         <div class="video-wrapper" [class.short-mode]="isShort">
           <iframe
             class="video-iframe"
@@ -26,5 +35,21 @@
         <div [innerHTML]="selectedVideo.description"></div>
       </div>
     </div>
+
+    <ng-template #noDataRecords>
+      <div class="col-12 col-md-12 col-sm-12 text-center">
+        <img
+          src="assets/images/empty/default-empty.svg"
+          class="col-12 col-md-4"
+          alt="" />
+        <p class="subtitle-1 dark-blue-500">
+          Oops! We couldn't find any videos here.
+        </p>
+        <p class="text-3 black">
+          We're preparing new tutorials to help you master this tool. Come back
+          soon!
+        </p>
+      </div>
+    </ng-template>
   </ng-container>
 </app-pages-layout>

@@ -1,17 +1,17 @@
-# image: node:20
+ image: node:20
 
-# pipelines:
-#   branches:
-#     default:
-#       - step:
-#           name: Instalar dependencias
-#           caches:
-#             - node
-#           script:
-#             - corepack enable
-#             - corepack prepare yarn@4.12.0 --activate
-#             - yarn --version
-#             - yarn install --immutable
+ pipelines:
+   branches:
+     default:
+       - step:
+           name: Instalar dependencias
+           caches:
+             - node
+           script:
+             - corepack enable
+             - corepack prepare yarn@4.12.0 --activate
+             - yarn --version
+             - yarn install --immutable
 
 #     develop:
 #       - step:
@@ -102,48 +102,48 @@
 #             - rm -rf node_modules
 #             - yarn cache clean
 #             - yarn install --immutable
-#     master:
-#       - step:
-#           name: Instalar dependencias
-#           caches:
-#             - node
-#           script:
-#             - corepack enable
-#             - corepack prepare yarn@4.12.0 --activate
-#             - yarn --version
-#             - rm -rf node_modules
-#             - yarn cache clean
-#             - yarn install --immutable
+     master:
+       - step:
+           name: Instalar dependencias
+           caches:
+             - node
+           script:
+             - corepack enable
+             - corepack prepare yarn@4.12.0 --activate
+             - yarn --version
+             - rm -rf node_modules
+             - yarn cache clean
+             - yarn install --immutable
 
-#       - step:
-#           name: Construir SSR
-#           caches:
-#             - node
-#           script:
-#             - corepack enable
-#             - corepack prepare yarn@4.12.0 --activate
-#             - yarn --version
-#             - yarn install --immutable
-#             - yarn build-to-deploy:ssr
-#           artifacts:
-#             - dist/**
-#             - serverless.yml
-#             - lambda.js
-#             - package.json
-#             - node_modules/**
+       - step:
+           name: Construir SSR
+           caches:
+             - node
+           script:
+             - corepack enable
+             - corepack prepare yarn@4.12.0 --activate
+             - yarn --version
+             - yarn install --immutable
+             - yarn build-to-deploy:ssr
+           artifacts:
+             - dist/**
+             - serverless.yml
+             - lambda.js
+             - package.json
+             - node_modules/**
 
-#       - step:
-#           name: Desplegar en AWS usando SLS
-#           caches:
-#             - node
-#           script:
-#             - corepack enable
-#             - corepack prepare yarn@4.12.0 --activate
-#             - yarn --version
-#             - echo "Exportando variables de AWS..."
-#             - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-#             - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-#             - export AWS_REGION=$AWS_REGION
-#             - echo "Desplegando con Serverless..."
-#             - npx serverless deploy --stage production
+       - step:
+           name: Desplegar en AWS usando SLS
+           caches:
+             - node
+           script:
+             - corepack enable
+             - corepack prepare yarn@4.12.0 --activate
+             - yarn --version
+             - echo "Exportando variables de AWS..."
+             - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+             - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+             - export AWS_REGION=$AWS_REGION
+             - echo "Desplegando con Serverless..."
+             - npx serverless deploy --stage production
 

@@ -13,14 +13,6 @@ export class AnonFooterComponent {
 
   constructor(private router: Router, private dialog: MatDialog) {}
 
-  navigateTermsAndConditions(): void {
-    this.router.navigate(['/terms-conditions']);
-  }
-
-  navigatePrivacyPolicy(): void {
-    this.router.navigate(['/privacy']);
-  }
-
   openModalTicket() {
     this.dialog.open(ModalTicketComponent, {
       panelClass: 'custom-dialog-container',

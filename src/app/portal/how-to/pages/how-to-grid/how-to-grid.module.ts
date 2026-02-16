@@ -10,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CustomPipesModule } from '@app/shared/pipes/custom-pipes.module';
+import { CDKModule } from 'src/core/cdk/cdk.module';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -31,6 +33,8 @@ const routes: Routes = [
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
+    CDKModule,
+    FormsModule,
   ],
   exports: [HowToGridComponent],
 })

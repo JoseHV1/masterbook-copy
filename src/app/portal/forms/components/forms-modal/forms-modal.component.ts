@@ -40,6 +40,8 @@ export class FormsModalComponent implements OnInit {
   showActions = false;
   showSendEmailOption: boolean = false;
   connected: boolean = false;
+  role = this._auth.getAuth()?.user.role as RolesEnum;
+  roles = RolesEnum;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -63,11 +65,14 @@ export class FormsModalComponent implements OnInit {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe();
 
-    const role = this._auth.getAuth()?.user.role as RolesEnum;
-    this.showActions = [
-      ...brokersAdminDataset,
-      RolesEnum.INDEPENDANT_BROKER,
-    ].includes(role);
+    if (this.role === RolesEnum.ADMIN) {
+      this.showActions = [RolesEnum.ADMIN].includes(this.role);
+    } else {
+      this.showActions = [
+        ...brokersAdminDataset,
+        RolesEnum.INDEPENDANT_BROKER,
+      ].includes(this.role);
+    }
   }
 
   ngOnInit(): void {
@@ -179,5 +184,29 @@ export class FormsModalComponent implements OnInit {
         console.error('Error al obtener el acceso al archivo', err);
       },
     });
+  }
+
+  canModify(element: any): boolean {
+    const user = this._auth.getAuth()?.user;
+
+    if (!user || !user.role) return false;
+
+    const elementAgencyId = element.agency_id
+      ? String(element.agency_id)
+      : null;
+    const isAdmin = user?.role === this.roles.ADMIN;
+    const admiteRoles = [
+      this.roles.AGENCY_ADMINISTRATOR,
+      this.roles.INDEPENDANT_BROKER,
+      this.roles.AGENCY_OWNER,
+    ];
+
+    if (isAdmin) {
+      return elementAgencyId === null;
+    }
+
+    const isOwner = elementAgencyId === user?.agency_id;
+    const hasPermissionRoles = admiteRoles.includes(user?.role);
+    return isOwner && hasPermissionRoles;
   }
 }

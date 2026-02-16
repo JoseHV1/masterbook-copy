@@ -94,7 +94,7 @@
           <span
             class="material-icons-outlined me-2 light-blue-600"
             style="cursor: pointer"
-            *ngIf="showActions"
+            *ngIf="canModify(element)"
             matTooltip="Edit this form"
             (click)="openModalCreateForm(element)">
             edit
@@ -103,7 +103,7 @@
           <span
             class="material-icons-outlined me-2 red-color"
             style="cursor: pointer"
-            *ngIf="showActions"
+            *ngIf="canModify(element)"
             matTooltip="Delete this form"
             (click)="deleteForm(element._id)">
             delete

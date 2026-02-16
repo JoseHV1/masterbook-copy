@@ -50,4 +50,18 @@
       }
     }
   }
+
+  .have-forms-card {
+    background: $color-success;
+
+    .color-white {
+      color: $white !important;
+    }
+
+    .have-form-button {
+      background: $white;
+      color: $color-success
+    }
+  }
+
 }

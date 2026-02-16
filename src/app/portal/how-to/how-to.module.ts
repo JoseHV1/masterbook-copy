@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HowToComponent } from './how-to.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
+import { HowToAdminGuard } from './guards/how-to-admin.guard';
 
 const routes: Routes = [
   {
     path: '',
+    canActivate: [HowToAdminGuard],
     loadChildren: () =>
       import('./pages/how-to-list/how-to-list.module').then(
         module => module.HowToListModule
@@ -21,6 +23,7 @@ const routes: Routes = [
   },
   {
     path: 'new',
+    canActivate: [HowToAdminGuard],
     loadChildren: () =>
       import('./pages/new-how-to/new-how-to.module').then(
         module => module.NewHowToModule
@@ -28,6 +31,7 @@ const routes: Routes = [
   },
   {
     path: ':id',
+    canActivate: [HowToAdminGuard],
     loadChildren: () =>
       import('./pages/how-to-details/how-to-details.module').then(
         module => module.HowToDetailModule
@@ -35,6 +39,7 @@ const routes: Routes = [
   },
   {
     path: ':id/edit',
+    canActivate: [HowToAdminGuard],
     loadChildren: () =>
       import('./pages/edit-how-to/edit-how-to.module').then(
         module => module.EditHowToModule
