@@ -17,4 +17,5 @@ export interface AgencyModel {
   owner_id: any; //TODO MEJORAR EL TIPADO
   retentions: number;
   taxes: number;
+  business_lines: string[];
 }

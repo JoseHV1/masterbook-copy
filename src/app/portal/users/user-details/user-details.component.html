@@ -1,12 +1,7 @@
 <app-pages-layout>
   <ng-container content>
-    <div
-      class="d-flex justify-content-between align-items-center mb-1 ms-2"
-      *ngIf="user">
-      <span
-        class="material-icons-outlined me-2"
-        style="cursor: pointer"
-        matTooltip="Back to last page"
+    <div class="d-flex justify-content-between align-items-center mb-1 ms-2" *ngIf="user">
+      <span class="material-icons-outlined me-2" style="cursor: pointer" matTooltip="Back to last page"
         (click)="goBack()">
         arrow_back
       </span>
@@ -15,20 +10,14 @@
       </button>
 
       <mat-menu #menu="matMenu" xPosition="before">
-        <button
-          mat-menu-item
-          *ngIf="isOwner"
-          (click)="openModalChangeLogs(user._id)">
+        <button mat-menu-item *ngIf="isOwner" (click)="openModalChangeLogs(user._id)">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined dark-blue-400">history</span>
             <span>Change Logs</span>
           </span>
         </button>
 
-        <button
-          mat-menu-item
-          [disabled]="user.user?.role === 'AGENCY_OWNER'"
-          (click)="
+        <button mat-menu-item [disabled]="user.user?.role === 'AGENCY_OWNER'" (click)="
             user.user?.role !== 'AGENCY_OWNER'
               ? _url.navigateTo('portal/users', user.serial, 'edit')
               : null
@@ -37,67 +26,53 @@
             <span class="material-icons-outlined dark-blue-400">edit</span>
             <span>
               {{
-                user.user?.role === 'AGENCY_OWNER' ? 'Edit not allowed' : 'Edit'
+              user.user?.role === 'AGENCY_OWNER' ? 'Edit not allowed' : 'Edit'
               }}
             </span>
           </span>
         </button>
 
         <button mat-menu-item [disabled]="user.user?.role === 'AGENCY_OWNER'">
-          <mat-slide-toggle
-            [checked]="user.status === 'ACTIVE'"
-            [disabled]="user.user?.role === 'AGENCY_OWNER'"
-            (change)="setStatus(user, $event)"
-            [color]="'primary'">
+          <mat-slide-toggle [checked]="user.status === 'ACTIVE'" [disabled]="user.user?.role === 'AGENCY_OWNER'"
+            (change)="setStatus(user, $event)" [color]="'primary'">
             <span class="mat-mdc-menu-item-text">
               {{ user.status === 'ACTIVE' ? 'Inhabilitar' : 'Habilitar' }}
             </span>
           </mat-slide-toggle>
         </button>
 
-        <button
-          mat-menu-item
-          [disabled]="user.user?.role === 'AGENCY_OWNER'"
-          (click)="
+        <button mat-menu-item [disabled]="user.user?.role === 'AGENCY_OWNER'" (click)="
             user.user?.role !== 'AGENCY_OWNER' ? deleteUser(user._id) : null
           ">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined text-danger">delete</span>
             <span>
               {{
-                user.user?.role === 'AGENCY_OWNER'
-                  ? 'Delete not allowed'
-                  : 'Delete'
+              user.user?.role === 'AGENCY_OWNER'
+              ? 'Delete not allowed'
+              : 'Delete'
               }}
             </span>
           </span>
         </button>
 
-        <button
-          mat-menu-item
-          [disabled]="!!user.user?.last_login_at"
+        <button mat-menu-item [disabled]="!!user.user?.last_login_at"
           (click)="!user.user?.last_login_at ? resendInvitation(user) : null">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined success-color">mail</span>
             <span>
               {{
-                user.user?.last_login_at
-                  ? 'Cannot reinvite'
-                  : 'Resend Invitation'
+              user.user?.last_login_at
+              ? 'Cannot reinvite'
+              : 'Resend Invitation'
               }}
             </span>
           </span>
         </button>
       </mat-menu>
     </div>
-    <div
-      class="d-flex flex-column align-items-center justify-content-center"
-      *ngIf="user">
-      <app-picture-selector
-        [showSelector]="false"
-        [icon]="
-          user.user?.photo_url ?? '/assets/icons/user_two.svg'
-        "></app-picture-selector>
+    <div class="d-flex flex-column align-items-center justify-content-center" *ngIf="user">
+      <app-picture-selector [showSelector]="false" [icon]="userProfileImg"></app-picture-selector>
 
       <h3 class="text-center w-100 mt-3 mb-1 subtitle-1 dark-blue-400">
         User #{{ user.serial }}
