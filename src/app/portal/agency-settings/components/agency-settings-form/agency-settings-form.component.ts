@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DatasetsService } from '@app/shared/services/dataset.service';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
-import { finalize } from 'rxjs';
+import { catchError, EMPTY, finalize, retry, switchMap } from 'rxjs';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { AgencyModel } from 'src/app/shared/interfaces/models/agency.model';
 import { EditAgencySettingsRequest } from 'src/app/shared/interfaces/requests/agencies/edit-agency-settings.request';
@@ -31,18 +31,32 @@ export class AgencySettingsFormComponent implements OnInit {
     private _agencySettings: AgencySettingsService,
     private _uploadFile: UploadFileService,
     private _datasets: DatasetsService,
-  ) {
-    this.form = this._agencySettings.createEditSettingsForm();
-    this._datasets
-      .getBusinessLinesDataset()
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe(businessLines => (this.businessLines = businessLines));
-  }
+  ) { }
 
   ngOnInit(): void {
-    this._agencySettings.getAgencySettings().subscribe(resp => {
-      this.dataAgency = resp;
-      this.fillData(resp);
+    this._ui.showLoader();
+    this.form = this._agencySettings.createEditSettingsForm();
+
+    this._datasets.getBusinessLinesDataset().pipe(
+      retry(2),
+      catchError(error => {
+        this._ui.showAlertError('Error loading business lines');
+        return EMPTY;
+      }),
+      switchMap(lines => {
+        this.businessLines = lines;
+        return this._agencySettings.getAgencySettings().pipe(
+          retry(2),
+          catchError(error => {
+            this._ui.showAlertError('Error loading agency settings');
+            return EMPTY;
+          })
+        );
+      }),
+      finalize(() => this._ui.hideLoader())
+    ).subscribe(agency => {
+      this.dataAgency = agency;
+      this.fillData(agency);
 
       if (this.dataAgency.logo_url) {
         this._uploadFile.getUrlFile(this.dataAgency.logo_url).subscribe(url => {
