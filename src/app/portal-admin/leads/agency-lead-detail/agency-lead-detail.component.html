@@ -1,0 +1,130 @@
+<app-pages-layout>
+  <ng-container content>
+
+    <div class="d-flex justify-content-between align-items-center mb-1 ms-2" *ngIf="lead">
+      <span
+        class="material-icons-outlined me-2"
+        style="cursor: pointer"
+        matTooltip="Back to leads"
+        (click)="goBack()">
+        arrow_back
+      </span>
+
+      <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="lead.status === LeadStatusEnum.ACTIVE">
+        <mat-icon class="dark-blue-400">more_vert</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item (click)="createAgencyUser()">
+          <span class="d-flex align-items-center gap-2">
+            <span class="material-icons-outlined text-primary">domain_add</span>
+            <span>Create Agency User</span>
+          </span>
+        </button>
+      </mat-menu>
+    </div>
+
+    <div class="d-flex flex-column align-items-center justify-content-center mt-3" *ngIf="lead">
+      <span class="material-icons-outlined dark-blue-400" style="font-size: 64px">person</span>
+      <h3 class="text-center w-100 mt-2 mb-1 subtitle-1 dark-blue-400">
+        Lead #{{ lead.serial }}
+      </h3>
+      <div class="text-center text-3 gray-500 w-100">
+        Created on: {{ lead.createdAt | date }}
+      </div>
+      <span
+        class="badge mt-2"
+        [ngClass]="{
+          'bg-success':   lead.status === LeadStatusEnum.ACTIVE,
+          'bg-secondary': lead.status === LeadStatusEnum.TRANSFERRED,
+          'bg-danger':    lead.status === LeadStatusEnum.REJECTED,
+          'bg-primary':   lead.status === LeadStatusEnum.CONVERTED
+        }">
+        {{ lead.status | titlecase }}
+      </span>
+    </div>
+
+    <div class="row px-4 my-2 px-md-5 my-md-5" *ngIf="lead">
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">First name</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.first_name | notNull }}</div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Last name</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.last_name | notNull }}</div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Email</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.email | notNull }}</div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Phone number</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.phone_number | notNull }}</div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Gender</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.gender | titlecase | notNull }}</div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Address</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.address_info?.address | notNull }}</div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Zip code</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.address_info?.zipcode | notNull }}</div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Capture medium</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            {{ (lead.capture_medium ?? '') | enum | notNull }}
+            <span *ngIf="lead.other_capture_medium"> — {{ lead.other_capture_medium }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">Areas of interest</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+            <span *ngIf="lead.areas_of_interest?.length; else noAreas">
+              {{ lead.areas_of_interest!.join(', ') }}
+            </span>
+            <ng-template #noAreas>---</ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 px-2 px-md-4 my-2" *ngIf="lead.notes">
+        <div class="row">
+          <div class="col-12 col-md-2 black px-2 py-2">Notes</div>
+          <div class="col-12 col-md-10 black px-3 py-2 prop-box">{{ lead.notes }}</div>
+        </div>
+      </div>
+
+    </div>
+
+  </ng-container>
+</app-pages-layout>

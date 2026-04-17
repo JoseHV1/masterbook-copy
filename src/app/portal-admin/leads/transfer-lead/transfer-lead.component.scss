@@ -1,0 +1,36 @@
+@import 'theme';
+
+.agency-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.agency-name {
+  font-weight: 600;
+  color: $dark-blue-400;
+}
+
+.transfer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  background: $light-blue-400;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  .material-icons-outlined {
+    font-size: 16px;
+  }
+}

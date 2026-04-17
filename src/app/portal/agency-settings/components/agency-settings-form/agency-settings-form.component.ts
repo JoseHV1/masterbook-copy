@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DatasetsService } from '@app/shared/services/dataset.service';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
-import { finalize } from 'rxjs';
+import { catchError, EMPTY, finalize, retry, switchMap } from 'rxjs';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { AgencyModel } from 'src/app/shared/interfaces/models/agency.model';
 import { EditAgencySettingsRequest } from 'src/app/shared/interfaces/requests/agencies/edit-agency-settings.request';
@@ -11,6 +11,7 @@ import { UiService } from 'src/app/shared/services/ui.service';
 import { BusinessLineModel } from 'src/app/shared/interfaces/models/business-line.model';
 import { isInvalid } from 'src/app/shared/helpers/is-invalid.helper';
 import { hasError } from 'src/app/shared/helpers/has-error.helper.ts';
+import { LeadsService } from 'src/app/portal/leads/services/leads.service';
 
 @Component({
   selector: 'app-agency-settings-form',
@@ -23,6 +24,8 @@ export class AgencySettingsFormComponent implements OnInit {
   logo?: string;
   businessLines: BusinessLineModel[] = [];
 
+  readonly frontBaseUrl = window.location.origin;
+
   isInvalid = isInvalid;
   hasError = hasError;
 
@@ -31,21 +34,36 @@ export class AgencySettingsFormComponent implements OnInit {
     private _agencySettings: AgencySettingsService,
     private _uploadFile: UploadFileService,
     private _datasets: DatasetsService,
-  ) {
-    this.form = this._agencySettings.createEditSettingsForm();
-    this._datasets
-      .getBusinessLinesDataset()
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe(businessLines => (this.businessLines = businessLines));
-  }
+    private _leads: LeadsService,
+  ) { }
 
   ngOnInit(): void {
-    this._agencySettings.getAgencySettings().subscribe(resp => {
-      this.dataAgency = resp;
-      this.fillData(resp);
+    this._ui.showLoader();
+    this.form = this._agencySettings.createEditSettingsForm();
+
+    this._datasets.getBusinessLinesDataset().pipe(
+      retry(2),
+      catchError(() => {
+        this._ui.showAlertError('Error loading business lines');
+        return EMPTY;
+      }),
+      switchMap(lines => {
+        this.businessLines = lines;
+        return this._agencySettings.getAgencySettings().pipe(
+          retry(2),
+          catchError(() => {
+            this._ui.showAlertError('Error loading agency settings');
+            return EMPTY;
+          })
+        );
+      }),
+      finalize(() => this._ui.hideLoader())
+    ).subscribe(agency => {
+      this.dataAgency = agency;
+      this.fillData(agency);
 
       if (this.dataAgency.logo_url) {
-        this._uploadFile.getUrlFile(this.dataAgency.logo_url).subscribe(url => {
+        this._uploadFile.getUrlFile(this.dataAgency.logo_url).subscribe(() => {
           this.logo = '/assets/images/portal/image_default.webp';
         });
       } else {
@@ -94,6 +112,29 @@ export class AgencySettingsFormComponent implements OnInit {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this._openSuccessModal();
+      });
+  }
+
+  copyUrl(network: string): void {
+    const url = `${this.frontBaseUrl}/leads/register/${this.dataAgency?.token_leads}/${network}`;
+    navigator.clipboard.writeText(url).then(() => {
+      this._ui.showAlertSuccess('Link copied to clipboard');
+    });
+  }
+
+  createUrlLead() {
+    this._ui.showLoader();
+    this._leads.generateUrlLeads()
+      .pipe(
+        switchMap(() => this._agencySettings.getAgencySettings()),
+        finalize(() => this._ui.hideLoader())
+      )
+      .subscribe({
+        next: (agency) => {
+          this.dataAgency = agency;
+          this._ui.showAlertSuccess('Your lead URL has been created successfully');
+        },
+        error: () => this._ui.showAlertError('An error occurred. Please try again later'),
       });
   }
 
