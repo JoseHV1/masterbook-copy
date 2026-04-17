@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalChangeLogsComponent } from '@app/shared/components/modal-change-logs/modal-change-logs.component';
 import { ownersRolesDataset } from '@app/shared/datatsets/roles.datasets';
 import { AuthService } from '@app/shared/services/auth.service';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 import { finalize, forkJoin, Observable, switchMap, take, tap } from 'rxjs';
 import { BrokerStatusEnum } from 'src/app/shared/enums/broker-status.enum';
 import { RolesEnum } from 'src/app/shared/enums/roles.enum';
@@ -35,6 +36,8 @@ export class UserDetailsComponent {
   requests: PopulatedRequestModel[] = [];
   policies: PopulatedPolicyModel[] = [];
   isOwner!: boolean;
+  userProfileImgDefault = '/assets/icons/user_two.svg';
+  userProfileImg: string = this.userProfileImgDefault;
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -47,7 +50,8 @@ export class UserDetailsComponent {
     private _requests: RequestsService,
     private _policies: PoliciesService,
     private dialog: MatDialog,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _uploadFile: UploadFileService
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -147,7 +151,14 @@ export class UserDetailsComponent {
   private _loadUser(serial: string): Observable<any> {
     return this._users
       .getUserBySerial(serial)
-      .pipe(tap(resp => (this.user = resp)));
+      .pipe(tap(resp => {
+        this.user = resp;
+        if (resp.user?.photo_url) {
+          this._uploadFile.getUrlFile(resp.user?.photo_url).subscribe(url => {
+            this.userProfileImg = url ?? this.userProfileImgDefault;
+          });
+        }
+      }));
   }
 
   refreshAccounts(): void {

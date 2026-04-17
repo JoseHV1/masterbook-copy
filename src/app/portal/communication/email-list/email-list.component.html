@@ -1,5 +1,6 @@
 <ng-template #table>
   <app-pages-layout
+    [requirePayment]="false"
     [button]="{ text: 'Create email', icon: 'add', url: 'send' }">
     <ng-container content>
       <ng-container *ngIf="!loading && connected; else waitOrConnect">

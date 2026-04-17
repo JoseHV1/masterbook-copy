@@ -56,6 +56,11 @@ const routes: Routes = [
             module => module.UnauthorizedModule
           ),
       },
+      /*{
+        path: 'leads',
+        loadChildren: () =>
+          import('./leads/leads.module').then(module => module.LeadsModule),
+      },*/
       { path: '**', redirectTo: '', pathMatch: 'full' },
     ],
   },

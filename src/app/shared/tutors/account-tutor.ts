@@ -70,7 +70,6 @@ export const accountTutor = (service: TutorService) => {
           align: 'center',
           side: 'bottom',
           onNextClick: () => {
-            service.markAsCompleted(TutorsSlugsEnum.CREATE_ACCOUNT);
             const button = getElement('#accounts-item');
             button.click();
             tutor?.destroy();
@@ -79,7 +78,9 @@ export const accountTutor = (service: TutorService) => {
       },
     ],
     onDestroyed: () => {
-      service.markAsCompleted(TutorsSlugsEnum.CREATE_ACCOUNT);
+      if (!service.isCompleted(TutorsSlugsEnum.CREATE_ACCOUNT)) {
+        service.markAsCompleted(TutorsSlugsEnum.CREATE_ACCOUNT);
+      }
       const button = getElement('#accounts-item');
       button.click();
       tutor?.destroy();

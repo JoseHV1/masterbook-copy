@@ -18,6 +18,7 @@ export class PagesLayoutComponent {
   @Input() filters: boolean = false;
   @Input() statistics: boolean = false;
   @Input() attachs: boolean = false;
+  @Input() requirePayment: boolean = true;
   @Output() btnClick: EventEmitter<void> = new EventEmitter();
   @Output() btnInfoClick: EventEmitter<void> = new EventEmitter();
 

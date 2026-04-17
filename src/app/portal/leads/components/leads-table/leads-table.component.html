@@ -1,0 +1,93 @@
+<div class="table-responsive" *ngIf="data">
+  <table mat-table [dataSource]="data" style="width: auto; overflow-x: scroll">
+
+    <ng-container matColumnDef="serial">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">
+        <span
+          *ngIf="element.serial; else noSerial"
+          class="light-blue-700"
+          style="cursor: pointer"
+          matTooltip="Go to lead details"
+          matTooltipPosition="above"
+          (click)="url.navigateTo('portal/leads', element.serial)">
+          #{{ element.serial | notNull }}
+        </span>
+        <ng-template #noSerial>---</ng-template>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.first_name | notNull }} {{ element.last_name | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.email | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone_number">
+      <th mat-header-cell *matHeaderCellDef>Phone</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.phone_number | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="gender">
+      <th mat-header-cell *matHeaderCellDef>Gender</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.gender | enum | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="capture_medium">
+      <th mat-header-cell *matHeaderCellDef>Capture medium</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.capture_medium | enum | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="areas_of_interest">
+      <th mat-header-cell *matHeaderCellDef>Areas of interest</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.areas_of_interest?.length; else noAreas">
+          {{ element.areas_of_interest.join(', ') | notNull }}
+        </span>
+        <ng-template #noAreas>---</ng-template>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="fw-semibold" [ngClass]="{
+          'ACTIVE':       element.status === 'ACTIVE',
+          'CONVERTED':    element.status === 'CONVERTED',
+          'TRANSFERRED':  element.status === 'TRANSFERRED',
+          'REJECTED':     element.status === 'REJECTED'
+        }">{{ element.status | enum | notNull }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created_at">
+      <th mat-header-cell *matHeaderCellDef>Created on</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.createdAt | date | notNull }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr *matNoDataRow>
+      <td [attr.colspan]="displayedColumns.length">
+        <app-default-empty-state *ngIf="!filtersActive.length"></app-default-empty-state>
+        <app-filter-empty-state *ngIf="filtersActive.length"></app-filter-empty-state>
+      </td>
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" class="mas-table-row"></tr>
+  </table>
+</div>
