@@ -54,13 +54,50 @@ export class InternalMenuOptionsComponent implements OnDestroy, OnInit {
 
   private _isRouteActive(): boolean {
     const url = this.item.url;
-    return url ? this.router.url.includes(url) : this.isSomeChildrenActive();
+    return url ? this._matchesRoute(url) : this.isSomeChildrenActive();
   }
 
   public isSomeChildrenActive(): boolean {
-    return (this.item.options ?? []).some(option =>
-      this.router.url.includes(option.url ?? '')
+    return (this.item.options ?? []).some(
+      option => !!option.url && this._matchesRoute(option.url)
     );
+  }
+
+  private _normalizePath(path: string): string {
+    return path
+      .split('?')[0]
+      .split('#')[0]
+      .replace(/^\/+|\/+$/g, '');
+  }
+
+  private _getCurrentMenuPath(): string {
+    const segments = this._normalizePath(this.router.url)
+      .split('/')
+      .filter(Boolean);
+
+    return segments.slice(1).join('/');
+  }
+
+  private _isPathMatch(currentPath: string, targetPath: string): boolean {
+    return (
+      currentPath === targetPath || currentPath.startsWith(`${targetPath}/`)
+    );
+  }
+
+  private _matchesRoute(targetUrl: string): boolean {
+    const normalizedTarget = this._normalizePath(targetUrl);
+
+    if (!normalizedTarget) {
+      return false;
+    }
+
+    const currentFullPath = this._normalizePath(this.router.url);
+
+    if (targetUrl.startsWith('/')) {
+      return this._isPathMatch(currentFullPath, normalizedTarget);
+    }
+
+    return this._isPathMatch(this._getCurrentMenuPath(), normalizedTarget);
   }
 
   private _slug(value?: string): string {

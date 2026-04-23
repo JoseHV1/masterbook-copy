@@ -1,11 +1,12 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalChangeLogsComponent } from '@app/shared/components/modal-change-logs/modal-change-logs.component';
 import { ownersRolesDataset } from '@app/shared/datatsets/roles.datasets';
 import { AuthService } from '@app/shared/services/auth.service';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 import { finalize, forkJoin, Observable, switchMap, take, tap } from 'rxjs';
 import { BrokerStatusEnum } from 'src/app/shared/enums/broker-status.enum';
 import { RolesEnum } from 'src/app/shared/enums/roles.enum';
@@ -21,13 +22,14 @@ import { RequestsService } from 'src/app/shared/services/requests.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { IntegrationsService } from '@app/shared/services/integration.service';
 
 @Component({
   selector: 'app-accounts-details',
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss'],
 })
-export class UserDetailsComponent {
+export class UserDetailsComponent implements OnInit {
   user!: PopulatedBrokerModel;
   filterText = '';
   filtersActive = [{} as FilterActive];
@@ -35,6 +37,10 @@ export class UserDetailsComponent {
   requests: PopulatedRequestModel[] = [];
   policies: PopulatedPolicyModel[] = [];
   isOwner!: boolean;
+  userProfileImgDefault = '/assets/icons/user_two.svg';
+  userProfileImg: string = this.userProfileImgDefault;
+  googleConnected = false;
+  showEmailDropdown = false;
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -47,7 +53,9 @@ export class UserDetailsComponent {
     private _requests: RequestsService,
     private _policies: PoliciesService,
     private dialog: MatDialog,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _uploadFile: UploadFileService,
+    private _integrations: IntegrationsService,
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -147,7 +155,14 @@ export class UserDetailsComponent {
   private _loadUser(serial: string): Observable<any> {
     return this._users
       .getUserBySerial(serial)
-      .pipe(tap(resp => (this.user = resp)));
+      .pipe(tap(resp => {
+        this.user = resp;
+        if (resp.user?.photo_url) {
+          this._uploadFile.getUrlFile(resp.user?.photo_url).subscribe(url => {
+            this.userProfileImg = url ?? this.userProfileImgDefault;
+          });
+        }
+      }));
   }
 
   refreshAccounts(): void {
@@ -224,6 +239,43 @@ export class UserDetailsComponent {
           'The invitation email has been resent successfully'
         );
       });
+  }
+
+  ngOnInit(): void {
+    this._integrations.getIntegrationsStatus().pipe(take(1)).subscribe({
+      next: status => (this.googleConnected = !!status?.connected),
+      error: () => (this.googleConnected = false),
+    });
+
+    const googleAuth = this.activateRoute.snapshot.queryParamMap.get('google_auth');
+    if (googleAuth === 'success') {
+      this.googleConnected = true;
+      this._ui.showAlertSuccess('Google account connected successfully. You can now send emails.');
+      this._router.navigate([], {
+        queryParams: { google_auth: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }
+  }
+
+  toggleEmailDropdown(event: MouseEvent): void {
+    event.stopPropagation();
+    this.showEmailDropdown = !this.showEmailDropdown;
+  }
+
+  openEmailCompose(email: string | undefined): void {
+    if (!email) return;
+    if (email === this._auth.getAuth()?.user.email) return;
+
+    if (this.googleConnected) {
+      this._router.navigate(['/portal/email/send'], { queryParams: { to: email } });
+    } else {
+      const returnTo = this._router.url.split('?')[0] + '?google_auth=success';
+      this._integrations.getGoogleAuthUrl(returnTo).subscribe(({ url }) => {
+        window.location.href = url;
+      });
+    }
   }
 
   goBack(): void {

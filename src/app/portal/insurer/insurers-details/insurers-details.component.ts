@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -35,13 +35,14 @@ import { DatasetsService } from 'src/app/shared/services/dataset.service';
 import { InsurerConfigService } from 'src/app/shared/services/insurer-config.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
+import { IntegrationsService } from '@app/shared/services/integration.service';
 
 @Component({
   selector: 'app-insurers-details',
   templateUrl: './insurers-details.component.html',
   styleUrls: ['./insurers-details.component.scss'],
 })
-export class InsurersDetailsComponent implements OnDestroy {
+export class InsurersDetailsComponent implements OnInit, OnDestroy {
   insurer!: InsurerModel;
   formEstructuredCategories: FormEstructuredPolicyCategoryModel[] = [];
   commission_configs: CommissionConfigModel[] = [];
@@ -51,6 +52,8 @@ export class InsurersDetailsComponent implements OnDestroy {
   destroy$ = new Subject<void>();
   form: FormGroup = new FormGroup({ query: new FormControl('') });
   isOwner!: boolean;
+  googleConnected = false;
+  showEmailDropdown = false;
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -61,7 +64,8 @@ export class InsurersDetailsComponent implements OnDestroy {
     private _location: Location,
     private _dataset: DatasetsService,
     private dialog: MatDialog,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _integrations: IntegrationsService,
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -207,6 +211,43 @@ export class InsurersDetailsComponent implements OnDestroy {
         this._ui.showAlertSuccess('Changes saved successfully');
         this._router.navigate(['/portal/insurer']);
       });
+  }
+
+  ngOnInit(): void {
+    this._integrations.getIntegrationsStatus().pipe(take(1)).subscribe({
+      next: status => (this.googleConnected = !!status?.connected),
+      error: () => (this.googleConnected = false),
+    });
+
+    const googleAuth = this.activateRoute.snapshot.queryParamMap.get('google_auth');
+    if (googleAuth === 'success') {
+      this.googleConnected = true;
+      this._ui.showAlertSuccess('Google account connected successfully. You can now send emails.');
+      this._router.navigate([], {
+        queryParams: { google_auth: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }
+  }
+
+  toggleEmailDropdown(event: MouseEvent): void {
+    event.stopPropagation();
+    this.showEmailDropdown = !this.showEmailDropdown;
+  }
+
+  openEmailCompose(email: string | undefined): void {
+    if (!email) return;
+    if (email === this._auth.getAuth()?.user.email) return;
+
+    if (this.googleConnected) {
+      this._router.navigate(['/portal/email/send'], { queryParams: { to: email } });
+    } else {
+      const returnTo = this._router.url.split('?')[0] + '?google_auth=success';
+      this._integrations.getGoogleAuthUrl(returnTo).subscribe(({ url }) => {
+        window.location.href = url;
+      });
+    }
   }
 
   toggleSelected(item: FormEstructuredPolicyCategoryModel): void {

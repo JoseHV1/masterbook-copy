@@ -26,11 +26,11 @@ export class RequestsTableComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'account_name',
+    'status',
     'policy_type',
     'insure_object',
     'broker_fullname',
     'coverage',
-    'status',
     'category',
     'created_at',
     'document_url',

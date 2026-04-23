@@ -5,11 +5,13 @@ import {
   Input,
   OnChanges,
   OnInit,
+  ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { finalize, map, take, tap } from 'rxjs';
+import { finalize, map, Subject, take, takeUntil, tap } from 'rxjs';
 import { FormsModalComponent } from 'src/app/portal/forms/components/forms-modal/forms-modal.component';
 import { PolicyCategoryEnum } from 'src/app/shared/enums/policy-category.enum';
 import { RequestType } from 'src/app/shared/enums/request-type.enum';
@@ -35,7 +37,7 @@ import { UiService } from 'src/app/shared/services/ui.service';
   templateUrl: './form-new-business.component.html',
   styleUrls: ['./form-new-business.component.scss'],
 })
-export class FormNewBusinessComponent implements OnChanges, OnInit {
+export class FormNewBusinessComponent implements OnChanges, OnInit, OnDestroy {
   @Output() back: EventEmitter<boolean> = new EventEmitter();
   @Input() selectedType?: PopulatedPolicyTypeModel;
   @Input() selectedEndorsements?: PopulatedPolicyTypeModel[];
@@ -46,6 +48,8 @@ export class FormNewBusinessComponent implements OnChanges, OnInit {
   selectedAccount?: PopulatedAccount;
   policy_types: PopulatedPolicyTypeModel[] = [];
 
+  destroy$ = new Subject<void>();
+
   constructor(
     private _auth: AuthService,
     private _request: RequestsService,
@@ -54,7 +58,8 @@ export class FormNewBusinessComponent implements OnChanges, OnInit {
     private _accounts: AccountsService,
     private _router: Router,
     private _dialog: MatDialog,
-    private _datasets: DatasetsService
+    private _datasets: DatasetsService,
+    private cd: ChangeDetectorRef
   ) {
     this.initForm();
   }
@@ -80,6 +85,10 @@ export class FormNewBusinessComponent implements OnChanges, OnInit {
     }
 
     this._fetchPolicyTypes().subscribe();
+
+    this.form.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.cd.detectChanges());
   }
 
   ngOnChanges(): void {
@@ -177,8 +186,15 @@ export class FormNewBusinessComponent implements OnChanges, OnInit {
   }
 
   send() {
-    this.form.markAsDirty();
     this.form.markAllAsTouched();
+    if (this.form.invalid) {
+      Object.values(this.form.controls).forEach(key => {
+        key.updateValueAndValidity({ emitEvent: true });
+      });
+      this.cd.detectChanges();
+      return;
+    }
+
     if (this.form.invalid && this.form.controls['account'].value === 0) return;
 
     if (this.request) {
@@ -261,6 +277,11 @@ export class FormNewBusinessComponent implements OnChanges, OnInit {
       .afterClosed()
       .pipe(take(1))
       .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 

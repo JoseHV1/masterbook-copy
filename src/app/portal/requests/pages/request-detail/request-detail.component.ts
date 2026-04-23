@@ -62,6 +62,7 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
   isOwner!: boolean;
   isBroker: boolean = false;
   connected: boolean = false;
+  showEmailDropdown = false;
   form!: FormGroup;
 
   get baseRequestsPath() {
@@ -125,11 +126,41 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
         this._ui.showAlertError(`Status failed ${err}`);
       },
     });
+
+    const googleAuth = this.activateRoute.snapshot.queryParamMap.get('google_auth');
+    if (googleAuth === 'success') {
+      this.connected = true;
+      this._ui.showAlertSuccess('Google account connected successfully. You can now send emails.');
+      this._router.navigate([], {
+        queryParams: { google_auth: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }
   }
 
   loginGoogle() {
     if (!this.connected) {
       const returnTo = `/portal/request/${this.request.serial}`;
+      this._integrations.getGoogleAuthUrl(returnTo).subscribe(({ url }) => {
+        window.location.href = url;
+      });
+    }
+  }
+
+  toggleEmailDropdown(event: MouseEvent): void {
+    event.stopPropagation();
+    this.showEmailDropdown = !this.showEmailDropdown;
+  }
+
+  openEmailCompose(email: string | undefined): void {
+    if (!email) return;
+    if (email === this._auth.getAuth()?.user.email) return;
+
+    if (this.connected) {
+      this._router.navigate(['/portal/email/send'], { queryParams: { to: email } });
+    } else {
+      const returnTo = this._router.url.split('?')[0] + '?google_auth=success';
       this._integrations.getGoogleAuthUrl(returnTo).subscribe(({ url }) => {
         window.location.href = url;
       });

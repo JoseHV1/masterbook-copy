@@ -152,6 +152,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./how-to/how-to.module').then(module => module.HowToModule),
       },
+      {
+        path: 'leads',
+        loadChildren: () =>
+          import('./leads/leads-portal.module').then(
+            module => module.LeadsPortalModule
+          ),
+      },
       { path: '', redirectTo: defaultRoute, pathMatch: 'full' },
       { path: '**', redirectTo: defaultRoute, pathMatch: 'full' },
     ],

@@ -66,9 +66,7 @@
       *ngIf="account">
       <app-picture-selector
         [showSelector]="false"
-        [icon]="
-          account.user?.photo_url ?? '/assets/icons/user_two.svg'
-        "></app-picture-selector>
+        [icon]="accountProfileImg"></app-picture-selector>
 
       <h3 class="text-center w-100 mt-3 mb-1 subtitle-1 dark-blue-400">
         Account #{{ account.serial }}
@@ -114,7 +112,36 @@
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">Email</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.user?.email | notNull }}
+            <span
+              *ngIf="googleConnected"
+              class="clickable-email"
+              matTooltip="Send email"
+              matTooltipPosition="above"
+              (click)="openEmailCompose(account.user?.email)">
+              {{ account.user?.email | notNull }}
+            </span>
+            <div
+              *ngIf="showEmailDropdown"
+              class="dropdown-backdrop"
+              (click)="showEmailDropdown = false"></div>
+            <span
+              *ngIf="!googleConnected"
+              class="email-rich-tooltip-wrapper"
+              (click)="toggleEmailDropdown($event)">
+              {{ account.user?.email | notNull }}
+              <span
+                class="rich-tooltip"
+                [class.visible]="showEmailDropdown"
+                *ngIf="account.user?.email"
+                (click)="$event.stopPropagation()">
+                To send emails you must be logged in with Google.
+                <span
+                  class="rich-tooltip__link"
+                  (click)="openEmailCompose(account.user?.email)">
+                  Login here
+                </span>
+              </span>
+            </span>
           </div>
         </div>
       </div>

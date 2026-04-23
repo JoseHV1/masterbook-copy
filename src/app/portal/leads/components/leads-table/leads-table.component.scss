@@ -1,0 +1,29 @@
+@import 'theme';
+
+:host ::ng-deep {
+  .table-responsive {
+    overflow-x: auto;
+  }
+  .table-responsive table {
+    white-space: nowrap;
+  }
+  .mas-table-row:hover {
+    background: $gray-100;
+  }
+
+  .ACTIVE {
+    color: $color-success !important;
+  }
+
+  .CONVERTED {
+    color: $light-blue-700 !important;
+  }
+
+  .TRANSFERRED {
+    color: $light-blue-400 !important;
+  }
+
+  .REJECTED {
+    color: $red-color !important;
+  }
+}
