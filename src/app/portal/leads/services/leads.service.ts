@@ -7,6 +7,7 @@ import { LeadModel } from '../interfaces/lead.model';
 import { LeadTokenInfoModel } from '../interfaces/lead-token-info.model';
 import { CreateLeadRequest } from '../interfaces/requests/create-lead.request';
 import { TransferLeadRequest } from '../interfaces/requests/transfer-lead.request';
+import { ConvertLeadRequest } from '../interfaces/requests/convert-lead.request';
 import { AgencyWithTokenModel } from '../interfaces/agency-with-token.model';
 import { PaginatedResponse } from 'src/app/shared/interfaces/models/paginated-response.model';
 import { FilterWrapperModel } from 'src/app/shared/models/filters.model';
@@ -64,6 +65,24 @@ export class LeadsService {
     return this._http
       .get<ApiResponseModel<PaginatedResponse<LeadModel[]>>>(
         `${environment.apiUrl}leads?page=${page}&limit=${pageSize}${filters ?? ''}`
+      )
+      .pipe(map(resp => resp.data));
+  }
+
+  convertLead(serial: string, req: ConvertLeadRequest): Observable<void> {
+    return this._http
+      .post<ApiResponseModel<void>>(
+        `${environment.apiUrl}leads/convert/${serial}`,
+        req
+      )
+      .pipe(map(resp => resp.data));
+  }
+
+  convertLeadToAgency(serial: string): Observable<void> {
+    return this._http
+      .post<ApiResponseModel<void>>(
+        `${environment.apiUrl}leads/convert-agency/${serial}`,
+        {}
       )
       .pipe(map(resp => resp.data));
   }

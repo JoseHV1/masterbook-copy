@@ -3,5 +3,5 @@ export interface AgencyWithTokenModel {
   serial: string;
   name: string;
   logo_url: string | null;
-  token_leads: string;
+  token_leads?: string;
 }

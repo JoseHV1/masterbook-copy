@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { UiModalTypeEnum } from '@app/shared/enums/ui-modal-type.enum';
 import { finalize } from 'rxjs';
 import {
@@ -8,13 +9,14 @@ import {
   EmailService,
 } from 'src/app/shared/services/email.service';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { AuthService } from '@app/shared/services/auth.service';
 
 @Component({
   selector: 'app-send-email',
   templateUrl: './send-email.component.html',
   styleUrls: ['./send-email.component.scss'],
 })
-export class SendEmailComponent {
+export class SendEmailComponent implements OnInit {
   loading: boolean = false;
   message: string = '';
 
@@ -28,8 +30,17 @@ export class SendEmailComponent {
   constructor(
     private emailService: EmailService,
     private uiService: UiService,
-    private _location: Location
+    private _location: Location,
+    private _route: ActivatedRoute,
+    private _auth: AuthService,
   ) {}
+
+  ngOnInit(): void {
+    const to = this._route.snapshot.queryParamMap.get('to');
+    if (to && to !== this._auth.getAuth()?.user.email) {
+      this.emailData.to = to;
+    }
+  }
 
   goBack(): void {
     this._location.back();
@@ -87,6 +98,12 @@ export class SendEmailComponent {
       this.uiService.showAlertError(
         'Please complete the Recipient, Subject, and Body fields.'
       );
+      this.loading = false;
+      return;
+    }
+
+    if (this.emailData.to === this._auth.getAuth()?.user.email) {
+      this.uiService.showAlertError('You cannot send an email to yourself.');
       this.loading = false;
       return;
     }

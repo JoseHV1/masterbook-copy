@@ -23,6 +23,7 @@ import { AuthService } from '@app/shared/services/auth.service';
 import { ownersRolesDataset } from '@app/shared/datatsets/roles.datasets';
 import { RolesEnum } from '@app/shared/enums/roles.enum';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
+import { IntegrationsService } from '@app/shared/services/integration.service';
 
 @Component({
   selector: 'app-policies-details',
@@ -34,6 +35,9 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
   refreredPolicy!: PopulatedPolicyModel;
   showActions = false;
   isOwner!: boolean;
+  isInsured!: boolean;
+  googleConnected = false;
+  showEmailDropdown = false;
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -45,11 +49,13 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
     private _location: Location,
     private dialog: MatDialog,
     private _auth: AuthService,
-    private _uploadFile: UploadFileService
+    private _uploadFile: UploadFileService,
+    private _integrations: IntegrationsService,
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
     );
+    this.isInsured = this._auth.getAuth()?.user.role === RolesEnum.INSURED;
     this._ui.showLoader();
     this.activateRoute.params
       .pipe(
@@ -91,6 +97,41 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
       .subscribe((e: any) =>
         this.updateActionsVisibility(e.urlAfterRedirects || e.url)
       );
+
+    this._integrations.getIntegrationsStatus().pipe(take(1)).subscribe({
+      next: status => (this.googleConnected = !!status?.connected),
+      error: () => (this.googleConnected = false),
+    });
+
+    const googleAuth = this.activateRoute.snapshot.queryParamMap.get('google_auth');
+    if (googleAuth === 'success') {
+      this.googleConnected = true;
+      this._ui.showAlertSuccess('Google account connected successfully. You can now send emails.');
+      this._router.navigate([], {
+        queryParams: { google_auth: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }
+  }
+
+  toggleEmailDropdown(event: MouseEvent): void {
+    event.stopPropagation();
+    this.showEmailDropdown = !this.showEmailDropdown;
+  }
+
+  openEmailCompose(email: string | undefined): void {
+    if (!email) return;
+    if (email === this._auth.getAuth()?.user.email) return;
+
+    if (this.googleConnected) {
+      this._router.navigate(['/portal/email/send'], { queryParams: { to: email } });
+    } else {
+      const returnTo = this._router.url.split('?')[0] + '?google_auth=success';
+      this._integrations.getGoogleAuthUrl(returnTo).subscribe(({ url }) => {
+        window.location.href = url;
+      });
+    }
   }
 
   openModalChangeLogs(entityId: string): void {

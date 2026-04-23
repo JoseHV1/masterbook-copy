@@ -18,5 +18,5 @@ export interface AgencyModel {
   retentions: number;
   taxes: number;
   business_lines: string[];
-  token_leads: string;
+  token_leads?: string;
 }

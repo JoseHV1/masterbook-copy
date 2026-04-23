@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,13 +29,14 @@ import { PaginatedResponse } from '@app/shared/interfaces/models/paginated-respo
 import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filtered-table.base';
 import { PageEvent } from '@angular/material/paginator';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
+import { IntegrationsService } from '@app/shared/services/integration.service';
 
 @Component({
   selector: 'app-accounts-details',
   templateUrl: './accounts-details.component.html',
   styleUrls: ['./accounts-details.component.scss'],
 })
-export class AccountsDetailsComponent {
+export class AccountsDetailsComponent implements OnInit {
   account!: PopulatedAccount;
   filterText = '';
   filtersActive = [{} as FilterActive];
@@ -70,6 +71,8 @@ export class AccountsDetailsComponent {
     total_records: 0,
   };
   isOwner!: boolean;
+  googleConnected = false;
+  showEmailDropdown = false;
   accountProfileImgDefault = '/assets/icons/user_two.svg';
   accountProfileImg: string = this.accountProfileImgDefault;
 
@@ -87,11 +90,18 @@ export class AccountsDetailsComponent {
     private _invoices: InvoiceService,
     private dialog: MatDialog,
     private _auth: AuthService,
-    private _uploadFile: UploadFileService
+    private _uploadFile: UploadFileService,
+    private _integrations: IntegrationsService,
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
     );
+
+    this._integrations.getIntegrationsStatus().pipe(take(1)).subscribe({
+      next: status => (this.googleConnected = !!status?.connected),
+      error: () => (this.googleConnected = false),
+    });
+
     this._ui.showLoader();
     this.activateRoute.params
       .pipe(
@@ -116,6 +126,18 @@ export class AccountsDetailsComponent {
       .subscribe({
         error: () => this._router.navigateByUrl('portal/accounts'),
       });
+  }
+
+  ngOnInit(): void {
+    const googleAuth = this.activateRoute.snapshot.queryParamMap.get('google_auth');
+    if (googleAuth === 'success') {
+      this._ui.showAlertSuccess('Google account connected successfully. You can now send emails.');
+      this._router.navigate([], {
+        queryParams: { google_auth: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }
   }
 
   openModalChangeLogs(entityId: string): void {
@@ -305,6 +327,27 @@ export class AccountsDetailsComponent {
         this._ui.showAlertSuccess('Account deleted successfully');
         this._router.navigateByUrl('portal/accounts');
       });
+  }
+
+  toggleEmailDropdown(event: MouseEvent): void {
+    event.stopPropagation();
+    this.showEmailDropdown = !this.showEmailDropdown;
+  }
+
+  openEmailCompose(email: string | undefined): void {
+    if (!email) return;
+    if (email === this._auth.getAuth()?.user.email) return;
+
+    if (this.googleConnected) {
+      this._router.navigate(['/portal/email/send'], {
+        queryParams: { to: email },
+      });
+    } else {
+      const returnTo = `/portal/accounts/${this.account.serial}?google_auth=success`;
+      this._integrations.getGoogleAuthUrl(returnTo).subscribe(({ url }) => {
+        window.location.href = url;
+      });
+    }
   }
 
   goBack(): void {

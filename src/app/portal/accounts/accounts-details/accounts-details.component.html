@@ -1,7 +1,12 @@
 <app-pages-layout>
   <ng-container content>
-    <div class="d-flex justify-content-between align-items-center mb-1 ms-2" *ngIf="account">
-      <span class="material-icons-outlined me-2" style="cursor: pointer" matTooltip="Back to last page"
+    <div
+      class="d-flex justify-content-between align-items-center mb-1 ms-2"
+      *ngIf="account">
+      <span
+        class="material-icons-outlined me-2"
+        style="cursor: pointer"
+        matTooltip="Back to last page"
         (click)="goBack()">
         arrow_back
       </span>
@@ -11,14 +16,19 @@
       </button>
 
       <mat-menu #menu="matMenu" xPosition="before">
-        <button mat-menu-item *ngIf="isOwner" (click)="openModalChangeLogs(account._id)">
+        <button
+          mat-menu-item
+          *ngIf="isOwner"
+          (click)="openModalChangeLogs(account._id)">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined dark-blue-400">history</span>
             <span>Change Logs</span>
           </span>
         </button>
 
-        <button mat-menu-item (click)="_url.navigateTo('portal/accounts', account._id, 'edit')">
+        <button
+          mat-menu-item
+          (click)="_url.navigateTo('portal/accounts', account._id, 'edit')">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined dark-blue-400">edit</span>
             <span>Edit</span>
@@ -26,7 +36,10 @@
         </button>
 
         <button mat-menu-item>
-          <mat-slide-toggle [checked]="account.status === 'ACTIVE'" (change)="setStatus($event)" [color]="'primary'">
+          <mat-slide-toggle
+            [checked]="account.status === 'ACTIVE'"
+            (change)="setStatus($event)"
+            [color]="'primary'">
             <span class="mat-mdc-menu-item-text">
               {{ account.status === 'ACTIVE' ? 'Inhabilitar' : 'Habilitar' }}
             </span>
@@ -48,8 +61,12 @@
         </button>
       </mat-menu>
     </div>
-    <div class="d-flex flex-column align-items-center justify-content-center" *ngIf="account">
-      <app-picture-selector [showSelector]="false" [icon]="accountProfileImg"></app-picture-selector>
+    <div
+      class="d-flex flex-column align-items-center justify-content-center"
+      *ngIf="account">
+      <app-picture-selector
+        [showSelector]="false"
+        [icon]="accountProfileImg"></app-picture-selector>
 
       <h3 class="text-center w-100 mt-3 mb-1 subtitle-1 dark-blue-400">
         Account #{{ account.serial }}
@@ -95,7 +112,36 @@
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">Email</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.user?.email | notNull }}
+            <span
+              *ngIf="googleConnected"
+              class="clickable-email"
+              matTooltip="Send email"
+              matTooltipPosition="above"
+              (click)="openEmailCompose(account.user?.email)">
+              {{ account.user?.email | notNull }}
+            </span>
+            <div
+              *ngIf="showEmailDropdown"
+              class="dropdown-backdrop"
+              (click)="showEmailDropdown = false"></div>
+            <span
+              *ngIf="!googleConnected"
+              class="email-rich-tooltip-wrapper"
+              (click)="toggleEmailDropdown($event)">
+              {{ account.user?.email | notNull }}
+              <span
+                class="rich-tooltip"
+                [class.visible]="showEmailDropdown"
+                *ngIf="account.user?.email"
+                (click)="$event.stopPropagation()">
+                To send emails you must be logged in with Google.
+                <span
+                  class="rich-tooltip__link"
+                  (click)="openEmailCompose(account.user?.email)">
+                  Login here
+                </span>
+              </span>
+            </span>
           </div>
         </div>
       </div>
@@ -185,15 +231,27 @@
               <span class="subtitle-2 dark-blue-400">Requests</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-requests-table *ngIf="requests" [filtersActive]="filtersActive" (refresh)="refreshRequests()"
+          <app-requests-table
+            *ngIf="requests"
+            [filtersActive]="filtersActive"
+            (refresh)="refreshRequests()"
             [data]="requests.records"></app-requests-table>
 
-          <mat-paginator [length]="requests.total_records" [pageSize]="requests.limit" [pageIndex]="requests.page - 1"
-            [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event, 'requests')" showFirstLastButtons>
+          <mat-paginator
+            [length]="requests.total_records"
+            [pageSize]="requests.limit"
+            [pageIndex]="requests.page - 1"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event, 'requests')"
+            showFirstLastButtons>
           </mat-paginator>
 
-          <div class="d-flex align-items-center justify-content-center" *ngIf="account">
-            <button class="primary-button back-light-blue-400 white my-2" [routerLink]="['/portal/requests/new']"
+          <div
+            class="d-flex align-items-center justify-content-center"
+            *ngIf="account">
+            <button
+              class="primary-button back-light-blue-400 white my-2"
+              [routerLink]="['/portal/requests/new']"
               [queryParams]="{ account: account._id }">
               Create request
             </button>
@@ -210,15 +268,27 @@
               <span class="subtitle-2 dark-blue-400">Policies</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-policies-table *ngIf="policies" [filtersActive]="filtersActive" (refresh)="refreshPolicies()"
+          <app-policies-table
+            *ngIf="policies"
+            [filtersActive]="filtersActive"
+            (refresh)="refreshPolicies()"
             [data]="policies.records"></app-policies-table>
 
-          <mat-paginator [length]="policies.total_records" [pageSize]="policies.limit" [pageIndex]="policies.page - 1"
-            [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event, 'policies')" showFirstLastButtons>
+          <mat-paginator
+            [length]="policies.total_records"
+            [pageSize]="policies.limit"
+            [pageIndex]="policies.page - 1"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event, 'policies')"
+            showFirstLastButtons>
           </mat-paginator>
 
-          <div class="d-flex align-items-center justify-content-center" *ngIf="account">
-            <button class="primary-button back-light-blue-400 white my-2" [routerLink]="['/portal/policies/new']"
+          <div
+            class="d-flex align-items-center justify-content-center"
+            *ngIf="account">
+            <button
+              class="primary-button back-light-blue-400 white my-2"
+              [routerLink]="['/portal/policies/new']"
               [queryParams]="{ account: account._id }">
               Create policies
             </button>
@@ -235,15 +305,27 @@
               <span class="subtitle-2 dark-blue-400">Claims</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-claims-table *ngIf="claims" [filtersActive]="filtersActive" (refresh)="refreshClaims()"
+          <app-claims-table
+            *ngIf="claims"
+            [filtersActive]="filtersActive"
+            (refresh)="refreshClaims()"
             [data]="claims.records"></app-claims-table>
 
-          <mat-paginator [length]="claims.total_records" [pageSize]="claims.limit" [pageIndex]="claims.page - 1"
-            [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event, 'claims')" showFirstLastButtons>
+          <mat-paginator
+            [length]="claims.total_records"
+            [pageSize]="claims.limit"
+            [pageIndex]="claims.page - 1"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event, 'claims')"
+            showFirstLastButtons>
           </mat-paginator>
 
-          <div class="d-flex align-items-center justify-content-center" *ngIf="account">
-            <button class="primary-button back-light-blue-400 white my-2" [routerLink]="['/portal/claims/new']"
+          <div
+            class="d-flex align-items-center justify-content-center"
+            *ngIf="account">
+            <button
+              class="primary-button back-light-blue-400 white my-2"
+              [routerLink]="['/portal/claims/new']"
               [queryParams]="{ account: account._id }">
               Create claims
             </button>
@@ -260,15 +342,27 @@
               <span class="subtitle-2 dark-blue-400">Payments</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-payments-table *ngIf="payments" [filtersActive]="filtersActive" (refresh)="refreshPayments()"
+          <app-payments-table
+            *ngIf="payments"
+            [filtersActive]="filtersActive"
+            (refresh)="refreshPayments()"
             [data]="payments.records"></app-payments-table>
 
-          <mat-paginator [length]="payments.total_records" [pageSize]="payments.limit" [pageIndex]="payments.page - 1"
-            [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event, 'payments')" showFirstLastButtons>
+          <mat-paginator
+            [length]="payments.total_records"
+            [pageSize]="payments.limit"
+            [pageIndex]="payments.page - 1"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event, 'payments')"
+            showFirstLastButtons>
           </mat-paginator>
 
-          <div class="d-flex align-items-center justify-content-center" *ngIf="account">
-            <button class="primary-button back-light-blue-400 white my-2" [routerLink]="['/portal/payments/new']"
+          <div
+            class="d-flex align-items-center justify-content-center"
+            *ngIf="account">
+            <button
+              class="primary-button back-light-blue-400 white my-2"
+              [routerLink]="['/portal/payments/new']"
               [queryParams]="{ account: account._id }">
               Create payments
             </button>
@@ -285,11 +379,19 @@
               <span class="subtitle-2 dark-blue-400">Invoices</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-invoices-table *ngIf="invoices" [filtersActive]="filtersActive" (refresh)="refreshInvoices()"
+          <app-invoices-table
+            *ngIf="invoices"
+            [filtersActive]="filtersActive"
+            (refresh)="refreshInvoices()"
             [data]="invoices.records"></app-invoices-table>
 
-          <mat-paginator [length]="invoices.total_records" [pageSize]="invoices.limit" [pageIndex]="invoices.page - 1"
-            [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event, 'invoices')" showFirstLastButtons>
+          <mat-paginator
+            [length]="invoices.total_records"
+            [pageSize]="invoices.limit"
+            [pageIndex]="invoices.page - 1"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event, 'invoices')"
+            showFirstLastButtons>
           </mat-paginator>
         </mat-expansion-panel>
       </mat-accordion>

@@ -15,6 +15,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalChangePasswordComponent } from '../modal-change-password/modal-change-password.component';
 import { switchMap } from 'rxjs/operators';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
+import { IntegrationsService } from '@app/shared/services/integration.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 type FakeGoogleConnection = {
   email: string;
@@ -46,7 +48,10 @@ export class ProfileFormComponent implements OnInit {
     public _url: UrlService,
     private _cd: ChangeDetectorRef,
     private dialog: MatDialog,
-    private _uploadFile: UploadFileService
+    private _uploadFile: UploadFileService,
+    private _integrations: IntegrationsService,
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
   ) {
     this.form = this._profile.createEditProfileForm();
   }
@@ -82,6 +87,16 @@ export class ProfileFormComponent implements OnInit {
       },
     });
 
+    const googleAuth = this._activatedRoute.snapshot.queryParamMap.get('google_auth');
+    if (googleAuth === 'success') {
+      this._ui.showAlertSuccess('Google account connected successfully.');
+      this._router.navigate([], {
+        queryParams: { google_auth: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }
+
     this.form
       .get('allow_expiring_policies_notifications')
       ?.valueChanges.subscribe(value => {
@@ -98,6 +113,13 @@ export class ProfileFormComponent implements OnInit {
           dayControl?.updateValueAndValidity();
         }
       });
+  }
+
+  connectGoogle(): void {
+    const returnTo = this._router.url.split('?')[0] + '?google_auth=success';
+    this._integrations.getGoogleAuthUrl(returnTo).subscribe(({ url }) => {
+      window.location.href = url;
+    });
   }
 
   disconnectGoogle(): void {

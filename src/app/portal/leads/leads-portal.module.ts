@@ -11,6 +11,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: ':serial/convert',
+    loadChildren: () =>
+      import('./convert-lead/convert-lead.module').then(
+        module => module.ConvertLeadModule
+      ),
+  },
+  {
     path: ':serial',
     loadChildren: () =>
       import('./lead-detail/lead-detail.module').then(

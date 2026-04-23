@@ -215,7 +215,41 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">Email</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ policy.client?.user?.email | notNull }}
+          <ng-container *ngIf="!isInsured">
+            <span
+              *ngIf="googleConnected"
+              class="clickable-email"
+              matTooltip="Send email"
+              matTooltipPosition="above"
+              (click)="openEmailCompose(policy.client?.user?.email)">
+              {{ policy.client?.user?.email | notNull }}
+            </span>
+            <div
+              *ngIf="showEmailDropdown"
+              class="dropdown-backdrop"
+              (click)="showEmailDropdown = false"></div>
+            <span
+              *ngIf="!googleConnected"
+              class="email-rich-tooltip-wrapper"
+              (click)="toggleEmailDropdown($event)">
+              {{ policy.client?.user?.email | notNull }}
+              <span
+                class="rich-tooltip"
+                [class.visible]="showEmailDropdown"
+                *ngIf="policy.client?.user?.email"
+                (click)="$event.stopPropagation()">
+                To send emails you must be logged in with Google.
+                <span
+                  class="rich-tooltip__link"
+                  (click)="openEmailCompose(policy.client?.user?.email)">
+                  Login here
+                </span>
+              </span>
+            </span>
+          </ng-container>
+          <ng-container *ngIf="isInsured">
+            {{ policy.client?.user?.email | notNull }}
+          </ng-container>
         </div>
       </div>
     </div>
