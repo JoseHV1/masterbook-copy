@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { DatasetsService } from '@app/shared/services/dataset.service';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
-import { catchError, EMPTY, finalize, retry, switchMap } from 'rxjs';
+import { finalize } from 'rxjs';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { AgencyModel } from 'src/app/shared/interfaces/models/agency.model';
 import { EditAgencySettingsRequest } from 'src/app/shared/interfaces/requests/agencies/edit-agency-settings.request';
 import { AgencySettingsService } from 'src/app/shared/services/agency-settings.service';
 import { UiService } from 'src/app/shared/services/ui.service';
-import { BusinessLineModel } from 'src/app/shared/interfaces/models/business-line.model';
-import { isInvalid } from 'src/app/shared/helpers/is-invalid.helper';
-import { hasError } from 'src/app/shared/helpers/has-error.helper.ts';
-import { LeadsService } from 'src/app/portal/leads/services/leads.service';
 
 @Component({
   selector: 'app-agency-settings-form',
@@ -22,48 +17,22 @@ export class AgencySettingsFormComponent implements OnInit {
   form!: FormGroup;
   dataAgency!: AgencyModel;
   logo?: string;
-  businessLines: BusinessLineModel[] = [];
-
-  readonly frontBaseUrl = window.location.origin;
-
-  isInvalid = isInvalid;
-  hasError = hasError;
 
   constructor(
     private _ui: UiService,
     private _agencySettings: AgencySettingsService,
-    private _uploadFile: UploadFileService,
-    private _datasets: DatasetsService,
-    private _leads: LeadsService,
-  ) { }
+    private _uploadFile: UploadFileService
+  ) {
+    this.form = this._agencySettings.createEditSettingsForm();
+  }
 
   ngOnInit(): void {
-    this._ui.showLoader();
-    this.form = this._agencySettings.createEditSettingsForm();
-
-    this._datasets.getBusinessLinesDataset().pipe(
-      retry(2),
-      catchError(() => {
-        this._ui.showAlertError('Error loading business lines');
-        return EMPTY;
-      }),
-      switchMap(lines => {
-        this.businessLines = lines;
-        return this._agencySettings.getAgencySettings().pipe(
-          retry(2),
-          catchError(() => {
-            this._ui.showAlertError('Error loading agency settings');
-            return EMPTY;
-          })
-        );
-      }),
-      finalize(() => this._ui.hideLoader())
-    ).subscribe(agency => {
-      this.dataAgency = agency;
-      this.fillData(agency);
+    this._agencySettings.getAgencySettings().subscribe(resp => {
+      this.dataAgency = resp;
+      this.fillData(resp);
 
       if (this.dataAgency.logo_url) {
-        this._uploadFile.getUrlFile(this.dataAgency.logo_url).subscribe(() => {
+        this._uploadFile.getUrlFile(this.dataAgency.logo_url).subscribe(url => {
           this.logo = '/assets/images/portal/image_default.webp';
         });
       } else {
@@ -73,16 +42,9 @@ export class AgencySettingsFormComponent implements OnInit {
   }
 
   fillData(agency: AgencyModel) {
-    const selectedLines = this.businessLines.filter(line =>
-      agency.business_lines.includes(line._id)
-    );
-
-    const selectedIds = selectedLines.map(line => line._id);
-
     this.form.patchValue({
       retentions: agency.retentions,
       taxes: agency.taxes,
-      business_lines_ids: selectedIds,
     });
   }
 
@@ -99,10 +61,6 @@ export class AgencySettingsFormComponent implements OnInit {
       retentions: this.form.value.retentions ?? null,
       taxes: this.form.value.taxes ?? null,
       logo_image: this.form.value.logo_image ?? undefined,
-      business_lines: this.form.value.business_lines_ids || [],
-      check_branding: !!(
-        (this.form.value.check_brand_publication as Array<string>) ?? []
-      ).length,
     };
 
     this._ui.showLoader();
@@ -112,29 +70,6 @@ export class AgencySettingsFormComponent implements OnInit {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this._openSuccessModal();
-      });
-  }
-
-  copyUrl(network: string): void {
-    const url = `${this.frontBaseUrl}/leads/register/${this.dataAgency?.token_leads}/${network}`;
-    navigator.clipboard.writeText(url).then(() => {
-      this._ui.showAlertSuccess('Link copied to clipboard');
-    });
-  }
-
-  createUrlLead() {
-    this._ui.showLoader();
-    this._leads.generateUrlLeads()
-      .pipe(
-        switchMap(() => this._agencySettings.getAgencySettings()),
-        finalize(() => this._ui.hideLoader())
-      )
-      .subscribe({
-        next: (agency) => {
-          this.dataAgency = agency;
-          this._ui.showAlertSuccess('Your lead URL has been created successfully');
-        },
-        error: () => this._ui.showAlertError('An error occurred. Please try again later'),
       });
   }
 

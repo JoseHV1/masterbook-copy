@@ -13,7 +13,6 @@ import { Router, NavigationEnd, Event as RouterEvent } from '@angular/router';
 import { UiService } from './shared/services/ui.service';
 import { AuthService } from './shared/services/auth.service';
 import { environment } from 'src/environments/environment';
-import { LanguageService } from './shared/services/language.service';
 
 declare var gtag: Function;
 
@@ -32,7 +31,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private _ui: UiService,
     private _cd: ChangeDetectorRef,
     private _auth: AuthService,
-    private _language: LanguageService, //No eliminar esto, es para inicializar el LanguageService
     private _router: Router
   ) {
     const auth = this._auth.getAuth();

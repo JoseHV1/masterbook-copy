@@ -1,9 +1,9 @@
 import {
   Component,
   Input,
-  OnInit,
   Output,
   EventEmitter,
+  forwardRef,
   ChangeDetectorRef,
 } from '@angular/core';
 import { FormControl, FormGroup, NgControl } from '@angular/forms';
@@ -17,7 +17,7 @@ import { AddressAutocompleteModel } from 'src/app/shared/models/address-autocomp
   templateUrl: 'address-input.component.html',
   styleUrls: ['address-input.component.scss'],
 })
-export class AddressInputComponent implements ControlValueAccessor, OnInit {
+export class AddressInputComponent implements ControlValueAccessor {
   @Input() placeholder: string = '';
   @Output() updateAddress: EventEmitter<AddressAutocompleteModel | undefined> =
     new EventEmitter();
@@ -43,16 +43,9 @@ export class AddressInputComponent implements ControlValueAccessor, OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.currentControl.control?.statusChanges.subscribe(() =>
-      this.updateErrors()
-    );
-  }
-
   changeValue(): void {
     this.onChange(this.value);
     this.updateAddress.emit(this.value);
-    this.currentControl.control?.parent?.updateValueAndValidity();
     this.updateErrors();
   }
 
@@ -79,11 +72,6 @@ export class AddressInputComponent implements ControlValueAccessor, OnInit {
       err.toUpperCase()
     );
     this.form.get('value')?.setErrors(this.currentControl.errors);
-
-    if (this.currentControl.control?.touched) {
-      this.form.get('value')?.markAsTouched();
-    }
-
     this.errorMessage = this.errors.length
       ? this._translate.instant(`FORM_ERROR.${this.errors[0]}`)
       : '';

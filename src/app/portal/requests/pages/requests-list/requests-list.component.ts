@@ -24,7 +24,6 @@ export class RequestsListComponent
   implements AfterViewInit
 {
   isInsured!: boolean;
-  showInfo!: boolean;
   filterConfig!: FilterWrapperModel;
 
   data: PaginatedResponse<PopulatedRequestModel[]> = {
@@ -43,26 +42,16 @@ export class RequestsListComponent
   ) {
     super();
     const currentUser = this._auth.getAuth() as AuthModel;
-    this.isInsured = currentUser.user.role === RolesEnum.INSURED;
+    this.isInsured = currentUser.user.role !== RolesEnum.INSURED ? true : false;
     this.filterConfig = this._requests.getRequestsListFilters(
       currentUser.user.role as string
     );
-
-    this.showInfo = !this.isInsured || this.data.records.length > 0;
-  }
-
-  ngOnInit(): void {
     this._fetchData(this.data.page, this.data.limit);
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      if (
-        !this._tutor.isCompleted(TutorsSlugsEnum.CREATE_REQUEST) &&
-        this.data.records.length > 0
-      )
-        this.showTutor();
-    }, 300);
+    if (!this._tutor.isCompleted(TutorsSlugsEnum.CREATE_REQUEST))
+      this.showTutor();
   }
 
   _fetchData(page: number, limit?: number): void {
@@ -81,10 +70,6 @@ export class RequestsListComponent
   }
 
   showTutor() {
-    requestTutor(
-      this._tutor,
-      this._auth.getAuth()?.user.role as RolesEnum,
-      this.data.records.length > 0
-    ).drive();
+    requestTutor(this._tutor).drive();
   }
 }

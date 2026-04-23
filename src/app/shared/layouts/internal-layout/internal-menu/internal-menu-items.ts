@@ -8,11 +8,6 @@ export const MENU_ITEMS: iternalMenuModel = {
       url: 'dashboard',
     },
     {
-      icon: 'person_search',
-      title: 'Leads',
-      url: 'leads',
-    },
-    {
       icon: 'wallet',
       title: 'Accounts',
       url: 'accounts',
@@ -139,20 +134,6 @@ export const MENU_ITEMS: iternalMenuModel = {
       icon: 'space_dashboard',
       title: 'Dashboard',
       url: 'dashboard',
-    },
-    {
-      icon: 'person_search',
-      title: 'Leads',
-      options: [
-        {
-          name: 'Account',
-          url: 'leads/account',
-        },
-        {
-          name: 'Agencies',
-          url: 'leads/agencies',
-        },
-      ],
     },
     {
       icon: 'business',

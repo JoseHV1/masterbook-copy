@@ -6,14 +6,13 @@ import { ApiResponseModel } from '../interfaces/models/api-response.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EditAgencySettingsRequest } from '../interfaces/requests/agencies/edit-agency-settings.request';
 import { AgencyModel } from '../interfaces/models/agency.model';
-import { MyMasterbookValidators } from '../helpers/mymasterbook-validator';
 import { EditAgenciesDefaultforms } from '../interfaces/requests/agencies/edit-agencies-default-forms.request';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AgencySettingsService {
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {}
 
   getAgencySettings(): Observable<AgencyModel> {
     return this._http
@@ -31,10 +30,6 @@ export class AgencySettingsService {
       ]),
       taxes: new FormControl(null, [Validators.min(1), Validators.max(100)]),
       logo_image: new FormControl(null),
-      business_lines_ids: new FormControl(null, [
-        MyMasterbookValidators.validLength(1, 6),
-      ]),
-      check_brand_publication: new FormControl([]),
     });
   }
 

@@ -1,9 +1,9 @@
 <ng-template #table>
   <app-pages-layout
-    [showButtonInfo]="showInfo"
+    [showButtonInfo]="isInsured"
     (btnInfoClick)="showTutor()"
     [button]="
-      !isInsured
+      isInsured
         ? {
             text: 'Create request',
             icon: 'add',

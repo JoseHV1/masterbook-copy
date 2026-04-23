@@ -161,7 +161,7 @@
             request.status !== REQUEST_STATUS.REJECTED
           ">
           <mat-accordion>
-            <mat-expansion-panel [expanded]="true" id="request-quotes-info">
+            <mat-expansion-panel [expanded]="true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <div
@@ -314,7 +314,7 @@
 </ng-template>
 
 <ng-template #personalInfoTempalte>
-  <div class="row mx-1 mx-md-2" id="request-personal-info-details">
+  <div class="row mx-1 mx-md-2">
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">Account name</div>
@@ -405,7 +405,6 @@
 <ng-template #requestInfoTempalte>
   <div
     class="row mx-1 mx-md-2"
-    id="request-info-template"
     *ngIf="request.category !== POLICY_CATEGORY.CANCELLATION">
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">

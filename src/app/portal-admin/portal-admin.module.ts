@@ -19,11 +19,6 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'leads',
-        loadChildren: () =>
-          import('./leads/leads.module').then(module => module.AdminLeadsModule),
-      },
-      {
         path: 'agencies',
         loadChildren: () =>
           import('./agency/agency.module').then(module => module.AgencyModule),
@@ -52,8 +47,8 @@ const routes: Routes = [
       {
         path: 'profile',
         loadChildren: () =>
-          import('./profile/profile.module').then(
-            module => module.AdminProfileModule
+          import('../portal/profile/profile.module').then(
+            module => module.ProfileModule
           ),
       },
       {

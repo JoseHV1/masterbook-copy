@@ -1,6 +1,0 @@
-export enum LeadStatusEnum {
-  ACTIVE = 'ACTIVE',
-  TRANSFERRED = 'TRANSFERRED',
-  REJECTED = 'REJECTED',
-  CONVERTED = 'CONVERTED',
-}

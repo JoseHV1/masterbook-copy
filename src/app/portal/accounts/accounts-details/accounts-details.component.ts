@@ -28,7 +28,6 @@ import { InvoiceService } from '@app/shared/services/invoice.service';
 import { PaginatedResponse } from '@app/shared/interfaces/models/paginated-response.model';
 import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filtered-table.base';
 import { PageEvent } from '@angular/material/paginator';
-import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-accounts-details',
@@ -70,8 +69,6 @@ export class AccountsDetailsComponent {
     total_records: 0,
   };
   isOwner!: boolean;
-  accountProfileImgDefault = '/assets/icons/user_two.svg';
-  accountProfileImg: string = this.accountProfileImgDefault;
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -86,8 +83,7 @@ export class AccountsDetailsComponent {
     private _payments: PaymentsService,
     private _invoices: InvoiceService,
     private dialog: MatDialog,
-    private _auth: AuthService,
-    private _uploadFile: UploadFileService
+    private _auth: AuthService
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -153,11 +149,6 @@ export class AccountsDetailsComponent {
     return this._accounts.getAccountBySerial(id).pipe(
       tap(resp => {
         this.account = resp;
-        if (resp.user?.photo_url) {
-          this._uploadFile.getUrlFile(resp.user?.photo_url).subscribe(url => {
-            this.accountProfileImg = url ?? this.accountProfileImgDefault;
-          });
-        }
       })
     );
   }

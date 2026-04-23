@@ -22,7 +22,6 @@ export class InputComponent implements ControlValueAccessor {
   @Input() rows: number = 3;
   @Input() clearable: boolean = false;
   @Input() dataTestId?: string;
-  @Input() autocomplete: string = 'off';
 
   form: FormGroup;
   disabled = false;
