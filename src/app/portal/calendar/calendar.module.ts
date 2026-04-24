@@ -9,6 +9,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -40,6 +41,7 @@ const routes: Routes = [
     MatButtonToggleModule,
     MatIconModule,
     MatSelectModule,
+    MatTooltipModule,
     PagesLayoutModule,
     CustomPipesModule,
     ReactiveFormsModule,
@@ -49,7 +51,6 @@ const routes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
-    MatButtonModule,
     MatDividerModule,
   ],
   declarations: [CalendarComponent, EventDialogComponent],

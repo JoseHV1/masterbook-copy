@@ -1,10 +1,12 @@
 <app-pages-layout>
   <ng-container content>
     <ng-container *ngIf="!loading && connected; else waitOrConnect">
-      <div
-        class="row back-dark-blue-200 white mb-2 py-3 mx-0 rounded flex-column flex-md-row">
-        <div
-          class="col-12 col-md-6 d-flex justify-content-center justify-content-md-start align-items-center mb-2 mb-md-0">
+
+      <!-- ── Toolbar ── -->
+      <div class="toolbar row back-dark-blue-200 white mb-0 py-2 mx-0 rounded-top flex-column flex-md-row">
+
+        <!-- Left: nav + date label -->
+        <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-start align-items-center mb-2 mb-md-0">
           <button mat-icon-button (click)="nav('prev')" matTooltip="Previous">
             <mat-icon>chevron_left</mat-icon>
           </button>
@@ -12,10 +14,29 @@
           <button mat-icon-button (click)="nav('next')" matTooltip="Next">
             <mat-icon>chevron_right</mat-icon>
           </button>
+
+          <!-- Date title with jump-to-date picker -->
+          <div class="date-title-wrap">
+            <button mat-button class="date-title-btn white" (click)="datePicker.open()" matTooltip="Jump to date">
+              {{ currentTitle }}
+              <mat-icon class="date-title-arrow">arrow_drop_down</mat-icon>
+            </button>
+            <mat-form-field class="picker-anchor">
+              <input matInput [matDatepicker]="datePicker" (dateChange)="jumpToDate($event.value)">
+              <mat-datepicker #datePicker></mat-datepicker>
+            </mat-form-field>
+          </div>
         </div>
 
-        <div
-          class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end align-items-center">
+        <!-- Right: search icon + view toggle -->
+        <div class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end align-items-center gap-2">
+          <button mat-icon-button
+                  (click)="toggleSearch()"
+                  [class.search-btn--active]="searchOpen"
+                  matTooltip="Search events">
+            <mat-icon>search</mat-icon>
+          </button>
+
           <mat-button-toggle-group
             class="segmented segmented--toolbar"
             appearance="standard"
@@ -28,6 +49,112 @@
             <mat-button-toggle value="timeGridDay">Day</mat-button-toggle>
           </mat-button-toggle-group>
         </div>
+      </div>
+
+      <!-- ── Search Panel ── -->
+      <div class="search-panel back-dark-blue-200" *ngIf="searchOpen">
+        <form [formGroup]="searchForm" (ngSubmit)="doSearch()">
+
+          <div class="sp-row sp-row--first">
+            <span class="sp-label">Search in</span>
+            <div class="sp-chip">
+              <mat-icon class="sp-chip-icon">check</mat-icon>
+              Active calendars
+              <mat-icon class="sp-chip-arrow">arrow_drop_down</mat-icon>
+            </div>
+          </div>
+
+          <div class="sp-divider"></div>
+
+          <div class="sp-row">
+            <span class="sp-label">What</span>
+            <input class="sp-input"
+                   formControlName="what"
+                   placeholder="Keywords contained in event"
+                   autocomplete="off">
+          </div>
+
+          <div class="sp-divider"></div>
+
+          <div class="sp-row">
+            <span class="sp-label">Who</span>
+            <input class="sp-input"
+                   formControlName="who"
+                   placeholder="Enter a participant, organizer, or creator"
+                   autocomplete="off">
+          </div>
+
+          <div class="sp-divider"></div>
+
+          <div class="sp-row">
+            <span class="sp-label">Where</span>
+            <input class="sp-input"
+                   formControlName="where"
+                   placeholder="Enter a location or room"
+                   autocomplete="off">
+          </div>
+
+          <div class="sp-divider"></div>
+
+          <div class="sp-row">
+            <span class="sp-label">Doesn't have</span>
+            <input class="sp-input"
+                   formControlName="doesntHave"
+                   placeholder="Keywords not contained in event"
+                   autocomplete="off">
+          </div>
+
+          <div class="sp-divider"></div>
+
+          <div class="sp-row sp-row--date">
+            <span class="sp-label">Date</span>
+            <div class="sp-date-range">
+              <input class="sp-input sp-date-input"
+                     type="date"
+                     formControlName="dateFrom">
+              <span class="sp-date-sep">to</span>
+              <input class="sp-input sp-date-input"
+                     type="date"
+                     formControlName="dateTo">
+            </div>
+          </div>
+
+          <div class="sp-actions">
+            <button mat-button type="button" class="sp-btn-reset" (click)="resetSearch()">
+              Reset
+            </button>
+            <button mat-flat-button type="submit" class="sp-btn-search" [disabled]="searchLoading">
+              <mat-icon *ngIf="searchLoading" class="spin">autorenew</mat-icon>
+              <span *ngIf="!searchLoading">Search</span>
+              <span *ngIf="searchLoading">Searching…</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ── Search Results ── -->
+      <div class="search-results back-dark-blue-200" *ngIf="searchResults !== null">
+
+        <div *ngIf="searchResults.length === 0" class="sr-empty">
+          <mat-icon>event_busy</mat-icon>
+          <span>No events found</span>
+        </div>
+
+        <div *ngFor="let event of searchResults"
+             class="sr-item"
+             (click)="goToEvent(event)"
+             matTooltip="Go to event">
+          <span class="sr-dot"></span>
+          <div class="sr-info">
+            <span class="sr-title">{{ event.title }}</span>
+            <span class="sr-meta">
+              {{ event.start | date: (event.allDay ? 'MMM d, yyyy' : 'MMM d, yyyy · h:mm a') }}
+              <ng-container *ngIf="event.location">&nbsp;·&nbsp;{{ event.location }}</ng-container>
+            </span>
+          </div>
+          <mat-icon class="sr-arrow">chevron_right</mat-icon>
+        </div>
+
       </div>
 
       <mat-divider></mat-divider>
