@@ -4,7 +4,7 @@ nav {
   width: 100%;
   height: 100%;
   background: $white;
-  
+
   .logo-section {
     width: 17.5rem;
     transition: all 0.3s ease;
@@ -62,9 +62,16 @@ nav {
   border-right: 1px solid $light-blue-200;
 }
 
-.logo{
-  width: 5.25rem; 
-  height: 2.25rem;
+.container-logo {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  background: transparent;
+}
+
+.img-logo {
+  width: 3rem;
+  height: 2.5rem;
   object-fit: cover;
 }
 

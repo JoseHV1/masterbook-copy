@@ -65,7 +65,7 @@ export class AnonNavbarComponent implements OnDestroy {
       .subscribe((event: any) => {
         const url = event['urlAfterRedirects'].split('?')[0] ?? '';
         if (url.includes('clients')) this.currentType = 'clients';
-        if (url.includes('agents')) this.currentType = 'agents';
+        if (!url.includes('clients')) this.currentType = '';
       });
   }
 
@@ -87,7 +87,7 @@ export class AnonNavbarComponent implements OnDestroy {
   }
 
   navigateAgent(): void {
-    this.router.navigate(['/agents']);
+    this.router.navigate(['/']);
   }
 
   ngOnDestroy(): void {

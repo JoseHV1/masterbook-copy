@@ -6,4 +6,5 @@ export interface UiModalConfig {
   type: UiModalTypeEnum;
   link?: { name: string; url: string[] };
   additionalButton?: boolean;
+  redirectButton?: { text: string; url: string };
 }

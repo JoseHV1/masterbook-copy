@@ -5,15 +5,15 @@
         {{ 'GENERAL.RESOURCES' | translate }}
       </p>
       <ul class="column-list text-3">
-        <li
-          class="column-item text-2 text-selection-disable mb-2 hover"
-          (click)="navigatePrivacyPolicy()">
-          {{ 'GENERAL.PRIVACY' | translate }}
+        <li class="column-item text-2 text-selection-disable mb-2 hover">
+          <a href="https://mymasterbook.net/privacy" target="_blank">
+            {{ 'GENERAL.PRIVACY' | translate }}
+          </a>
         </li>
-        <li
-          class="column-item text-2 text-selection-disable hover"
-          (click)="navigateTermsAndConditions()">
-          {{ 'GENERAL.TERMS' | translate }}
+        <li class="column-item text-2 text-selection-disable hover">
+          <a href="https://mymasterbook.net/terms-conditions" target="_blank">
+            {{ 'GENERAL.TERMS' | translate }}
+          </a>
         </li>
       </ul>
     </div>

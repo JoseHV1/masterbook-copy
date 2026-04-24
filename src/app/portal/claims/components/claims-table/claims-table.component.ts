@@ -200,7 +200,7 @@ export class ClaimsTableComponent implements OnChanges {
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: claim.serial,
-          url: ['/portal/claims', claim._id],
+          url: ['/portal/claims', claim.serial],
         },
       })
       .subscribe(result => {

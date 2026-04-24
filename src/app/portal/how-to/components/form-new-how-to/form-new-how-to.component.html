@@ -1,0 +1,43 @@
+<form [formGroup]="form">
+  <div class="row">
+    <div class="col-12">
+      <label>title*</label>
+      <app-input
+        placeholder="Title"
+        type="text"
+        formControlName="title"></app-input>
+    </div>
+
+    <div class="col-12">
+      <div class="NgxEditor_Wrapper py-4">
+        <label class="d-block">description</label>
+        <app-rich-text-input
+          formControlName="description"></app-rich-text-input>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <label>video*</label>
+      <app-input
+        [placeholder]="'Video Url'"
+        formControlName="video"></app-input>
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-center my-4">
+    <button
+      data-testid="how-to-cancel"
+      class="primary-button big-button back-gray-400 white mx-1"
+      (click)="cancelForm()">
+      Cancel
+    </button>
+
+    <button
+      data-testid="how-to-save"
+      class="primary-button big-button back-light-blue-400 white mx-1"
+      [disabled]="form.invalid"
+      (click)="send()">
+      {{ howTo ? 'Edit' : 'Save' }}
+    </button>
+  </div>
+</form>

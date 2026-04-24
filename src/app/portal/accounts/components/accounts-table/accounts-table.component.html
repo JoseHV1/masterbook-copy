@@ -8,7 +8,8 @@
           (click)="_url.navigateTo('/portal/accounts', element.serial)"
           class="light-blue-700"
           matTooltip="Go to account details"
-          style="cursor: pointer">
+          style="cursor: pointer"
+          data-testid="account-serial">
           #{{ element.serial | notNull }}
         </span>
         <ng-template #notId>---</ng-template>
@@ -131,9 +132,13 @@
           *ngIf="filtersActive.length"></app-filter-empty-state>
       </td>
     </tr>
+
     <tr
       mat-row
       *matRowDef="let row; columns: displayedColumns"
-      class="mas-table-row"></tr>
+      class="mas-table-row"
+      data-testid="account-row"
+      [attr.data-account-id]="row._id"
+      [attr.data-account-serial]="row.serial"></tr>
   </table>
 </div>

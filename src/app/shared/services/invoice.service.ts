@@ -15,6 +15,7 @@ import { PopulatedInvoiceModel } from '../interfaces/models/invoice.model';
 import { PopulatedCommisionModel } from '../interfaces/models/commisions.model';
 import { PaymentEntityEnum } from '../enums/payment-entity.enum';
 import { DatasetsService } from './dataset.service';
+import { RolesEnum } from '../enums/roles.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -37,57 +38,76 @@ export class InvoiceService {
       .pipe(map(resp => resp.data));
   }
 
-  getInvoicesListFilters(): FilterWrapperModel {
-    return {
-      filters: [
-        {
-          label: 'Creation date',
-          name: 'created_at_date',
-          type: FilterTypeEnum.DATE_RANGE,
-        },
-        {
-          label: 'Status',
-          name: 'status',
-          type: FilterTypeEnum.MULTISELECT,
-          options: of(enumToDropDown(InvoiceStatusEnum)),
-        },
-        {
-          label: 'Agent',
-          name: 'broker_id',
-          type: FilterTypeEnum.AGENT_SELECTOR,
-        },
-        {
-          label: 'Entity',
-          name: 'payment_entity',
-          type: FilterTypeEnum.PAYMENT_ENTITY,
-          options: of([
-            {
-              code: '',
-              name: 'All',
-            },
-            ...enumToDropDown(PaymentEntityEnum),
-          ]),
-        },
-        {
-          label: 'Account',
-          name: 'account_id',
-          type: FilterTypeEnum.CLIENT_SELECTOR,
-        },
-        {
-          label: 'Insurer',
-          name: 'insurer_id',
-          type: FilterTypeEnum.MULTISELECT,
-          options: this._dataset.getInsuranceCompaniesDataset().pipe(
-            map(companies =>
-              companies.map(item => ({
-                code: item._id,
-                name: item.name,
-              }))
-            )
-          ),
-        },
-      ],
-    };
+  getInvoicesListFilters(role: string): FilterWrapperModel {
+    const isInsured = role === RolesEnum.INSURED;
+    const isAgencyBroker = role === RolesEnum.AGENCY_BROKER;
+
+    const filters = [
+      {
+        label: 'Creation date',
+        name: 'created_at_date',
+        type: FilterTypeEnum.DATE_RANGE,
+      },
+      {
+        label: 'Status',
+        name: 'status',
+        type: FilterTypeEnum.MULTISELECT,
+        options: of(enumToDropDown(InvoiceStatusEnum)),
+      },
+      {
+        label: 'Agent',
+        name: 'broker_id',
+        type: FilterTypeEnum.AGENT_SELECTOR,
+      },
+      {
+        label: 'Entity',
+        name: 'payment_entity',
+        type: FilterTypeEnum.PAYMENT_ENTITY,
+        options: of([
+          {
+            code: '',
+            name: 'All',
+          },
+          ...enumToDropDown(PaymentEntityEnum),
+        ]),
+      },
+      {
+        label: 'Account',
+        name: 'account_id',
+        type: FilterTypeEnum.CLIENT_SELECTOR,
+      },
+      {
+        label: 'Insurer',
+        name: 'insurer_id',
+        type: FilterTypeEnum.MULTISELECT,
+        options: this._dataset.getInsuranceCompaniesDataset().pipe(
+          map(companies =>
+            companies.map(item => ({
+              code: item._id,
+              name: item.name,
+            }))
+          )
+        ),
+      },
+    ];
+
+    const filteredFilters = filters.filter(item => {
+      if (isInsured) {
+        return (
+          item.name !== 'broker_id' &&
+          item.name !== 'payment_entity' &&
+          item.name !== 'account_id'
+        );
+      }
+
+      if (isAgencyBroker) {
+        return item.name !== 'broker_id';
+      }
+
+      return true;
+    });
+
+    return { filters: filteredFilters };
   }
 
   getPaymentsByInvoiceId(invoiceId: string): Observable<PaymentModel[]> {

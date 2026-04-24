@@ -6,6 +6,8 @@ import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FiltersModule } from 'src/app/shared/components/filters/filters.module';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [RequestsTableComponent],
@@ -16,6 +18,8 @@ import { FiltersModule } from 'src/app/shared/components/filters/filters.module'
     MatTooltipModule,
     MatSlideToggleModule,
     FiltersModule,
+    MatMenuModule,
+    MatIconModule,
   ],
   exports: [RequestsTableComponent],
 })

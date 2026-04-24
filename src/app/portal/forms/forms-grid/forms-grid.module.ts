@@ -12,6 +12,8 @@ import { FormsModalModule } from '../components/forms-modal/forms-modal.module';
 import { CreateFormModalModule } from '../components/create-form-modal/create-form-modal.module';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AccountFormModalModule } from '../components/account-form-modal/account-form-modal.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const routes: Routes = [
   {
@@ -33,8 +35,10 @@ const routes: Routes = [
     MatExpansionModule,
     FormsModalModule,
     CreateFormModalModule,
+    AccountFormModalModule,
     CDKModule,
     ReactiveFormsModule,
+    MatSlideToggleModule,
   ],
   exports: [FormGridComponent],
 })

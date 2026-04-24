@@ -1,6 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { InsurerModel } from '@app/shared/interfaces/models/insurer.model';
-import { finalize, map, tap } from 'rxjs';
+import { finalize, map, Subject, takeUntil, tap } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { DashboardService } from 'src/app/shared/services/dashboard.service';
 import { UiService } from 'src/app/shared/services/ui.service';
@@ -8,6 +14,9 @@ import { ClientPin } from 'src/app/shared/services/dashboard.service';
 import { StackedAreaChartData } from 'src/core/charts/stacked-area-chart/stacked-area-chart.component';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { ChartFiltersPayload } from './components/chart-filters/chart-filters.component';
+import { ActivatedRoute } from '@angular/router';
+import { UiModalTypeEnum } from '@app/shared/enums/ui-modal-type.enum';
 
 export type ChartKey =
   | 'summaryCards'
@@ -24,10 +33,12 @@ export type ChartKey =
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.scss'],
 })
-export class ActivitiesComponent implements OnInit {
+export class ActivitiesComponent implements OnInit, OnDestroy {
   @ViewChild('dashboardPdfRoot', { static: false })
   dashboardPdfRoot!: ElementRef<HTMLElement>;
   isExporting = false;
+
+  private destroy$ = new Subject<void>();
 
   // Define the expected argument lengths for each chart type
   private argumentsLength: { [key in ChartKey]: number } = {
@@ -134,7 +145,8 @@ export class ActivitiesComponent implements OnInit {
   constructor(
     private _ui: UiService,
     private _dashboard: DashboardService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private activateRoute: ActivatedRoute
   ) {}
 
   dateRanges = [
@@ -183,6 +195,24 @@ export class ActivitiesComponent implements OnInit {
     this.fetchChartData('quotes', '7d');
     this.fetchChartData('clientPins', 'all');
     this.fetchChartData('commissions', '7d', [], []);
+
+    this.activateRoute.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
+      next: params => {
+        const notInsurers = params['not_insurers'];
+        if (notInsurers === 'true') {
+          this._ui
+            .showInformationModal({
+              text: 'Please set up the commission rates\nbefore submitting a request.',
+              title: 'ALERT!',
+              type: UiModalTypeEnum.WARNING,
+            })
+            .subscribe();
+        }
+      },
+      error: err => {
+        console.error('Error al obtener los parámetros de la URL', err);
+      },
+    });
   }
 
   setUserData(): void {
@@ -237,7 +267,6 @@ export class ActivitiesComponent implements OnInit {
           .pipe(finalize(() => this._ui.hideLoader()))
           .subscribe((resp: any) => {
             this.dashboardTotals = resp.data;
-            console.log('[summaryCards] totals:', this.dashboardTotals);
           });
 
       case 'accounts':
@@ -256,14 +285,15 @@ export class ActivitiesComponent implements OnInit {
         return this._dashboard
           .getTotalRequests(dateRange, agentIds, companyIds, null, null)
           .pipe(finalize(() => this._ui.hideLoader()))
-          .subscribe((resp: any) => (this.requestsDataResponse = resp.data));
+          .subscribe((resp: any) => {
+            this.requestsDataResponse = resp.data;
+          });
 
       case 'commissions':
         return this._dashboard
           .getCommissionsTrend(dateRange, agentIds)
           .pipe(finalize(() => this._ui.hideLoader()))
           .subscribe((resp: any) => {
-            console.log(resp);
             this.commissionsStackedData = resp.data;
           });
 
@@ -323,16 +353,14 @@ export class ActivitiesComponent implements OnInit {
       );
   }
 
-  onFiltersApplied(filters: {
-    dateRange: string;
-    agents: string[];
-    companies: string[];
-    chart: ChartKey;
-  }) {
+  onFiltersApplied(filters: ChartFiltersPayload) {
+    // Agency dashboard uses legacy fields (still emitted)
     const { dateRange, agents, companies, chart } = filters;
 
+    // chart is a wider union now, but this template only emits agency charts,
+    // so it’s safe to cast OR just switch on chart.
     this.fetchChartData(
-      chart,
+      chart as any, // or as your local union if you keep it
       dateRange || '7d',
       agents || [],
       companies || []
@@ -388,5 +416,10 @@ export class ActivitiesComponent implements OnInit {
       this._ui.hideLoader();
       this.isExporting = false;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialog,
@@ -23,6 +23,9 @@ import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { RolesEnum } from 'src/app/shared/enums/roles.enum';
 import { brokersAdminDataset } from 'src/app/shared/datatsets/roles.datasets';
+import { AccountFormModalComponent } from '../account-form-modal/account-form-modal.component';
+import { IntegrationsService } from '@app/shared/services/integration.service';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-forms-modal',
@@ -30,33 +33,66 @@ import { brokersAdminDataset } from 'src/app/shared/datatsets/roles.datasets';
   styleUrls: ['./forms-modal.component.scss'],
   providers: [MAT_TOOLTIP_SCROLL_STRATEGY_FACTORY_PROVIDER],
 })
-export class FormsModalComponent {
+export class FormsModalComponent implements OnInit {
   forms: PopulatedFormModel[] = [];
   title = '';
   displayedColumns: string[] = ['serial', 'name', 'insurer', 'actions'];
   showActions = false;
+  showSendEmailOption: boolean = false;
+  connected: boolean = false;
+  role = this._auth.getAuth()?.user.role as RolesEnum;
+  roles = RolesEnum;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    private _data: { policy_type: PopulatedPolicyTypeModel },
+    private _data: {
+      policy_type: PopulatedPolicyTypeModel;
+      show_email?: boolean;
+    },
     private _dialog: MatDialogRef<FormsModalComponent>,
     private _dialogCreate: MatDialog,
     private _forms: FormService,
     private _ui: UiService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _integrations: IntegrationsService,
+    private _uploadFile: UploadFileService
   ) {
     this.title = `${this._data.policy_type.name} forms`.toUpperCase();
+    this.showSendEmailOption = this._data.show_email ?? false;
 
     this._ui.showLoader();
     forkJoin([this._fetchForms()])
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe();
 
-    const role = this._auth.getAuth()?.user.role as RolesEnum;
-    this.showActions = [
-      ...brokersAdminDataset,
-      RolesEnum.INDEPENDANT_BROKER,
-    ].includes(role);
+    if (this.role === RolesEnum.ADMIN) {
+      this.showActions = [RolesEnum.ADMIN].includes(this.role);
+    } else {
+      this.showActions = [
+        ...brokersAdminDataset,
+        RolesEnum.INDEPENDANT_BROKER,
+      ].includes(this.role);
+    }
+  }
+
+  ngOnInit(): void {
+    this._integrations.getIntegrationsStatus().subscribe({
+      next: google => {
+        this.connected = !!google?.connected;
+      },
+      error: err => {
+        this._ui.showAlertError(`Status failed ${err}`);
+      },
+    });
+  }
+
+  loginGoogle() {
+    if (!this.connected) {
+      const returnTo = '/portal/request-forms';
+      this._integrations.getGoogleAuthUrl(returnTo).subscribe(({ url }) => {
+        window.location.href = url;
+      });
+    }
   }
 
   _fetchForms(): Observable<PopulatedFormModel[]> {
@@ -70,6 +106,21 @@ export class FormsModalComponent {
         map(resp => resp.records),
         tap(resp => (this.forms = resp))
       );
+  }
+
+  openModalAccounts(form: PopulatedFormModel | null = null) {
+    this._dialogCreate
+      .open(AccountFormModalComponent, {
+        autoFocus: false,
+        data: { id: form?._id },
+        panelClass: 'transparent-modal-container',
+      })
+      .afterClosed()
+      .pipe(
+        take(1),
+        switchMap(() => this._fetchForms())
+      )
+      .subscribe(() => {});
   }
 
   openModalCreateForm(form: PopulatedFormModel | null = null) {
@@ -118,5 +169,44 @@ export class FormsModalComponent {
 
   close(resp: boolean) {
     this._dialog.close(resp);
+  }
+
+  openFile(url: string | undefined): void {
+    if (!url) return;
+
+    this._uploadFile.getUrlFile(url).subscribe({
+      next: res => {
+        if (res) {
+          window.open(res, '_blank');
+        }
+      },
+      error: err => {
+        console.error('Error al obtener el acceso al archivo', err);
+      },
+    });
+  }
+
+  canModify(element: any): boolean {
+    const user = this._auth.getAuth()?.user;
+
+    if (!user || !user.role) return false;
+
+    const elementAgencyId = element.agency_id
+      ? String(element.agency_id)
+      : null;
+    const isAdmin = user?.role === this.roles.ADMIN;
+    const admiteRoles = [
+      this.roles.AGENCY_ADMINISTRATOR,
+      this.roles.INDEPENDANT_BROKER,
+      this.roles.AGENCY_OWNER,
+    ];
+
+    if (isAdmin) {
+      return elementAgencyId === null;
+    }
+
+    const isOwner = elementAgencyId === user?.agency_id;
+    const hasPermissionRoles = admiteRoles.includes(user?.role);
+    return isOwner && hasPermissionRoles;
   }
 }

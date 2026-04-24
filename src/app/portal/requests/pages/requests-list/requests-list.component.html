@@ -1,13 +1,17 @@
 <ng-template #table>
   <app-pages-layout
-    [showButtonInfo]="true"
+    [showButtonInfo]="showInfo"
     (btnInfoClick)="showTutor()"
-    [button]="{
-      text: 'Create request',
-      icon: 'add',
-      url: 'new',
-      id: 'create-request-button'
-    }">
+    [button]="
+      !isInsured
+        ? {
+            text: 'Create request',
+            icon: 'add',
+            url: 'new',
+            id: 'create-request-button'
+          }
+        : undefined
+    ">
     <ng-container content>
       <app-filtered-table-header
         [filtersActive]="filtersActive"

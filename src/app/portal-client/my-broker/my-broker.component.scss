@@ -15,4 +15,23 @@
   mat-icon {
     color: $dark-blue-400 !important;
   }
+
+  label {
+    font-family: $font-family;
+    font-weight: 500;
+    font-size: 1rem;
+    color: $black;
+    margin-bottom: 0.5rem;
+  }
+
+  .container-logo {
+    position: relative;
+    background: transparent;
+  }
+
+  .img-logo {
+    width: 7rem;
+    height: 5rem;
+    object-fit: cover;
+  }
 }

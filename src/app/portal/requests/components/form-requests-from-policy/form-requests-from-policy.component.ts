@@ -132,7 +132,7 @@ export class FormRequestsFromPolicyComponent implements OnInit {
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: `#${request.serial}`,
-          url: ['/portal/requests', request._id],
+          url: ['/portal/requests', request.serial],
         },
       })
       .subscribe(result => {

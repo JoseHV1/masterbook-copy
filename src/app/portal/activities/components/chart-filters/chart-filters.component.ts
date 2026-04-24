@@ -8,12 +8,35 @@ import {
 import { MatMenuTrigger } from '@angular/material/menu';
 
 export type ChartKey =
+  // --- Agency dashboard ---
   | 'accounts'
   | 'requests'
   | 'quotes'
   | 'policies'
   | 'payments'
-  | 'commissions';
+  | 'commissions'
+  | 'clientPins'
+  | 'summaryCards'
+
+  // --- Admin dashboard ---
+  | 'agenciesAddedTrend'
+  | 'activeAgenciesTrend'
+  | 'usageBreakdown';
+
+export type Period = '7d' | '30d' | '90d' | '1year' | 'all';
+
+export type ChartFiltersPayload = {
+  chart: ChartKey;
+
+  // ✅ new admin-friendly naming
+  period: Period;
+  agencyIds: string[];
+
+  // ✅ legacy naming (keep old dashboards working)
+  dateRange: string;
+  agents: string[];
+  companies: string[];
+};
 
 @Component({
   selector: 'app-chart-filters',
@@ -22,48 +45,77 @@ export type ChartKey =
 })
 export class ChartsFiltersComponent {
   @Input() showDateRange = false;
+
+  // legacy toggles
   @Input() showAgents = false;
   @Input() showCompanies = false;
 
-  @Input() dateRanges: any[] = [];
+  // ✅ new toggle for admin
+  @Input() showAgencies = false;
+
+  @Input() dateRanges: { label: string; value: string }[] = [];
+
+  // legacy lists
   @Input() agents: any[] = [];
   @Input() insuranceCompanies: any[] = [];
+
+  // ✅ admin list (you can reuse same {label,value} / {name,code} format you already have)
+  @Input() agencies: any[] = [];
+
   @Input() chart!: ChartKey;
 
-  selectedDateRange: string = '7d'; // single
-  selectedAgents: string[] = []; // multi
-  selectedCompanies: string[] = []; // multi
+  // Use '30d' as a nicer default for admin, but keep legacy fallback in payload
+  selectedDateRange: Period = '30d';
 
-  @Output() filtersApplied = new EventEmitter<{
-    dateRange: string;
-    agents: string[];
-    companies: string[];
-    chart: ChartKey;
-  }>();
+  // legacy selections
+  selectedAgents: string[] = [];
+  selectedCompanies: string[] = [];
+
+  // ✅ admin selections
+  selectedAgencies: string[] = [];
+
+  @Output() filtersApplied = new EventEmitter<ChartFiltersPayload>();
 
   @ViewChild(MatMenuTrigger) menuTrigger?: MatMenuTrigger;
 
-  applyChartFilters() {
+  private emit() {
+    const period = (this.selectedDateRange || '30d') as Period;
+
     this.filtersApplied.emit({
-      dateRange: this.selectedDateRange || '7d',
+      chart: this.chart,
+
+      // new
+      period,
+      agencyIds: this.selectedAgencies ?? [],
+
+      // legacy
+      dateRange: period, // keep old code working
       agents: this.selectedAgents ?? [],
       companies: this.selectedCompanies ?? [],
-      chart: this.chart,
     });
 
     this.menuTrigger?.closeMenu();
   }
 
+  applyChartFilters() {
+    this.emit();
+  }
+
   resetFilters() {
-    this.selectedDateRange = '7d';
+    this.selectedDateRange = '30d';
     this.selectedAgents = [];
     this.selectedCompanies = [];
+    this.selectedAgencies = [];
 
     this.filtersApplied.emit({
-      dateRange: '7d',
+      chart: this.chart,
+
+      period: '30d',
+      agencyIds: [],
+
+      dateRange: '30d',
       agents: [],
       companies: [],
-      chart: this.chart,
     });
 
     this.menuTrigger?.closeMenu();

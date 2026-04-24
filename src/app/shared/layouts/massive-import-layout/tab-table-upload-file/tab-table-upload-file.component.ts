@@ -4,6 +4,7 @@ import { UploadFileErrorsModalComponent } from 'src/app/shared/components/upload
 import { UploadFileModel } from 'src/app/shared/interfaces/models/upload-file.model';
 import { FilterActive } from 'src/app/shared/models/filters.model';
 import { UrlService } from 'src/app/shared/services/url.service';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-tab-table-upload-file',
@@ -26,7 +27,11 @@ export class TabTableUploadFileComponent {
     'actions',
   ];
 
-  constructor(public _url: UrlService, private dialog: MatDialog) {}
+  constructor(
+    public _url: UrlService,
+    private dialog: MatDialog,
+    private _uploadFile: UploadFileService
+  ) {}
 
   openModalErrors(element: UploadFileModel) {
     this.dialog.open(UploadFileErrorsModalComponent, {
@@ -37,7 +42,19 @@ export class TabTableUploadFileComponent {
     });
   }
 
-  openFile(url: string) {
-    window.open(url, '_blank');
+  openFile(url: string | undefined) {
+    /*window.open(url, '_blank');*/
+    if (!url) return;
+
+    this._uploadFile.getUrlFile(url).subscribe({
+      next: res => {
+        if (res) {
+          window.open(res, '_blank');
+        }
+      },
+      error: err => {
+        console.error('Error al obtener el acceso al archivo', err);
+      },
+    });
   }
 }

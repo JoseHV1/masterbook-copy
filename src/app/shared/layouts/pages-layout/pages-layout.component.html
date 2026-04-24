@@ -29,20 +29,18 @@
 
       <button
         [id]="button.id ?? null"
+        [attr.data-testid]="button.testId ?? null"
         class="primary-button back-orange white mx-1 d-flex align-items-center"
-        [disabled]="!isPaid"
+        [disabled]="!isPaid && requirePayment"
         *ngIf="button && button.url"
         [matTooltip]="
-          !isPaid
+          !isPaid && requirePayment
             ? 'You cannot perform this action because your agency has a pending payment. Please contact your administrator.'
             : ''
         "
         [routerLink]="button.url">
-        <span
-          class="material-icons-outlined"
-          style="color: white !important"
-          *ngIf="button.icon"
-          >{{ button.icon }}</span
+        <span class="material-icons-outlined" style="color: white !important"
+          >add</span
         >
         {{ button.text }}
       </button>
@@ -90,6 +88,7 @@
 
 <app-floating-actions
   [surveyUrl]="'https://s.surveyplanet.com/ubdykmvc'"
+  [canShowNumberBroker]="canShowNumberBroker"
   [contactNumberBroker]="contactNumberBroker"
   [isInsured]="isInsured">
 </app-floating-actions>

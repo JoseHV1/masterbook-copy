@@ -1,12 +1,16 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalChangeLogsComponent } from '@app/shared/components/modal-change-logs/modal-change-logs.component';
 import { ownersRolesDataset } from '@app/shared/datatsets/roles.datasets';
 import { RolesEnum } from '@app/shared/enums/roles.enum';
+import { PopulatedClaimModel } from '@app/shared/interfaces/models/claims.model';
+import { PaymentTransactionModel } from 'src/app/shared/models/payment-transaction.model';
 import { AuthService } from '@app/shared/services/auth.service';
+import { ClaimsService } from '@app/shared/services/claims.service';
+import { PaymentsService } from '@app/shared/services/payments.service';
 import { finalize, forkJoin, Observable, switchMap, take, tap } from 'rxjs';
 import { AccountStatusEnum } from 'src/app/shared/enums/account-status.enum';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
@@ -19,19 +23,58 @@ import { PoliciesService } from 'src/app/shared/services/policies.service';
 import { RequestsService } from 'src/app/shared/services/requests.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
+import { PopulatedInvoiceModel } from '@app/shared/interfaces/models/invoice.model';
+import { InvoiceService } from '@app/shared/services/invoice.service';
+import { PaginatedResponse } from '@app/shared/interfaces/models/paginated-response.model';
+import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filtered-table.base';
+import { PageEvent } from '@angular/material/paginator';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
+import { IntegrationsService } from '@app/shared/services/integration.service';
 
 @Component({
   selector: 'app-accounts-details',
   templateUrl: './accounts-details.component.html',
   styleUrls: ['./accounts-details.component.scss'],
 })
-export class AccountsDetailsComponent {
+export class AccountsDetailsComponent implements OnInit {
   account!: PopulatedAccount;
   filterText = '';
   filtersActive = [{} as FilterActive];
-  requests: PopulatedRequestModel[] = [];
-  policies: PopulatedPolicyModel[] = [];
+  requests: PaginatedResponse<PopulatedRequestModel[]> = {
+    records: [],
+    page: 0,
+    limit: 10,
+    total_records: 0,
+  };
+  policies: PaginatedResponse<PopulatedPolicyModel[]> = {
+    records: [],
+    page: 0,
+    limit: 10,
+    total_records: 0,
+  };
+  claims: PaginatedResponse<PopulatedClaimModel[]> = {
+    records: [],
+    page: 0,
+    limit: 10,
+    total_records: 0,
+  };
+  payments: PaginatedResponse<PaymentTransactionModel[]> = {
+    records: [],
+    page: 0,
+    limit: 10,
+    total_records: 0,
+  };
+  invoices: PaginatedResponse<PopulatedInvoiceModel[]> = {
+    records: [],
+    page: 0,
+    limit: 10,
+    total_records: 0,
+  };
   isOwner!: boolean;
+  googleConnected = false;
+  showEmailDropdown = false;
+  accountProfileImgDefault = '/assets/icons/user_two.svg';
+  accountProfileImg: string = this.accountProfileImgDefault;
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -42,12 +85,23 @@ export class AccountsDetailsComponent {
     private _location: Location,
     private _requests: RequestsService,
     private _policies: PoliciesService,
+    private _claims: ClaimsService,
+    private _payments: PaymentsService,
+    private _invoices: InvoiceService,
     private dialog: MatDialog,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _uploadFile: UploadFileService,
+    private _integrations: IntegrationsService,
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
     );
+
+    this._integrations.getIntegrationsStatus().pipe(take(1)).subscribe({
+      next: status => (this.googleConnected = !!status?.connected),
+      error: () => (this.googleConnected = false),
+    });
+
     this._ui.showLoader();
     this.activateRoute.params
       .pipe(
@@ -58,14 +112,32 @@ export class AccountsDetailsComponent {
           return this._loadAccount(id);
         }),
         switchMap(acc => {
-          this.filterText = `&broker_id=${acc._id}`;
-          return forkJoin([this._loadPolicies(), this._loadRequests()]);
+          this.filterText = `&client_id=${acc._id}`;
+          return forkJoin([
+            this._loadPolicies(),
+            this._loadRequests(),
+            this._loadClaims(),
+            this._loadPayments(),
+            this._loadInvoices(),
+          ]);
         }),
         finalize(() => this._ui.hideLoader())
       )
       .subscribe({
         error: () => this._router.navigateByUrl('portal/accounts'),
       });
+  }
+
+  ngOnInit(): void {
+    const googleAuth = this.activateRoute.snapshot.queryParamMap.get('google_auth');
+    if (googleAuth === 'success') {
+      this._ui.showAlertSuccess('Google account connected successfully. You can now send emails.');
+      this._router.navigate([], {
+        queryParams: { google_auth: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }
   }
 
   openModalChangeLogs(entityId: string): void {
@@ -103,8 +175,44 @@ export class AccountsDetailsComponent {
     return this._accounts.getAccountBySerial(id).pipe(
       tap(resp => {
         this.account = resp;
+        if (resp.user?.photo_url) {
+          this._uploadFile.getUrlFile(resp.user?.photo_url).subscribe(url => {
+            this.accountProfileImg = url ?? this.accountProfileImgDefault;
+          });
+        }
       })
     );
+  }
+
+  onPageChange(event: PageEvent, type: string) {
+    this._ui.showLoader();
+    switch (type) {
+      case 'payments':
+        this._loadPayments(event.pageIndex)
+          .pipe(finalize(() => this._ui.hideLoader()))
+          .subscribe();
+        break;
+      case 'invoices':
+        this._loadInvoices(event.pageIndex)
+          .pipe(finalize(() => this._ui.hideLoader()))
+          .subscribe();
+        break;
+      case 'claims':
+        this._loadClaims(event.pageIndex)
+          .pipe(finalize(() => this._ui.hideLoader()))
+          .subscribe();
+        break;
+      case 'requests':
+        this._loadRequests(event.pageIndex)
+          .pipe(finalize(() => this._ui.hideLoader()))
+          .subscribe();
+        break;
+      case 'policies':
+        this._loadPolicies(event.pageIndex)
+          .pipe(finalize(() => this._ui.hideLoader()))
+          .subscribe();
+        break;
+    }
   }
 
   refreshRequests(): void {
@@ -114,10 +222,13 @@ export class AccountsDetailsComponent {
       .subscribe();
   }
 
-  private _loadRequests(): Observable<any> {
+  private _loadRequests(
+    page: number = 0,
+    pageSize: number = 5
+  ): Observable<any> {
     return this._requests
-      .getRequests(0, 5, this.filterText)
-      .pipe(tap(resp => (this.requests = resp.records)));
+      .getRequests(page, pageSize, this.filterText)
+      .pipe(tap(resp => (this.requests = resp)));
   }
 
   refreshPolicies(): void {
@@ -127,10 +238,58 @@ export class AccountsDetailsComponent {
       .subscribe();
   }
 
-  private _loadPolicies(): Observable<any> {
+  private _loadPolicies(
+    page: number = 0,
+    pageSize: number = 5
+  ): Observable<any> {
     return this._policies
-      .getPolicies(0, 5, this.filterText)
-      .pipe(tap(resp => (this.policies = resp.records)));
+      .getPolicies(page, pageSize, this.filterText)
+      .pipe(tap(resp => (this.policies = resp)));
+  }
+
+  refreshClaims(): void {
+    this._ui.showLoader();
+    this._loadClaims()
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe();
+  }
+
+  private _loadClaims(page: number = 0, pageSize: number = 5): Observable<any> {
+    return this._claims
+      .getClaims(page, pageSize, this.filterText)
+      .pipe(tap(resp => (this.claims = resp)));
+  }
+
+  refreshPayments(): void {
+    this._ui.showLoader();
+    this._loadPayments()
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe();
+  }
+
+  private _loadPayments(
+    page: number = 0,
+    pageSize: number = 5
+  ): Observable<any> {
+    return this._payments
+      .getPaymentTransactions(page, pageSize, this.filterText)
+      .pipe(tap(resp => (this.payments = resp)));
+  }
+
+  refreshInvoices(): void {
+    this._ui.showLoader();
+    this._loadInvoices()
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe();
+  }
+
+  private _loadInvoices(
+    page: number = 0,
+    pageSize: number = 5
+  ): Observable<any> {
+    return this._invoices
+      .getInvoices(page, pageSize, this.filterText)
+      .pipe(tap(resp => (this.invoices = resp)));
   }
 
   resendInvitation(account: PopulatedAccount): void {
@@ -168,6 +327,27 @@ export class AccountsDetailsComponent {
         this._ui.showAlertSuccess('Account deleted successfully');
         this._router.navigateByUrl('portal/accounts');
       });
+  }
+
+  toggleEmailDropdown(event: MouseEvent): void {
+    event.stopPropagation();
+    this.showEmailDropdown = !this.showEmailDropdown;
+  }
+
+  openEmailCompose(email: string | undefined): void {
+    if (!email) return;
+    if (email === this._auth.getAuth()?.user.email) return;
+
+    if (this.googleConnected) {
+      this._router.navigate(['/portal/email/send'], {
+        queryParams: { to: email },
+      });
+    } else {
+      const returnTo = `/portal/accounts/${this.account.serial}?google_auth=success`;
+      this._integrations.getGoogleAuthUrl(returnTo).subscribe(({ url }) => {
+        window.location.href = url;
+      });
+    }
   }
 
   goBack(): void {

@@ -11,7 +11,7 @@ import { FilterTypeEnum } from '../enums/filter-type.enum';
 import { enumToDropDown } from '../helpers/enum-to-dropdown.helper';
 import { BrokerStatusEnum } from '../enums/broker-status.enum';
 import { PaginatedResponse } from '../interfaces/models/paginated-response.model';
-import { AgencyBrokerRolesEnum } from '../enums/roles.enum';
+import { AgencyBrokerRolesEnum, NewBrokerRolesEnum } from '../enums/roles.enum';
 import { SetBrokerStatusRequest } from '../interfaces/requests/broker/set-broker-status.request';
 import { UpdateBrokerRequest } from '../interfaces/requests/broker/update-broker.request';
 
@@ -123,7 +123,14 @@ export class UserService {
           label: 'User type',
           name: 'role',
           type: FilterTypeEnum.MULTISELECT,
-          options: of(enumToDropDown(AgencyBrokerRolesEnum)),
+          options: of(
+            enumToDropDown(AgencyBrokerRolesEnum).map(option => {
+              if (option.code === NewBrokerRolesEnum.AGENCY_BROKER) {
+                return { ...option, name: 'Agency Agent' };
+              }
+              return option;
+            })
+          ),
         },
       ],
     };
@@ -144,9 +151,7 @@ export class UserService {
     return this._http
       .get<HttpResponseModel<any>>(`${environment.apiUrl}brokers/${id}`)
       .pipe(
-        // tap(response => console.log('Response:', response)),
         catchError(error => {
-          console.error('Error:', error);
           return throwError(() => error);
         })
       );

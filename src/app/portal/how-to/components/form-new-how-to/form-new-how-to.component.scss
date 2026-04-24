@@ -1,0 +1,43 @@
+@import 'theme';
+
+:host {
+  .icon-back {
+    color: $dark-blue-400;
+    font-size: 1.4rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .policy-type-card {
+    background: $gray-100;
+    border-radius: 0.5rem;
+    width: 20rem;
+    max-width: 100%;
+    p {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  ::ng-deep {
+    mat-expansion-panel-header {
+      background-color: $dark-blue-300 !important;
+    }
+
+    .mat-expansion-indicator::after {
+      color: $white !important;
+    }
+
+    .internal-expand {
+      mat-expansion-panel-header {
+        background-color: $light-blue-100 !important;
+      }
+      .mat-expansion-panel-body {
+        background-color: $light-blue-100 !important;
+      }
+      .mat-expansion-indicator::after {
+        color: $dark-blue-600 !important;
+      }
+    }
+  }
+}

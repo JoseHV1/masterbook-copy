@@ -4,18 +4,24 @@ import { PortalAdminComponent } from './portal-admin.component';
 import { RouterModule, Routes } from '@angular/router';
 import { InternalLayoutModule } from '../shared/layouts/internal-layout/internal-layout.module';
 
-const defaultRoute = 'dashboard';
 const routes: Routes = [
   {
     path: '',
     component: PortalAdminComponent,
     children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
       {
         path: 'dashboard',
         loadChildren: () =>
           import('./dashboard/dashboard.module').then(
             module => module.DashboardModule
           ),
+      },
+      {
+        path: 'leads',
+        loadChildren: () =>
+          import('./leads/leads.module').then(module => module.AdminLeadsModule),
       },
       {
         path: 'agencies',
@@ -46,14 +52,28 @@ const routes: Routes = [
       {
         path: 'profile',
         loadChildren: () =>
-          import('../portal/profile/profile.module').then(
-            module => module.ProfileModule
+          import('./profile/profile.module').then(
+            module => module.AdminProfileModule
+          ),
+      },
+      {
+        path: 'how-to',
+        loadChildren: () =>
+          import('../portal/how-to/how-to.module').then(
+            module => module.HowToModule
+          ),
+      },
+      {
+        path: 'request-forms',
+        loadChildren: () =>
+          import('../portal/forms/forms.module').then(
+            module => module.FormsModule
           ),
       },
     ],
   },
-  { path: '', redirectTo: defaultRoute, pathMatch: 'full' },
-  { path: '**', redirectTo: defaultRoute, pathMatch: 'full' },
+
+  { path: '**', redirectTo: 'dashboard' },
 ];
 
 @NgModule({

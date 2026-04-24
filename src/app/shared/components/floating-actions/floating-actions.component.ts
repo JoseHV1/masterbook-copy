@@ -10,6 +10,7 @@ import { ModalTicketComponent } from '../modal-ticket/modal-ticket.component';
 export class FloatingActionsComponent {
   @Input() surveyUrl!: string;
   @Input() contactNumberBroker?: string;
+  @Input() canShowNumberBroker?: boolean;
   @Input() isInsured: boolean = false;
 
   constructor(private dialog: MatDialog) {}

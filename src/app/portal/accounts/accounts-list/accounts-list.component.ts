@@ -9,6 +9,8 @@ import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filter
 import { accountTutor } from '@app/shared/tutors/account-tutor';
 import { TutorService } from '@app/shared/services/tutor.service';
 import { TutorsSlugsEnum } from '@app/shared/enums/tutors-slugs.enum';
+import { AuthService } from '@app/shared/services/auth.service';
+import { PAYMENT_STATUS } from '@app/shared/enums/payment-status';
 
 @Component({
   selector: 'app-accounts-list',
@@ -30,7 +32,8 @@ export class AccountsListComponent
   constructor(
     private _accounts: AccountsService,
     private _ui: UiService,
-    private _tutor: TutorService
+    private _tutor: TutorService,
+    private _auth: AuthService
   ) {
     super();
     this.filterConfig = this._accounts.getAccountsListFilters();
@@ -38,7 +41,10 @@ export class AccountsListComponent
   }
 
   ngAfterViewInit(): void {
-    if (!this._tutor.isCompleted(TutorsSlugsEnum.CREATE_ACCOUNT))
+    if (
+      !this._tutor.isCompleted(TutorsSlugsEnum.CREATE_ACCOUNT) &&
+      this._auth.getAuth()?.user.agency?.payment_status === PAYMENT_STATUS.PAYED
+    )
       this.showTutor();
   }
 

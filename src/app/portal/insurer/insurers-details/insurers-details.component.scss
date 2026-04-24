@@ -5,6 +5,64 @@
     background-color: $gray-100;
   }
 
+  .clickable-email {
+    cursor: pointer;
+    color: $dark-blue-400;
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  .dropdown-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+  }
+
+  .email-rich-tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    color: $dark-blue-400;
+    text-decoration: underline;
+
+    .rich-tooltip {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 0;
+      background-color: rgba(97, 97, 97, 0.9);
+      color: #fff;
+      font-size: 12px;
+      line-height: 1.4;
+      padding: 6px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      text-decoration: none;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+
+      &__link {
+        cursor: pointer;
+        font-weight: 700;
+        text-decoration: underline;
+        margin-left: 4px;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+
+    .rich-tooltip.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+
   .category-selector {
     background-color: $gray-100;
     border-radius: 0.5rem;

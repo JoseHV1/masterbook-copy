@@ -4,4 +4,5 @@ export enum RequestStatusEnum {
   QUOTE_SELECTED = 'QUOTE_SELECTED',
   CLOSED = 'CLOSED',
   REJECTED = 'REJECTED',
+  INCOMPLETE = 'INCOMPLETE',
 }

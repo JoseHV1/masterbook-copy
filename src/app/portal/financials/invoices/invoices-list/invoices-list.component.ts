@@ -7,6 +7,8 @@ import { PaginatedResponse } from 'src/app/shared/interfaces/models/paginated-re
 import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filtered-table.base';
 import { InvoiceService } from 'src/app/shared/services/invoice.service';
 import { PopulatedInvoiceModel } from 'src/app/shared/interfaces/models/invoice.model';
+import { AuthService } from '@app/shared/services/auth.service';
+import { AuthModel } from '@app/shared/interfaces/models/auth.model';
 
 @Component({
   selector: 'app-invoices-list',
@@ -22,9 +24,16 @@ export class InvoicesListComponent extends FilteredTable<PopulatedInvoiceModel> 
     total_records: 0,
   };
 
-  constructor(private _invoices: InvoiceService, private _ui: UiService) {
+  constructor(
+    private _invoices: InvoiceService,
+    private _ui: UiService,
+    private _auth: AuthService
+  ) {
     super();
-    this.filterConfig = this._invoices.getInvoicesListFilters();
+    const currentUser = this._auth.getAuth() as AuthModel;
+    this.filterConfig = this._invoices.getInvoicesListFilters(
+      currentUser.user.role as string
+    );
     this._fetchData(this.data.page, this.data.limit);
   }
 

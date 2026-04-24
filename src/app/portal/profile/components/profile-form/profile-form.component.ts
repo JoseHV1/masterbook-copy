@@ -14,6 +14,9 @@ import { AddressAutocompleteModel } from 'src/app/shared/models/address-autocomp
 import { MatDialog } from '@angular/material/dialog';
 import { ModalChangePasswordComponent } from '../modal-change-password/modal-change-password.component';
 import { switchMap } from 'rxjs/operators';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
+import { IntegrationsService } from '@app/shared/services/integration.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 type FakeGoogleConnection = {
   email: string;
@@ -34,10 +37,7 @@ export class ProfileFormComponent implements OnInit {
   dropDownGender: DropdownOptionModel[] = enumToDropDown(GenderEnum);
   today: Date = new Date();
   isEditing: boolean = false;
-
-  // -----------------------------
-  // Fake Google OAuth Connection
-  // -----------------------------
+  imageProfile!: string;
   googleConnection: FakeGoogleConnection | null = null;
   private readonly GOOGLE_STORAGE_KEY = 'masterbook_google_connection';
 
@@ -47,7 +47,11 @@ export class ProfileFormComponent implements OnInit {
     private _profile: ProfileService,
     public _url: UrlService,
     private _cd: ChangeDetectorRef,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _uploadFile: UploadFileService,
+    private _integrations: IntegrationsService,
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
   ) {
     this.form = this._profile.createEditProfileForm();
   }
@@ -56,6 +60,14 @@ export class ProfileFormComponent implements OnInit {
     this.dataUser = this._auth.getAuth()?.user as PopulatedUserModel;
     this.fillData(this.dataUser);
     this.form.disable();
+
+    if (this.dataUser.photo_url) {
+      this._uploadFile.getUrlFile(this.dataUser.photo_url).subscribe(url => {
+        this.imageProfile = url;
+      });
+    } else {
+      this.imageProfile = '/assets/images/portal/image_default.webp';
+    }
 
     this._profile.getGoogleStatus().subscribe({
       next: status => {
@@ -71,10 +83,19 @@ export class ProfileFormComponent implements OnInit {
         this._cd.detectChanges();
       },
       error: err => {
-        console.error('[Google Status API ERROR]', err);
         this.googleConnection = null;
       },
     });
+
+    const googleAuth = this._activatedRoute.snapshot.queryParamMap.get('google_auth');
+    if (googleAuth === 'success') {
+      this._ui.showAlertSuccess('Google account connected successfully.');
+      this._router.navigate([], {
+        queryParams: { google_auth: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    }
 
     this.form
       .get('allow_expiring_policies_notifications')
@@ -94,29 +115,30 @@ export class ProfileFormComponent implements OnInit {
       });
   }
 
+  connectGoogle(): void {
+    const returnTo = this._router.url.split('?')[0] + '?google_auth=success';
+    this._integrations.getGoogleAuthUrl(returnTo).subscribe(({ url }) => {
+      window.location.href = url;
+    });
+  }
+
   disconnectGoogle(): void {
     this._ui.showLoader();
 
     this._profile
       .disconnectGoogle()
       .pipe(
-        // optional: refresh status after disconnect
         switchMap(() => this._profile.getGoogleStatus()),
         finalize(() => this._ui.hideLoader())
       )
       .subscribe({
         next: status => {
-          // if you keep a boolean like isGoogleConnected:
-          // this.isGoogleConnected = status.google.connected;
-
-          // If you keep googleConnection object:
           if (!status.google.connected) this.googleConnection = null;
 
           this._ui.showAlertSuccess('Google disconnected');
           this._cd.detectChanges();
         },
         error: () => {
-          // use whatever your app uses for errors
           this._ui.showAlertError?.('Failed to disconnect Google');
         },
       });
@@ -134,9 +156,6 @@ export class ProfileFormComponent implements OnInit {
     }
   }
 
-  // -----------------------------
-  // Existing Profile Logic
-  // -----------------------------
   handleEditSave(): void {
     if (this.isEditing) {
       this.send();
@@ -165,6 +184,7 @@ export class ProfileFormComponent implements OnInit {
       license_expires_at: user.broker?.license_expires_at,
       profile_image: user?.photo_url,
       allow_email_notifications: user?.allow_email_notifications ?? false,
+      allow_show_whatsapp_number: user?.allow_show_whatsapp_number ?? false,
       allow_expiring_policies_notifications:
         !!user?.days_expiring_policies_notifications,
       days_expiring_policies_notifications:
@@ -217,6 +237,7 @@ export class ProfileFormComponent implements OnInit {
         zipcode: this.form.value.zipcode ?? '',
       },
       allow_email_notifications: this.form.value.allow_email_notifications,
+      allow_show_whatsapp_number: this.form.value.allow_show_whatsapp_number,
       days_expiring_policies_notifications:
         this.form.value.days_expiring_policies_notifications ?? null,
     };

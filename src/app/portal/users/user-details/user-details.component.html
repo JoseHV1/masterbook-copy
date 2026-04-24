@@ -95,9 +95,7 @@
       *ngIf="user">
       <app-picture-selector
         [showSelector]="false"
-        [icon]="
-          user.user?.photo_url ?? '/assets/icons/user_two.svg'
-        "></app-picture-selector>
+        [icon]="userProfileImg"></app-picture-selector>
 
       <h3 class="text-center w-100 mt-3 mb-1 subtitle-1 dark-blue-400">
         User #{{ user.serial }}
@@ -145,7 +143,36 @@
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">Email</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box no-wrap-text">
-            {{ user.user?.email | notNull }}
+            <div
+              *ngIf="showEmailDropdown"
+              class="dropdown-backdrop"
+              (click)="showEmailDropdown = false"></div>
+            <span
+              *ngIf="googleConnected"
+              class="clickable-email"
+              matTooltip="Send email"
+              matTooltipPosition="above"
+              (click)="openEmailCompose(user.user?.email)">
+              {{ user.user?.email | notNull }}
+            </span>
+            <span
+              *ngIf="!googleConnected"
+              class="email-rich-tooltip-wrapper"
+              (click)="toggleEmailDropdown($event)">
+              {{ user.user?.email | notNull }}
+              <span
+                class="rich-tooltip"
+                [class.visible]="showEmailDropdown"
+                *ngIf="user.user?.email"
+                (click)="$event.stopPropagation()">
+                To send emails you must be logged in with Google.
+                <span
+                  class="rich-tooltip__link"
+                  (click)="openEmailCompose(user.user?.email)"
+                  >Login here</span
+                >
+              </span>
+            </span>
           </div>
         </div>
       </div>
@@ -191,7 +218,7 @@
       </div>
     </div>
 
-    <h3 class="subtitle-1 dark-blue-400 text-center mt-3 mt-md-5 mb-4">
+    <!-- <h3 class="subtitle-1 dark-blue-400 text-center mt-3 mt-md-5 mb-4">
       Last activities
     </h3>
 
@@ -244,6 +271,6 @@
             [data]="policies"></app-policies-table>
         </mat-expansion-panel>
       </mat-accordion>
-    </div>
+    </div> -->
   </ng-container>
 </app-pages-layout>

@@ -80,6 +80,7 @@ export class UiService {
       type: config.type ?? UiModalTypeEnum.INFO,
       link: config.link ?? { name: '', url: [] },
       additionalButton: config.additionalButton ?? false,
+      redirectButton: config.redirectButton ?? undefined,
     };
   }
 }

@@ -1,0 +1,101 @@
+<div class="table-responsive" *ngIf="data">
+  <table mat-table [dataSource]="data" style="width: auto; overflow-x: scroll">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">
+        <span
+          *ngIf="element.serial; else notId"
+          (click)="_url.navigateTo('portal-admin/how-to', element.serial)"
+          class="light-blue-700"
+          matTooltip="Go to video details"
+          style="cursor: pointer"
+          data-testid="how-to-serial"
+          matTooltipPosition="above">
+          #{{ element.serial | notNull }}
+        </span>
+        <ng-template #notId>---</ng-template>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.title | notNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created_at">
+      <th mat-header-cell *matHeaderCellDef>Created on</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.createdAt | date }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon class="dark-blue-400">more_vert</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button
+            mat-menu-item
+            (click)="
+              _url.navigateTo('portal-admin/how-to', element.serial, 'edit')
+            ">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined dark-blue-400">edit</span>
+              Edit
+            </span>
+          </button>
+
+          <button mat-menu-item (click)="deleteHowTo(element._id)">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined text-danger">delete</span>
+              Delete
+            </span>
+          </button>
+        </mat-menu>
+        <span
+          class="material-icons-outlined"
+          style="cursor: pointer"
+          *ngIf="i > 0"
+          matTooltip="Move up"
+          matTooltipPosition="right"
+          (click)="moveItem(element, 'up')">
+          arrow_upward
+        </span>
+        <span
+          class="material-icons-outlined"
+          style="cursor: pointer"
+          matTooltip="Move down"
+          matTooltipPosition="right"
+          *ngIf="i < data.length - 1"
+          (click)="moveItem(element, 'down')">
+          arrow_downward
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+    <tr *matNoDataRow>
+      <td colspan="11">
+        <app-default-empty-state
+          [url]="'portal-admin/how-to/new'"
+          *ngIf="!filtersActive.length"></app-default-empty-state>
+        <app-filter-empty-state
+          *ngIf="filtersActive.length"></app-filter-empty-state>
+      </td>
+    </tr>
+
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      class="mas-table-row"
+      data-testid="how-to-row"
+      [attr.data-how-to-id]="row._id"
+      [attr.data-how-to-serial]="row.serial"></tr>
+  </table>
+</div>

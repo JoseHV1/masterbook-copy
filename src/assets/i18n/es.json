@@ -13,7 +13,7 @@
     "TERMS": "Terminos y Condiciones",
     "PHONE_NUMBER": "Número de Telefono",
     "SOCIAL_MEDIA": "Redes Sociales",
-    "ALL_RIGHTS": "Todos los derechos reservados en todo el mundo a Quantum Spot Media LLC - 2023",
+    "ALL_RIGHTS": "Todos los derechos reservados en todo el mundo a Quantum Spot Media LLC -",
     "ES": "Español",
     "EN": "Inglés",
     "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",
@@ -21,10 +21,10 @@
     "PASSWORD_RECOVERY": "Recuperación de Contraseña",
     "VERIFICATION_EMAIL": "Le enviaremos un correo electrónico de verificación",
     "SEND": "Enviar",
-    "VERIFICATION":"Correo",
+    "VERIFICATION": "Correo",
     "EMAIL_SENT": " de verificación enviado.",
-    "CLIENT":"Cliente",
-    "AGENT":"Agente",
+    "CLIENT": "Cliente",
+    "AGENT": "Agente",
     "SUPPORT": "Soporte",
     "YOU_NEED_SUPPORT": "¿Necesitas soporte?",
     "CLICK_HERE": "Dar click aqui",
@@ -32,7 +32,7 @@
   },
   "HOME": {
     "SECTION_1": {
-      "TEXT_0":"PARA AGENTES Y AGENCIAS",
+      "TEXT_0": "PARA AGENTES Y AGENCIAS",
       "TEXT_1": "Transforma tu Agencia de Seguros con MasterBook: La Solución Integral para Corredores de Seguros",
       "TEXT_2": "En un sector tan competitivo como el de los seguros, MasterBook es la herramienta definitiva que simplifica y optimiza cada aspecto de la gestión operativa de tu agencia. Diseñada específicamente para corredores de seguros, nuestra plataforma SaaS (Software as a Service) centraliza todas las operaciones críticas, desde la gestión de clientes y pólizas hasta el control de comisiones y reclamaciones.",
       "TEXT_3": "Con MasterBook, olvídate del caos de administrar información dispersa o herramientas ineficientes. Ahora puedes enfocarte en lo que realmente importa: brindar un servicio excepcional a tus clientes mientras maximizas la rentabilidad de tu negocio.",
@@ -175,14 +175,14 @@
       "FEATURE_3": "Otros."
     }
   },
-  "EMAIL_VERIFY":{
+  "EMAIL_VERIFY": {
     "TEXT_1": "Su correo electrónico ha sido verificado correctamente"
   },
-  "RESET_PASSWORD":{
+  "RESET_PASSWORD": {
     "TEXT_1": "Ingresa tu",
     "TEXT_2": "nueva contraseña"
   },
-  "MODAL-PASSWORD-CHANGE":{
+  "MODAL-PASSWORD-CHANGE": {
     "TEXT_1": "Cambio de contraseña ",
     "TEXT_2": "exitoso"
   },
@@ -240,7 +240,8 @@
     "MIN_LENGTH": "Password must be at least 8 characters",
     "UPPERCASE": "Password must include an uppercase letter",
     "NUMBER": "Password must include a number",
-    "SPECIAL_CHAR": "Password must include a special character"
+    "SPECIAL_CHAR": "Password must include a special character",
+    "INVALIDYOUTUBEURL": "Invalid youtube link video"
   },
   "BACKEND_MESSAGES_ERRORS": {
     "INTERNAL_SERVER_ERROR": "Ocurrió un error interno en el servidor.",
@@ -267,10 +268,11 @@
     "REQUEST_IS_CLOSED": "La solicitud ya está cerrada.",
     "INVALID_QUOTE_ID": "ID de cotización inválido.",
     "INVALID_POLICY_ID": "ID de póliza inválido.",
-    "INVALID_COMMISSION_ID": "ID de comisión inválido.",
+    "INVALID_COMMISSION_ID": "ID de comisión inválida.",
     "INVALID_STATUS": "Estado inválido.",
     "INVALID_AGENCY_ID": "ID de agencia inválido.",
     "INVALID_INVOICE_ID": "ID de factura inválido.",
+    "INVALID_CLAIM_ID": "ID de reclamo inválido.",
     "PROPERTY_AGENT_ID_REQUIRED": "El campo agent_id es obligatorio.",
     "PROPERTY_BROKER_ID_REQUIRED": "El campo broker_id es obligatorio.",
     "INVALID_COMMISSION_CONFIG": "Configuración de comisión inválida.",
@@ -295,11 +297,337 @@
     "NETWORK_ERROR": "Ocurrió un error de red.",
     "PLATFORM_SETTINGS_NOT_FOUND": "No se encontraron las configuraciones de la plataforma.",
     "INVALID_ATTACHMENT": "No se encontró el contenido del archivo adjunto.",
-    "UNAUTHORIZED": "Su sesion a caducado, por favor ingrese nuevamente"
+    "UNAUTHORIZED": "Su sesion a caducado, por favor ingrese nuevamente",
+    "INVALID_CAPTCHA": "La verificación del captcha ha fallado o el token ha expirado",
+    "DOCUMENT_NOT_FOUND": "Documento no encontrado.",
+    "INVALID_DOCUMENT": "Documento inválido."
   },
   "NOTIFICATIONS": {
     "READ": "Leído",
     "UNREAD": "No leído"
+  },
+  "TERMS": {
+    "TITLE": "Términos y Condiciones del Servicio para MyMasterBook",
+    "LAST_UPDATE": "Última Actualización: Julio 29, 2025",
+    "INTRO": {
+      "WELCOME": "Bienvenidos a",
+      "DESC": "(el \"Servicio\"), una plataforma de gestión de seguros basada en la nube, diseñada específicamente para corredores de seguros (los \"Usuarios\" o \"Usted\") y agencias de seguro. El Servicio es proporcionado por",
+      "COMPANY_INFO": "una empresa registrada en San Juan, PR (\"Nosotros\", \"Nuestro\" o \"la Empresa\").",
+      "ACCEPTANCE": "Al registrarse, acceder o utilizar el Servicio, Usted acepta y se compromete a cumplir con estos Términos y Condiciones (los \"Términos\") y nuestra Política de Privacidad, que se incorpora a estos Términos por referencia. Si no está de acuerdo con estos Términos, no debe utilizar el Servicio."
+    },
+    "SECTIONS": {
+      "S1_DEFINITIONS": {
+        "TITLE": "1. Definiciones Clave",
+        "SERVICE_L": "Servicio:",
+        "SERVICE_T": "La plataforma de software como servicio (SaaS) proporcionada por Quantum Spot Media LLC, incluyendo todas sus características, funcionalidades, software, aplicaciones móviles, sitios web y cualquier otro servicio relacionado ofrecido.",
+        "USER_L": "Usuario/Usted:",
+        "USER_T": "Cualquier persona física o jurídica que se registra y utiliza el Servicio, incluyendo, pero no limitado a, corredores de seguros, agencias de seguros y sus empleados autorizados.",
+        "CONTENT_L": "Contenido del Usuario:",
+        "CONTENT_T": "Cualquier dato, información, texto, imagen, archivo u otro material que Usted o sus usuarios autorizados carguen, procesen o transmitan a través del Servicio.",
+        "IP_L": "Propiedad Intelectual (PI):",
+        "IP_T": "Derechos de autor, patentes, marcas registradas, secretos comerciales y otros derechos de propiedad intelectual.",
+        "DATA_L": "Datos Personales:",
+        "DATA_T": "Cualquier información relacionada con una persona física identificada o identificable.",
+        "LAW_L": "Ley Aplicable:",
+        "LAW_T": "Las leyes y regulaciones de la jurisdicción específica que rigen una parte particular de estos Términos o la prestación del Servicio."
+      },
+      "S2_ACCEPTANCE": {
+        "TITLE": "2. Aceptación de los Términos",
+        "TEXT": "Al acceder y utilizar el Servicio, Usted declara y garantiza que tiene la capacidad legal para celebrar un contrato vinculante con Quantum Spot Media LLC y que acepta cumplir con todos los Términos aquí establecidos. Si Usted utiliza el Servicio en nombre de una entidad, Usted declara que tiene la autoridad para vincular a dicha entidad a estos Términos."
+      },
+      "S3_DESCRIPTION": {
+        "TITLE": "3. Descripción del Servicio",
+        "NAME_L": "MyMasterBook.net",
+        "TEXT": "es una plataforma de gestión integral (SaaS) diseñada para corredores de seguros, que centraliza la administración de clientes y pólizas, optimiza el procesamiento de solicitudes y cotizaciones con aseguradoras, permite una gestión avanzada de comisiones y cuentas por cobrar, y facilita un manejo eficiente de reclamaciones, todo ello complementado con reportes financieros y herramientas de comunicación para agilizar las operaciones internas."
+      },
+      "S4_ACCOUNTS": {
+        "TITLE": "4. Registro y Cuentas de Usuario",
+        "REQ_L": "Requisitos:",
+        "REQ_T": "Para utilizar el Servicio, debe registrarse y crear una cuenta. Usted debe proporcionar información precisa, completa y actualizada durante el proceso de registro.",
+        "CONF_L": "Confidencialidad de la Cuenta:",
+        "CONF_T": "Usted es el único responsable de mantener la confidencialidad de su nombre de usuario y contraseña y de todas las actividades que ocurran bajo su cuenta. Notifíquese inmediatamente cualquier uso no autorizado de su cuenta.",
+        "AGE_L": "Restricciones de Edad:",
+        "AGE_T": "El Servicio no está dirigido a menores de 18 años. Si usted es menor de 18 años, no debe utilizar el Servicio."
+      },
+      "S5_PAYMENTS": {
+        "TITLE": "5. Suscripción, Precios y Pagos",
+        "PLANS_L": "Planes de Suscripción:",
+        "PLANS_T": "El Servicio se ofrece mediante planes de suscripción pagados. Los detalles se encuentran en [enlace a precios].",
+        "BILLING_L": "Facturación y Pagos:",
+        "BILLING_T": "Los pagos son recurrentes y se facturan mensual o anualmente. Usted autoriza a realizar los cargos aplicables.",
+        "RENEWAL_L": "Renovación Automática:",
+        "RENEWAL_T": "Su suscripción se renovará automáticamente a menos que la cancele antes de la fecha de renovación.",
+        "TAX_L": "Impuestos:",
+        "TAX_T": "Los precios no incluyen impuestos. Usted es responsable de los gravámenes impuestos por las autoridades.",
+        "CHANGES_L": "Cambios en Precios:",
+        "CHANGES_T": "Nos reservamos el derecho de modificar los precios con notificación previa.",
+        "REFUNDS_L": "Reembolsos:",
+        "REFUNDS_T": "No se ofrecen reembolsos por períodos parciales o planes cancelados antes de tiempo."
+      },
+      "S6_CONDUCT": {
+        "TITLE": "6. Uso del Servicio y Conducta Prohibida",
+        "USE_L": "Uso Permitido:",
+        "USE_T": "Usted acepta utilizar el Servicio únicamente para fines legítimos relacionados con su negocio.",
+        "PROHIBITED_L": "Conducta Prohibida:",
+        "PROHIBITED_T": "Usted se compromete a no: violar leyes, cargar contenido dañino, realizar ingeniería inversa o interferir con el rendimiento del servicio."
+      },
+      "S7_IP": {
+        "TITLE": "7. Propiedad Intelectual (PI)",
+        "OUR_IP_L": "Nuestra PI:",
+        "OUR_IP_T": "Todos los derechos sobre el Servicio son propiedad exclusiva de Quantum Spot Media LLC.",
+        "LICENSE_L": "Licencia del Usuario:",
+        "LICENSE_T": "Usted nos otorga una licencia para usar su contenido únicamente para proveer el Servicio.",
+        "YOUR_IP_L": "Su PI:",
+        "YOUR_IP_T": "Usted conserva todos los derechos sobre su Contenido del Usuario."
+      },
+      "S8_PRIVACY": {
+        "TITLE": "8. Privacidad y Protección de Datos",
+        "POLICY_L": "Política de Privacidad:",
+        "POLICY_T": "Nuestra política rige el manejo de datos. Revísela en [enlace].",
+        "ROLES_L": "Rol de las Partes:",
+        "PROCESSOR_L": "Procesador de Datos (Nosotros):",
+        "PROCESSOR_T": "Actuamos en nombre del Usuario.",
+        "CONTROLLER_L": "Controlador de Datos (Usted):",
+        "CONTROLLER_T": "Usted es responsable de garantizar los derechos y consentimientos.",
+        "DPA_L": "DPA:",
+        "DPA_T": "Ofrecemos un Acuerdo de Procesamiento de Datos para cumplir con GDPR.",
+        "TRANSFERS_L": "Transferencias Internacionales:",
+        "TRANSFERS_T": "Las transferencias fuera del EEE se realizan bajo mecanismos legales válidos."
+      },
+      "S9_CONFIDENTIALITY": {
+        "TITLE": "9. Confidencialidad",
+        "TEXT": "Ambas partes acuerdan mantener la confidencialidad de la información técnica y de negocios intercambiada."
+      },
+      "S10_WARRANTIES": {
+        "TITLE": "10. Representaciones y Garantías",
+        "OUR_W_L": "Nuestras Garantías:",
+        "OUR_W_T": "El Servicio funcionará sustancialmente de acuerdo con su documentación.",
+        "DISCLAIMER_L": "Exclusión:",
+        "DISCLAIMER_T": "EL SERVICIO SE PROPORCIONA 'TAL CUAL' SIN GARANTÍAS IMPLÍCITAS DE NINGÚN TIPO."
+      },
+      "S11_LIABILITY": {
+        "TITLE": "11. Limitación de Responsabilidad",
+        "LIMITS_L": "Límites Generales:",
+        "LIMITS_T": "No somos responsables de daños indirectos, incidentales o pérdida de beneficios.",
+        "MAX_L": "Límite Máximo:",
+        "MAX_T": "La responsabilidad total no excederá el monto pagado en los últimos 12 meses.",
+        "JURISDICTION_L": "Jurisdicciones Específicas:",
+        "JURISDICTION_T": "Algunas limitaciones podrían no aplicar según su legislación local."
+      },
+      "S12_INDEMNITY": {
+        "TITLE": "12. Indemnización",
+        "TEXT": "Usted acepta defender e indemnizar a la empresa por reclamos derivados de su mal uso del Servicio o incumplimiento de estos términos."
+      },
+      "S13_MODIFICATIONS": {
+        "TITLE": "13. Modificaciones de los Términos",
+        "TEXT": "Nos reservamos el derecho de modificar estos términos. El uso continuado constituye la aceptación de los cambios."
+      },
+      "S14_TERMINATION": {
+        "TITLE": "14. Plazo y Terminación",
+        "TERM_L": "Plazo:",
+        "TERM_T": "Estos términos rigen mientras usted utilice el Servicio.",
+        "USER_TERM_L": "Terminación por Usted:",
+        "USER_TERM_T": "Puede cancelar su suscripción en cualquier momento.",
+        "OUR_TERM_L": "Terminación por Nosotros:",
+        "OUR_TERM_T": "Podemos suspender el acceso si usted incumple estos términos.",
+        "EFFECTS_L": "Efectos:",
+        "EFFECTS_T": "El derecho a usar el Servicio cesa inmediatamente tras la terminación."
+      },
+      "S15_GENERAL": {
+        "TITLE": "15. Disposiciones Generales",
+        "ENTIRE_L": "Totalidad del Acuerdo:",
+        "ENTIRE_T": "Estos términos constituyen el acuerdo completo entre las partes.",
+        "SEVERABILITY_L": "Divisibilidad:",
+        "SEVERABILITY_T": "Si una cláusula es inválida, las demás permanecerán en vigor.",
+        "WAIVER_L": "Renuncia:",
+        "WAIVER_T": "La falta de ejercicio de un derecho no constituye una renuncia al mismo.",
+        "FORCE_L": "Fuerza Mayor:",
+        "FORCE_T": "No seremos responsables por eventos fuera de nuestro control razonable.",
+        "NOTICES_L": "Notificaciones:",
+        "NOTICES_T": "Enviadas por email o avisos dentro del sistema.",
+        "ASSIGNMENT_L": "Asignación:",
+        "ASSIGNMENT_T": "Usted no puede transferir estos términos sin consentimiento previo."
+      },
+      "S16_LAW": {
+        "TITLE": "16. Ley Aplicable y Resolución de Disputas",
+        "INTRO": "Debido a la naturaleza global del servicio, esta sección es crucial y debe ser diseñada con la ayuda de expertos legales para cada región.",
+        "OPTION2_TITLE": "Opción 2: Unificación bajo una Ley y Jurisdicción (Más simple, pero puede ser desafiada)",
+        "LAW_L": "Ley Aplicable:",
+        "LAW_T": "Estos Términos se regirán e interpretarán de acuerdo con las leyes de Estado Libre y Asociado de Puerto Rico, sin tener en cuenta sus principios de conflicto de leyes.",
+        "DISPUTE_L": "Resolución de Disputas:",
+        "DISPUTE_T": "Cualquier disputa, controversia o reclamo se someterá a la jurisdicción exclusiva de los tribunales de Estado Libre y Asociado de Puerto Rico.",
+        "CONSIDERATIONS_TITLE": "Consideraciones para la Ley Aplicable y la Jurisdicción:",
+        "USA_L": "Estados Unidos:",
+        "USA_T": "La elección del estado de Delaware es común para empresas de SaaS. El arbitraje es muy común y a menudo preferido.",
+        "EU_L": "Unión Europea (UE):",
+        "EU_ITEM1": "Reglamento Roma I (Contratos).",
+        "EU_ITEM2": "Reglamento Bruselas I (Jurisdicción).",
+        "EU_ITEM3": "GDPR: La protección de datos es primordial.",
+        "EU_ITEM4": "Directiva sobre Comercio Electrónico.",
+        "LATAM_L": "Latinoamérica:",
+        "LATAM_ITEM1": "México: Código Civil Federal.",
+        "LATAM_ITEM2": "Brasil: Marco Civil da Internet y LGPD.",
+        "LATAM_ITEM3": "Argentina: Código Civil y Comercial.",
+        "LATAM_ITEM4": "Chile y Colombia: Leyes de Protección de Datos.",
+        "CONSID_FINAL_L": "Consideraciones:",
+        "CONSID_FINAL_T": "Es fundamental optar por una ley robusta, pero previendo que jurisdicciones locales podrían primar en protección al consumidor."
+      },
+      "LEGAL_REC": {
+        "TITLE": "Recomendaciones y Puntos Críticos para el Asesoramiento Legal:",
+        "ITEM1_L": "Regulación de Seguros:",
+        "ITEM1_T": "El software debe ser una herramienta para el corredor, no un sustituto de sus funciones reguladas.",
+        "ITEM2_L": "Protección al Consumidor:",
+        "ITEM2_T": "Aspectos B2B podrían tocar leyes de protección al consumidor en ciertas jurisdicciones.",
+        "ITEM3_L": "Localización vs. Centralización:",
+        "ITEM3_SUB1": "Centralizar: Simplifica el manejo pero puede generar conflictos locales.",
+        "ITEM3_SUB2": "Localizar: Más seguro pero complejo de gestionar.",
+        "ITEM4_L": "Cláusulas Contractuales (SCCs):",
+        "ITEM4_T": "Cruciales para transferencias de datos fuera del EEE.",
+        "ITEM5_L": "Revisión Continua:",
+        "ITEM5_T": "Los T&C deben actualizarse periódicamente según evoluciona la tecnología.",
+        "ITEM6_L": "Idioma:",
+        "ITEM6_T": "Considera ofrecer traducciones certificadas, manteniendo el inglés como versión principal."
+      }
+    }
+  },
+  "PRIVACY": {
+    "TITLE": "Política de Privacidad y Confidencialidad de Datos de MyMasterBook.net",
+    "DATE_VIGOR": "Fecha de Entrada en Vigor: Julio 2025",
+    "DATE_UPDATE": "Última Actualización: Julio 29, 2025",
+    "INTRO_P1": "En MasterBook, entendemos la importancia de la privacidad y la protección de los datos personales. Esta Política de Privacidad y Confidencialidad (la \"Política\") describe cómo MasterBook (\"Nosotros\", \"Nuestro\" o \"la Empresa\") recopila, utiliza, divulga y protege la información que Usted (\"Usuario\" o \"Usted\") nos proporciona al utilizar nuestro servicio de software como servicio (SaaS) para corredores de seguros (el \"Servicio\").",
+    "INTRO_P2": "Al utilizar el Servicio, Usted acepta las prácticas descritas en esta Política. Si no está de acuerdo con esta Política, no debe utilizar el Servicio.",
+    "SECTIONS": {
+      "S1": {
+        "TITLE": "1. Definiciones Clave",
+        "L1": "Datos Personales:",
+        "T1": "Cualquier información relacionada con una persona física identificada o identificable (\"Sujeto de los Datos\"). Una persona física identificable es aquella cuya identidad pueda determinarse, directa o indirectamente, en particular mediante un identificador, como por ejemplo un nombre, un número de identificación, datos de localización, un identificador en línea o uno o varios elementos propios de la identidad física, fisiológica, genética, psíquica, económica, cultural o social de dicha persona.",
+        "L2": "Procesamiento:",
+        "T2": "Cualquier operación o conjunto de operaciones realizadas sobre Datos Personales o conjuntos de Datos Personales, ya sea por medios automatizados o no, como la recopilación, registro, organización, estructuración, almacenamiento, adaptación o alteración, recuperación, consulta, uso, divulgación por transmisión, difusión o cualquier otra forma de puesta a disposición, cotejo o combinación, restricción, borrado o destrucción.",
+        "L3": "Controlador de Datos (o \"Negocio\" en California):",
+        "T3": "La persona física o jurídica, autoridad pública, agencia u otro organismo que, solo o junto con otros, determina los propósitos y medios del procesamiento de Datos Personales. En el contexto de la información de sus clientes y pólizas que Usted carga en nuestro Servicio, Usted es el Controlador de Datos.",
+        "L4": "Procesador de Datos (o \"Proveedor de Servicios\" en California):",
+        "T4": "La persona física o jurídica, autoridad pública, agencia u otro organismo que procesa Datos Personales en nombre del Controlador. En el contexto de la información de sus clientes y pólizas que Usted carga en nuestro Servicio, MasterBook es el Procesador de Datos.",
+        "L5": "Usuario:",
+        "T5": "La persona física o jurídica que se registra y utiliza el Servicio, es decir, el corredor de seguros o la agencia de seguros."
+      },
+      "S2": {
+        "TITLE": "2. Información que Recopilamos",
+        "INTRO": "Recopilamos dos tipos principales de información:",
+        "SUB21": "2.1. Información que Usted nos Proporciona Directamente (Datos de la Cuenta del Usuario y Uso):",
+        "L1": "Datos de Registro:",
+        "T1": "Cuando se registra para una cuenta, recopilamos información como su nombre, nombre de la empresa, dirección de correo electrónico, número de teléfono, dirección postal, información de facturación (ej., detalles de la tarjeta de crédito o cuenta bancaria) y credenciales de inicio de sesión.",
+        "L2": "Comunicación:",
+        "T2": "Información que nos proporciona cuando se pone en contacto con nuestro soporte técnico, ventas o cualquier otra consulta (ej., correos electrónicos, transcripciones de chat).",
+        "L3": "Información de Encuestas/Feedback:",
+        "T3": "Información que proporciona cuando participa en encuestas o nos da feedback sobre el Servicio.",
+        "SUB22": "2.2. Información que Recopilamos Automáticamente (Datos de Uso y Tecnología):",
+        "L4": "Datos de Uso:",
+        "T4": "Información sobre cómo accede y utiliza el Servicio, incluyendo direcciones IP, tipo de navegador, sistema operativo, páginas visitadas, tiempo dedicado al Servicio, clics y rutas de navegación.",
+        "L5": "Cookies y Tecnologías Similares:",
+        "T5": "Utilizamos cookies y tecnologías de seguimiento similares (ej., balizas web, píxeles) para recopilar información sobre su actividad de navegación, personalizar su experiencia y realizar análisis. Puede gestionar sus preferencias de cookies a través de la configuración de su navegador.",
+        "SUB23": "2.3. Contenido del Usuario (Datos Procesados por Nosotros en su Nombre):",
+        "T6": "Este es el tipo de información más sensible y crucial. Comprende todos los datos que Usted (el Usuario/Controlador de Datos) carga, ingresa o procesa a través de nuestro Servicio, que pueden incluir, pero no se limitan a:",
+        "L6": "Datos Personales de sus Clientes y Potenciales Clientes:",
+        "T6_LIST": "Nombres, direcciones, números de teléfono, correos electrónicos, fechas de nacimiento, información de salud (si es relevante para el tipo de seguro), información financiera, números de póliza, historial de reclamaciones, etc.",
+        "L7": "Datos Relacionados con Pólizas y Siniestros:",
+        "T7_LIST": "Detalles de pólizas de seguro, primas, fechas de vencimiento, información de cobertura, datos de siniestros y otros datos operativos relevantes para su negocio de correduría de seguros.",
+        "FOOTER": "En relación con el Contenido del Usuario, MasterBook actúa estrictamente como un Procesador de Datos, y Usted (el Usuario) es el Controlador de Datos. No utilizamos este Contenido del Usuario para nuestros propios fines, excepto para proporcionar y mantener el Servicio, prevenir fraudes, resolver problemas técnicos, o según lo exija la ley."
+      },
+      "S3": {
+        "TITLE": "3. Cómo Utilizamos la Información",
+        "INTRO": "Utilizamos la información recopilada para los siguientes propósitos:",
+        "SUB31": "3.1. Para Proporcionar y Mantener el Servicio:",
+        "I31_1": "Para operar, mantener y mejorar las características y funcionalidades del Servicio.",
+        "I31_2": "Para gestionar su cuenta y proporcionarle acceso al Servicio.",
+        "I31_3": "Para procesar sus transacciones y enviarle facturas y avisos.",
+        "SUB32": "3.2. Para Comunicarnos con Usted:",
+        "I32_1": "Para responder a sus consultas de soporte técnico.",
+        "I32_2": "Para enviarle notificaciones de servicio, actualizaciones, alertas de seguridad y mensajes administrativos.",
+        "I32_3": "Para enviarle comunicaciones de marketing y promocionales (con su consentimiento, si es necesario).",
+        "SUB33": "3.3. Para Mejorar y Personalizar el Servicio:",
+        "I33_1": "Para comprender cómo los usuarios interactúan con el Servicio y desarrollar nuevas características.",
+        "I33_2": "Para personalizar su experiencia en el Servicio.",
+        "SUB34": "3.4. Para Seguridad y Cumplimiento Legal:",
+        "I34_1": "Para detectar y prevenir actividades fraudulentas o no autorizadas.",
+        "I34_2": "Para cumplir con las obligaciones legales y reglamentarias aplicables.",
+        "I34_3": "Para hacer cumplir nuestros Términos y Condiciones.",
+        "SUB35": "3.5. Para Análisis y Monitoreo:",
+        "I35_1": "Para realizar análisis de datos y monitorear tendencias de uso y actividad dentro del Servicio.",
+        "I35_2": "Esto generalmente se hace con datos agregados o anonimizados siempre que sea posible."
+      },
+      "S4": {
+        "TITLE": "4. Cómo Compartimos la Información",
+        "INTRO": "No vendemos, alquilamos ni comercializamos su información personal. Compartimos información solo en las siguientes circunstancias y para los fines descritos en esta Política:",
+        "L1": "Con Proveedores de Servicios Terceros:",
+        "T1": "Compartimos información con proveedores de servicios de confianza que realizan funciones en nuestro nombre, como procesamiento de pagos, alojamiento de datos, análisis de datos, marketing y soporte al cliente. Estos terceros están obligados contractualmente a proteger la confidencialidad y seguridad de su información y a utilizarla únicamente para los fines para los que se les ha proporcionado.",
+        "L2": "Afiliados y Subsidiarias:",
+        "T2": "Podemos compartir su información con nuestras empresas afiliadas y subsidiarias para operar y mejorar nuestros servicios.",
+        "L3": "Transferencias de Negocio:",
+        "T3": "En caso de una fusión, adquisición, venta de activos o cualquier otra transacción comercial que implique a MasterBook, su información podría ser transferida como parte de esa transacción. Le notificaremos antes de que su información personal sea transferida y quede sujeta a una política de privacidad diferente.",
+        "L4": "Cumplimiento Legal y Obligaciones Gubernamentales:",
+        "T4": "Podemos divulgar su información si creemos de buena fe que es necesario para: (a) cumplir con una obligación legal, como una citación o una orden judicial; (b) proteger y defender los derechos o la propiedad de MasterBook; (c) prevenir o investigar posibles irregularidades en relación con el Servicio; (d) proteger la seguridad personal de los usuarios del Servicio o del público; o (e) protegerse contra la responsabilidad legal.",
+        "L5": "Con su consentimiento:",
+        "T5": "Podemos compartir su información con terceros cuando tengamos su consentimiento explícito para hacerlo."
+      },
+      "S5": {
+        "TITLE": "5. Protección de Datos del Contenido del Usuario (Rol de Procesador de Datos)",
+        "INTRO": "Como Procesador de Datos, nos comprometemos a implementar medidas de seguridad técnicas y organizativas adecuadas para proteger el Contenido del Usuario (que puede incluir Datos Personales de sus clientes) contra el acceso no autorizado, la divulgación, alteración o destrucción. Estas medidas incluyen:",
+        "L1": "Seguridad Técnica:",
+        "T1": "Cifrado en tránsito y en reposo, controles de acceso robustos, auditorías de seguridad periódicas, protección contra malware y sistemas de detección de intrusiones.",
+        "L2": "Seguridad Organizativa:",
+        "T2": "Políticas internas de acceso a datos, capacitación del personal en protección de datos, acuerdos de confidencialidad con empleados y contratistas.",
+        "L3": "Acuerdo de Procesamiento de Datos (DPA):",
+        "T3": "Para cumplir con GDPR, CCPA y otras leyes de protección de datos, ofreceremos un Acuerdo de Procesamiento de Datos (DPA) estándar que rige nuestras obligaciones como Procesador de Datos y sus responsabilidades como Controlador de Datos. Se le instará a firmar este DPA si sus operaciones lo requieren.",
+        "FOOTER": "Usted, como Controlador de Datos, es responsable de:",
+        "I1": "Obtener los consentimientos necesarios de sus clientes para recopilar y procesar sus Datos Personales a través del Servicio.",
+        "I2": "Asegurarse de que el Contenido del Usuario que carga en el Servicio sea preciso, completo y legal.",
+        "I3": "Responder a las solicitudes de los Sujetos de los Datos (ej., solicitudes de acceso, rectificación, eliminación)."
+      },
+      "S6": {
+        "TITLE": "6. Transferencias Internacionales de Datos",
+        "P1": "Dada la naturaleza global de nuestro Servicio, la información puede ser transferida, almacenada y procesada en países fuera de su jurisdicción, incluyendo [Ej., Estados Unidos, países del Espacio Económico Europeo]. Implementaremos medidas de seguridad adecuadas para proteger su información personal de acuerdo con esta Política y la ley aplicable.",
+        "L1": "Para Usuarios de la UE/EEE/Reino Unido:",
+        "T1": "Si transferimos Datos Personales fuera del Espacio Económico Europeo (EEE) o el Reino Unido, nos basaremos en mecanismos de transferencia de datos válidos, como las Cláusulas Contractuales Estándar (SCCs) aprobadas por la Comisión Europea, el Marco de Privacidad de Datos UE-EE. UU. (si somos participantes certificados y transferimos datos a EE. UU.), o reglas corporativas vinculantes. Puede solicitar una copia de estos mecanismos contactándonos."
+      },
+      "S7": {
+        "TITLE": "7. Sus Derechos de Privacidad",
+        "INTRO": "Dependiendo de su ubicación y las leyes aplicables, puede tener los siguientes derechos con respecto a sus Datos Personales:",
+        "L1": "Derecho de Acceso:",
+        "T1": "Derecho a solicitar una copia de los Datos Personales que tenemos sobre usted.",
+        "L2": "Derecho de Rectificación:",
+        "T2": "Derecho a solicitar la corrección de Datos Personales inexactos o incompletos.",
+        "L3": "Derecho de Supresión (\"Derecho al Olvido\"):",
+        "T3": "Derecho a solicitar la eliminación de sus Datos Personales bajo ciertas condiciones.",
+        "L4": "Derecho a la Restricción del Procesamiento:",
+        "T4": "Derecho a solicitar la limitación del procesamiento de sus Datos Personales bajo ciertas condiciones.",
+        "L5": "Derecho a la Portabilidad de Datos:",
+        "T5": "Derecho a recibir sus Datos Personales en un formato estructurado, de uso común y legible por máquina, y a transmitirlos a otro controlador.",
+        "L6": "Derecho de Oposición:",
+        "T6": "Derecho a oponerse al procesamiento de sus Datos Personales bajo ciertas condiciones (ej., para marketing directo).",
+        "L7": "Derechos Relacionados con la Toma de Decisiones Automatizadas:",
+        "T7": "Derecho a no ser objeto de una decisión basada únicamente en el procesamiento automatizado, incluida la elaboración de perfiles, que produzca efectos jurídicos sobre usted o le afecte de forma similar y significativa.",
+        "L8": "Derecho a Retirar el Consentimiento:",
+        "T8": "Si el procesamiento se basa en su consentimiento, tiene derecho a retirarlo en cualquier momento. La retirada del consentimiento no afectará la licitud del procesamiento basado en el consentimiento antes de su retirada.",
+        "FOOTER": "Para ejercer cualquiera de estos derechos, contáctenos utilizando la información proporcionada en la Sección 11. Podemos requerir verificar su identidad antes de atender su solicitud."
+      },
+      "S8": {
+        "TITLE": "8. Conservación de Datos",
+        "P1": "Retendremos sus Datos Personales solo durante el tiempo que sea necesario para cumplir con los fines para los que fueron recopilados, incluyendo el cumplimiento de cualquier requisito legal, contable o de informes. El período de retención del Contenido del Usuario (datos de sus clientes) dependerá de sus instrucciones como Controlador de Datos, sujeto a nuestras obligaciones legales como Procesador de Datos."
+      },
+      "S9": {
+        "TITLE": "9. Seguridad de los Datos",
+        "P1": "Hemos implementado medidas de seguridad técnicas y organizativas comercialmente razonables diseñadas para proteger sus Datos Personales del acceso, uso, alteración y divulgación no autorizados. Sin embargo, ninguna transmisión de datos por Internet o sistema de almacenamiento puede garantizarse como 100% segura. Por lo tanto, no podemos garantizar la seguridad absoluta de su información."
+      },
+      "S10": {
+        "TITLE": "10. Cambios a esta Política de Privacidad",
+        "P1": "Podemos actualizar esta Política de Privacidad de vez en cuando. Le notificaremos cualquier cambio sustancial mediante la publicación de la Política revisada en nuestro sitio web o mediante un aviso directo. Le recomendamos revisar esta Política periódicamente para cualquier cambio. Su uso continuado del Servicio después de la fecha de entrada en vigor de la Política revisada constituirá su aceptación de los cambios."
+      },
+      "S11": {
+        "TITLE": "11. Información de Contacto",
+        "P1": "Si tiene alguna pregunta o inquietud sobre esta Política de Privacidad o nuestras prácticas de privacidad, o si desea ejercer sus derechos de privacidad, contáctenos en:",
+        "EMAIL_L": "Email de MasterBook:",
+        "WEB_L": "Sitio web:"
+      }
+    }
   }
 }
-

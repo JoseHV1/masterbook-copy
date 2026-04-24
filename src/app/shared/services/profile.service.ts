@@ -61,6 +61,7 @@ export class ProfileService {
         Validators.required,
       ]),
       days_expiring_policies_notifications: new FormControl(null, []),
+      allow_show_whatsapp_number: new FormControl(false, [Validators.required]),
     });
   }
 

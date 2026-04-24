@@ -16,6 +16,7 @@ import {
   CommissionModel,
   PopulatedCommisionModel,
 } from '../interfaces/models/commisions.model';
+import { RolesEnum } from '../enums/roles.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -43,26 +44,35 @@ export class CommissionsService {
       .pipe(map(resp => resp.data));
   }
 
-  getCommissionsListFilters(): FilterWrapperModel {
+  getCommissionsListFilters(role: string): FilterWrapperModel {
+    const filters = [
+      {
+        label: 'Creation date',
+        name: 'created_at_date',
+        type: FilterTypeEnum.DATE_RANGE,
+      },
+      {
+        label: 'Status',
+        name: 'status',
+        type: FilterTypeEnum.MULTISELECT,
+        options: of(enumToDropDown(CommissionStatusEnum)),
+      },
+      {
+        label: 'Agent',
+        name: 'broker_id',
+        type: FilterTypeEnum.AGENT_SELECTOR,
+      },
+    ];
+
+    const filteredFilters = filters.filter(f => {
+      if (role === RolesEnum.AGENCY_BROKER && f.name === 'broker_id') {
+        return false;
+      }
+      return true;
+    });
+
     return {
-      filters: [
-        {
-          label: 'Creation date',
-          name: 'created_at_date',
-          type: FilterTypeEnum.DATE_RANGE,
-        },
-        {
-          label: 'Status',
-          name: 'status',
-          type: FilterTypeEnum.MULTISELECT,
-          options: of(enumToDropDown(CommissionStatusEnum)),
-        },
-        {
-          label: 'Agent',
-          name: 'broker_id',
-          type: FilterTypeEnum.AGENT_SELECTOR,
-        },
-      ],
+      filters: filteredFilters,
     };
   }
 

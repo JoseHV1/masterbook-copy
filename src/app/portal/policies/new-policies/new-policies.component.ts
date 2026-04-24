@@ -1,10 +1,11 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PolicyCategoryEnum } from '@app/shared/enums/policy-category.enum';
 import { PopulatedAccount } from '@app/shared/interfaces/models/accounts.model';
 import { PopulatedPolicyTypeModel } from '@app/shared/interfaces/models/policy-type.model';
+import { InsurerConfigService } from '@app/shared/services/insurer-config.service';
 import { IntegrationsService } from '@app/shared/services/integration.service';
 import { finalize } from 'rxjs';
 import { brokersAdminDataset } from 'src/app/shared/datatsets/roles.datasets';
@@ -35,11 +36,15 @@ export class NewPoliciesComponent implements OnInit {
     private _ui: UiService,
     private _quote: QuotesService,
     private _auth: AuthService,
-    private _integrations: IntegrationsService
+    private _integrations: IntegrationsService,
+    private _insurers: InsurerConfigService,
+    private router: Router
   ) {
+    const role = this._auth.getAuth()?.user?.role;
     this.isAdmin = brokersAdminDataset.includes(
-      this._auth.getAuth()?.user?.role ?? RolesEnum.AGENCY_BROKER
+      role ?? RolesEnum.AGENCY_BROKER
     );
+
     this.quoteId = this._activateRoute.snapshot.queryParams['quote'];
     if (this.quoteId) {
       this._ui.showLoader();
@@ -68,6 +73,15 @@ export class NewPoliciesComponent implements OnInit {
           this.selectedAccount = quote.request?.client;
         });
     }
+
+    this._insurers.getInsurersWithConfig().subscribe(resp => {
+      if (resp.length === 0) {
+        if (this.isAdmin || role === RolesEnum.INDEPENDANT_BROKER)
+          this.router.navigateByUrl(`portal/insurer?not_insurers=true`);
+        if (!this.isAdmin && role === RolesEnum.INDEPENDANT_BROKER)
+          this.router.navigateByUrl(`portal/dashboard?not_insurers=true`);
+      }
+    });
   }
 
   setPrefilledInfo(): Partial<CreatePolicyRequest> {
@@ -80,6 +94,7 @@ export class NewPoliciesComponent implements OnInit {
 
     return this.preFilledInfo;
   }
+
   ngOnInit(): void {
     this._integrations.getIntegrationsStatus().subscribe({
       next: google => {

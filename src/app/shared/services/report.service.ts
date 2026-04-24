@@ -45,6 +45,7 @@ export class ReportService {
       account: [initialValue?.account ?? ''],
       insurer: [initialValue?.insurer ?? ''],
       paymentFrom: [initialValue?.paymentFrom ?? ''],
+      paymentMethod: [initialValue?.paymentMethod ?? ''],
       minTotalAmount: [initialValue?.minTotalAmount ?? ''],
       maxTotalAmount: [initialValue?.maxTotalAmount ?? ''],
       minCommissionPay: [initialValue?.minCommissionPay ?? ''],
@@ -81,6 +82,7 @@ export class ReportService {
         account: '',
         insurer: '',
         paymentFrom: '',
+        paymentMethod: '',
         minTotalAmount: null,
         maxTotalAmount: null,
         minCommissionPay: null,
@@ -138,26 +140,42 @@ export class ReportService {
     from?: Date | string | null,
     to?: Date | string | null
   ): [string | undefined, string | undefined] {
-    const toIso = (d: any) => {
+    const toStartIso = (d: any) => {
       if (!d) return undefined;
-      const dt = d instanceof Date ? d : new Date(d);
-      const utc = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000);
-      return utc.toISOString();
+      const dt = d instanceof Date ? new Date(d.getTime()) : new Date(d);
+      dt.setHours(0, 0, 0, 0);
+      return dt.toISOString();
+    };
+
+    const toEndIso = (d: any) => {
+      if (!d) return undefined;
+      const dt = d instanceof Date ? new Date(d.getTime()) : new Date(d);
+      dt.setHours(23, 59, 59, 999);
+      return dt.toISOString();
     };
 
     const now = new Date();
 
     switch (preset) {
       case 'last_7':
-        return [toIso(new Date(now.getTime() - 7 * 86400000)), toIso(now)];
+        return [
+          toStartIso(new Date(now.getTime() - 7 * 86400000)),
+          toEndIso(now),
+        ];
       case 'last_30':
-        return [toIso(new Date(now.getTime() - 30 * 86400000)), toIso(now)];
+        return [
+          toStartIso(new Date(now.getTime() - 30 * 86400000)),
+          toEndIso(now),
+        ];
       case 'last_90':
-        return [toIso(new Date(now.getTime() - 90 * 86400000)), toIso(now)];
+        return [
+          toStartIso(new Date(now.getTime() - 90 * 86400000)),
+          toEndIso(now),
+        ];
       case 'ytd':
-        return [toIso(new Date(now.getFullYear(), 0, 1)), toIso(now)];
+        return [toStartIso(new Date(now.getFullYear(), 0, 1)), toEndIso(now)];
       case 'custom':
-        return [toIso(from), toIso(to)];
+        return [toStartIso(from), toEndIso(to)];
       default:
         return [undefined, undefined];
     }
@@ -182,7 +200,8 @@ export class ReportService {
       insurerId: normalize(f.insurer),
       accountId: normalize(f.account),
       paymentFrom: normalize(f.paymentFrom),
-      businessLineId: normalize(f.businessLine),
+      paymentMethod: normalize(f.paymentMethod),
+      businessLine: normalize(f.businessLine),
       policyCategory: normalize(f.policyCategory),
       policyTypeId: normalize(f.policyType),
       status: normalize(f.status),

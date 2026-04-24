@@ -6,11 +6,9 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
   styleUrls: ['./kpi-chart.component.scss'],
 })
 export class KpiChartComponent implements OnChanges {
-  // This will now be the *array* of { day/month, count }
   @Input() chartOptions: any[] = [];
   @Input() dateRange: string = 'seven days';
 
-  // Let ECharts be dynamic, avoid strict typing issues
   accountsChartOptions: any = null;
 
   ngOnChanges(changes: SimpleChanges) {

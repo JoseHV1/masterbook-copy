@@ -4,7 +4,7 @@ export interface UpdateRequestRequest {
   client_id?: string;
   insure_object: string;
   coverage: number;
-  request_document: string;
+  request_documents: any[];
   address_info?: AddressInfoRequest;
   additional_info?: string;
 }

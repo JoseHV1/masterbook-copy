@@ -26,6 +26,10 @@ import { RequestStatusEnum } from '../enums/request-status.enum';
 import { DatasetsService } from './dataset.service';
 import { UpdateRequestRequest } from '../interfaces/requests/requests/update-request.request';
 import { RejectRequestRequest } from '../interfaces/requests/requests/reject-request.request';
+import { AuthModel } from '../interfaces/models/auth.model';
+import { PopulatedUserModel } from '../interfaces/models/user.model';
+import { RolesEnum } from '../enums/roles.enum';
+import { RequestViaEmailModel } from '../models/request-via-email.model';
 
 @Injectable({
   providedIn: 'root',
@@ -69,7 +73,10 @@ export class RequestsService {
       .pipe(map(response => response.data));
   }
 
-  editRequest(req: UpdateRequestRequest, id: string): Observable<RequestModel> {
+  editRequest(
+    req: Partial<UpdateRequestRequest>,
+    id: string
+  ): Observable<RequestModel> {
     return this._http
       .put<ApiResponseModel<RequestModel>>(
         `${environment.apiUrl}request/${id}`,
@@ -98,48 +105,72 @@ export class RequestsService {
       .pipe(map(resp => resp.data));
   }
 
-  getRequestsListFilters(): FilterWrapperModel {
-    return {
-      filters: [
-        {
-          label: 'Creation date',
-          name: 'created_at_date',
-          type: FilterTypeEnum.DATE_RANGE,
-        },
-        {
-          label: 'Status',
-          name: 'status',
-          type: FilterTypeEnum.MULTISELECT,
-          options: of(enumToDropDown(RequestStatusEnum)),
-        },
-        {
-          label: 'Agent',
-          name: 'broker_id',
-          type: FilterTypeEnum.AGENT_SELECTOR,
-        },
-        {
-          label: 'Client',
-          name: 'client_id',
-          type: FilterTypeEnum.CLIENT_SELECTOR,
-        },
-        {
-          label: 'Category',
-          name: 'category',
-          type: FilterTypeEnum.MULTISELECT,
-          options: of(enumToDropDown(PolicyCategoryEnum)),
-        },
-        {
-          label: 'Min coverage',
-          name: 'min_coverage',
-          type: FilterTypeEnum.CURRENCY,
-        },
-        {
-          label: 'Max coverage',
-          name: 'max_coverage',
-          type: FilterTypeEnum.CURRENCY,
-        },
-      ],
-    };
+  sendQuoteViaEmailToInsurers(req: RequestViaEmailModel): Observable<any> {
+    return this._http
+      .post<ApiResponseModel<any>>(
+        `${environment.apiUrl}request/send-via-email`,
+        req
+      )
+      .pipe(map(resp => resp.data));
+  }
+
+  getRequestsListFilters(role: string): FilterWrapperModel {
+    const isInsured = role === RolesEnum.INSURED;
+    const isAgencyBroker = role === RolesEnum.AGENCY_BROKER;
+
+    const allFilters = [
+      {
+        label: 'Creation date',
+        name: 'created_at_date',
+        type: FilterTypeEnum.DATE_RANGE,
+      },
+      {
+        label: 'Status',
+        name: 'status',
+        type: FilterTypeEnum.MULTISELECT,
+        options: of(enumToDropDown(RequestStatusEnum)),
+      },
+      {
+        label: 'Agent',
+        name: 'broker_id',
+        type: FilterTypeEnum.AGENT_SELECTOR,
+      },
+      {
+        label: 'Client',
+        name: 'client_id',
+        type: FilterTypeEnum.CLIENT_SELECTOR,
+      },
+      {
+        label: 'Category',
+        name: 'category',
+        type: FilterTypeEnum.MULTISELECT,
+        options: of(enumToDropDown(PolicyCategoryEnum)),
+      },
+      {
+        label: 'Min coverage',
+        name: 'min_coverage',
+        type: FilterTypeEnum.CURRENCY,
+      },
+      {
+        label: 'Max coverage',
+        name: 'max_coverage',
+        type: FilterTypeEnum.CURRENCY,
+      },
+    ];
+
+    const filteredFilters = allFilters.filter(item => {
+      if (isInsured) {
+        return item.name !== 'broker_id' && item.name !== 'client_id';
+      }
+
+      if (isAgencyBroker) {
+        return item.name !== 'broker_id';
+      }
+
+      return true;
+    });
+
+    return { filters: filteredFilters };
   }
 
   /**

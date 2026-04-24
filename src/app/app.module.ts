@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule, TransferState } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -66,6 +66,7 @@ import { NgxEchartsModule } from 'ngx-echarts'; // ✅ ADD
 
     NgxStripeModule.forRoot(environment.STRIPE_PUBLIC_KEY),
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     LanguageService,
     UiService,

@@ -14,6 +14,10 @@ import { RequestsTableModule } from '../../requests/components/requests-table/re
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ClaimsTableModule } from '@app/portal/claims/components/claims-table/claims-table.module';
+import { PaymentsTableModule } from '@app/portal/financials/payments/components/payments-table/payments-table.module';
+import { InvoicesTableModule } from '@app/portal/financials/invoices/components/invoices-table/invoices-table.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const routes: Routes = [
   {
@@ -37,8 +41,12 @@ const routes: Routes = [
     MatMenuModule,
     MatButtonModule,
     MatIconModule,
+    MatPaginatorModule,
     PoliciesTableModule,
     RequestsTableModule,
+    ClaimsTableModule,
+    PaymentsTableModule,
+    InvoicesTableModule,
   ],
   exports: [AccountsDetailsComponent],
 })

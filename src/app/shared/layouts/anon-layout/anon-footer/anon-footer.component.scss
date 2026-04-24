@@ -41,3 +41,9 @@
     padding: 0.3rem 1rem;
   }
 }
+
+a {
+  text-decoration: none;
+  color: inherit; /* Mantiene el color que ya tenía el <li> */
+  cursor: pointer;
+}

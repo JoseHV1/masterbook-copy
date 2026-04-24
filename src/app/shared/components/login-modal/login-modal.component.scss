@@ -9,15 +9,15 @@
     font-weight: 500;
     cursor: pointer;
   }
-  
+
   .resend-token {
     color: rgb(143, 0, 0);
   }
-  
+
   .link-resend-token  {
     color: rgb(143, 0, 0);
     cursor: pointer;
-  
+
       &:hover{
         color: #ff0000b3;
       }
@@ -27,8 +27,27 @@
     width: 21.5rem
   }
 
+  .password-input {
+    position: relative;
+    width: 100%;
+  }
+
+  .btn-eye {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
   @media only screen and (max-width: 767px) {
-    img { 
+    img {
       width: 21rem;
       margin-left: -1.8rem;
     }

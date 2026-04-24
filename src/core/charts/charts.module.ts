@@ -23,6 +23,7 @@ import { PolicyTimelineComponent } from './timeline/policy-timeline.component';
 import { PaymentsChartComponent } from './dual-line-chart/dual-line-chart.component';
 import { userCompareChartComponent } from './chart-9/user-compare.component';
 import { StackedAreaChartComponent } from './stacked-area-chart/stacked-area-chart.component';
+import { SingleLineChartComponent } from './single-line-chart/single-line-chart';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { StackedAreaChartComponent } from './stacked-area-chart/stacked-area-cha
     PaymentsChartComponent,
     userCompareChartComponent,
     StackedAreaChartComponent,
+    SingleLineChartComponent,
   ],
   imports: [
     CommonModule,
@@ -66,6 +68,7 @@ import { StackedAreaChartComponent } from './stacked-area-chart/stacked-area-cha
     PaymentsChartComponent,
     userCompareChartComponent,
     StackedAreaChartComponent,
+    SingleLineChartComponent,
   ],
 })
 export class ChartsModule {}

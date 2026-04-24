@@ -8,6 +8,11 @@ export const MENU_ITEMS: iternalMenuModel = {
       url: 'dashboard',
     },
     {
+      icon: 'person_search',
+      title: 'Leads',
+      url: 'leads',
+    },
+    {
       icon: 'wallet',
       title: 'Accounts',
       url: 'accounts',
@@ -78,6 +83,11 @@ export const MENU_ITEMS: iternalMenuModel = {
       title: 'Email',
       url: 'email',
     },
+    {
+      icon: 'help',
+      title: 'How To',
+      url: 'how-to/help',
+    },
   ],
   client: [
     {
@@ -131,9 +141,28 @@ export const MENU_ITEMS: iternalMenuModel = {
       url: 'dashboard',
     },
     {
+      icon: 'person_search',
+      title: 'Leads',
+      options: [
+        {
+          name: 'Account',
+          url: 'leads/account',
+        },
+        {
+          name: 'Agencies',
+          url: 'leads/agencies',
+        },
+      ],
+    },
+    {
       icon: 'business',
       title: 'Agencies',
       url: 'agencies',
+    },
+    {
+      icon: 'article',
+      title: 'Forms',
+      url: 'request-forms',
     },
     {
       icon: 'analytics',
@@ -149,6 +178,11 @@ export const MENU_ITEMS: iternalMenuModel = {
       icon: 'mail',
       title: 'Email',
       url: 'communication',
+    },
+    {
+      icon: 'help',
+      title: 'How To',
+      url: 'how-to',
     },
   ],
 };

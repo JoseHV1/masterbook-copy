@@ -11,4 +11,19 @@
       width: 100%;
     }
   }
+
+  .alert-login-google {
+    background-color: $light-blue-100;
+    border: 2px $light-blue-400 solid;
+    border-radius: 0.4rem;
+    text-align: justify;
+  }
+
+  .button-login-google {
+    cursor: pointer !important;
+    font-weight: 600;
+    &:hover {
+      opacity: 80%;
+    }
+  }
 }

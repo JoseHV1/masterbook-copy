@@ -1,45 +1,67 @@
 @import 'theme';
 
 :host {
-  .selected-quote-button {
-    border-radius: 3rem;
-    cursor: pointer;
+  display: block;
+  width: 100%;
+
+  .big-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 0.75rem;
+    padding: 0.6rem 1.2rem;
     font-size: 1.2rem;
     font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease-in-out;
+    min-height: 48px;
+
+    &.back-dark-blue-400 {
+      background-color: $dark-blue-400;
+    }
+
+    &:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+
+    span {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: $white;
+    }
+  }
+
+  .selected-quote-button {
+    @extend .big-button;
+    background: $color-success !important;
+    padding: 0 !important;
+    overflow: hidden;
+    display: flex;
 
     .selection-side {
-      border-radius: 3rem 0 0 3rem;
-      padding: 0.5rem 0.5rem 0.5rem 1.2rem;
-      background: $dark-blue-400;
-
-      &:hover {
-        opacity: 0.9;
-      }
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      padding: 0.6rem 0 0.6rem 1.2rem;
     }
 
     .policy-side {
-      position: relative;
-      border-radius: 0 3rem 3rem 0;
-      padding: 0.5rem 0.4rem 0.5rem 0.2rem;
-      background: $dark-blue-400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0.6rem 0.8rem;
+      border-left: 1px solid $gray-200;
+      background: $color-success !important;
 
-      span {
-        font-size: 1.2rem !important;
-        font-weight: 700;
-      }
-
-      &:hover {
-        opacity: 0.9;
-      }
-
-      &:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 25%;
-        height: 50%;
-        width: 1px;
-        background: white;
+      .dropdown-icon {
+        font-size: 2rem;
       }
     }
   }

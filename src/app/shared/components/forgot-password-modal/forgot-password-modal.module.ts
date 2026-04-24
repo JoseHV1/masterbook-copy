@@ -5,6 +5,8 @@ import { InputModule } from '../form/input/input.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { InputCodeModule } from '../form/input-code/input-code.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [ForgotPasswordModalComponent],
@@ -14,6 +16,8 @@ import { InputCodeModule } from '../form/input-code/input-code.module';
     ReactiveFormsModule,
     TranslateModule,
     InputCodeModule,
+    MatIconModule,
+    MatButtonModule,
   ],
   exports: [ForgotPasswordModalComponent],
 })

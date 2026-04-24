@@ -57,6 +57,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, WelcomeAgencyBrokerAdminGuard],
   },
   {
+    path: 'leads',
+    loadChildren: () =>
+      import('./anon/leads/leads.module').then(module => module.LeadsModule),
+  },
+  {
     path: '',
     loadChildren: () =>
       import('./anon/anon.module').then(module => module.AnonModule),

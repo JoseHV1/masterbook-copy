@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { InsurerModel } from '@app/shared/interfaces/models/insurer.model';
 import { InsurerConfigService } from '@app/shared/services/insurer-config.service';
 import { PoliciesService } from '@app/shared/services/policies.service';
+import { UiService } from '@app/shared/services/ui.service';
 
 @Component({
   selector: 'app-modal-ticket',
@@ -21,6 +22,7 @@ export class ModalUploadFileComponent implements OnInit {
   ];
 
   constructor(
+    private _ui: UiService,
     private _insurer: InsurerConfigService,
     private _policy: PoliciesService,
     private dialogRef: MatDialogRef<ModalUploadFileComponent>,
@@ -34,11 +36,24 @@ export class ModalUploadFileComponent implements OnInit {
     return this.form.get('insurers_mapping') as FormArray;
   }
 
+  get isInvalidForm(): boolean {
+    if (this.entity === 'policies') {
+      return this.form.invalid || this.insurers.length === 0;
+    }
+    return this.form.invalid;
+  }
+
   ngOnInit(): void {
     if (this.entity === 'policies') {
-      this._insurer.getInsurers(0, 100, '').subscribe(resp => {
-        this.insurers = resp.records;
-        this.buildInsurerFields();
+      this._insurer.getInsurersWithConfig().subscribe(resp => {
+        this.insurers = resp || [];
+        if (this.insurers.length > 0) {
+          this.buildInsurerFields();
+        } else {
+          this._ui.showAlertError(
+            'No insurers configured. You need to have at least 1 insurer to proceed'
+          );
+        }
       });
     }
   }
@@ -56,7 +71,10 @@ export class ModalUploadFileComponent implements OnInit {
   }
 
   save() {
-    if (this.form.invalid) return;
+    this.form.markAllAsTouched();
+    this.form.updateValueAndValidity();
+    if (this.isInvalidForm) return;
+
     this.dialogRef.close(this.form.value);
   }
 }

@@ -20,6 +20,8 @@ export class ForgotPasswordModalComponent {
   seconds: number = 59;
   clockPaused: boolean = false;
   isDisableButton: boolean = true;
+  showPassword = false;
+  showConfirmPassword = false;
   @Output() closeModalForgot: EventEmitter<boolean> =
     new EventEmitter<boolean>();
 

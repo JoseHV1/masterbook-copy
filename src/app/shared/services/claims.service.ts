@@ -11,19 +11,8 @@ import { ClaimStatusEnum } from '../enums/claim-status.enum';
 import { ApiResponseModel } from '../interfaces/models/api-response.model';
 import { PaginatedResponse } from '../interfaces/models/paginated-response.model';
 import { ClaimModel } from '../models/claim.model';
-import { ApiService } from './api.service';
 import { PopulatedClaimModel } from '../interfaces/models/claims.model';
 import { CreateClaimRequest } from '../interfaces/requests/claims/create-claim.request';
-
-export type ClaimsQuery = {
-  status?: string;
-  policy_id?: string;
-  client_id?: string;
-  broker_id?: string;
-  sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
-  search?: string;
-};
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +21,7 @@ export class ClaimsService {
   maxDate: Date = new Date();
   today: Date = new Date();
 
-  constructor(private _http: HttpClient, private _api: ApiService) {
+  constructor(private _http: HttpClient) {
     this.maxDate.setFullYear(this.today.getFullYear() - 18);
   }
 

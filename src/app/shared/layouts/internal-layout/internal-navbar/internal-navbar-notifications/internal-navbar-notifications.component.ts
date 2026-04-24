@@ -83,7 +83,6 @@ export class InternalNavbarNotificationsComponent
         this.scrollToTop();
       },
       error: err => {
-        console.error('Error cargando notificaciones:', err);
         this._ui.showAlertError('Error cargando notificaciones');
       },
     });

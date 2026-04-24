@@ -13,6 +13,7 @@ import { RejectRequestModalModule } from '../../components/reject-policy-modal/r
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { ModalNewQuoteModule } from '../../components/modal-new-quote/modal-new-quote.module';
 
 const routes: Routes = [
   {
@@ -37,6 +38,7 @@ const routes: Routes = [
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
+    ModalNewQuoteModule,
   ],
   exports: [RequestDetailComponent],
 })

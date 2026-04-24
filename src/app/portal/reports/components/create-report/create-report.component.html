@@ -1,7 +1,6 @@
 <mat-card-header class="mb-2">
   <div class="d-flex w-100 justify-content-between align-items-center mb-4">
     <div class="h5 mb-0 d-flex align-items-center gap-2">
-      <mat-icon color="primary">settings</mat-icon>
       <span>Report Configuration</span>
     </div>
   </div>
@@ -101,26 +100,28 @@
 
         <!-- Context-aware filters -->
         <div class="row g-3">
-          <!-- Business Line -->
-          <div class="col-12 col-md-6" *ngIf="show.businessLine">
-            <mat-label>Business Line</mat-label>
-            <app-dropdown-field
-              [placeholder]="'Select a business line'"
-              formControlName="businessLine"
-              [clearable]="true"
-              [options]="dropDownBusinessLine"></app-dropdown-field>
-          </div>
-
           <!-- Policy Category -->
-          <div
-            class="col-12 col-md-6"
-            *ngIf="show.policyCategory && dropDownPolicyCategory.length > 0">
+          <div class="col-12 col-md-6" *ngIf="show.policyCategory">
             <mat-label>Policy Category</mat-label>
             <app-dropdown-field
               [placeholder]="'Select a policy category'"
               formControlName="policyCategory"
               [clearable]="true"
+              [multiple]="true"
               [options]="dropDownPolicyCategory"></app-dropdown-field>
+          </div>
+
+          <!-- Business Line -->
+          <div
+            class="col-12 col-md-6"
+            *ngIf="show.businessLine && dropDownBusinessLine.length > 0">
+            <mat-label>Business Line</mat-label>
+            <app-dropdown-field
+              [placeholder]="'Select a business line'"
+              formControlName="businessLine"
+              [clearable]="true"
+              [multiple]="true"
+              [options]="dropDownBusinessLine"></app-dropdown-field>
           </div>
 
           <!-- Policy Type -->
@@ -132,7 +133,21 @@
               [placeholder]="'Select a policy type'"
               formControlName="policyType"
               [clearable]="true"
+              [multiple]="true"
               [options]="dropDownPolicyType"></app-dropdown-field>
+          </div>
+
+          <!-- Payment Method -->
+          <div
+            class="col-12 col-md-6"
+            *ngIf="show.paymentMethod && dropDownPaymentMethod.length > 0">
+            <mat-label>Payment Method</mat-label>
+            <app-dropdown-field
+              [placeholder]="'Select a payment method'"
+              formControlName="paymentMethod"
+              [clearable]="true"
+              [multiple]="true"
+              [options]="dropDownPaymentMethod"></app-dropdown-field>
           </div>
 
           <!-- Payment From -->

@@ -5,61 +5,182 @@
     background-color: $gray-100;
   }
 
+  .clickable-email {
+    cursor: pointer;
+    color: $dark-blue-400;
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  .dropdown-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+  }
+
+  .email-rich-tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    color: $dark-blue-400;
+    text-decoration: underline;
+
+    .rich-tooltip {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 0;
+      background-color: rgba(97, 97, 97, 0.9);
+      color: #fff;
+      font-size: 12px;
+      line-height: 1.4;
+      padding: 6px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      text-decoration: none;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+
+      &__link {
+        cursor: pointer;
+        font-weight: 700;
+        text-decoration: underline;
+        margin-left: 4px;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+
+    .rich-tooltip.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+
   ::ng-deep {
     .category-badge {
       border-radius: 10px;
       color: $white;
       padding: 0 0.5rem;
     }
+
+    @media (max-width: 576px) {
+      .mat-expansion-panel-body {
+        padding: 0px 8px 14px;
+      }
+    }
   }
 
-  .ENDORSEMENT {
-    background: $color-success !important;
+  .ENDORSEMENT { background: $color-success !important; }
+  .RENEWAL { background: $light-blue-400 !important; }
+  .REINSTALLMENT { background: $blue-color !important; }
+  .CANCELLATION { background: $red-color !important; }
+  .NEW_BUSINESS { background: $light-blue-700 !important; }
+
+  .C-RENEWAL { color: $light-blue-400 !important; }
+  .C-REINSTALLMENT { color: $blue-color !important; }
+  .C-CANCELLATION { color: $red-color !important; }
+  .C-NEW_BUSINESS { color: $light-blue-700 !important; }
+
+  .badge-quotes-quantity {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 10px;
+    color: $white;
+    background: $gray-300;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 24px;
+    line-height: 1;
   }
 
-  .RENEWAL {
-    background: $light-blue-400 !important;
+  .information-card {
+    background-color: $white;
+    border: 1px solid $portal-gray-200;
+    border-radius: 12px;
+    padding: 1rem 0.5rem;
+    width: 100%;
   }
 
-  .REINSTALLMENT {
-    background: $blue-color !important;
+  .stat-item {
+    flex: 1;
+    padding: 0 1rem;
   }
 
-  .CANCELLATION {
-    background: $red-color !important;
+  .stat-label {
+    color: $gray-200;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
   }
 
-  .NEW_BUSINESS {
-    background: $light-blue-700 !important;
+  .stat-value {
+    color: $dark-blue-400;
+    font-size: 1.15rem;
+    font-weight: 700;
+    white-space: nowrap;
   }
 
-  .ENDORSEMENT {
-    background: $color-success !important;
+  .separator {
+    height: 35px;
+    width: 1px;
+    background-color: $portal-gray-200;
+    opacity: 0.8;
   }
 
-  .C-RENEWAL {
-    color: $light-blue-400 !important;
-  }
-
-  .C-REINSTALLMENT {
-    color: $blue-color !important;
-  }
-
-  .C-CANCELLATION {
-    color: $red-color !important;
-  }
-
-  .C-NEW_BUSINESS {
-    color: $light-blue-700 !important;
-  }
-
-  .quotes-table {
-    table tr:nth-child(even) {
-      background-color: $light-blue-100;
+  @media (max-width: 576px) {
+    .information-card {
+      padding: 0.4rem;
+      gap: 0px;
     }
 
-    table tr:last-child {
-      background-color: $white;
+    .stat-item {
+      padding: 6px 0;
+      flex: none;
+      width: 100%;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+    }
+
+    .separator {
+      display: none;
+    }
+
+    hr {
+      margin: 2px 15%;
+      border: 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.35);
+      opacity: 1;
+      width: 70%;
+    }
+
+    .custom-fab-btn {
+      min-width: 40px !important;
+      width: 40px !important;
+      height: 40px !important;
+      border-radius: 50% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+
+      span.material-icons-outlined {
+        margin: 0 !important;
+        font-size: 24px;
+      }
     }
   }
 }

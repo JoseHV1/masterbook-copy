@@ -10,7 +10,7 @@ const routes: Routes = [
     component: AnonComponent,
     children: [
       {
-        path: 'agents',
+        path: '',
         loadChildren: () =>
           import('./home/home.module').then(module => module.HomeModule),
       },
@@ -56,7 +56,12 @@ const routes: Routes = [
             module => module.UnauthorizedModule
           ),
       },
-      { path: '**', redirectTo: 'agents', pathMatch: 'full' },
+      /*{
+        path: 'leads',
+        loadChildren: () =>
+          import('./leads/leads.module').then(module => module.LeadsModule),
+      },*/
+      { path: '**', redirectTo: '', pathMatch: 'full' },
     ],
   },
 ];

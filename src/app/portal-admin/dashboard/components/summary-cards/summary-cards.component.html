@@ -1,0 +1,85 @@
+<div class="summary-grid container">
+  <!-- Total Sales (MTD) -->
+  <div class="summary-card">
+    <div class="icon">
+      <i class="pi pi-dollar"></i>
+    </div>
+    <div class="meta">
+      <div class="label">Total Sales</div>
+      <div class="value">
+        {{ formatMoney((animatedTotals.total_sales_mtd_cents || 0) / 100) }}
+      </div>
+      <div class="hint">MTD</div>
+    </div>
+  </div>
+
+  <!-- Total Sales (YTD) -->
+  <div class="summary-card">
+    <div class="icon">
+      <i class="pi pi-chart-line"></i>
+    </div>
+    <div class="meta">
+      <div class="label">Total Sales</div>
+      <div class="value">
+        {{ formatMoney((animatedTotals.total_sales_ytd_cents || 0) / 100) }}
+      </div>
+      <div class="hint">YTD</div>
+    </div>
+  </div>
+
+  <!-- Active Agencies -->
+  <div class="summary-card">
+    <div class="icon">
+      <i class="pi pi-building"></i>
+    </div>
+    <div class="meta">
+      <div class="label">Active Agencies</div>
+      <div class="value">
+        {{ formatNumber(animatedTotals.active_agencies_last_30_days) }}
+      </div>
+      <div class="hint">Last 30 days</div>
+    </div>
+  </div>
+
+  <!-- Active Policies -->
+  <div class="summary-card">
+    <div class="icon">
+      <i class="pi pi-shield"></i>
+    </div>
+    <div class="meta">
+      <div class="label">Active Policies</div>
+      <div class="value">
+        {{ formatNumber(animatedTotals.total_active_policies) }}
+      </div>
+      <div class="hint">All agencies</div>
+    </div>
+  </div>
+
+  <!-- Renewals (next 30 days) -->
+  <div class="summary-card">
+    <div class="icon">
+      <i class="pi pi-calendar"></i>
+    </div>
+    <div class="meta">
+      <div class="label">Upcoming Renewals</div>
+      <div class="value">
+        {{ formatNumber(animatedTotals.renewals_next_30_days) }}
+      </div>
+      <div class="hint">Next 30 days</div>
+    </div>
+  </div>
+
+  <!-- Total Users -->
+  <div class="summary-card">
+    <div class="icon">
+      <i class="pi pi-users"></i>
+    </div>
+    <div class="meta">
+      <div class="label">Total Users</div>
+      <div class="value">
+        {{ formatNumber(animatedTotals.total_users) }}
+      </div>
+      <div class="hint">Agency owners, agents, staff</div>
+    </div>
+  </div>
+</div>

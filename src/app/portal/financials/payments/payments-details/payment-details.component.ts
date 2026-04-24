@@ -5,12 +5,13 @@ import { PaymentsService } from 'src/app/shared/services/payments.service';
 import { UrlService } from 'src/app/shared/services/url.service';
 import { Location } from '@angular/common';
 import { PopulatedPaymentModel } from 'src/app/shared/models/payments.model';
-import { switchMap, take, tap } from 'rxjs';
+import { finalize, switchMap, take, tap } from 'rxjs';
 import { ModalChangeLogsComponent } from '@app/shared/components/modal-change-logs/modal-change-logs.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@app/shared/services/auth.service';
 import { ownersRolesDataset } from '@app/shared/datatsets/roles.datasets';
 import { RolesEnum } from '@app/shared/enums/roles.enum';
+import { UiService } from '@app/shared/services/ui.service';
 
 @Component({
   selector: 'app-payment-details',
@@ -28,11 +29,13 @@ export class PaymentDetailsComponent {
     public _url: UrlService,
     private _location: Location,
     private dialog: MatDialog,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _ui: UiService
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
     );
+    this._ui.showLoader();
     this.activateRoute.params
       .pipe(
         take(1),
@@ -40,7 +43,8 @@ export class PaymentDetailsComponent {
           const id = params['id'];
           if (!id) throw new Error();
           return this._loadPaymentTransactions(id);
-        })
+        }),
+        finalize(() => this._ui.hideLoader())
       )
       .subscribe({
         error: () => this._url.navigateTo('portal/payments'),

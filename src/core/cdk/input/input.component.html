@@ -4,6 +4,8 @@
       *ngIf="isTextArea; else normalInput"
       matInput
       cdkTextareaAutosize
+      [attr.data-testid]="dataTestId ?? null"
+      [attr.autocomplete]="autocomplete"
       [placeholder]="placeholder"
       formControlName="value"
       (blur)="onTouched(); updateErrors()"
@@ -13,6 +15,8 @@
     <ng-template #normalInput>
       <input
         matInput
+        [attr.data-testid]="dataTestId ?? null"
+        [attr.autocomplete]="autocomplete"
         [type]="type"
         [placeholder]="placeholder"
         formControlName="value"

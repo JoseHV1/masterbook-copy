@@ -10,6 +10,7 @@ import { UrlService } from 'src/app/shared/services/url.service';
 import { RejectRequestModalComponent } from '../reject-policy-modal/reject-request-modal.component';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { Location } from '@angular/common';
+import { UploadFileService } from '@app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-requests-table',
@@ -25,11 +26,11 @@ export class RequestsTableComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'account_name',
+    'status',
     'policy_type',
     'insure_object',
     'broker_fullname',
     'coverage',
-    'status',
     'category',
     'created_at',
     'document_url',
@@ -41,7 +42,8 @@ export class RequestsTableComponent implements OnInit {
     private _ui: UiService,
     private _request: RequestsService,
     private _dialog: MatDialog,
-    private _location: Location
+    private _location: Location,
+    private _uploadFile: UploadFileService
   ) {}
 
   ngOnInit(): void {
@@ -90,5 +92,20 @@ export class RequestsTableComponent implements OnInit {
       .subscribe(resp => {
         if (resp) this.refresh.emit();
       });
+  }
+
+  openFile(url: string | undefined): void {
+    if (!url) return;
+
+    this._uploadFile.getUrlFile(url).subscribe({
+      next: res => {
+        if (res) {
+          window.open(res, '_blank');
+        }
+      },
+      error: err => {
+        console.error('Error al obtener el acceso al archivo', err);
+      },
+    });
   }
 }

@@ -1,5 +1,6 @@
 <div
   class="menu-option mt-1 py-2"
+  [attr.data-testid]="navTestId(item)"
   (click)="isSelected = item.options?.length ? !isSelected : isSelected"
   [routerLink]="item.options ? undefined : item.url"
   [ngClass]="{
@@ -45,11 +46,12 @@
 <!-- Submenu -->
 <div
   class="submenu ps-4"
-  [ngStyle]="{ background: role === 'client' ? 'none' : null }"
+  [ngClass]="'submenu-' + role"
   *ngIf="item.options?.length && isSelected">
   <ng-container *ngFor="let option of item.options">
     <div
       *ngIf="!option.options"
+      [attr.data-testid]="navChildTestId(item, option)"
       class="px-3 mb-2 d-flex align-items-center"
       style="height: 2.7rem"
       [routerLink]="option.url"

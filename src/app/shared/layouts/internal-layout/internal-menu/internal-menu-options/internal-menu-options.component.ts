@@ -54,13 +54,79 @@ export class InternalMenuOptionsComponent implements OnDestroy, OnInit {
 
   private _isRouteActive(): boolean {
     const url = this.item.url;
-    return url ? this.router.url.includes(url) : this.isSomeChildrenActive();
+    return url ? this._matchesRoute(url) : this.isSomeChildrenActive();
   }
 
   public isSomeChildrenActive(): boolean {
-    return (this.item.options ?? []).some(option =>
-      this.router.url.includes(option.url ?? '')
+    return (this.item.options ?? []).some(
+      option => !!option.url && this._matchesRoute(option.url)
     );
+  }
+
+  private _normalizePath(path: string): string {
+    return path
+      .split('?')[0]
+      .split('#')[0]
+      .replace(/^\/+|\/+$/g, '');
+  }
+
+  private _getCurrentMenuPath(): string {
+    const segments = this._normalizePath(this.router.url)
+      .split('/')
+      .filter(Boolean);
+
+    return segments.slice(1).join('/');
+  }
+
+  private _isPathMatch(currentPath: string, targetPath: string): boolean {
+    return (
+      currentPath === targetPath || currentPath.startsWith(`${targetPath}/`)
+    );
+  }
+
+  private _matchesRoute(targetUrl: string): boolean {
+    const normalizedTarget = this._normalizePath(targetUrl);
+
+    if (!normalizedTarget) {
+      return false;
+    }
+
+    const currentFullPath = this._normalizePath(this.router.url);
+
+    if (targetUrl.startsWith('/')) {
+      return this._isPathMatch(currentFullPath, normalizedTarget);
+    }
+
+    return this._isPathMatch(this._getCurrentMenuPath(), normalizedTarget);
+  }
+
+  private _slug(value?: string): string {
+    return (value ?? '')
+      .toLowerCase()
+      .trim()
+      .replace(/^\//, '') // remove leading /
+      .replace(/[^\w]+/g, '-') // non-word -> dash
+      .replace(/-+/g, '-') // collapse dashes
+      .replace(/(^-|-$)/g, ''); // trim dashes
+  }
+
+  public navTestId(item: {
+    title?: string;
+    name?: string;
+    url?: string;
+  }): string {
+    // prefer url because it's the most stable key in your config
+    const key = this._slug(item.url || item.title || item.name);
+    return `nav-${key}`;
+  }
+
+  public navChildTestId(
+    parent: { title?: string; url?: string },
+    child: { name?: string; title?: string; url?: string }
+  ): string {
+    const p = this._slug(parent.url || parent.title);
+    const c = this._slug(child.url || child.name || child.title);
+    return `nav-${p}-${c}`;
   }
 
   ngOnDestroy(): void {

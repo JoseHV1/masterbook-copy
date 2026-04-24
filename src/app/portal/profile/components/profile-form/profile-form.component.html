@@ -8,11 +8,7 @@
       class="col-lg-3 col-md-12 d-flex align-items-center justify-content-center flex-column mb-4 mb-lg-0">
       <div class="d-flex align-items-center justify-content-center flex-column">
         <app-picture-selector
-          [icon]="
-            dataUser.photo_url
-              ? dataUser.photo_url
-              : '/assets/images/portal/image_default.webp'
-          "
+          [icon]="imageProfile"
           (imgChange)="
             addImage($event, 'profile_image')
           "></app-picture-selector>
@@ -130,19 +126,29 @@
             formControlName="allow_email_notifications"
             color="primary"
             class="custom-checkbox"
-            >Would you like to receive email notifications?</mat-checkbox
+            >I accept to receive email notification</mat-checkbox
           >
         </div>
 
         <ng-container *ngIf="dataUser.role !== 'INSURED'">
           <div class="col-12 col-md-6 mb-4 mb-md-0">
             <mat-checkbox
+              formControlName="allow_show_whatsapp_number"
+              color="primary"
+              class="custom-checkbox"
+              >I would like to share my WhatsApp number with my
+              accounts</mat-checkbox
+            >
+          </div>
+
+          <div class="col-12 col-md-6 mb-4 mb-md-0">
+            <mat-checkbox
               formControlName="allow_expiring_policies_notifications"
               color="primary"
               class="custom-checkbox"
-              >Would you like to receive notifications for upcoming policy
-              expirations and enable filters to view policies nearing their
-              expiration date?</mat-checkbox
+              >I would like to receive notifications for upcoming policy
+              expirations and filter policies nearing their expiration
+              date</mat-checkbox
             >
 
             <div
@@ -156,46 +162,67 @@
                 formControlName="days_expiring_policies_notifications" />
             </div>
           </div>
+        </ng-container>
 
-          <h4
-            class="mt-4 mb-4 mb-md-5 profile__subtitle text-center"
-            *ngIf="googleConnection">
-            Connected Accounts
-          </h4>
+        <h4 class="mt-4 mb-4 mb-md-5 profile__subtitle text-center">
+          Connected Accounts
+        </h4>
 
-          <div class="col-12" *ngIf="googleConnection">
-            <div class="p-3 p-md-4 bg-white rounded shadow-sm">
-              <div
-                class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                <div class="d-flex align-items-center gap-3">
-                  <img
-                    src="assets/images/google-logo.png"
-                    alt="Google"
-                    width="28"
-                    height="28" />
-
-                  <div>
-                    <div class="fw-semibold">Google</div>
-                    <div class="text-muted small">
-                      Connected as
-                      <strong>{{ googleConnection.email }}</strong>
-                    </div>
+        <div class="col-12">
+          <div class="p-3 p-md-4 bg-white rounded shadow-sm">
+            <div
+              *ngIf="googleConnection"
+              class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+              <div class="d-flex align-items-center gap-3">
+                <img
+                  src="assets/images/google-logo.png"
+                  alt="Google"
+                  width="28"
+                  height="28" />
+                <div>
+                  <div class="fw-semibold">Google</div>
+                  <div class="text-muted small">
+                    Connected as <strong>{{ googleConnection.email }}</strong>
                   </div>
                 </div>
-
-                <button
-                  class="primary-button back-light-blue-400 white mx-1 mt-2"
-                  (click)="disconnectGoogle()">
-                  Disconnect
-                </button>
               </div>
+              <button
+                class="primary-button back-light-blue-400 white mx-1 mt-2"
+                (click)="disconnectGoogle()">
+                Disconnect
+              </button>
+            </div>
 
-              <div class="text-muted small mt-2">
-                Disconnecting will disable Calendar sync and Gmail sending.
+            <div
+              *ngIf="!googleConnection"
+              class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+              <div class="d-flex align-items-center gap-3">
+                <img
+                  src="assets/images/google-logo.png"
+                  alt="Google"
+                  width="28"
+                  height="28" />
+                <div>
+                  <div class="fw-semibold">Google</div>
+                  <div class="text-muted small">Not connected</div>
+                </div>
               </div>
+              <button
+                class="primary-button back-light-blue-400 white mx-1 mt-2"
+                (click)="connectGoogle()">
+                Connect
+              </button>
+            </div>
+
+            <div class="text-muted small mt-2" *ngIf="googleConnection">
+              Disconnecting will disable Calendar sync and Gmail sending.
+            </div>
+            <div class="text-muted small mt-2" *ngIf="!googleConnection">
+              Connect your Google account to enable email sending and calendar
+              reminders.
             </div>
           </div>
-        </ng-container>
+        </div>
 
         <div
           class="d-flex justify-content-center align-items-center mt-3 mt-md-5">

@@ -30,14 +30,22 @@
     <button
       class="primary-button white back-gray-500"
       (click)="close('cancel')"
-      *ngIf="config.additionalButton">
-      No send
+      *ngIf="config.additionalButton || config.redirectButton">
+      {{ config.additionalButton ? 'No send' : 'Cancel' }}
     </button>
 
     <button
       [class]="'primary-button white ' + typeClass"
-      (click)="close('accept')">
+      (click)="close('accept')"
+      *ngIf="!config.redirectButton">
       Accept
+    </button>
+
+    <button
+      [class]="'primary-button white ' + typeClass"
+      *ngIf="config.redirectButton"
+      (click)="_url.navigateTo(config.redirectButton.url); close('redirect')">
+      {{ config.redirectButton.text }}
     </button>
   </div>
 </div>

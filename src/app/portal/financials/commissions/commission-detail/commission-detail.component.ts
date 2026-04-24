@@ -33,7 +33,6 @@ export class CommissionDetailsComponent {
             this.commission = resp;
           },
           error: error => {
-            console.error('Error fetching account details', error);
             this._ui.showAlertError('Error loading commission');
           },
         });

@@ -7,15 +7,25 @@ import {
 } from '@angular/core';
 import { EChartsOption } from 'echarts';
 
-type DonutData = {
-  // frontend-friendly
+export enum RequestStatusEnum {
+  PENDING_QUOTES = 'PENDING_QUOTES',
+  PENDING_SELECTION = 'PENDING_SELECTION',
+  QUOTE_SELECTED = 'QUOTE_SELECTED',
+  CLOSED = 'CLOSED',
+  REJECTED = 'REJECTED',
+  PENDING_CANCELLATION = 'PENDING_CANCELLATION',
+}
+
+type RequestsByStatus = Partial<Record<RequestStatusEnum, number>>;
+
+type LegacyDonutData = {
   requested?: number;
   responded?: number;
-
-  // backend shape you currently receive
   answered?: number;
   unanswered?: number;
 };
+
+type DonutData = RequestsByStatus & LegacyDonutData;
 
 @Component({
   selector: 'app-requests-by-type-chart',
@@ -46,7 +56,6 @@ export class RequestsByTypeChartComponent implements OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('RequestsByTypeChart ngOnChanges → chartData:', this.chartData);
     if (changes['chartData'] || changes['dateRange']) {
       this.formatData(this.chartData);
     }
@@ -61,46 +70,70 @@ export class RequestsByTypeChartComponent implements OnChanges, OnDestroy {
     }
   }
 
-  private normalize(data: DonutData) {
-    // Prefer explicit requested/responded if present, otherwise map backend answered/unanswered.
+  private statusLabel(status: string): string {
+    return status
+      .toLowerCase()
+      .split('_')
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+  }
+
+  private buildStatusSeries(data: DonutData) {
+    const statuses = Object.values(RequestStatusEnum);
+
+    const hasNewShape = statuses.some(
+      s => typeof (data as any)[s] === 'number'
+    );
+
+    if (hasNewShape) {
+      const donutData = statuses
+        .map(status => ({
+          name: this.statusLabel(status),
+          status,
+          value: Number((data as any)[status] ?? 0),
+        }))
+        .filter(d => d.value > 0);
+
+      return donutData.length ? donutData : [{ name: 'No Data', value: 0 }];
+    }
+
     const requested = data.requested ?? data.unanswered ?? 0;
     const responded = data.responded ?? data.answered ?? 0;
-    return { requested, responded };
+
+    return [
+      { name: 'Requested', value: requested },
+      { name: 'Responded', value: responded },
+    ];
   }
 
   formatData(data: DonutData) {
     if (!data) return;
 
-    const { requested, responded } = this.normalize(data);
+    const donutData: any[] = this.buildStatusSeries(data) as any[];
 
-    const donutData = [
-      { name: 'Requested', value: requested },
-      { name: 'Responded', value: responded },
-    ];
+    const total = donutData.reduce(
+      (sum: number, d: any) => sum + (d.value ?? 0),
+      0
+    );
 
-    const total = requested + responded;
+    const topTwo = [...donutData]
+      .filter((d: any) => (d.value ?? 0) > 0)
+      .sort((a: any, b: any) => (b.value ?? 0) - (a.value ?? 0))
+      .slice(0, 2);
+
+    const topTwoLines = topTwo
+      .map((d: any) => `${d.name}: ${d.value}`)
+      .join('\n');
 
     this.chartOptions = {
-      // Helpful when options update frequently
       animation: true,
-
-      title: { text: '', left: 'center' },
 
       tooltip: {
         trigger: 'item',
         formatter: (p: any) => `${p.name}: <b>${p.value}</b> (${p.percent}%)`,
       },
 
-      legend: this.isMobile
-        ? { show: false }
-        : {
-            orient: 'vertical',
-            right: 10,
-            top: 'middle',
-            ...(typeof {} as any),
-            textStyle: { color: 'black' },
-            formatter: () => '',
-          },
+      legend: { show: false }, // ✅ legend fully hidden
 
       series: [
         {
@@ -116,13 +149,14 @@ export class RequestsByTypeChartComponent implements OnChanges, OnDestroy {
                 show: true,
                 position: 'center',
                 formatter: () =>
-                  `{t|Total}\n{v|${total}}\n{b|Requested: ${requested}}\n{b|Responded: ${responded}}`,
-                ...(typeof {} as any),
+                  topTwoLines
+                    ? `{t|Total}\n{v|${total}}\n{b|${topTwoLines}}`
+                    : `{t|Total}\n{v|${total}}`,
                 rich: {
                   t: { fontSize: 11, color: '#777', lineHeight: 14 },
                   v: {
                     fontSize: 18,
-                    fontWeight: '700',
+                    fontWeight: 700,
                     color: '#111',
                     lineHeight: 22,
                   },

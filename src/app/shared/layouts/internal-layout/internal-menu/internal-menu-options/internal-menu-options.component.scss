@@ -19,7 +19,6 @@
   .submenu {
     padding: 0.5rem 0rem;
     transition: all 0.2s ease;
-    background: $dark-blue-600;
   }
 
   .text-submenu-option {
@@ -39,6 +38,10 @@
 
   .text-submenu-agent {
     color: $white;
+  }
+
+  .submenu-agent {
+    background: $dark-blue-600;
   }
 
   .active-suboption-agent {
@@ -63,6 +66,10 @@
 
   .text-submenu-client {
     color: $dark-blue-300;
+  }
+
+  .submenu-client {
+    background: none;
   }
 
   .active-suboption-client {
@@ -93,9 +100,19 @@
     color: #f9fafb;
   }
 
+  .submenu-admin {
+    background: linear-gradient(180deg, #2f3642 0%, #252b35 100%);
+    border-left: 2px solid rgba(255, 255, 255, 0.12);
+  }
+
   .active-suboption-admin {
-    background: linear-gradient(90deg, #22c55e 0%, rgba(34, 197, 94, 0) 100%);
+    background: linear-gradient(
+      90deg,
+      #c7cdd6 0%,
+      rgba(199, 205, 214, 0.18) 55%,
+      rgba(199, 205, 214, 0) 100%
+    );
     border-radius: 10px 0px 0px 10px;
-    opacity: 0.8px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
   }
 }

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { finalize } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { finalize, Subject, switchMap, take, takeUntil } from 'rxjs';
 
 import { UiService } from 'src/app/shared/services/ui.service';
 import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filtered-table.base';
@@ -7,13 +7,18 @@ import { InsurerModel } from 'src/app/shared/interfaces/models/insurer.model';
 import { FilterWrapperModel } from 'src/app/shared/models/filters.model';
 import { PaginatedResponse } from 'src/app/shared/interfaces/models/paginated-response.model';
 import { InsurerConfigService } from 'src/app/shared/services/insurer-config.service';
+import { ActivatedRoute } from '@angular/router';
+import { UiModalTypeEnum } from '@app/shared/enums/ui-modal-type.enum';
 
 @Component({
   selector: 'app-insurers-list',
   templateUrl: './insurers-list.component.html',
   styleUrls: ['./insurers-list.component.scss'],
 })
-export class InsurersListComponent extends FilteredTable<InsurerModel> {
+export class InsurersListComponent
+  extends FilteredTable<InsurerModel>
+  implements OnInit, OnDestroy
+{
   filterConfig!: FilterWrapperModel;
   data: PaginatedResponse<InsurerModel[]> = {
     records: [],
@@ -21,11 +26,36 @@ export class InsurersListComponent extends FilteredTable<InsurerModel> {
     limit: 10,
     total_records: 0,
   };
+  private destroy$ = new Subject<void>();
 
-  constructor(private _insurer: InsurerConfigService, private _ui: UiService) {
+  constructor(
+    private activateRoute: ActivatedRoute,
+    private _insurer: InsurerConfigService,
+    private _ui: UiService
+  ) {
     super();
     this.filterConfig = this._insurer.getInsurerListFilters();
     this._fetchData(this.data.page, this.data.limit);
+  }
+
+  ngOnInit(): void {
+    this.activateRoute.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
+      next: params => {
+        const notInsurers = params['not_insurers'];
+        if (notInsurers === 'true') {
+          this._ui
+            .showInformationModal({
+              text: 'Please set up the commission rates\nbefore submitting a request.',
+              title: 'ALERT!',
+              type: UiModalTypeEnum.WARNING,
+            })
+            .subscribe();
+        }
+      },
+      error: err => {
+        console.error('Error al obtener los parámetros de la URL', err);
+      },
+    });
   }
 
   _fetchData(page: number, hitsPerPage?: number): void {
@@ -41,5 +71,10 @@ export class InsurersListComponent extends FilteredTable<InsurerModel> {
 
   refresh(): void {
     this._fetchData(this.data.page - 1, this.data.limit);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

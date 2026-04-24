@@ -4,6 +4,7 @@
       formControlName="value"
       [placeholder]="placeholder"
       [multiple]="multiple"
+      [attr.data-testid]="dataTestId ?? null"
       (blur)="updateErrors()"
       (selectionChange)="changeValue()">
       <mat-option
@@ -17,7 +18,7 @@
     <mat-icon
       matSuffix
       class="clear-icon"
-      *ngIf="clearable && form.get('value')?.value"
+      *ngIf="clearable && hasValue()"
       (click)="clearSelection($event)">
       close
     </mat-icon>

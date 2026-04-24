@@ -29,10 +29,8 @@
 
       <app-internal-navbar-options></app-internal-navbar-options>
 
-      <div
-        class="d-flex align-items-center justify-content-center ms-0"
-        *ngIf="logo && showLogo">
-        <img [src]="logo" class="logo" />
+      <div class="container-logo" *ngIf="logo && showLogo">
+        <img class="text-selection-disable mt-1 ms-1 img-logo" [src]="logo" />
       </div>
     </div>
   </div>

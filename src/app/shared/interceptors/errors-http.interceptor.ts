@@ -49,6 +49,19 @@ export class ErrorsHttpInterceptor implements HttpInterceptor {
       );
     }
 
+    const backendMsg =
+      err.error?.message ||
+      err.error?.response?.message ||
+      (typeof err.error === 'string' ? err.error : undefined);
+
+    if (
+      backendMsg &&
+      typeof backendMsg === 'string' &&
+      backendMsg.toLowerCase() !== 'bad request'
+    ) {
+      return backendMsg;
+    }
+
     const backendCode =
       err.error?.code ||
       err.error?.error?.code ||
@@ -59,25 +72,25 @@ export class ErrorsHttpInterceptor implements HttpInterceptor {
       const translated = this._translate.instant(
         `BACKEND_MESSAGES_ERRORS.${backendCode}`
       );
-      return translated !== `BACKEND_MESSAGES_ERRORS.${backendCode}`
-        ? translated
-        : backendCode;
+      if (translated !== `BACKEND_MESSAGES_ERRORS.${backendCode}`) {
+        return translated;
+      }
     }
 
-    const backendMsg =
-      err.error?.message?.message ||
-      (Array.isArray(err.error?.message)
-        ? err.error.message.join(', ')
-        : err.error?.message) ||
-      err.error?.error ||
-      undefined;
-
-    if (backendMsg && typeof backendMsg === 'string') {
-      return backendMsg;
+    if (Array.isArray(err.error?.message)) {
+      return err.error.message.join(', ');
     }
 
-    if (err.message) return err.message;
-    if (err.statusText) return err.statusText;
+    if (
+      err.error?.error &&
+      typeof err.error.error === 'string' &&
+      err.error.error !== 'Bad Request'
+    ) {
+      return err.error.error;
+    }
+
+    if (err.statusText && err.statusText !== 'Unknown Error')
+      return err.statusText;
 
     return this._translate.instant('BACKEND_MESSAGES_ERRORS.UNKNOWN_ERROR');
   }
