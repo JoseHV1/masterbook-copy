@@ -31,7 +31,7 @@
         <span class="fw-semibold black">Lead registration link</span>
       </div>
 
-      <ng-container *ngIf="dataAgency?.token_leads === null; else urlLead">
+      <ng-container *ngIf="!dataAgency.token_leads; else urlLead">
         <button
           class="primary-button big-button back-light-blue-400 white"
           (click)="createUrlLead()">
