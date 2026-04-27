@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -23,27 +22,17 @@ import {
 export class CalendarComponent implements OnInit {
   connected = false;
   loading = true;
+  isMobile = window.innerWidth < 768;
+  currentDateLabel = '';
+  goToDateValue = '';
+  showSearch = false;
+  searchFilters = { what: '', who: '', where: '', doesntHave: '', dateFrom: '', dateTo: '' };
+  private _activeSearch: typeof this.searchFilters | null = null;
+  private _navTarget = '';
 
-  currentView: 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay' = 'timeGridWeek';
-
-  // Toolbar: current period label
-  currentTitle = '…';
-  private currentRangeStart = '';
-  private currentRangeEnd = '';
-
-  // Search
-  searchOpen = false;
-  searchResults: CalendarEventLite[] | null = null;
-  searchLoading = false;
-
-  searchForm = new FormGroup({
-    what: new FormControl(''),
-    who: new FormControl(''),
-    where: new FormControl(''),
-    doesntHave: new FormControl(''),
-    dateFrom: new FormControl(''),
-    dateTo: new FormControl(''),
-  });
+  get hasActiveSearch(): boolean {
+    return !!this._activeSearch;
+  }
 
   constructor(
     private dialog: MatDialog,
@@ -52,6 +41,21 @@ export class CalendarComponent implements OnInit {
   ) {}
 
   @ViewChild('fc') fc?: FullCalendarComponent;
+
+  @HostListener('document:click')
+  closeDropdowns(): void {
+    this.showSearch = false;
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+    const wasMobile = this.isMobile;
+    this.isMobile = window.innerWidth < 768;
+    if (wasMobile !== this.isMobile) {
+      this.changeView(this.isMobile ? 'timeGridDay' : 'timeGridWeek');
+    }
+    // fc-container height is CSS-driven (calc), FullCalendar will re-render automatically
+  }
 
   async ngOnInit() {
     this.loading = true;
@@ -76,6 +80,8 @@ export class CalendarComponent implements OnInit {
     });
   }
 
+  currentView: 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay' = window.innerWidth < 768 ? 'timeGridDay' : 'timeGridWeek';
+
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     initialView: this.currentView,
@@ -89,9 +95,11 @@ export class CalendarComponent implements OnInit {
     eventTimeFormat: { hour: '2-digit', minute: '2-digit', meridiem: false },
 
     datesSet: info => {
-      this.currentTitle = info.view.title;
-      this.currentRangeStart = info.startStr;
-      this.currentRangeEnd = info.endStr;
+      this.currentDateLabel = info.view.title;
+      if (info.view.type === 'timeGridDay') {
+        this._navTarget = info.startStr.slice(0, 10);
+      }
+      this._applyNavTargetHighlight();
     },
 
     select: sel => this.openCreateDialog(sel.start, sel.end, sel.allDay),
@@ -111,99 +119,6 @@ export class CalendarComponent implements OnInit {
     eventDrop: ({ event }) => this.persistMove(event),
     eventResize: ({ event }) => this.persistMove(event),
   };
-
-  // ----- Search -----
-
-  toggleSearch() {
-    this.searchOpen = !this.searchOpen;
-    if (!this.searchOpen) {
-      this.searchResults = null;
-      this.searchForm.reset();
-    }
-  }
-
-  async doSearch() {
-    const v = this.searchForm.getRawValue();
-    const what = v.what ?? '';
-    const who = v.who ?? '';
-    const whereVal = v.where ?? '';
-    const doesntHave = v.doesntHave ?? '';
-    const dateFrom = v.dateFrom ?? '';
-    const dateTo = v.dateTo ?? '';
-
-    // If a text query exists but no dates → search all history (pass empty range)
-    // If no query and no dates → stay within current view range
-    const hasTextQuery = !!(what.trim() || who.trim() || whereVal.trim());
-    const from = dateFrom
-      ? new Date(dateFrom + 'T00:00:00').toISOString()
-      : hasTextQuery ? '' : this.currentRangeStart;
-    const to = dateTo
-      ? new Date(dateTo + 'T23:59:59').toISOString()
-      : hasTextQuery ? '' : this.currentRangeEnd;
-
-    this.searchLoading = true;
-    try {
-      // Combine what + who + where into one `q` so Google searches all fields
-      // server-side (title, description, location, attendees) across all history.
-      // Client-side filters below then add field-specific precision on top.
-      const combinedQ = [what, who, whereVal]
-        .map(s => s.trim())
-        .filter(Boolean)
-        .join(' ');
-
-      let results = await firstValueFrom(
-        this.api.list(from, to, combinedQ || undefined)
-      );
-
-      // `who` and `where` are more specific client-side filters
-      if (who.trim()) {
-        const q = who.toLowerCase();
-        results = results.filter(e =>
-          e.attendees?.some(
-            a =>
-              a.email?.toLowerCase().includes(q) ||
-              a.displayName?.toLowerCase().includes(q)
-          )
-        );
-      }
-
-      if (whereVal.trim()) {
-        const q = whereVal.toLowerCase();
-        results = results.filter(e => e.location?.toLowerCase().includes(q));
-      }
-
-      if (doesntHave.trim()) {
-        const q = doesntHave.toLowerCase();
-        results = results.filter(
-          e =>
-            !e.title?.toLowerCase().includes(q) &&
-            !e.description?.toLowerCase().includes(q)
-        );
-      }
-
-      this.searchResults = results;
-    } catch (e) {
-      console.error('search failed', e);
-    } finally {
-      this.searchLoading = false;
-    }
-  }
-
-  resetSearch() {
-    this.searchForm.reset();
-    this.searchResults = null;
-  }
-
-  goToEvent(event: CalendarEventLite) {
-    this.searchOpen = false;
-    this.searchResults = null;
-    this.searchForm.reset();
-    this.fc?.getApi().gotoDate(new Date(event.start));
-  }
-
-  jumpToDate(date: Date | null) {
-    if (date) this.fc?.getApi().gotoDate(date);
-  }
 
   // ----- Dialogs -----
 
@@ -315,10 +230,8 @@ export class CalendarComponent implements OnInit {
   // ----- Backend wiring -----
 
   private async fetchEvents(fromISO: string, toISO: string): Promise<EventInput[]> {
-    const items: CalendarEventLite[] = await firstValueFrom(
-      this.api.list(fromISO, toISO)
-    );
-    return items.map(e => ({
+    const items: CalendarEventLite[] = await firstValueFrom(this.api.list(fromISO, toISO));
+    let events: EventInput[] = items.map(e => ({
       id: e.id,
       title: e.title,
       start: e.start,
@@ -331,6 +244,47 @@ export class CalendarComponent implements OnInit {
         location: e.location,
       },
     }));
+
+    if (this._activeSearch) {
+      const f = this._activeSearch;
+      events = events.filter(ev => {
+        if (f.what) {
+          const kw = f.what.toLowerCase();
+          const inTitle = (ev.title as string)?.toLowerCase().includes(kw);
+          const inDesc = ((ev.extendedProps as any)?.description as string)?.toLowerCase().includes(kw);
+          if (!inTitle && !inDesc) return false;
+        }
+        if (f.who) {
+          const kw = f.who.toLowerCase();
+          const attendees: string[] = (ev.extendedProps as any)?.attendees ?? [];
+          if (!attendees.some((a: string) => a.toLowerCase().includes(kw))) return false;
+        }
+        if (f.where) {
+          const kw = f.where.toLowerCase();
+          const loc = ((ev.extendedProps as any)?.location as string)?.toLowerCase() ?? '';
+          if (!loc.includes(kw)) return false;
+        }
+        if (f.doesntHave) {
+          const kw = f.doesntHave.toLowerCase();
+          const inTitle = (ev.title as string)?.toLowerCase().includes(kw);
+          const inDesc = ((ev.extendedProps as any)?.description as string)?.toLowerCase().includes(kw);
+          if (inTitle || inDesc) return false;
+        }
+        if (f.dateFrom) {
+          const evStart = ev.start ? new Date(ev.start as string) : null;
+          if (evStart && evStart < new Date(f.dateFrom)) return false;
+        }
+        if (f.dateTo) {
+          const evEnd = ev.end
+            ? new Date(ev.end as string)
+            : ev.start ? new Date(ev.start as string) : null;
+          if (evEnd && evEnd > new Date(f.dateTo + 'T23:59:59')) return false;
+        }
+        return true;
+      });
+    }
+
+    return events;
   }
 
   private async persistMove(event: any) {
@@ -349,14 +303,37 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  // ----- Toolbar -----
+  // ----- Toolbar helpers -----
+
+  gotoDate(): void {
+    if (!this.goToDateValue) return;
+    this._navTarget = this.goToDateValue;
+    this.fc?.getApi().gotoDate(this.goToDateValue);
+    this.showSearch = false;
+    this.goToDateValue = '';
+  }
+
+  applySearch(): void {
+    this._activeSearch = { ...this.searchFilters };
+    this.showSearch = false;
+    this.fc?.getApi().refetchEvents();
+  }
+
+  resetSearch(): void {
+    this.searchFilters = { what: '', who: '', where: '', doesntHave: '', dateFrom: '', dateTo: '' };
+    this._activeSearch = null;
+    this.showSearch = false;
+    this.fc?.getApi().refetchEvents();
+  }
 
   gotoToday() {
+    this._navTarget = '';
     this.fc?.getApi().today();
     this.fc?.getApi().refetchEvents();
   }
 
   nav(direction: 'prev' | 'next') {
+    if (this.currentView !== 'timeGridDay') this._navTarget = '';
     const api = this.fc?.getApi();
     if (!api) return;
     direction === 'prev' ? api.prev() : api.next();
@@ -364,9 +341,29 @@ export class CalendarComponent implements OnInit {
   }
 
   changeView(view: 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay') {
+    if (view !== 'timeGridDay') this._navTarget = '';
     this.currentView = view;
     const api = this.fc?.getApi();
     api?.changeView(view);
     api?.refetchEvents();
+  }
+
+  private _applyNavTargetHighlight(): void {
+    setTimeout(() => {
+      document.querySelectorAll('.fc-col-header-cell.fc-nav-target')
+        .forEach(el => el.classList.remove('fc-nav-target'));
+
+      const today = new Date().toISOString().slice(0, 10);
+
+      // Always underline today when visible
+      document.querySelector(`.fc-col-header-cell[data-date="${today}"]`)
+        ?.classList.add('fc-nav-target');
+
+      // Also underline the explicit Go-To target if it differs from today
+      if (this._navTarget && this._navTarget !== today) {
+        document.querySelector(`.fc-col-header-cell[data-date="${this._navTarget}"]`)
+          ?.classList.add('fc-nav-target');
+      }
+    }, 50);
   }
 }

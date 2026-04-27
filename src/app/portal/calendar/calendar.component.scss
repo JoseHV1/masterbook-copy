@@ -5,326 +5,178 @@
   padding: 12px;
 }
 
+.fc-container {
+  overflow-x: hidden;
+  width: 100%;
+  height: calc(100vh - 260px);
+
+  @media (max-width: 767px) {
+    height: calc(100vh - 300px);
+  }
+}
+
 full-calendar, .fc {
-  min-height: calc(100vh - 200px);
+  height: 100%;
 }
 
-// ── Toolbar ──────────────────────────────────────────────────────────────────
+// ----- Toolbar nav buttons -----
 
-.toolbar {
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
-// Date title button
-.date-title-wrap {
-  position: relative;
+.toolbar-today-label {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  padding: 4px 10px;
+  line-height: 1;
   display: inline-flex;
   align-items: center;
 }
 
-.date-title-btn {
-  font-size: 1rem;
+// ----- Date label -----
+
+.date-label-text {
+  color: white;
+  font-size: 17px;
   font-weight: 500;
-  letter-spacing: 0;
-  padding: 0 6px;
-  display: flex;
-  align-items: center;
-  gap: 2px;
-
-  .date-title-arrow {
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-    opacity: 0.7;
-  }
-
-  &:hover .date-title-arrow {
-    opacity: 1;
-  }
-}
-
-// Hidden anchor for the jump-to-date datepicker
-.picker-anchor {
-  position: absolute;
-  left: 50%;
-  top: 100%;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-// Active state for search toggle button
-.search-btn--active {
-  background: color-mix(in srgb, $light-blue-600 25%, transparent) !important;
-  color: $light-blue-600 !important;
-  border-radius: 50%;
-}
-
-// View toggle
-.segmented--toolbar {
-  background: rgba(120, 120, 120, 0.1);
-  border: none !important;
-  padding: 4px;
-
-  .mat-button-toggle {
-    border: none;
-
-    .mat-button-toggle-button {
-      padding: 0 16px;
-    }
-
-    &.mat-button-toggle-checked .mat-button-toggle-button {
-      background: white;
-      color: #1f1f1f;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
-  }
-}
-
-// ── Search Panel ─────────────────────────────────────────────────────────────
-
-.search-panel {
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0;
-}
-
-.sp-row {
-  display: flex;
-  align-items: center;
-  min-height: 48px;
-  padding: 0 20px;
-  gap: 16px;
-
-  &--first {
-    padding-top: 4px;
-  }
-
-  &--date {
-    min-height: 56px;
-  }
-}
-
-.sp-label {
-  flex: 0 0 110px;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.55);
-  text-transform: none;
+  margin-left: 8px;
   white-space: nowrap;
 }
 
-.sp-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  padding: 4px 10px 4px 6px;
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.9);
-  cursor: default;
-  user-select: none;
+// ----- Go To Date button (inside search panel) -----
 
-  .sp-chip-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-    color: $light-blue-600;
-  }
-
-  .sp-chip-arrow {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-    opacity: 0.6;
-  }
+.goto-go-btn {
+  min-width: auto;
+  padding: 0.55rem 1.2rem !important;
+  flex-shrink: 0;
 }
 
-.sp-input {
-  flex: 1;
-  background: transparent;
-  border: none;
+// ----- Toolbar wrapper -----
+
+.calendar-toolbar-wrapper {
+  position: relative;
+}
+
+// ----- Search panel (floating overlay) -----
+
+.search-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: white;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  padding: 4px 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.search-field-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #777;
+  margin-bottom: 6px;
+}
+
+.search-field-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d0d3d9;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  background: white;
   outline: none;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.9rem;
-  font-family: inherit;
-  padding: 8px 0;
+  transition: border-color 0.15s;
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.3);
+    color: #b0b3bb;
   }
 
   &:focus {
-    border-bottom: 1px solid $light-blue-600;
+    border-color: $dark-blue-400;
+    box-shadow: 0 0 0 2px rgba(0, 80, 160, 0.08);
   }
 }
 
-.sp-date-range {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-}
-
-.sp-date-input {
-  flex: 1;
-  max-width: 160px;
-  background: rgba(255, 255, 255, 0.07);
-  border-radius: 6px;
-  padding: 7px 10px;
-  color-scheme: dark;
-
-  &::-webkit-calendar-picker-indicator {
-    filter: invert(0.7);
-    cursor: pointer;
-  }
-}
-
-.sp-date-sep {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.sp-divider {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.07);
-  margin: 0 20px;
-}
-
-.sp-actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px 14px;
-}
-
-.sp-btn-reset {
-  color: rgba(255, 255, 255, 0.65) !important;
-  font-size: 0.88rem;
-
-  &:hover {
-    color: white !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-  }
-}
-
-.sp-btn-search {
-  background-color: $light-blue-600 !important;
-  color: white !important;
-  font-size: 0.88rem;
-  min-width: 90px;
-
-  &:disabled {
-    opacity: 0.6;
-  }
-}
-
-// ── Search Results ────────────────────────────────────────────────────────────
-
-.search-results {
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 0 0 8px 8px;
-  max-height: 320px;
-  overflow-y: auto;
-  margin-bottom: 8px;
-}
-
-.sr-empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 24px;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 0.9rem;
-
-  mat-icon {
-    opacity: 0.5;
-  }
-}
-
-.sr-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: background 0.15s;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.06);
-
-    .sr-arrow {
-      opacity: 1;
-    }
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  }
-}
-
-.sr-dot {
+.search-date-arrow {
+  color: #888;
+  font-size: 16px;
   flex-shrink: 0;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: $light-blue-600;
 }
 
-.sr-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
+.search-icon-active {
+  color: #fdd835 !important;
 }
 
-.sr-title {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.sr-meta {
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.sr-arrow {
-  flex-shrink: 0;
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
-  color: rgba(255, 255, 255, 0.4);
-  opacity: 0;
-  transition: opacity 0.15s;
-}
-
-// ── Calendar overrides ────────────────────────────────────────────────────────
+// ----- FullCalendar overrides -----
 
 :host ::ng-deep {
+  // Keep the breadcrumb header above any FullCalendar sticky elements
+  .header-section {
+    position: relative;
+    z-index: 10;
+  }
+
+  // ── Column headers ──────────────────────────────────────────
   .fc-theme-standard th {
-    background: color-mix(in srgb, $white 6%, transparent);
-    padding: 8px 0;
+    background: color-mix(in srgb, $dark-blue-200 8%, white);
+    padding: 10px 0;
     font-weight: 600;
-    border-color: $dark-blue-500;
+    border-color: #e2e6ea;
   }
 
+  // ── Grid lines: light & subtle ───────────────────────────────
+  .fc-theme-standard td,
+  .fc-theme-standard .fc-scrollgrid {
+    border-color: #e2e6ea;
+  }
+
+  .fc-timegrid-slot {
+    height: 2.2rem !important;
+    border-color: #eef0f3 !important;
+  }
+
+  .fc-timegrid-slot-minor {
+    border-top-style: dashed !important;
+    border-color: #f0f2f4 !important;
+  }
+
+  // ── Time axis ────────────────────────────────────────────────
+  .fc-timegrid-axis {
+    width: 58px !important;
+  }
+
+  .fc-timegrid-slot-label {
+    vertical-align: top !important;
+  }
+
+  .fc-timegrid-slot-label-cushion {
+    font-size: 0.72rem !important;
+    color: #8a94a0 !important;
+    font-weight: 500 !important;
+    padding-right: 8px !important;
+    text-align: right !important;
+    white-space: nowrap !important;
+  }
+
+  .fc-timegrid-axis-cushion {
+    font-size: 0.72rem !important;
+    color: #8a94a0 !important;
+    white-space: nowrap !important;
+  }
+
+  // ── Today highlight ──────────────────────────────────────────
   .fc .fc-day-today {
-    background: color-mix(in srgb, $light-blue-600 8%, transparent) !important;
+    background: color-mix(in srgb, $dark-blue-200 5%, white) !important;
   }
 
+  // ── Column header cells ──────────────────────────────────────
   .fc-col-header-cell-cushion {
     display: flex !important;
     flex-direction: column !important;
@@ -349,6 +201,15 @@ full-calendar, .fc {
     line-height: 1;
   }
 
+  .fc-col-header-cell.fc-nav-target,
+  .fc-col-header-cell.fc-day-today {
+    border-bottom: 3px solid $dark-blue-200 !important;
+
+    .fc-col-header-cell-cushion {
+      font-weight: 700;
+    }
+  }
+
   .fc-view-timeGridWeek,
   .fc-view-dayGridWeek {
     .day-number {
@@ -364,6 +225,26 @@ full-calendar, .fc {
       text-transform: uppercase;
       font-size: 0.85rem;
       letter-spacing: 1px;
+    }
+  }
+}
+
+.segmented--toolbar {
+  background: rgba(120, 120, 120, 0.1);
+  border: none !important;
+  padding: 4px;
+
+  .mat-button-toggle {
+    border: none;
+
+    .mat-button-toggle-button {
+      padding: 0 16px;
+    }
+
+    &.mat-button-toggle-checked .mat-button-toggle-button {
+      background: white;
+      color: #1f1f1f;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
   }
 }
@@ -384,13 +265,44 @@ full-calendar, .fc {
   border-width: 2px;
 }
 
-// ── Utilities ─────────────────────────────────────────────────────────────────
+// ----- Responsive -----
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+@media (max-width: 767px) {
+  :host {
+    padding: 6px;
+  }
 
-.spin {
-  animation: spin 0.9s linear infinite;
+  .date-label-text {
+    font-size: 14px;
+  }
+
+  .search-panel .row {
+    padding: 0.5rem !important;
+    flex-direction: column !important;
+  }
+
+  .search-field-input {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+
+  :host ::ng-deep {
+    .fc-timegrid-axis {
+      width: 46px !important;
+    }
+
+    .fc-timegrid-slot-label-cushion {
+      font-size: 0.65rem !important;
+      padding-right: 4px !important;
+    }
+
+    .fc-col-header-cell-cushion {
+      font-size: 11px;
+      padding: 4px 2px;
+    }
+
+    .fc-event-main {
+      font-size: 0.75rem !important;
+    }
+  }
 }

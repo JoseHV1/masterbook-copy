@@ -47,18 +47,17 @@ export interface UpdateEventPayload {
 export class CalendarApiService {
   constructor(private _api: ApiService) {}
 
-  list(fromISO: string, toISO: string, q?: string): Observable<CalendarEventLite[]> {
-    const params: string[] = [];
-    if (fromISO) params.push(`from=${encodeURIComponent(fromISO)}`);
-    if (toISO) params.push(`to=${encodeURIComponent(toISO)}`);
-    if (q?.trim()) params.push(`q=${encodeURIComponent(q.trim())}`);
-    const qs = params.length ? `?${params.join('&')}` : '';
-
+  list(fromISO: string, toISO: string): Observable<CalendarEventLite[]> {
     return this._api
       .get<ApiResponseModel<{ items: CalendarEventLite[] }>>(
-        `/integrations/google/events${qs}`
+        `/integrations/google/events?from=${encodeURIComponent(
+          fromISO
+        )}&to=${encodeURIComponent(toISO)}`
       )
-      .pipe(map(r => r.data.items));
+      .pipe(
+        // tap(r => console.log('events list raw:', r)),
+        map(r => r.data.items)
+      );
   }
 
   create(
