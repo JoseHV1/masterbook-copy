@@ -5,22 +5,178 @@
   padding: 12px;
 }
 
-full-calendar, .fc {
-  min-height: calc(100vh - 140px);
+.fc-container {
+  overflow-x: hidden;
+  width: 100%;
+  height: calc(100vh - 260px);
+
+  @media (max-width: 767px) {
+    height: calc(100vh - 300px);
+  }
 }
 
+full-calendar, .fc {
+  height: 100%;
+}
+
+// ----- Toolbar nav buttons -----
+
+.toolbar-today-label {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  padding: 4px 10px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+// ----- Date label -----
+
+.date-label-text {
+  color: white;
+  font-size: 17px;
+  font-weight: 500;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+// ----- Go To Date button (inside search panel) -----
+
+.goto-go-btn {
+  min-width: auto;
+  padding: 0.55rem 1.2rem !important;
+  flex-shrink: 0;
+}
+
+// ----- Toolbar wrapper -----
+
+.calendar-toolbar-wrapper {
+  position: relative;
+}
+
+// ----- Search panel (floating overlay) -----
+
+.search-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: white;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  padding: 4px 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.search-field-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #777;
+  margin-bottom: 6px;
+}
+
+.search-field-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d0d3d9;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  background: white;
+  outline: none;
+  transition: border-color 0.15s;
+
+  &::placeholder {
+    color: #b0b3bb;
+  }
+
+  &:focus {
+    border-color: $dark-blue-400;
+    box-shadow: 0 0 0 2px rgba(0, 80, 160, 0.08);
+  }
+}
+
+.search-date-arrow {
+  color: #888;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.search-icon-active {
+  color: #fdd835 !important;
+}
+
+// ----- FullCalendar overrides -----
+
 :host ::ng-deep {
+  // Keep the breadcrumb header above any FullCalendar sticky elements
+  .header-section {
+    position: relative;
+    z-index: 10;
+  }
+
+  // ── Column headers ──────────────────────────────────────────
   .fc-theme-standard th {
-    background: color-mix(in srgb, $white 6%, transparent);
-    padding: 8px 0;
+    background: color-mix(in srgb, $dark-blue-200 8%, white);
+    padding: 10px 0;
     font-weight: 600;
-    border-color: $dark-blue-500;
+    border-color: #e2e6ea;
   }
 
+  // ── Grid lines: light & subtle ───────────────────────────────
+  .fc-theme-standard td,
+  .fc-theme-standard .fc-scrollgrid {
+    border-color: #e2e6ea;
+  }
+
+  .fc-timegrid-slot {
+    height: 2.2rem !important;
+    border-color: #eef0f3 !important;
+  }
+
+  .fc-timegrid-slot-minor {
+    border-top-style: dashed !important;
+    border-color: #f0f2f4 !important;
+  }
+
+  // ── Time axis ────────────────────────────────────────────────
+  .fc-timegrid-axis {
+    width: 58px !important;
+  }
+
+  .fc-timegrid-slot-label {
+    vertical-align: top !important;
+  }
+
+  .fc-timegrid-slot-label-cushion {
+    font-size: 0.72rem !important;
+    color: #8a94a0 !important;
+    font-weight: 500 !important;
+    padding-right: 8px !important;
+    text-align: right !important;
+    white-space: nowrap !important;
+  }
+
+  .fc-timegrid-axis-cushion {
+    font-size: 0.72rem !important;
+    color: #8a94a0 !important;
+    white-space: nowrap !important;
+  }
+
+  // ── Today highlight ──────────────────────────────────────────
   .fc .fc-day-today {
-    background: color-mix(in srgb, $light-blue-600 8%, transparent) !important;
+    background: color-mix(in srgb, $dark-blue-200 5%, white) !important;
   }
 
+  // ── Column header cells ──────────────────────────────────────
   .fc-col-header-cell-cushion {
     display: flex !important;
     flex-direction: column !important;
@@ -43,6 +199,15 @@ full-calendar, .fc {
     opacity: 0.6;
     display: block;
     line-height: 1;
+  }
+
+  .fc-col-header-cell.fc-nav-target,
+  .fc-col-header-cell.fc-day-today {
+    border-bottom: 3px solid $dark-blue-200 !important;
+
+    .fc-col-header-cell-cushion {
+      font-weight: 700;
+    }
   }
 
   .fc-view-timeGridWeek,
@@ -98,4 +263,46 @@ full-calendar, .fc {
 .fc .fc-timegrid-now-indicator-line {
   border-color: #e91e63;
   border-width: 2px;
+}
+
+// ----- Responsive -----
+
+@media (max-width: 767px) {
+  :host {
+    padding: 6px;
+  }
+
+  .date-label-text {
+    font-size: 14px;
+  }
+
+  .search-panel .row {
+    padding: 0.5rem !important;
+    flex-direction: column !important;
+  }
+
+  .search-field-input {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+
+  :host ::ng-deep {
+    .fc-timegrid-axis {
+      width: 46px !important;
+    }
+
+    .fc-timegrid-slot-label-cushion {
+      font-size: 0.65rem !important;
+      padding-right: 4px !important;
+    }
+
+    .fc-col-header-cell-cushion {
+      font-size: 11px;
+      padding: 4px 2px;
+    }
+
+    .fc-event-main {
+      font-size: 0.75rem !important;
+    }
+  }
 }

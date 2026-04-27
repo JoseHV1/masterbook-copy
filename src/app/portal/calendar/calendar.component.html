@@ -1,37 +1,124 @@
 <app-pages-layout>
   <ng-container content>
     <ng-container *ngIf="!loading && connected; else waitOrConnect">
-      <div
-        class="row back-dark-blue-200 white mb-2 py-3 mx-0 rounded flex-column flex-md-row">
+
+      <!-- Toolbar wrapper (relative so search panel can overlay) -->
+      <div class="calendar-toolbar-wrapper">
         <div
-          class="col-12 col-md-6 d-flex justify-content-center justify-content-md-start align-items-center mb-2 mb-md-0">
-          <button mat-icon-button (click)="nav('prev')" matTooltip="Previous">
-            <mat-icon>chevron_left</mat-icon>
-          </button>
-          <button mat-button (click)="gotoToday()" class="white">Today</button>
-          <button mat-icon-button (click)="nav('next')" matTooltip="Next">
-            <mat-icon>chevron_right</mat-icon>
-          </button>
+          class="row back-dark-blue-200 white mb-0 py-3 mx-0 rounded flex-column flex-md-row align-items-center">
+          <!-- Left: nav + date label -->
+          <div
+            class="col-12 col-md-6 d-flex justify-content-center justify-content-md-start align-items-center mb-2 mb-md-0">
+            <button mat-icon-button (click)="nav('prev')" matTooltip="Previous">
+              <mat-icon>chevron_left</mat-icon>
+            </button>
+            <span class="toolbar-today-label">Today</span>
+            <button mat-icon-button (click)="nav('next')" matTooltip="Next">
+              <mat-icon>chevron_right</mat-icon>
+            </button>
+
+            <!-- Date label (display only) -->
+            <span class="date-label-text">{{ currentDateLabel }}</span>
+          </div>
+
+          <!-- Right: search + view toggle -->
+          <div
+            class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end align-items-center gap-2">
+            <button
+              mat-icon-button
+              matTooltip="Search events"
+              (click)="$event.stopPropagation(); showSearch = !showSearch">
+              <mat-icon [class.search-icon-active]="hasActiveSearch">search</mat-icon>
+            </button>
+            <mat-button-toggle-group
+              class="segmented segmented--toolbar"
+              appearance="standard"
+              [value]="currentView"
+              (change)="changeView($event.value)"
+              name="view"
+              exclusive>
+              <mat-button-toggle value="dayGridMonth" *ngIf="!isMobile">Month</mat-button-toggle>
+              <mat-button-toggle value="timeGridWeek" *ngIf="!isMobile">Week</mat-button-toggle>
+              <mat-button-toggle value="timeGridDay">Day</mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
         </div>
 
-        <div
-          class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end align-items-center">
-          <mat-button-toggle-group
-            class="segmented segmented--toolbar"
-            appearance="standard"
-            [value]="currentView"
-            (change)="changeView($event.value)"
-            name="view"
-            exclusive>
-            <mat-button-toggle value="dayGridMonth">Month</mat-button-toggle>
-            <mat-button-toggle value="timeGridWeek">Week</mat-button-toggle>
-            <mat-button-toggle value="timeGridDay">Day</mat-button-toggle>
-          </mat-button-toggle-group>
+        <!-- Search panel (floats above calendar) -->
+        <div class="search-panel" *ngIf="showSearch" (click)="$event.stopPropagation()">
+          <!-- Go to date row -->
+          <div class="row px-3 pt-3 pb-1 mx-0">
+            <div class="col-12 d-flex align-items-center gap-2">
+              <label class="search-field-label mb-0" style="white-space: nowrap">Go to date</label>
+              <input
+                type="date"
+                [(ngModel)]="goToDateValue"
+                class="search-field-input"
+                style="max-width: 180px"
+                (keydown.enter)="gotoDate()" />
+              <button class="primary-button back-dark-blue-200 white goto-go-btn" (click)="gotoDate()">Go</button>
+            </div>
+          </div>
+          <hr class="mx-3 mt-2 mb-0" style="border-color: #e0e3e8;" />
+          <div class="row px-3 py-3 mx-0">
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+              <label class="search-field-label">What</label>
+              <input
+                type="text"
+                [(ngModel)]="searchFilters.what"
+                placeholder="Keywords contained in event"
+                class="search-field-input" />
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+              <label class="search-field-label">Who</label>
+              <input
+                type="text"
+                [(ngModel)]="searchFilters.who"
+                placeholder="Participant, organizer or creator"
+                class="search-field-input" />
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+              <label class="search-field-label">Where</label>
+              <input
+                type="text"
+                [(ngModel)]="searchFilters.where"
+                placeholder="Location or room"
+                class="search-field-input" />
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+              <label class="search-field-label">Doesn't have</label>
+              <input
+                type="text"
+                [(ngModel)]="searchFilters.doesntHave"
+                placeholder="Keywords not in event"
+                class="search-field-input" />
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+              <label class="search-field-label">Date from</label>
+              <input
+                type="date"
+                [(ngModel)]="searchFilters.dateFrom"
+                class="search-field-input" />
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+              <label class="search-field-label">Date to</label>
+              <input
+                type="date"
+                [(ngModel)]="searchFilters.dateTo"
+                class="search-field-input" />
+            </div>
+            <div class="col-12 d-flex justify-content-end align-items-end gap-2 mb-1">
+              <button class="primary-button back-gray-400 white" (click)="resetSearch()">Reset</button>
+              <button class="primary-button back-dark-blue-200 white" (click)="applySearch()">Search</button>
+            </div>
+          </div>
         </div>
       </div>
 
       <mat-divider></mat-divider>
-      <full-calendar #fc [options]="calendarOptions"></full-calendar>
+      <div class="fc-container">
+        <full-calendar #fc [options]="calendarOptions"></full-calendar>
+      </div>
     </ng-container>
 
     <ng-template #waitOrConnect>
