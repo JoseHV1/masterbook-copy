@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { finalize } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { finalize, of, Subject, takeUntil } from 'rxjs';
 import { PoliciesService } from 'src/app/shared/services/policies.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { FilterWrapperModel } from 'src/app/shared/models/filters.model';
@@ -11,13 +11,18 @@ import { PopulatedPolicyModel } from 'src/app/shared/interfaces/models/policy.mo
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@app/shared/services/auth.service';
 import { AuthModel } from '@app/shared/interfaces/models/auth.model';
+import { RolesEnum } from 'src/app/shared/enums/roles.enum';
+import { TenantsService } from 'src/app/shared/services/tenants.service';
+import { TenantStatusEnum } from 'src/app/shared/enums/tenant-status.enum';
+import { FilterTypeEnum } from 'src/app/shared/enums/filter-type.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-policies-list',
   templateUrl: './policies-list.component.html',
   styleUrls: ['./policies-list.component.scss'],
 })
-export class PoliciesListComponent extends FilteredTable<PopulatedPolicyModel> {
+export class PoliciesListComponent extends FilteredTable<PopulatedPolicyModel> implements OnInit, OnDestroy {
   filterConfig!: FilterWrapperModel;
 
   data: PaginatedResponse<PopulatedPolicyModel[]> = {
@@ -27,12 +32,16 @@ export class PoliciesListComponent extends FilteredTable<PopulatedPolicyModel> {
     total_records: 0,
   };
 
+  private _destroy$ = new Subject<void>();
+
   constructor(
     private _policies: PoliciesService,
     private _ui: UiService,
     public url: UrlService,
     private route: ActivatedRoute,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _tenants: TenantsService,
+    private _t: TranslateService,
   ) {
     super();
 
@@ -48,18 +57,51 @@ export class PoliciesListComponent extends FilteredTable<PopulatedPolicyModel> {
     this._fetchData(this.data.page, this.data.limit);
   }
 
+  ngOnInit(): void {
+    if (this._auth.getAuth()?.user.role === RolesEnum.ADMIN) {
+      this._loadTenants();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
+  }
+
   _fetchData(page: number, limit?: number): void {
     const hits = limit ?? this.data.limit;
     this._ui.showLoader();
     this._policies
       .getPolicies(page, hits, this.filterText)
       .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe(resp => {
-        this.data = resp;
+      .subscribe({
+        next: resp => { this.data = resp; },
+        error: () => this._ui.showAlertError(this._t.instant('PORTAL.POLICIES.LOAD_ERROR')),
       });
   }
 
   refresh(): void {
-    this._fetchData(this.data.page - 1, this.data.limit);
+    this._fetchData(this.data.page, this.data.limit);
+  }
+
+  private _loadTenants(): void {
+    this._tenants
+      .getAll(0, 100, `&status=${TenantStatusEnum.ACTIVE}`)
+      .pipe(takeUntil(this._destroy$))
+      .subscribe(resp => {
+        const options = resp.records.map(t => ({ name: `${t.name} (${t.code})`, code: t._id }));
+        this.filterConfig = {
+          ...this.filterConfig,
+          filters: [
+            ...this.filterConfig.filters,
+            {
+              label: this._t.instant('PORTAL.TENANTS.TITLE'),
+              name: 'tenant_id',
+              type: FilterTypeEnum.SELECT,
+              options: of(options),
+            },
+          ],
+        };
+      });
   }
 }

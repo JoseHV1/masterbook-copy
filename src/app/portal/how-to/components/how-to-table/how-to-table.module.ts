@@ -8,11 +8,13 @@ import { FiltersModule } from 'src/app/shared/components/filters/filters.module'
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [HowToTableComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     MatTableModule,
     CustomPipesModule,
     MatTooltipModule,

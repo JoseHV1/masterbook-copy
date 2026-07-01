@@ -6,11 +6,13 @@ import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
 import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FloatingActionsModule } from '../../components/floating-actions/floating-actions.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [PagesLayoutComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     CardModule,
     BreadcrumbsModule,
     RouterModule,

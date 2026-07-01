@@ -10,7 +10,7 @@
               </span>
               <input
                 pInputText
-                placeholder="Name"
+                [placeholder]="'INVITATION_REGISTER.FIELD_NAME' | translate"
                 formControlName="name"
                 class="{{
                   fieldInvalid('name') ? 'ng-invalid ng-dirty' : ''
@@ -20,7 +20,7 @@
               *ngIf="fieldInvalid('name')"
               class="text-danger"
               style="font-size: 12"
-              >The field is required</small
+              >{{ 'FORM_ERROR.REQUIRED' | translate }}</small
             >
           </div>
 
@@ -31,7 +31,7 @@
               </span>
               <input
                 pInputText
-                placeholder="Last Name"
+                [placeholder]="'INVITATION_REGISTER.FIELD_LAST_NAME' | translate"
                 formControlName="last_name"
                 class="{{
                   fieldInvalid('last_name') ? 'ng-invalid ng-dirty' : ''
@@ -41,7 +41,7 @@
               *ngIf="fieldInvalid('last_name')"
               class="text-danger"
               style="font-size: 12"
-              >The field is required</small
+              >{{ 'FORM_ERROR.REQUIRED' | translate }}</small
             >
           </div>
 
@@ -53,7 +53,7 @@
               <input
                 type="email"
                 pInputText
-                placeholder="Email"
+                [placeholder]="'INVITATION_REGISTER.FIELD_EMAIL' | translate"
                 formControlName="email"
                 class="{{
                   fieldInvalid('email') ? 'ng-invalid ng-dirty' : ''
@@ -63,7 +63,7 @@
               *ngIf="fieldInvalid('email')"
               class="text-danger"
               style="font-size: 12"
-              >Please enter a valid email address</small
+              >{{ 'FORM_ERROR.EMAIL' | translate }}</small
             >
           </div>
 
@@ -75,7 +75,7 @@
               <input
                 type="password"
                 pInputText
-                placeholder="Password"
+                [placeholder]="'INVITATION_REGISTER.FIELD_PASSWORD' | translate"
                 formControlName="password"
                 class="{{
                   fieldInvalid('password') ? 'ng-invalid ng-dirty' : ''
@@ -85,7 +85,7 @@
               *ngIf="fieldInvalid('password')"
               class="text-danger"
               style="font-size: 12"
-              >Password must be at least 8 characters long</small
+              >{{ 'FORM_ERROR.MIN_LENGTH' | translate }}</small
             >
           </div>
 
@@ -97,7 +97,7 @@
               <input
                 type="password"
                 pInputText
-                placeholder="Confirm Password"
+                [placeholder]="'INVITATION_REGISTER.FIELD_PASSWORD_CONFIRM' | translate"
                 formControlName="passwordConfirm"
                 class="{{
                   fieldInvalid('passwordConfirm') ? 'ng-invalid ng-dirty' : ''
@@ -107,13 +107,13 @@
               *ngIf="fieldInvalid('passwordConfirm')"
               class="text-danger"
               style="font-size: 12"
-              >Passwords do not match</small
+              >{{ 'FORM_ERROR.PASSWORDSMISMATCH' | translate }}</small
             >
           </div>
 
           <div class="d-flex justify-content-center mt-4">
             <p-button
-              label="Register"
+              [label]="'INVITATION_REGISTER.BTN_REGISTER' | translate"
               icon="pi pi-check"
               type="submit"
               styleClass=""

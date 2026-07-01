@@ -6,6 +6,7 @@ import { PrivacyPolicyCoreModule } from 'src/app/anon/privacy-policy/privacy-pol
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [ModalTermsPoliciesComponent],
@@ -16,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
+    TranslateModule,
   ],
   exports: [ModalTermsPoliciesComponent],
 })

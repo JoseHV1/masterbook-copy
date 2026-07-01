@@ -3,25 +3,31 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
+import { Subject, takeUntil, finalize } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { finalize } from 'rxjs';
+
 import { ModalUploadFileComponent } from '@app/shared/components/modal-upload-file/modal-upload-file.component';
 import { UploadFileService } from './../../../services/upload_file.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { InsurerService } from 'src/app/shared/services/insurer.service';
-import { hasError } from 'src/app/shared/helpers/has-error.helper.ts';
+import { TenantsService } from 'src/app/shared/services/tenants.service';
+import { hasError } from 'src/app/shared/helpers/has-error.helper';
 import { UploadFileRequest } from 'src/app/shared/interfaces/requests/upload-file/upload-file.request';
+import { TenantModel } from 'src/app/shared/interfaces/models/tenant.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tab-upload-file',
   templateUrl: './tab-upload-file.component.html',
   styleUrls: ['./tab-upload-file.component.scss'],
 })
-export class TabUploadFileComponent {
+export class TabUploadFileComponent implements OnInit, OnDestroy {
   @Output() uploadCompleted = new EventEmitter<void>();
   @Input() entity!: string;
   @ViewChild('inputFile') inputFile!: ElementRef;
@@ -29,6 +35,8 @@ export class TabUploadFileComponent {
   public form: FormGroup;
   public isLoading = false;
   public hasError = hasError;
+  private _agencyTenant: TenantModel | null = null;
+  private _destroy$ = new Subject<void>();
 
   public readonly allowedTypes: string[] = [
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -39,9 +47,24 @@ export class TabUploadFileComponent {
     private _ui: UiService,
     private _uploadFile: UploadFileService,
     private _dialog: MatDialog,
-    private _insurer: InsurerService
+    private _insurer: InsurerService,
+    private _tenants: TenantsService,
+    private _t: TranslateService,
   ) {
     this.form = this._uploadFile.createNewUploadFileForm();
+  }
+
+  ngOnInit(): void {
+    this._tenants.getForCurrentAgency()
+      .pipe(takeUntil(this._destroy$))
+      .subscribe({
+        next: tenant => (this._agencyTenant = tenant),
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   openModal(fileData?: any, insurers: any[] = []): void {
@@ -83,10 +106,14 @@ export class TabUploadFileComponent {
     const file = event.target.files[0];
     if (!file) return;
 
+    if (!this.hasTemplate) {
+      this._ui.showAlertError(this._t.instant('SHARED.FILE.BULK_UPLOAD_UNAVAILABLE'));
+      event.target.value = '';
+      return;
+    }
+
     if (!this.allowedTypes.includes(file.type)) {
-      this._ui.showAlertError(
-        'This file type is not allowed. Please use Excel files.'
-      );
+      this._ui.showAlertError(this._t.instant('SHARED.FILE.TYPE_NOT_ALLOWED_EXCEL'));
       return;
     }
 
@@ -130,9 +157,7 @@ export class TabUploadFileComponent {
           this.openModal(fileData, insurers);
         },
         error: () => {
-          this._ui.showAlertError(
-            'Could not load insurers list. Please try again.'
-          );
+          this._ui.showAlertError(this._t.instant('SHARED.FILE.LOAD_INSURERS_ERROR'));
         },
       });
   }
@@ -151,33 +176,31 @@ export class TabUploadFileComponent {
       )
       .subscribe({
         next: () => {
-          this._ui.showAlertSuccess('The file has been uploaded successfully');
+          this._ui.showAlertSuccess(this._t.instant('SHARED.FILE.UPLOAD_SUCCESS'));
           this.uploadCompleted.emit();
         },
-        error: () => this._ui.showAlertError('An error occurred during upload'),
+        error: () => this._ui.showAlertError(this._t.instant('SHARED.FILE.UPLOAD_ERROR')),
       });
   }
 
-  downloadTemplate(): void {
-    const templates: Record<string, string> = {
-      accounts:
-        'https://my-masterbook-prod.s3.us-west-2.amazonaws.com/templates/accounts-template.xlsx',
-      // 'https://accounts-template.s3.us-east-1.amazonaws.com/accounts-template.xlsx', //TODO ESTO ES PARA DEV Y PRUEBAS
-      policies:
-        'https://my-masterbook-prod.s3.us-west-2.amazonaws.com/templates/policies-template.xlsx',
-      // 'https://policies-template.s3.us-east-1.amazonaws.com/policies-template.xlsx', //TODO ESTO ES PARA DEV Y PRUEBAS
-    };
+  get hasTemplate(): boolean {
+    return this.entity === 'accounts'
+      ? !!this._agencyTenant?.accounts_template_url
+      : !!this._agencyTenant?.policies_template_url;
+  }
 
-    const url = templates[this.entity];
+  downloadTemplate(): void {
+    const url = this.entity === 'accounts'
+      ? this._agencyTenant?.accounts_template_url
+      : this._agencyTenant?.policies_template_url;
 
     if (!url) {
-      this._ui.showAlertError(`No template found for entity: ${this.entity}`);
+      this._ui.showAlertError(this._t.instant('SHARED.FILE.BULK_UPLOAD_UNAVAILABLE'));
       return;
     }
 
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${this.entity}-template.xlsx`;
     link.target = '_blank';
     document.body.appendChild(link);
     link.click();

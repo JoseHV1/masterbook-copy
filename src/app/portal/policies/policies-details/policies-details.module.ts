@@ -3,6 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { PoliciesDetailsComponent } from './policies-details.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
@@ -21,6 +22,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [PoliciesDetailsComponent],
   imports: [
+    TranslateModule,
     CommonModule,
     RouterModule.forChild(routes),
     PagesLayoutModule,

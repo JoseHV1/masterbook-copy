@@ -4,13 +4,18 @@ import { AuthModalService } from '../../services/auth.modal.service';
 import { UiService } from '../../services/ui.service';
 import { AuthService } from '../../services/auth.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subject, filter, finalize, takeUntil } from 'rxjs';
+import { Subject, filter, finalize, map, switchMap, takeUntil } from 'rxjs';
 import { LoginRequest } from '../../interfaces/requests/auth/login.request';
 import { PopulatedUserModel } from '../../interfaces/models/user.model';
 import { RolesEnum } from '../../enums/roles.enum';
 import { ERRORS_LIBRARY } from '../../enums/error-library';
 import { environment } from 'src/environments/environment';
 import { RecaptchaComponent } from 'ng-recaptcha';
+import { TenantsService } from '../../services/tenants.service';
+import { LanguageService } from '../../services/language.service';
+import { AvailableLanguagesEnum } from '../../enums/available-languages.enum';
+import { TenantContextService } from '../../services/tenant-context.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login-modal',
@@ -35,7 +40,11 @@ export class LoginModalComponent implements OnDestroy {
     private _authModal: AuthModalService,
     private _ui: UiService,
     private _auth: AuthService,
-    private router: Router
+    private router: Router,
+    private _tenants: TenantsService,
+    private _language: LanguageService,
+    private _tenantCtx: TenantContextService,
+    private _t: TranslateService,
   ) {
     this.formLogin = this.formBuilder.group({
       email: [
@@ -48,7 +57,7 @@ export class LoginModalComponent implements OnDestroy {
         ],
       ],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      recaptcha: ['', this.isLocal ? [] : [Validators.required]],
+      recaptcha: ['', this.recaptchaSiteKey ? [Validators.required] : []],
     });
 
     this.router.events
@@ -85,16 +94,29 @@ export class LoginModalComponent implements OnDestroy {
     this._ui.showLoader();
     this._auth
       .login(req)
-      .pipe(finalize(() => this._ui.hideLoader()))
+      .pipe(
+        switchMap(user =>
+          this._tenants.getForCurrentAgency().pipe(
+            map(tenant => ({ user, tenant }))
+          )
+        ),
+        finalize(() => this._ui.hideLoader()),
+        takeUntil(this.destroy$),
+      )
       .subscribe({
-        next: (resp: Partial<PopulatedUserModel>) => {
-          const fullname = `${resp.first_name ?? ''} ${resp.last_name ?? ''}`;
-          this._ui.showAlertSuccess(`Welcome ${fullname}`);
+        next: ({ user, tenant }) => {
+          this._tenantCtx.setTenant(tenant);
+          if (tenant?.document_language) {
+            this._language.changeLanguage(tenant.document_language as unknown as AvailableLanguagesEnum);
+          }
+
+          const fullname = `${user.first_name ?? ''} ${user.last_name ?? ''}`;
+          this._ui.showAlertSuccess(this._t.instant('SHARED.AUTH.WELCOME', { name: fullname }));
 
           this.formLogin.reset(undefined, { emitEvent: false });
           this.safeCaptchaReset();
 
-          this.handleNavigation(resp.role);
+          this.handleNavigation(user.role);
         },
         error: (err: { error: { code: ERRORS_LIBRARY } }) => {
           this.safeCaptchaReset();
@@ -137,11 +159,13 @@ export class LoginModalComponent implements OnDestroy {
     this._ui.showLoader();
     this._auth
       .resendActivationEmail({ email: this.email_to_resend ?? '' })
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe(() => {
-        this._ui.showAlertSuccess(
-          'A new activation email has been sent to your inbox.'
-        );
+      .pipe(
+        finalize(() => this._ui.hideLoader()),
+        takeUntil(this.destroy$),
+      )
+      .subscribe({
+        next: () => this._ui.showAlertSuccess(this._t.instant('SHARED.AUTH.ACTIVATION_EMAIL_SENT')),
+        error: () => {},
       });
   }
 

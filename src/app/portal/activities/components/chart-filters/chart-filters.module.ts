@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ChartsFiltersComponent } from './chart-filters.component';
@@ -19,6 +20,7 @@ import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
   declarations: [ChartsFiltersComponent],
   imports: [
+    TranslateModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

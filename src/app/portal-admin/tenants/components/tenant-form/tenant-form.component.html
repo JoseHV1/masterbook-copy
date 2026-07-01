@@ -1,0 +1,298 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <!-- ── Datos básicos ──────────────────────────────────────────── -->
+  <div class="form-section">
+    <h4 class="form-section__title">{{ 'PORTAL.TENANTS.SECTION_BASIC' | translate }}</h4>
+    <div class="row g-3">
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_COUNTRY_NAME' | translate }} *</label>
+        <app-input [placeholder]="'PORTAL.TENANTS.FIELD_COUNTRY_NAME' | translate" formControlName="name"></app-input>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_ISO_CODE' | translate }} *</label>
+        <app-dropdown-field
+          [placeholder]="'PORTAL.TENANTS.FIELD_ISO_CODE' | translate"
+          formControlName="code"
+          [filter]="true"
+          [options]="countryOptions">
+        </app-dropdown-field>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_STATUS' | translate }} *</label>
+        <app-dropdown-field
+          [placeholder]="'PORTAL.TENANTS.FIELD_STATUS' | translate"
+          formControlName="status"
+          [options]="statusOptions">
+        </app-dropdown-field>
+      </div>
+
+      <div class="col-12">
+        <label>{{ 'PORTAL.TENANTS.FIELD_DOMAIN' | translate }} *</label>
+        <app-input [placeholder]="'PORTAL.TENANTS.FIELD_DOMAIN_HINT' | translate" formControlName="domain"></app-input>
+        <div style="margin-top: -1rem;">
+          <small *ngIf="isDomainChecking()" class="text-muted">
+            {{ 'PORTAL.TENANTS.DOMAIN_CHECKING' | translate }}
+          </small>
+          <small *ngIf="form.get('domain')?.touched && form.get('domain')?.valid && form.get('domain')?.value && !isDomainChecking()" class="text-success">
+            {{ 'PORTAL.TENANTS.DOMAIN_AVAILABLE' | translate }}
+          </small>
+          <small *ngIf="form.get('domain')?.touched && form.get('domain')?.errors?.['domainTaken']" class="text-danger">
+            {{ 'PORTAL.TENANTS.DOMAIN_TAKEN' | translate }}
+          </small>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- ── Locale ─────────────────────────────────────────────────── -->
+  <div class="form-section">
+    <h4 class="form-section__title">{{ 'PORTAL.TENANTS.SECTION_LOCALE' | translate }}</h4>
+    <div class="row g-3">
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_TIMEZONE' | translate }} *</label>
+        <app-dropdown-field
+          [placeholder]="'PORTAL.TENANTS.FIELD_TIMEZONE' | translate"
+          formControlName="timezone"
+          [filter]="true"
+          [options]="timezoneOptions">
+        </app-dropdown-field>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_LANGUAGE' | translate }} *</label>
+        <app-dropdown-field
+          [placeholder]="'PORTAL.TENANTS.FIELD_LANGUAGE' | translate"
+          formControlName="language"
+          [options]="languageOptions">
+        </app-dropdown-field>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_DATE_FORMAT' | translate }} *</label>
+        <app-dropdown-field
+          [placeholder]="'PORTAL.TENANTS.FIELD_DATE_FORMAT' | translate"
+          formControlName="date_format"
+          [options]="dateFormatOptions">
+        </app-dropdown-field>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_TIME_FORMAT' | translate }} *</label>
+        <app-dropdown-field
+          [placeholder]="'PORTAL.TENANTS.FIELD_TIME_FORMAT' | translate"
+          formControlName="time_format"
+          [options]="timeFormatOptions">
+        </app-dropdown-field>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Moneda ──────────────────────────────────────────────────── -->
+  <div class="form-section">
+    <h4 class="form-section__title">{{ 'PORTAL.TENANTS.SECTION_CURRENCY' | translate }}</h4>
+    <div class="row g-3">
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_CURRENCY_CODE' | translate }} *</label>
+        <app-dropdown-field
+          [placeholder]="'PORTAL.TENANTS.FIELD_CURRENCY_CODE_HINT' | translate"
+          formControlName="currency_code"
+          [filter]="true"
+          [options]="currencyOptions">
+        </app-dropdown-field>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_CURRENCY_SYMBOL' | translate }} *</label>
+        <app-input [placeholder]="'PORTAL.TENANTS.FIELD_CURRENCY_SYMBOL_HINT' | translate" formControlName="currency_symbol"></app-input>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_SYMBOL_POSITION' | translate }} *</label>
+        <app-dropdown-field
+          [placeholder]="'PORTAL.TENANTS.FIELD_SYMBOL_POSITION' | translate"
+          formControlName="currency_symbol_position"
+          [options]="symbolPositionOptions">
+        </app-dropdown-field>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_DECIMAL_PLACES' | translate }} *</label>
+        <app-input
+          [placeholder]="'PORTAL.TENANTS.FIELD_DECIMAL_PLACES_HINT' | translate"
+          type="number"
+          formControlName="currency_decimal_places">
+        </app-input>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_THOUSANDS_SEP' | translate }} *</label>
+        <app-dropdown-field
+          [placeholder]="'PORTAL.TENANTS.FIELD_THOUSANDS_SEP' | translate"
+          formControlName="currency_thousands_separator"
+          [options]="thousandsSepOptions">
+        </app-dropdown-field>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_DECIMAL_SEP' | translate }} *</label>
+        <app-dropdown-field
+          [placeholder]="'PORTAL.TENANTS.FIELD_DECIMAL_SEP' | translate"
+          formControlName="currency_decimal_separator"
+          [options]="decimalSepOptions">
+        </app-dropdown-field>
+      </div>
+
+      <div class="col-12 col-md-8">
+        <label>{{ 'PORTAL.TENANTS.FIELD_STRIPE_ACCOUNT' | translate }}</label>
+        <app-input [placeholder]="'PORTAL.COMMON.OPTIONAL' | translate" formControlName="stripe_account_id"></app-input>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Stripe Pricing ───────────────────────────────────────────── -->
+  <div class="form-section">
+    <h4 class="form-section__title">Stripe Pricing</h4>
+    <div class="row g-3">
+
+      <div class="col-12 col-md-4">
+        <label>Precio Agencia (Price ID)</label>
+        <app-input placeholder="Opcional" formControlName="price_agency"></app-input>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>Precio Usuario Master (Price ID)</label>
+        <app-input placeholder="Opcional" formControlName="price_master_user"></app-input>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>Precio Usuario Regular (Price ID)</label>
+        <app-input placeholder="Opcional" formControlName="price_regular_user"></app-input>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label>URL de Éxito (Pago exitoso)</label>
+        <app-input placeholder="Opcional" formControlName="url_success"></app-input>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label>URL de Cancelación</label>
+        <app-input placeholder="Opcional" formControlName="url_cancel"></app-input>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Módulos ─────────────────────────────────────────────────── -->
+  <div class="form-section">
+    <h4 class="form-section__title">{{ 'PORTAL.TENANTS.SECTION_MODULES' | translate }}</h4>
+
+    <div class="row g-3">
+      <div class="col-12">
+        <label>{{ 'PORTAL.TENANTS.FIELD_SURVEY_URL' | translate }}</label>
+        <app-input [placeholder]="'PORTAL.TENANTS.FIELD_SURVEY_URL_HINT' | translate" formControlName="survey_url"></app-input>
+        <small *ngIf="form.get('survey_url')?.touched && form.get('survey_url')?.errors?.['pattern']" class="text-danger">
+          {{ 'PORTAL.TENANTS.SURVEY_URL_INVALID' | translate }}
+        </small>
+      </div>
+    </div>
+
+    <div class="row g-3 mt-1">
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_ACCOUNTS_TEMPLATE' | translate }}</label>
+        <div class="file-upload-field">
+          <div class="file-upload-field__row">
+            <button type="button" class="primary-button small-button back-light-blue-400 white"
+              (click)="accountsFileInput.click()">
+              {{ 'PORTAL.TENANTS.BTN_UPLOAD_FILE' | translate }}
+            </button>
+            <button *ngIf="hasExistingFile('accounts')" type="button"
+              class="action-icon-btn action-icon-btn--success"
+              [matTooltip]="'PORTAL.TENANTS.BTN_DOWNLOAD' | translate"
+              (click)="downloadTemplate('accounts')">
+              <span class="material-icons-outlined">download</span>
+            </button>
+            <button *ngIf="getDisplayName('accounts')" type="button"
+              class="action-icon-btn action-icon-btn--danger"
+              [matTooltip]="'PORTAL.COMMON.REMOVE' | translate"
+              (click)="clearTemplate('accounts')">
+              <span class="material-icons-outlined">close</span>
+            </button>
+          </div>
+          <span *ngIf="getDisplayName('accounts')" class="file-upload-field__name" [title]="getDisplayName('accounts')">
+            <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">insert_drive_file</span>
+            {{ getDisplayName('accounts') }}
+          </span>
+          <span *ngIf="!getDisplayName('accounts')" class="file-upload-field__hint">
+            {{ 'PORTAL.TENANTS.NO_FILE_SELECTED' | translate }}
+          </span>
+        </div>
+        <input #accountsFileInput type="file" hidden
+          accept=".xlsx,.xls,.csv"
+          (cancel)="$event.stopPropagation()"
+          (change)="onFileSelected($event, 'accounts')">
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.TENANTS.FIELD_POLICIES_TEMPLATE' | translate }}</label>
+        <div class="file-upload-field">
+          <div class="file-upload-field__row">
+            <button type="button" class="primary-button small-button back-light-blue-400 white"
+              (click)="policiesFileInput.click()">
+              {{ 'PORTAL.TENANTS.BTN_UPLOAD_FILE' | translate }}
+            </button>
+            <button *ngIf="hasExistingFile('policies')" type="button"
+              class="action-icon-btn action-icon-btn--success"
+              [matTooltip]="'PORTAL.TENANTS.BTN_DOWNLOAD' | translate"
+              (click)="downloadTemplate('policies')">
+              <span class="material-icons-outlined">download</span>
+            </button>
+            <button *ngIf="getDisplayName('policies')" type="button"
+              class="action-icon-btn action-icon-btn--danger"
+              [matTooltip]="'PORTAL.COMMON.REMOVE' | translate"
+              (click)="clearTemplate('policies')">
+              <span class="material-icons-outlined">close</span>
+            </button>
+          </div>
+          <span *ngIf="getDisplayName('policies')" class="file-upload-field__name" [title]="getDisplayName('policies')">
+            <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">insert_drive_file</span>
+            {{ getDisplayName('policies') }}
+          </span>
+          <span *ngIf="!getDisplayName('policies')" class="file-upload-field__hint">
+            {{ 'PORTAL.TENANTS.NO_FILE_SELECTED' | translate }}
+          </span>
+        </div>
+        <input #policiesFileInput type="file" hidden
+          accept=".xlsx,.xls,.csv"
+          (cancel)="$event.stopPropagation()"
+          (change)="onFileSelected($event, 'policies')">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Actions ────────────────────────────────────────────────── -->
+  <div class="d-flex justify-content-center gap-3 mt-4 pt-2">
+    <button
+      type="button"
+      class="primary-button big-button back-gray-400 white"
+      (click)="cancel.emit()">
+      {{ 'PORTAL.COMMON.CANCEL' | translate }}
+    </button>
+    <button
+      type="submit"
+      class="primary-button big-button back-light-blue-400 white">
+      {{ tenant ? ('PORTAL.COMMON.SAVE_CHANGES' | translate) : ('PORTAL.TENANTS.BTN_CREATE' | translate) }}
+    </button>
+  </div>
+
+</form>

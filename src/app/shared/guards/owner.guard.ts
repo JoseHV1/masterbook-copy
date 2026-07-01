@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { map, tap } from 'rxjs';
+import { map, take, tap } from 'rxjs';
 import { RolesEnum } from '../enums/roles.enum';
 
 export const OwnerGuard: CanActivateFn = () => {
@@ -9,6 +9,7 @@ export const OwnerGuard: CanActivateFn = () => {
   const router = inject(Router);
 
   return _authService.auth$.pipe(
+    take(1),
     map(
       auth =>
         !!(

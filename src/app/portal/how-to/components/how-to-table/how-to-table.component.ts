@@ -7,6 +7,7 @@ import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { HowToModel } from '@app/shared/interfaces/models/how-to.model';
 import { HowToService } from '@app/shared/services/how-to.service';
 import { MoveHowToOrder } from '@app/shared/interfaces/requests/how-to/update-how-to.request';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-how-to-table',
@@ -18,18 +19,19 @@ export class HowToTableComponent {
   @Input() data?: HowToModel[];
   @Input() filtersActive: FilterActive[] = [];
 
-  displayedColumns: string[] = ['id', 'title', 'created_at', 'actions'];
+  displayedColumns: string[] = ['id', 'title', 'tenants', 'created_at', 'actions'];
 
   constructor(
     public _url: UrlService,
     private _ui: UiService,
-    private _howTo: HowToService
+    private _howTo: HowToService,
+    private _t: TranslateService
   ) {}
 
   deleteHowTo(_id: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this video?`,
+        text: this._t.instant('PORTAL.HOW_TO.CONFIRM_DELETE'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -57,7 +59,7 @@ export class HowToTableComponent {
       .deleteHowTo(_id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('video deleted successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.HOW_TO.DELETED'));
         this.refresh.emit();
       });
   }

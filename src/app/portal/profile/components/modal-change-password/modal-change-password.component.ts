@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 import { PopulatedUserModel } from 'src/app/shared/interfaces/models/user.model';
 import { ChangePasswordRequest } from 'src/app/shared/interfaces/requests/profile/change-password.request';
@@ -24,6 +25,7 @@ export class ModalChangePasswordComponent implements OnInit {
     private _profile: ProfileService,
     private _ui: UiService,
     private _auth: AuthService,
+    private _t: TranslateService,
     private dialogRef: MatDialogRef<ModalChangePasswordComponent>
   ) {
     this.form = this._profile.createChangePasswordForm();
@@ -42,12 +44,12 @@ export class ModalChangePasswordComponent implements OnInit {
       control?.value?.length > 0 && repeatControl?.value?.length > 0;
 
     const rules = [
-      { label: 'Minimum 8 characters', valid: !errors['MIN_LENGTH'] },
-      { label: 'Includes an uppercase letter', valid: !errors['UPPERCASE'] },
-      { label: 'Includes a number', valid: !errors['NUMBER'] },
-      { label: 'Includes a special character', valid: !errors['SPECIAL_CHAR'] },
+      { label: this._t.instant('FORM_ERROR.MIN_LENGTH'), valid: !errors['MIN_LENGTH'] },
+      { label: this._t.instant('FORM_ERROR.UPPERCASE'), valid: !errors['UPPERCASE'] },
+      { label: this._t.instant('FORM_ERROR.NUMBER'), valid: !errors['NUMBER'] },
+      { label: this._t.instant('FORM_ERROR.SPECIAL_CHAR'), valid: !errors['SPECIAL_CHAR'] },
       {
-        label: 'Passwords must match',
+        label: this._t.instant('PORTAL.PROFILE_FORM.RULE_PASSWORDS_MATCH'),
         valid: passwordsHaveLength && control?.value === repeatControl?.value,
       },
     ];
@@ -73,7 +75,7 @@ export class ModalChangePasswordComponent implements OnInit {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this.form.reset();
-        this._ui.showAlertSuccess('Password updated successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.PROFILE_FORM.SUCCESS_PASSWORD_UPDATED'));
         this.dialogRef.close();
       });
   }

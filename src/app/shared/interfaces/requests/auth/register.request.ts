@@ -3,4 +3,5 @@ export interface RegisterRequest {
   last_name: string;
   email: string;
   password: string;
+  tenant_code: string;
 }

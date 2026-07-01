@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -14,6 +15,7 @@ const routes: Routes = [{ path: '', component: AccountLeadsComponent }];
 @NgModule({
   declarations: [AccountLeadsComponent],
   imports: [
+    TranslateModule,
     CommonModule,
     RouterModule.forChild(routes),
     PagesLayoutModule,

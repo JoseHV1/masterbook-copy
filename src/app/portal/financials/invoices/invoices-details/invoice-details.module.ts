@@ -8,6 +8,7 @@ import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PaymentsListModule } from '../../payments/components/payments-list/payments-list.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
   declarations: [InvoiceDetailsComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     RouterModule.forChild(routes),
     PagesLayoutModule,
     CommissionsListModule,

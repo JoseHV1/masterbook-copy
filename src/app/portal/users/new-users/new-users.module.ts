@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { NewUsersComponent } from './new-users.component';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
 import { RouterModule, Routes } from '@angular/router';
@@ -16,6 +17,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [NewUsersComponent],
   imports: [
+    TranslateModule,
     CommonModule,
     RouterModule.forChild(routes),
     PagesLayoutModule,

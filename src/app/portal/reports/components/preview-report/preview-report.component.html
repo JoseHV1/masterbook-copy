@@ -1,6 +1,6 @@
 <div class="section-title">
   <mat-icon color="primary">visibility</mat-icon>
-  <span>Preview</span>
+  <span>{{ 'PORTAL.REPORTS.PREVIEW.TITLE' | translate }}</span>
 </div>
 
 <!-- Loading -->
@@ -8,7 +8,7 @@
   <mat-progress-spinner
     mode="indeterminate"
     diameter="32"></mat-progress-spinner>
-  <div class="mt-2 text-muted">Loading preview…</div>
+  <div class="mt-2 text-muted">{{ 'PORTAL.REPORTS.PREVIEW.LOADING' | translate }}</div>
 </div>
 
 <!-- Not loading -->
@@ -18,19 +18,19 @@
     <div class="preview-info">
       <div class="row g-2">
         <div class="col-12 d-flex justify-content-between py-2 border-bottom">
-          <span class="text-muted">Report Type:</span>
+          <span class="text-muted">{{ 'PORTAL.REPORTS.PREVIEW.REPORT_TYPE' | translate }}</span>
           <span class="fw-medium">{{ p.reportTypeLabel }}</span>
         </div>
         <div class="col-12 d-flex justify-content-between py-2 border-bottom">
-          <span class="text-muted">Estimated Records:</span>
+          <span class="text-muted">{{ 'PORTAL.REPORTS.PREVIEW.ESTIMATED_RECORDS' | translate }}</span>
           <span class="fw-medium">{{ p.estimatedRecords | number }}</span>
         </div>
         <div class="col-12 d-flex justify-content-between py-2 border-bottom">
-          <span class="text-muted">Date Range:</span>
+          <span class="text-muted">{{ 'PORTAL.REPORTS.PREVIEW.DATE_RANGE' | translate }}</span>
           <span class="fw-medium">{{ p.dateRangeLabel }}</span>
         </div>
         <div class="col-12 d-flex justify-content-between py-2">
-          <span class="text-muted">Estimated Size:</span>
+          <span class="text-muted">{{ 'PORTAL.REPORTS.PREVIEW.ESTIMATED_SIZE' | translate }}</span>
           <span class="fw-medium">{{ p.estimatedSizeLabel }}</span>
         </div>
       </div>
@@ -43,8 +43,8 @@
   <mat-card>
     <div class="preview-placeholder text-muted">
       <mat-icon>bar_chart</mat-icon>
-      <div>Select filters and click “Preview”</div>
-      <div class="small">or generate the report to see complete data</div>
+      <div>{{ 'PORTAL.REPORTS.PREVIEW.EMPTY_LINE_1' | translate }}</div>
+      <div class="small">{{ 'PORTAL.REPORTS.PREVIEW.EMPTY_LINE_2' | translate }}</div>
     </div>
   </mat-card>
 </ng-template>

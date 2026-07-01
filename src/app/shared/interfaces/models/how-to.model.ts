@@ -5,6 +5,8 @@ export interface HowToModel {
   description?: string;
   video: string;
   order: number;
+  tenant_ids?: string[];
+  tenants?: { _id: string; name: string; code: string }[];
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date;

@@ -35,7 +35,6 @@ import { ModalTermsPoliciesModule } from 'src/app/shared/components/modal-terms-
     NgxMaskDirective,
     NgxMaskPipe,
     AddressAutocompleteGoogleModule,
-    DropdownModule,
     MatDialogModule,
     ModalTermsPoliciesModule,
   ],

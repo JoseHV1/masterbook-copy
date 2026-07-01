@@ -3,9 +3,9 @@
     class="d-none d-md-block col-12 col-md-6 col-lg-7 px-0 pt-5 pt-md-0 pe-0 px-lg-5 pe-lg-1 order-2 order-md-1">
     <div class="mb-4">
       <h1 class="title-1 gray-500">
-        Welcome to <span class="dark-blue-400">MasterBook</span>
+        {{ 'REGISTER_TWO.INSURED.WELCOME_TO' | translate }} <span class="dark-blue-400">MasterBook</span>
       </h1>
-      <h3 class="title-3 gray-500 mb-0">Tell us more about you</h3>
+      <h3 class="title-3 gray-500 mb-0">{{ 'REGISTER_TWO.INSURED.TITLE_DESKTOP' | translate }}</h3>
     </div>
     <div class="d-flex align-items-center justify-content-center">
       <img
@@ -18,7 +18,7 @@
   <div class="col-12 col-md-6 col-lg-5 ps-md-5 ps-md-1 order-1 order-md-2">
     <div class="d-block d-md-none mb-5">
       <h3 class="title-3 gray-500 mb-0">
-        Tell us more about <span class="dark-blue-400">You</span>
+        {{ 'REGISTER_TWO.INSURED.TITLE_MOBILE_LINE_1' | translate }} <span class="dark-blue-400">{{ 'REGISTER_TWO.INSURED.TITLE_MOBILE_LINE_2' | translate }}</span>
       </h3>
     </div>
 
@@ -29,7 +29,7 @@
           (imgChange)="
             addImage($event, 'profile_image')
           "></app-picture-selector>
-        <h3 class="text-center subtitle-4 light-blue-500 mt-3">Your photo</h3>
+        <h3 class="text-center subtitle-4 light-blue-500 mt-3">{{ 'REGISTER_TWO.COMMON.YOUR_PHOTO' | translate }}</h3>
       </div>
     </div>
 
@@ -46,13 +46,13 @@
           <input
             pInputText
             class="text-2"
-            placeholder="First Name"
+            [placeholder]="'REGISTER_TWO.INSURED.FIELD_FIRST_NAME' | translate"
             formControlName="first_name" />
         </div>
         <small
           *ngIf="hasError(form.controls['first_name'], 'required')"
           class="text-danger mt-1">
-          This field is required
+          {{ 'FORM_ERROR.REQUIRED' | translate }}
         </small>
       </div>
 
@@ -68,13 +68,13 @@
           <input
             pInputText
             class="text-2"
-            placeholder="Last Name"
+            [placeholder]="'REGISTER_TWO.INSURED.FIELD_LAST_NAME' | translate"
             formControlName="last_name" />
         </div>
         <small
           *ngIf="hasError(form.controls['last_name'], 'required')"
           class="text-danger mt-1">
-          This field is required
+          {{ 'FORM_ERROR.REQUIRED' | translate }}
         </small>
       </div>
 
@@ -91,19 +91,19 @@
             <input
               pInputText
               class="text-2"
-              placeholder="Phone number"
+              [placeholder]="'REGISTER_TWO.COMMON.FIELD_PHONE' | translate"
               formControlName="phone_number"
               mask="(000) 000-0000" />
           </div>
           <small
             class="text-danger mt-1"
             *ngIf="hasError(form.controls['phone_number'], 'required')">
-            The field is required
+            {{ 'FORM_ERROR.REQUIRED' | translate }}
           </small>
           <small
             class="text-danger mt-1"
             *ngIf="hasError(form.controls['phone_number'], 'mask')">
-            Please enter a valid phone
+            {{ 'FORM_ERROR.PATTERN' | translate }}
           </small>
         </div>
 
@@ -116,19 +116,19 @@
             <input
               pInputText
               class="text-2"
-              placeholder="Extension"
+              [placeholder]="'REGISTER_TWO.INSURED.FIELD_PHONE_EXTENSION' | translate"
               formControlName="phone_extension"
               mask="0000" />
           </div>
           <small
             class="text-danger mt-1"
             *ngIf="hasError(form.controls['phone_extension'], 'required')">
-            The field is required
+            {{ 'FORM_ERROR.REQUIRED' | translate }}
           </small>
           <small
             class="text-danger mt-1"
             *ngIf="hasError(form.controls['phone_extension'], 'mask')">
-            Please enter a extension phone
+            {{ 'REGISTER_TWO.INSURED.ERROR_PHONE_EXTENSION_MASK' | translate }}
           </small>
         </div>
       </div>
@@ -146,18 +146,18 @@
             [options]="dropDownMaritalStatus"
             formControlName="marital_status"
             optionLabel="name"
-            placeholder="Marital Status">
+            [placeholder]="'REGISTER_TWO.INSURED.FIELD_MARITAL_STATUS' | translate">
           </p-dropdown>
         </div>
         <small
           *ngIf="hasError(form.controls['marital_status'], 'required')"
           class="text-danger mt-1">
-          This field is required
+          {{ 'FORM_ERROR.REQUIRED' | translate }}
         </small>
         <small
           *ngIf="hasError(form.controls['marital_status'], 'validlength')"
           class="text-danger mt-1">
-          Must select between 1 and 6 lines of business
+          {{ 'REGISTER_TWO.INSURED.ERROR_INVALID_SELECTION' | translate }}
         </small>
       </div>
 
@@ -176,19 +176,19 @@
             [options]="dropDownGender"
             formControlName="gender"
             optionLabel="name"
-            placeholder="Gender">
+            [placeholder]="'REGISTER_TWO.INSURED.FIELD_GENDER' | translate">
           </p-dropdown>
         </div>
 
         <small
           *ngIf="hasError(form.controls['gender'], 'required')"
           class="text-danger mt-1">
-          This field is required
+          {{ 'FORM_ERROR.REQUIRED' | translate }}
         </small>
         <small
           *ngIf="hasError(form.controls['gender'], 'validlength')"
           class="text-danger mt-1">
-          Must select between 1 and 6 lines of business
+          {{ 'REGISTER_TWO.INSURED.ERROR_INVALID_SELECTION' | translate }}
         </small>
       </div>
 
@@ -205,21 +205,21 @@
             <input
               pInputText
               class="text-2"
-              [placeholder]="'Address'"
+              [placeholder]="'REGISTER_TWO.COMMON.FIELD_ADDRESS' | translate"
               formControlName="address"
               (updateAddress)="handleAddress($event)"
-              (ngModelChange)="resetAddress()"
+              (input)="resetAddress()"
               appAddressAutocomplete />
           </div>
           <small
             *ngIf="hasError(form.controls['address'], 'required')"
             class="text-danger mt-1">
-            This field is required
+            {{ 'FORM_ERROR.REQUIRED' | translate }}
           </small>
           <small
             *ngIf="hasError(form.controls['address'], 'required')"
             class="text-danger mt-1">
-            Please select an address
+            {{ 'REGISTER_TWO.COMMON.ERROR_ADDRESS_EXTRA_REQUIRED' | translate }}
           </small>
         </div>
       </div>
@@ -238,12 +238,12 @@
             class="w-100 text-2"
             pInputTextarea
             formControlName="additional_address"
-            placeholder="Additional Address Information"></textarea>
+            [placeholder]="'REGISTER_TWO.COMMON.FIELD_ADDITIONAL_ADDRESS' | translate"></textarea>
         </div>
         <small
           *ngIf="hasError(form.controls['additional_address'], 'maxlength')"
           class="text-danger mt-1">
-          This field must have maximun 100 characters
+          {{ 'FORM_ERROR.MAXLENGTH' | translate }}
         </small>
       </div>
 
@@ -259,19 +259,19 @@
           <input
             pInputText
             class="text-2"
-            placeholder="Zip Code"
+            [placeholder]="'REGISTER_TWO.INSURED.FIELD_ZIPCODE' | translate"
             formControlName="zipcode"
             mask="00000" />
         </div>
         <small
           class="text-danger mt-1"
           *ngIf="hasError(form.controls['zipcode'], 'required')">
-          The field is required
+          {{ 'FORM_ERROR.REQUIRED' | translate }}
         </small>
         <small
           class="text-danger mt-1"
           *ngIf="hasError(form.controls['zipcode'], 'mask')">
-          Please enter a valid zip code
+          {{ 'REGISTER_TWO.INSURED.ERROR_ZIPCODE_MASK' | translate }}
         </small>
       </div>
 
@@ -283,17 +283,17 @@
             [binary]="true"></p-checkbox>
           <span class="ms-2 d-flex align-items-center text-check">
             <label style="font-weight: 500" for="accepted_terms_conditions">
-              I accept the
+              {{ 'REGISTER_TWO.COMMON.TERMS_ACCEPT_PREFIX' | translate }}
               <span
                 style="cursor: pointer; color: #1472c3"
                 (click)="openModal('terms-conditions')">
-                terms and conditions</span
+                {{ 'REGISTER_TWO.COMMON.TERMS_LINK' | translate }}</span
               >
-              and
+              {{ 'REGISTER_TWO.COMMON.AND' | translate }}
               <span
                 style="cursor: pointer; color: #1472c3"
                 (click)="openModal('privacy-policies')">
-                privacy policies
+                {{ 'REGISTER_TWO.COMMON.PRIVACY_LINK' | translate }}
               </span>
             </label>
           </span>
@@ -303,7 +303,7 @@
             hasError(form.controls['accepted_terms_conditions'], 'required')
           "
           class="text-danger mt-1">
-          This field is required
+          {{ 'FORM_ERROR.REQUIRED' | translate }}
         </small>
       </div>
 
@@ -311,7 +311,7 @@
         <button
           class="primary-button big-button back-light-blue-500 white"
           (click)="send()">
-          Continue
+          {{ 'REGISTER_TWO.COMMON.BTN_CONTINUE' | translate }}
         </button>
       </div>
     </form>

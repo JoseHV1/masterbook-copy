@@ -8,7 +8,7 @@
         class="export-icon-btn"
         (click)="downloadDashboardPdf()"
         [disabled]="isExporting"
-        matTooltip="Download PDF">
+        [matTooltip]="'PORTAL.COMMON.DOWNLOAD_PDF' | translate">
         <mat-icon>download</mat-icon>
       </button>
     </div>
@@ -42,12 +42,12 @@
                 </app-chart-filters>
 
                 <div>
-                  <h3>Accounts</h3>
+                  <h3>{{ 'PORTAL.ACTIVITIES.ACCOUNTS' | translate }}</h3>
                   <p>{{ selectedDateRange.accounts }}</p>
                   <p>
                     {{
                       selectedAgent.accounts.name
-                        ? 'Broker: ' + selectedAgent.accounts.name
+                        ? ('PORTAL.ACTIVITIES.BROKER_NAME' | translate: { name: selectedAgent.accounts.name })
                         : ''
                     }}
                   </p>
@@ -82,12 +82,12 @@
                 </app-chart-filters>
 
                 <div>
-                  <h3>Quotes</h3>
+                  <h3>{{ 'PORTAL.ACTIVITIES.QUOTES' | translate }}</h3>
                   <p>{{ selectedDateRange.quotes }}</p>
                   <p>
                     {{
                       selectedAgent.quotes.name
-                        ? 'Broker: ' + selectedAgent.quotes.name
+                        ? ('PORTAL.ACTIVITIES.BROKER_NAME' | translate: { name: selectedAgent.quotes.name })
                         : ''
                     }}
                   </p>
@@ -128,12 +128,12 @@
                 </app-chart-filters>
 
                 <div>
-                  <h3>Requests</h3>
+                  <h3>{{ 'PORTAL.ACTIVITIES.REQUESTS' | translate }}</h3>
                   <p>{{ selectedDateRange.requests }}</p>
                   <p>
                     {{
                       selectedAgent.requests.name
-                        ? 'Broker: ' + selectedAgent.requests.name
+                        ? ('PORTAL.ACTIVITIES.BROKER_NAME' | translate: { name: selectedAgent.requests.name })
                         : ''
                     }}
                   </p>
@@ -148,8 +148,8 @@
             <div class="chart-container">
               <app-stacked-area-chart
                 [data]="commissionsStackedData"
-                title="Commissions"
-                subtitle="Money over time"
+                [title]="'PORTAL.ACTIVITIES.COMMISSIONS' | translate"
+                [subtitle]="'PORTAL.ACTIVITIES.MONEY_OVER_TIME' | translate"
                 currencySymbol="$">
               </app-stacked-area-chart>
             </div>
@@ -171,7 +171,7 @@
                 </app-chart-filters>
 
                 <div>
-                  <h3>Commissions</h3>
+                  <h3>{{ 'PORTAL.ACTIVITIES.COMMISSIONS' | translate }}</h3>
                   <p>{{ selectedDateRange.commissions }}</p>
                 </div>
               </div>
@@ -216,9 +216,9 @@
           <mat-card class="kpi-card kpi-card--map">
             <div class="map-header">
               <div>
-                <h3 class="map-title">Clients Map</h3>
+                <h3 class="map-title">{{ 'PORTAL.ACTIVITIES.CLIENTS_MAP' | translate }}</h3>
                 <p class="map-subtitle">
-                  Pins show where your clients are located
+                  {{ 'PORTAL.ACTIVITIES.MAP_HINT' | translate }}
                 </p>
               </div>
 
@@ -228,7 +228,7 @@
                   color="primary"
                   (click)="clientsMap.recenter()">
                   <mat-icon>my_location</mat-icon>
-                  Recenter
+                  {{ 'PORTAL.ACTIVITIES.RECENTER' | translate }}
                 </button>
               </div>
             </div>

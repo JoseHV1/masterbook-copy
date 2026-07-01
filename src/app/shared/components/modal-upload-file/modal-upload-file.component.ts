@@ -5,6 +5,7 @@ import { InsurerModel } from '@app/shared/interfaces/models/insurer.model';
 import { InsurerConfigService } from '@app/shared/services/insurer-config.service';
 import { PoliciesService } from '@app/shared/services/policies.service';
 import { UiService } from '@app/shared/services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-modal-ticket',
@@ -26,7 +27,8 @@ export class ModalUploadFileComponent implements OnInit {
     private _insurer: InsurerConfigService,
     private _policy: PoliciesService,
     private dialogRef: MatDialogRef<ModalUploadFileComponent>,
-    @Inject(MAT_DIALOG_DATA) public dataModal: { entity: string }
+    @Inject(MAT_DIALOG_DATA) public dataModal: { entity: string },
+    private _t: TranslateService,
   ) {
     this.form = this._policy.createUploadFileForm();
     this.entity = dataModal.entity;
@@ -50,9 +52,7 @@ export class ModalUploadFileComponent implements OnInit {
         if (this.insurers.length > 0) {
           this.buildInsurerFields();
         } else {
-          this._ui.showAlertError(
-            'No insurers configured. You need to have at least 1 insurer to proceed'
-          );
+          this._ui.showAlertError(this._t.instant('SHARED.UPLOAD_FILE.NO_INSURERS'));
         }
       });
     }

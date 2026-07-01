@@ -2,7 +2,7 @@
 
   <!-- Branding & Personalization -->
   <div class="settings-section bg-white rounded shadow-sm p-3 p-md-4 mb-3">
-    <h5 class="profile__subtitle mb-4">Branding & Personalization</h5>
+    <h5 class="profile__subtitle mb-4">{{ 'PORTAL.AGENCY_SETTINGS.SECTION_BRANDING' | translate }}</h5>
 
     <div class="d-flex align-items-center flex-wrap gap-3 mb-4">
       <app-picture-selector
@@ -14,11 +14,11 @@
           value="check_brand_publication"
           id="check_brand_publication"></p-checkbox>
         <label class="mb-0 d-flex align-items-center text-check" for="check_brand_publication" style="cursor: pointer">
-          Do you want to brand your MasterBook with your logo?
+          {{ 'REGISTER_TWO.COMMON.BRAND_QUESTION' | translate }}
           <img
             class="ms-2"
             src="/assets/icons/register-two/information.svg"
-            pTooltip="Enabling this option will display your agency logo to your insured clients"
+            [pTooltip]="'PORTAL.AGENCY_SETTINGS.TOOLTIP_LOGO_INFO' | translate"
             tooltipPosition="top" />
         </label>
       </div>
@@ -28,14 +28,14 @@
     <div class="lead-url-section">
       <div class="d-flex align-items-center gap-2 mb-3">
         <span class="material-icons-outlined dark-blue-400" style="font-size: 20px">link</span>
-        <span class="fw-semibold black">Lead registration link</span>
+        <span class="fw-semibold black">{{ 'PORTAL.AGENCY_SETTINGS.LEAD_URL_TITLE' | translate }}</span>
       </div>
 
       <ng-container *ngIf="!dataAgency.token_leads; else urlLead">
         <button
           class="primary-button big-button back-light-blue-400 white"
           (click)="createUrlLead()">
-          Create URL Lead
+          {{ 'PORTAL.AGENCY_SETTINGS.BTN_CREATE_URL_LEAD' | translate }}
         </button>
       </ng-container>
 
@@ -46,7 +46,7 @@
           <div class="d-flex gap-2 align-items-center flex-wrap">
             <div class="social-badge social-badge--facebook">
               <img src="/assets/icons/social/facebook.svg" alt="Facebook" />
-              <span>Facebook</span>
+              <span>{{ 'PORTAL.PORTAL_ADMIN.PROFILE.FACEBOOK' | translate }}</span>
             </div>
             <div class="lead-url-box flex-grow-1">
               <span class="material-icons-outlined me-2" style="font-size: 18px; color: #94a3b8">link</span>
@@ -54,7 +54,7 @@
             </div>
             <button class="copy-url-btn d-flex align-items-center gap-1" (click)="copyUrl('facebook')">
               <span class="material-icons-outlined" style="font-size: 16px">content_copy</span>
-              Copy
+              {{ 'PORTAL.AGENCY_SETTINGS.BTN_COPY' | translate }}
             </button>
           </div>
 
@@ -62,7 +62,7 @@
           <div class="d-flex gap-2 align-items-center flex-wrap">
             <div class="social-badge social-badge--instagram">
               <img src="/assets/icons/social/instagram.svg" alt="Instagram" />
-              <span>Instagram</span>
+              <span>{{ 'PORTAL.PORTAL_ADMIN.PROFILE.INSTAGRAM' | translate }}</span>
             </div>
             <div class="lead-url-box flex-grow-1">
               <span class="material-icons-outlined me-2" style="font-size: 18px; color: #94a3b8">link</span>
@@ -70,7 +70,7 @@
             </div>
             <button class="copy-url-btn d-flex align-items-center gap-1" (click)="copyUrl('instagram')">
               <span class="material-icons-outlined" style="font-size: 16px">content_copy</span>
-              Copy
+              {{ 'PORTAL.AGENCY_SETTINGS.BTN_COPY' | translate }}
             </button>
           </div>
 
@@ -78,7 +78,7 @@
           <div class="d-flex gap-2 align-items-center flex-wrap">
             <div class="social-badge social-badge--tiktok">
               <img src="/assets/icons/social/tiktok.svg" alt="TikTok" />
-              <span>TikTok</span>
+              <span>{{ 'PORTAL.PORTAL_ADMIN.PROFILE.TIKTOK' | translate }}</span>
             </div>
             <div class="lead-url-box flex-grow-1">
               <span class="material-icons-outlined me-2" style="font-size: 18px; color: #94a3b8">link</span>
@@ -86,7 +86,7 @@
             </div>
             <button class="copy-url-btn d-flex align-items-center gap-1" (click)="copyUrl('tiktok')">
               <span class="material-icons-outlined" style="font-size: 16px">content_copy</span>
-              Copy
+              {{ 'PORTAL.AGENCY_SETTINGS.BTN_COPY' | translate }}
             </button>
           </div>
 
@@ -97,7 +97,7 @@
 
   <!-- Business Lines -->
   <div class="settings-section bg-white rounded shadow-sm p-3 p-md-4 mb-3">
-    <h5 class="profile__subtitle mb-4">Business Lines</h5>
+    <h5 class="profile__subtitle mb-4">{{ 'PORTAL.AGENCY_SETTINGS.SECTION_BUSINESS_LINES' | translate }}</h5>
     <div
       class="p-inputgroup anon-input-custom anon-multiselect-custom"
       [ngClass]="{ 'custom-error': isInvalid(form.controls['business_lines_ids']) }">
@@ -108,21 +108,21 @@
         [options]="businessLines"
         formControlName="business_lines_ids"
         optionValue="_id"
-        defaultLabel="Business Line"
+        [defaultLabel]="'PORTAL.AGENCY_SETTINGS.DEFAULT_LABEL_BUSINESS_LINE' | translate"
         optionLabel="name"
         display="chip"></p-multiSelect>
     </div>
     <small *ngIf="hasError(form.controls['business_lines_ids'], 'validlength')" class="text-danger mt-1">
-      Must select between 1 and 6 lines of business
+      {{ 'REGISTER_TWO.COMMON.ERROR_BUSINESS_LINES_LENGTH' | translate }}
     </small>
   </div>
 
   <!-- Percentage Configuration -->
   <div class="settings-section bg-white rounded shadow-sm p-3 p-md-4 mb-3">
-    <h5 class="profile__subtitle mb-4">Percentage Configuration</h5>
+    <h5 class="profile__subtitle mb-4">{{ 'PORTAL.AGENCY_SETTINGS.SECTION_PERCENTAGE' | translate }}</h5>
     <div class="row">
       <div class="col-12 col-md-6 mb-3 mb-md-0">
-        <label>Percentage Retentions</label>
+        <label>{{ 'PORTAL.AGENCY_SETTINGS.FIELD_PCT_RETENTIONS' | translate }}</label>
         <app-input
           formControlName="retentions"
           placeholder="% 0"
@@ -131,7 +131,7 @@
           [maskPrefix]="'% '"></app-input>
       </div>
       <div class="col-12 col-md-6">
-        <label>Percentage Taxes</label>
+        <label>{{ 'PORTAL.AGENCY_SETTINGS.FIELD_PCT_TAXES' | translate }}</label>
         <app-input
           formControlName="taxes"
           placeholder="% 0"
@@ -145,7 +145,7 @@
   <!-- Save Button -->
   <div class="d-flex justify-content-end mt-2">
     <button class="primary-button big-button back-light-blue-400 white" (click)="send()">
-      Save Changes
+      {{ 'PORTAL.COMMON.SAVE_CHANGES' | translate }}
     </button>
   </div>
 

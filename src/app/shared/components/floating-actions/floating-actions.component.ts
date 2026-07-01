@@ -8,7 +8,7 @@ import { ModalTicketComponent } from '../modal-ticket/modal-ticket.component';
   styleUrls: ['./floating-actions.component.scss'],
 })
 export class FloatingActionsComponent {
-  @Input() surveyUrl!: string;
+  @Input() surveyUrl: string | null = null;
   @Input() contactNumberBroker?: string;
   @Input() canShowNumberBroker?: boolean;
   @Input() isInsured: boolean = false;

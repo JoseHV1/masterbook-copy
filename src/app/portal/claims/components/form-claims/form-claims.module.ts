@@ -17,11 +17,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { CurrencyMaskDirective } from 'src/app/shared/directives/currency-mask/currency-mask.directive';
 import { FilePreviewModalModule } from '../file-preview-modal/file-preview-modal.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [FormClaimsComponent, CurrencyMaskDirective],
   imports: [
     CommonModule,
+    TranslateModule,
+    MatTooltipModule,
     InputTextModule,
     ButtonModule,
     CalendarModule,

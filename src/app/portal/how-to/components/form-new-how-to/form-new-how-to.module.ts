@@ -5,11 +5,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { FormsModalModule } from 'src/app/portal/forms/components/forms-modal/forms-modal.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [FormNewHowToComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     ReactiveFormsModule,
     RouterModule,
     CDKModule,

@@ -6,18 +6,18 @@
         [checked]="showDefaultForms"
         (change)="setShowDefaultForms()">
         <span class="mat-mdc-menu-item-text">
-          {{ 'Show default forms' }}
+          {{ 'PORTAL.FORMS.SHOW_DEFAULT_FORMS' | translate }}
         </span>
       </mat-slide-toggle>
     </div>
-    <h3 class="subtitle-1 dark-blue-400 text-center w-100 mb-4">FORMS</h3>
+    <h3 class="subtitle-1 dark-blue-400 text-center w-100 mb-4">{{ 'PORTAL.FORMS.TITLE' | translate }}</h3>
     <form [formGroup]="form" class="px-md-5 mb-3">
-      <app-input formControlName="query" placeholder="Search policy type">
+      <app-input formControlName="query" [placeholder]="'PORTAL.FORMS.PLACEHOLDER_SEARCH' | translate">
       </app-input>
     </form>
     <div class="px-md-5 my-1 my-md-2 mb-2 mb-md-5">
       <div class="lob-selector px-2 px-md-3 py-3 my-1 my-md-2">
-        <p class="subtitle-2 text-center">BUSINESS LINES</p>
+        <p class="subtitle-2 text-center">{{ 'PORTAL.FORMS.BUSINESS_LINES' | translate }}</p>
         <div class="d-flex flex-wrap justify-content-center">
           <ng-container *ngFor="let lob of business_lines">
             <div
@@ -87,7 +87,7 @@
                             ? 'color-white'
                             : 'light-blue-600'
                         ">
-                        Forms count: {{ type.count_forms }}
+                        {{ 'PORTAL.FORMS.FORMS_COUNT' | translate }} {{ type.count_forms }}
                       </div>
                     </div>
                     <div class="text-center mt-1">
@@ -99,7 +99,7 @@
                             : 'back-dark-blue-300 white'
                         "
                         (click)="openModalForms(type)">
-                        View forms
+                        {{ 'PORTAL.FORMS.BTN_VIEW_FORMS' | translate }}
                       </button>
                     </div>
                   </div>

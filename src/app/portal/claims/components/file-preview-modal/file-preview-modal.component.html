@@ -24,7 +24,7 @@
             width="100%"
             height="500px"
             style="border: none"></iframe>
-          <p *ngSwitchDefault>Unsupported file format.</p>
+          <p *ngSwitchDefault>{{ 'PORTAL.CLAIMS.FORM.UNSUPPORTED_FORMAT' | translate }}</p>
         </ng-container>
 
         <p class="file-name mb-4 mt-3">{{ currentItem.name }}</p>
@@ -68,12 +68,12 @@
       <button
         class="primary-button big-button back-gray-400 white mx-1"
         (click)="close()">
-        Cancel
+        {{ 'PORTAL.COMMON.CANCEL' | translate }}
       </button>
       <button
         class="primary-button big-button back-light-blue-400 white mx-1"
         (click)="download()">
-        Download
+        {{ 'PORTAL.CLAIMS.FORM.BTN_DOWNLOAD' | translate }}
       </button>
     </div>
   </div>

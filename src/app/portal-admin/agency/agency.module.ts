@@ -13,6 +13,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'create',
+    loadChildren: () =>
+      import('./create-agency/create-agency.module').then(
+        module => module.CreateAgencyModule
+      ),
+  },
+  {
     path: ':id',
     loadChildren: () =>
       import('./client-details/client-details.module').then(

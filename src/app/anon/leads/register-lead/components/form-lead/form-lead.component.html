@@ -1,47 +1,47 @@
 <form [formGroup]="form" data-testid="lead-form">
   <div class="row mb-4">
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>First name*</label>
+      <label>{{ 'LEAD_FORM.FIELD_FIRST_NAME' | translate }}</label>
       <app-input
         [dataTestId]="'lead-first-name'"
-        placeholder="Enter First Name"
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_FIRST_NAME' | translate"
         type="text"
         formControlName="first_name"
         autocomplete="given-name"></app-input>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>Last name*</label>
+      <label>{{ 'LEAD_FORM.FIELD_LAST_NAME' | translate }}</label>
       <app-input
         [dataTestId]="'lead-last-name'"
-        placeholder="Enter Last Name"
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_LAST_NAME' | translate"
         type="text"
         formControlName="last_name"
         autocomplete="family-name"></app-input>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>Email*</label>
+      <label>{{ 'LEAD_FORM.FIELD_EMAIL' | translate }}</label>
       <app-input
         [dataTestId]="'lead-email'"
-        placeholder="Enter Email Address"
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_EMAIL' | translate"
         type="email"
         formControlName="email"
         autocomplete="email"></app-input>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>Confirm email*</label>
+      <label>{{ 'LEAD_FORM.FIELD_EMAIL_CONFIRM' | translate }}</label>
       <app-input
         [dataTestId]="'lead-email-confirm'"
-        placeholder="Confirm Email Address"
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_EMAIL_CONFIRM' | translate"
         type="email"
         formControlName="email_confirmation"
         autocomplete="email"></app-input>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>Phone number*</label>
+      <label>{{ 'LEAD_FORM.FIELD_PHONE' | translate }}</label>
       <app-input
         [dataTestId]="'lead-phone'"
         placeholder="(XXX) XXX-XXXX"
@@ -52,26 +52,26 @@
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>Gender*</label>
+      <label>{{ 'LEAD_FORM.FIELD_GENDER' | translate }}</label>
       <app-dropdown-field
         [dataTestId]="'lead-gender-trigger'"
         data-testid="lead-gender"
-        [placeholder]="'Select a gender'"
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_GENDER' | translate"
         formControlName="gender"
         [options]="dropDownGender"
         autocomplete="sex"></app-dropdown-field>
     </div>
 
     <div class="col-8 mb-4 mb-md-0">
-      <label>Address*</label>
+      <label>{{ 'LEAD_FORM.FIELD_ADDRESS' | translate }}</label>
       <app-address-input
         [dataTestId]="'lead-address-input'"
-        placeholder="Enter address"
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_ADDRESS' | translate"
         formControlName="address"></app-address-input>
     </div>
 
     <div class="col-4 mb-4 mb-md-0">
-      <label>Zip code*</label>
+      <label>{{ 'LEAD_FORM.FIELD_ZIPCODE' | translate }}</label>
       <app-input
         [dataTestId]="'lead-zip'"
         placeholder="XXXXX"
@@ -82,14 +82,14 @@
     </div>
 
     <div class="col-12 mb-4 mb-md-0">
-      <label>Areas of interest*</label>
+      <label>{{ 'LEAD_FORM.FIELD_AREAS_INTEREST' | translate }}</label>
       <div class="mb-3">
         <div class="p-inputgroup anon-input-custom anon-multiselect-custom">
           <p-multiSelect
             [options]="areasOfInterestOptions"
             formControlName="areas_of_interest"
             optionValue="code"
-            defaultLabel="Select areas of interest"
+            [defaultLabel]="'LEAD_FORM.PLACEHOLDER_AREAS_INTEREST' | translate"
             optionLabel="name"
             display="chip"></p-multiSelect>
         </div>
@@ -97,37 +97,37 @@
     </div>
 
     <div class="col-12 mb-4 mb-md-0">
-      <label>How did you hear about us?*</label>
+      <label>{{ 'LEAD_FORM.FIELD_HEAR_ABOUT_US' | translate }}</label>
       <app-dropdown-field
         [dataTestId]="'lead-capture-medium-trigger'"
-        [placeholder]="'Select an option'"
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_SELECT_OPTION' | translate"
         formControlName="capture_medium"
         [options]="dropDownCaptureMedium"></app-dropdown-field>
     </div>
 
     <div class="col-12 mb-4 mb-md-0" *ngIf="isOtherCaptureMedium">
-      <label>Please describe*</label>
+      <label>{{ 'LEAD_FORM.FIELD_DESCRIBE' | translate }}</label>
       <app-input
         [dataTestId]="'lead-other-capture-medium'"
-        placeholder="Describe how you heard about us"
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_DESCRIBE' | translate"
         type="text"
         formControlName="other_capture_medium"></app-input>
     </div>
 
     <div class="col-12 mb-4 mb-md-0">
-      <label>Description</label>
+      <label>{{ 'LEAD_FORM.FIELD_DESCRIPTION' | translate }}</label>
       <textarea
         rows="5"
         cols="30"
         formControlName="notes"
-        placeholder="Add any additional notes or details..."
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_NOTES' | translate"
         class="w-100 py-1 px-2"
         [ngClass]="{ 'textarea-invalid': form.controls['notes'].invalid && form.controls['notes'].touched }">
       </textarea>
       <small
         *ngIf="form.controls['notes'].hasError('maxlength') && form.controls['notes'].touched"
         class="text-danger mt-1">
-        Description cannot exceed 500 characters
+        {{ 'LEAD_FORM.ERROR_NOTES_MAXLENGTH' | translate }}
       </small>
     </div>
   </div>
@@ -137,7 +137,7 @@
       data-testid="lead-cancel"
       class="primary-button big-button back-gray-400 white mx-1"
       (click)="cancelForm()">
-      Cancel
+      {{ 'LEAD_FORM.BTN_CANCEL' | translate }}
     </button>
 
     <button
@@ -145,11 +145,11 @@
       class="primary-button big-button back-light-blue-400 white mx-1"
       [disabled]="form.invalid"
       (click)="openConfirmationModal()">
-      Submit
+      {{ 'LEAD_FORM.BTN_SUBMIT' | translate }}
     </button>
   </div>
 
   <p class="powered-by">
-    Powered by <span>MyMasterBook</span>
+    {{ 'LEAD_FORM.POWERED_BY' | translate }} <span>MyMasterBook</span>
   </p>
 </form>

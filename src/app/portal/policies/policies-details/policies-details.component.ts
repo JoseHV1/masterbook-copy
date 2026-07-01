@@ -24,6 +24,7 @@ import { ownersRolesDataset } from '@app/shared/datatsets/roles.datasets';
 import { RolesEnum } from '@app/shared/enums/roles.enum';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
 import { IntegrationsService } from '@app/shared/services/integration.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-policies-details',
@@ -51,6 +52,7 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
     private _auth: AuthService,
     private _uploadFile: UploadFileService,
     private _integrations: IntegrationsService,
+    private _t: TranslateService,
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -106,7 +108,7 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
     const googleAuth = this.activateRoute.snapshot.queryParamMap.get('google_auth');
     if (googleAuth === 'success') {
       this.googleConnected = true;
-      this._ui.showAlertSuccess('Google account connected successfully. You can now send emails.');
+      this._ui.showAlertSuccess(this._t.instant('PORTAL.POLICIES.GOOGLE_CONNECTED'));
       this._router.navigate([], {
         queryParams: { google_auth: null },
         queryParamsHandling: 'merge',
@@ -172,7 +174,7 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
   deletePolicy(_id: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this policy?`,
+        text: this._t.instant('PORTAL.POLICIES.CONFIRM_DELETE'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -187,7 +189,7 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
       .deletePolicy(_id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('Policy deleted successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.POLICIES.DELETED'));
         this._router.navigateByUrl('portal/policies');
       });
   }

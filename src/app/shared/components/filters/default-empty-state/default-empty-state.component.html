@@ -3,14 +3,14 @@
     src="assets/images/empty/default-empty.svg"
     alt="empty"
     style="max-height: 12rem" />
-  <p class="subtitle-1 dark-blue-500 my-2 text-center">Sorry</p>
+  <p class="subtitle-1 dark-blue-500 my-2 text-center">{{ 'SHARED.EMPTY_STATE.SORRY' | translate }}</p>
   <p class="text-3 black text-center" *ngIf="customText === null">
-    You do not have any record.
+    {{ 'SHARED.EMPTY_STATE.NO_RECORDS' | translate }}
     <span *ngIf="url">
-      we invite <br />
-      you to
+      {{ 'SHARED.EMPTY_STATE.INVITE_PREFIX' | translate }} <br />
+      {{ 'SHARED.EMPTY_STATE.INVITE_TO' | translate }}
       <span class="light-blue-700" style="cursor: pointer" (click)="navigate()">
-        add the first one
+        {{ 'SHARED.EMPTY_STATE.INVITE_LINK' | translate }}
       </span>
     </span>
   </p>

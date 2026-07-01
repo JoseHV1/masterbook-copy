@@ -2,10 +2,9 @@
   <div class="row">
     <div class="col-12 col-md-6">
       <div class="text-center">
-        <h3 class="subtitle-1 dark-blue-400 mb-3">Download Template</h3>
+        <h3 class="subtitle-1 dark-blue-400 mb-3">{{ 'PORTAL.SHARED.DOWNLOAD_TEMPLATE' | translate }}</h3>
         <p class="text-4 gray-500 mb-5 mb-md-4">
-          First, download the template. Next, fill it in with your information,
-          and then upload it to proceed.
+          {{ 'PORTAL.SHARED.DOWNLOAD_DESC' | translate }}
         </p>
         <div
           class="d-flex flex-column align-items-center justify-content-center mb-5">
@@ -15,8 +14,9 @@
           <div class="d-flex align-items-center justify-content-center mt-3">
             <button
               class="primary-button big-button back-light-blue-400 white mx-1"
+              [disabled]="!hasTemplate"
               (click)="downloadTemplate()">
-              Download Template
+              {{ 'PORTAL.SHARED.DOWNLOAD_TEMPLATE' | translate }}
             </button>
           </div>
         </div>
@@ -24,9 +24,9 @@
     </div>
     <div class="col-12 col-md-6">
       <div class="text-center">
-        <h3 class="subtitle-1 dark-blue-400 mb-3">Upload File</h3>
+        <h3 class="subtitle-1 dark-blue-400 mb-3">{{ 'PORTAL.SHARED.UPLOAD_SECTION' | translate }}</h3>
         <p class="text-4 gray-500 mb-5 mb-md-4">
-          After adding and verifying all the necessary data, you can upload your
+          {{ 'PORTAL.SHARED.UPLOAD_DESC' | translate }}
         </p>
         <form [formGroup]="form">
           <div
@@ -43,14 +43,15 @@
             <small
               *ngIf="hasError(form.controls['file_base64'], 'required')"
               class="text-danger mt-1">
-              This file is required
+              {{ 'PORTAL.SHARED.FILE_REQUIRED' | translate }}
             </small>
 
             <div class="d-flex align-items-center justify-content-center mt-3">
               <button
                 class="primary-button big-button back-light-blue-400 white mx-1"
+                [disabled]="!hasTemplate"
                 (click)="openModal()">
-                Upload File
+                {{ 'PORTAL.SHARED.UPLOAD_FILE_BTN' | translate }}
               </button>
             </div>
           </div>

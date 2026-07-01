@@ -1,0 +1,236 @@
+<app-pages-layout>
+  <ng-container content>
+    <div class="d-flex align-items-center mb-3 ms-2">
+      <span class="material-icons-outlined me-2" style="cursor:pointer" (click)="cancel()">arrow_back</span>
+      <h3 class="subtitle-1 dark-blue-400 mb-0">Crear nuevo cliente</h3>
+    </div>
+
+    <div class="px-3 px-md-5 pb-5">
+
+      <!-- ── Selector de tipo ──────────────────────────── -->
+      <div class="form-section mb-4">
+        <h4 class="form-section__title mb-3">Tipo de cliente</h4>
+        <div class="d-flex gap-3">
+          <button
+            type="button"
+            class="primary-button big-button"
+            [class.back-light-blue-400]="clientType === 'agency'"
+            [class.white]="clientType === 'agency'"
+            [class.back-gray-400]="clientType !== 'agency'"
+            (click)="selectClientType('agency')">
+            Agencia
+          </button>
+          <button
+            type="button"
+            class="primary-button big-button"
+            [class.back-light-blue-400]="clientType === 'independent_broker'"
+            [class.white]="clientType === 'independent_broker'"
+            [class.back-gray-400]="clientType !== 'independent_broker'"
+            (click)="selectClientType('independent_broker')">
+            Corredor Independiente
+          </button>
+        </div>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <!-- ── Datos del propietario ──────────────────── -->
+        <div class="form-section mb-4">
+          <h4 class="form-section__title mb-3">
+            Datos del {{ clientType === 'agency' ? 'propietario' : 'corredor' }}
+          </h4>
+          <div class="row g-3">
+
+            <div class="col-12 col-md-6">
+              <label>Nombre *</label>
+              <app-input formControlName="first_name" placeholder="Nombre"></app-input>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label>Apellido *</label>
+              <app-input formControlName="last_name" placeholder="Apellido"></app-input>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label>Correo electrónico *</label>
+              <app-input formControlName="email" placeholder="correo@ejemplo.com"></app-input>
+            </div>
+
+            <div class="col-12 col-md-3">
+              <label>Género *</label>
+              <app-dropdown-field
+                formControlName="gender"
+                placeholder="Seleccionar"
+                [options]="genderOptions">
+              </app-dropdown-field>
+            </div>
+
+            <div class="col-12 col-md-3">
+              <label>Fecha de nacimiento *</label>
+              <app-date-field
+                formControlName="date_of_birth"
+                placeholder="MM/DD/YYYY"
+                [max]="maxDob">
+              </app-date-field>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── Datos de la agencia (solo para tipo agencia) ─ -->
+        <div class="form-section mb-4" *ngIf="clientType === 'agency'">
+          <h4 class="form-section__title mb-3">Datos de la agencia</h4>
+          <div class="row g-3">
+
+            <div class="col-12 col-md-6">
+              <label>Nombre de la agencia *</label>
+              <app-input formControlName="agency_name" placeholder="Mi Agencia LLC"></app-input>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── Datos de contacto y configuración ─────── -->
+        <div class="form-section mb-4">
+          <h4 class="form-section__title mb-3">Configuración</h4>
+          <div class="row g-3">
+
+            <div class="col-12 col-md-6">
+              <label>{{ 'REGISTER_TWO.COMMON.FIELD_PHONE' | translate }} *</label>
+              <div
+                class="p-inputgroup anon-input-custom"
+                [ngClass]="{ 'custom-error': form.controls['phone_number'].invalid && form.controls['phone_number'].touched }">
+                <span class="p-inputgroup-addon">
+                  <img src="/assets/icons/register-two/phone.svg" alt="" />
+                </span>
+                <input
+                  pInputText
+                  class="text-2"
+                  placeholder="(000) 000-0000"
+                  formControlName="phone_number"
+                  mask="(000) 000-0000" />
+              </div>
+              <small class="text-danger mt-1" *ngIf="form.controls['phone_number'].invalid && form.controls['phone_number'].touched">
+                {{ 'FORM_ERROR.REQUIRED' | translate }}
+              </small>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label>Tenant (región) *</label>
+              <app-dropdown-field
+                formControlName="tenant_id"
+                placeholder="Seleccionar tenant"
+                [options]="tenantOptions">
+              </app-dropdown-field>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label>Modo de facturación *</label>
+              <app-dropdown-field
+                formControlName="billing_mode"
+                placeholder="Seleccionar"
+                [options]="billingModeOptions">
+              </app-dropdown-field>
+            </div>
+
+            <!-- Staff size solo para agencia -->
+            <div class="col-12 col-md-6" *ngIf="clientType === 'agency'">
+              <label>{{ 'REGISTER_TWO.AGENCY.FIELD_STAFF_SIZE' | translate }}</label>
+              <div class="p-inputgroup anon-input-custom anon-select-custom">
+                <span class="p-inputgroup-addon">
+                  <img src="/assets/icons/register-two/briefcase.svg" alt="" />
+                </span>
+                <p-dropdown
+                  class="text-2"
+                  [options]="staffSizeOptions"
+                  formControlName="staff_size"
+                  optionLabel="name"
+                  optionValue="code"
+                  [placeholder]="'REGISTER_TWO.AGENCY.FIELD_STAFF_SIZE' | translate">
+                </p-dropdown>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── Licencia y líneas de negocio ──────────── -->
+        <div class="form-section mb-4">
+          <h4 class="form-section__title mb-3">Licencia y líneas de negocio</h4>
+          <div class="row g-3">
+
+            <div class="col-12 col-md-6">
+              <label>Número de licencia *</label>
+              <app-input formControlName="license_number" placeholder="LIC-0000"></app-input>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label>Vencimiento de licencia *</label>
+              <app-date-field
+                formControlName="license_expires_at"
+                placeholder="MM/DD/YYYY"
+                [min]="minLicenseDate">
+              </app-date-field>
+            </div>
+
+            <div class="col-12">
+              <label>Líneas de negocio *</label>
+              <app-dropdown-field
+                formControlName="business_lines"
+                placeholder="Seleccionar líneas"
+                [options]="businessLineOptions"
+                [multiple]="true">
+              </app-dropdown-field>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── Dirección ──────────────────────────────── -->
+        <div class="form-section mb-4">
+          <h4 class="form-section__title mb-3">Dirección (opcional)</h4>
+          <div class="row g-3">
+
+            <div class="col-12 col-md-8">
+              <label>{{ 'REGISTER_TWO.COMMON.FIELD_ADDRESS' | translate }}</label>
+              <div class="p-inputgroup anon-input-custom">
+                <span class="p-inputgroup-addon">
+                  <img src="/assets/icons/register-two/location.svg" alt="" />
+                </span>
+                <input
+                  pInputText
+                  class="text-2"
+                  [placeholder]="'REGISTER_TWO.COMMON.FIELD_ADDRESS' | translate"
+                  formControlName="address"
+                  (updateAddress)="onAddressChange($event)"
+                  appAddressAutocomplete />
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+              <label>Dirección adicional</label>
+              <app-input formControlName="additional_address" placeholder="Apt, Suite, etc."></app-input>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── Acciones ─────────────────────────────── -->
+        <div class="d-flex justify-content-center gap-3 mt-4">
+          <button
+            type="button"
+            class="primary-button big-button back-gray-400 white"
+            (click)="cancel()">
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="primary-button big-button back-light-blue-400 white">
+            {{ clientType === 'agency' ? 'Crear agencia' : 'Crear corredor' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </ng-container>
+</app-pages-layout>

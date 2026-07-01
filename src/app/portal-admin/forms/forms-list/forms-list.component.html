@@ -1,0 +1,144 @@
+<ng-template #table>
+  <app-pages-layout
+    [button]="{ text: ('PORTAL.PORTAL_ADMIN.FORMS.BTN_NEW' | translate), icon: 'add' }"
+    (btnClick)="openCreateModal()">
+    <ng-container content>
+
+      <app-filtered-table-header
+        [filtersActive]="filtersActive"
+        (search)="onQueryFilter($event)"
+        (openFilters)="drawer.toggle()"
+        (removeChip)="removeFilterFromChip($event)">
+      </app-filtered-table-header>
+
+      <div class="table-responsive">
+        <table mat-table [dataSource]="data.records">
+
+          <ng-container matColumnDef="serial">
+            <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.FORMS.TABLE_SERIAL' | translate }}</th>
+            <td mat-cell *matCellDef="let element">
+              <span
+                class="light-blue-700"
+                style="cursor: pointer"
+                [matTooltip]="'PORTAL.COMMON.VIEW' | translate"
+                (click)="goToDetail(element)">
+                #{{ element.serial }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.FORMS.TABLE_NAME' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.name | notNull }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="policy_type">
+            <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.PORTAL_ADMIN.FORMS.COL_POLICY_TYPE' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.policy_type?.name | notNull }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="tenants">
+            <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.TENANTS.TITLE' | translate }}</th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.tenants?.length; else allTenants">
+                <span *ngFor="let t of element.tenants" class="badge bg-secondary me-1">{{ t.code }}</span>
+              </span>
+              <ng-template #allTenants>
+                <span class="text-muted small">{{ 'PORTAL.PORTAL_ADMIN.FORMS.ALL_TENANTS' | translate }}</span>
+              </ng-template>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.COMMON.STATUS' | translate }}</th>
+            <td mat-cell *matCellDef="let element">
+              <span
+                class="badge"
+                [ngClass]="element.status?.toLowerCase() === 'active' ? 'bg-success' : 'bg-danger'">
+                {{ element.status | titlecase }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.COMMON.ACTIONS' | translate }}</th>
+            <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon class="dark-blue-400">more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu" xPosition="before">
+                <button mat-menu-item (click)="goToDetail(element)">
+                  <span class="d-flex align-items-center gap-2">
+                    <span class="material-icons-outlined dark-blue-400">visibility</span>
+                    <span>{{ 'PORTAL.COMMON.VIEW' | translate }}</span>
+                  </span>
+                </button>
+                <button
+                  mat-menu-item
+                  *ngIf="element.status?.toLowerCase() === 'active'"
+                  (click)="confirmToggleStatus(element)">
+                  <span class="d-flex align-items-center gap-2">
+                    <span class="material-icons-outlined" style="color:#b45309">block</span>
+                    <span>{{ 'PORTAL.COMMON.DISABLE' | translate }}</span>
+                  </span>
+                </button>
+                <button
+                  mat-menu-item
+                  *ngIf="element.status?.toLowerCase() !== 'active'"
+                  (click)="confirmToggleStatus(element)">
+                  <span class="d-flex align-items-center gap-2">
+                    <span class="material-icons-outlined" style="color:#065f46">check_circle_outline</span>
+                    <span>{{ 'PORTAL.COMMON.ENABLE' | translate }}</span>
+                  </span>
+                </button>
+                <button mat-menu-item (click)="confirmDelete(element)">
+                  <span class="d-flex align-items-center gap-2">
+                    <span class="material-icons-outlined" style="color:#dc2626">delete_outline</span>
+                    <span>{{ 'PORTAL.COMMON.DELETE' | translate }}</span>
+                  </span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr *matNoDataRow>
+            <td [attr.colspan]="displayedColumns.length">
+              <app-default-empty-state *ngIf="!filtersActive.length"></app-default-empty-state>
+              <app-filter-empty-state *ngIf="filtersActive.length"></app-filter-empty-state>
+            </td>
+          </tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" class="mas-table-row"></tr>
+
+        </table>
+      </div>
+
+      <mat-paginator
+        [pageSizeOptions]="[10, 25, 50]"
+        [length]="data.total_records"
+        [pageIndex]="data.page - 1"
+        [pageSize]="data.limit"
+        (page)="changePaginator($event)"
+        showFirstLastButtons>
+      </mat-paginator>
+
+    </ng-container>
+  </app-pages-layout>
+</ng-template>
+
+<ng-template #filters>
+  <app-filter-wrapper
+    [config]="filterConfig"
+    (closeFilters)="drawer.toggle()"
+    (activeFilterChange)="handleApplyFilter($event); drawer.toggle()">
+  </app-filter-wrapper>
+</ng-template>
+
+<mat-drawer-container [hasBackdrop]="false">
+  <mat-drawer #drawer [mode]="'over'" [position]="'end'">
+    <ng-container *ngTemplateOutlet="filters"></ng-container>
+  </mat-drawer>
+  <mat-drawer-content>
+    <ng-container *ngTemplateOutlet="table"></ng-container>
+  </mat-drawer-content>
+</mat-drawer-container>

@@ -14,11 +14,13 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { MatRadioModule } from '@angular/material/radio';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [FormPaymentsComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     InputTextModule,
     ButtonModule,
     CalendarModule,

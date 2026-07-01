@@ -7,13 +7,16 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd, Event as RouterEvent } from '@angular/router';
 import { UiService } from './shared/services/ui.service';
 import { AuthService } from './shared/services/auth.service';
 import { environment } from 'src/environments/environment';
 import { LanguageService } from './shared/services/language.service';
+import { TenantsService } from './shared/services/tenants.service';
+import { AvailableLanguagesEnum } from './shared/enums/available-languages.enum';
+import { TenantContextService } from './shared/services/tenant-context.service';
 
 declare var gtag: Function;
 
@@ -33,10 +36,25 @@ export class AppComponent implements OnInit, OnDestroy {
     private _cd: ChangeDetectorRef,
     private _auth: AuthService,
     private _language: LanguageService, //No eliminar esto, es para inicializar el LanguageService
-    private _router: Router
+    private _router: Router,
+    private _tenants: TenantsService,
+    private _tenantCtx: TenantContextService,
   ) {
     const auth = this._auth.getAuth();
-    if (!!auth) this._auth.refreshAuth().subscribe();
+    if (!!auth) {
+      this._auth.refreshAuth().pipe(
+        switchMap(() => this._tenants.getForCurrentAgency()),
+        takeUntil(this.destroy$),
+      ).subscribe({
+        next: tenant => {
+          this._tenantCtx.setTenant(tenant);
+          if (tenant?.document_language) {
+            this._language.changeLanguage(tenant.document_language as unknown as AvailableLanguagesEnum);
+          }
+        },
+        error: () => {},
+      });
+    }
 
     AppComponent.isBrowser.next(isPlatformBrowser(this.platformId));
 

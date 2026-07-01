@@ -9,11 +9,13 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { DirectivesModule } from 'src/app/shared/helpers/directives/directives.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { CDKModule } from 'src/core/cdk/cdk.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [FormUsersComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     InputTextModule,
     ButtonModule,
     CalendarModule,

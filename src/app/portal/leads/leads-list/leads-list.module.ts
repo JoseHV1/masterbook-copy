@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LeadsListComponent } from './leads-list.component';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
@@ -19,6 +20,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [LeadsListComponent],
   imports: [
+    TranslateModule,
     CommonModule,
     RouterModule.forChild(routes),
     PagesLayoutModule,

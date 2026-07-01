@@ -7,6 +7,7 @@ import {
 import { ReportService } from '../../shared/services/report.service';
 import { UiService } from '@app/shared/services/ui.service';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reports',
@@ -23,7 +24,8 @@ export class ReportsComponent implements OnInit {
   constructor(
     private reports: ReportService,
     private _ui: UiService,
-    private _uploadFile: UploadFileService
+    private _uploadFile: UploadFileService,
+    private _t: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +61,7 @@ export class ReportsComponent implements OnInit {
     this.reports.generateReport(payload).subscribe({
       next: () => {
         this.loadHistory();
-        this._ui.showAlertSuccess('Report generated successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.REPORTS.GENERATED_SUCCESS'));
       },
       error: () => this._ui.hideLoader(),
       complete: () => this._ui.hideLoader(),

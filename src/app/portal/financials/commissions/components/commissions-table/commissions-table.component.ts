@@ -7,6 +7,7 @@ import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
 import { CommissionStatusEnum } from 'src/app/shared/enums/commission-status.enum';
 import { PopulatedCommisionModel } from 'src/app/shared/interfaces/models/commisions.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-commissions-table',
@@ -52,7 +53,8 @@ export class CommissionsTableComponent {
   constructor(
     private commissions: CommissionsService,
     private ui: UiService,
-    public _url: UrlService
+    public _url: UrlService,
+    private _t: TranslateService
   ) {}
 
   getStatusConfig(status: string): StatusConfig {
@@ -71,7 +73,7 @@ export class CommissionsTableComponent {
     if (status !== CommissionStatusEnum.PENDING) return;
 
     this.ui
-      .showConfirmationModal({ text: 'Approve this pending commission?' })
+      .showConfirmationModal({ text: this._t.instant('PORTAL.COMMISSIONS.CONFIRM_APPROVE') })
       .pipe(
         take(1),
         switchMap(approve => {
@@ -82,7 +84,7 @@ export class CommissionsTableComponent {
             );
           }
           return this.ui
-            .showConfirmationModal({ text: 'Reject this pending commission?' })
+            .showConfirmationModal({ text: this._t.instant('PORTAL.COMMISSIONS.CONFIRM_REJECT') })
             .pipe(
               take(1),
               switchMap(reject =>
@@ -107,12 +109,12 @@ export class CommissionsTableComponent {
       take(1),
       tap(() => {
         this.ui.showAlertSuccess(
-          `Commission ${status.toLowerCase()} successfully`
+          this._t.instant('PORTAL.COMMISSIONS.STATUS_UPDATED', { status: status.toLowerCase() })
         );
         this.patchLocalCommissionStatus(commissionId, status);
       }),
       catchError(err => {
-        this.ui.showAlertError('There was an error. Please try again.');
+        this.ui.showAlertError(this._t.instant('PORTAL.COMMISSIONS.STATUS_UPDATE_ERROR'));
         return EMPTY;
       })
     );

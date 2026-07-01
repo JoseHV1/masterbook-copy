@@ -10,6 +10,7 @@ import { DropdownOptionModel } from 'src/app/shared/models/dropdown-option.model
 import { LeadsService } from 'src/app/portal/leads/services/leads.service';
 import { CreateLeadRequest } from 'src/app/portal/leads/interfaces/requests/create-lead.request';
 import { CaptureMediumEnum } from 'src/app/portal/leads/enums/capture-medium.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-form-agency-lead',
@@ -43,6 +44,7 @@ export class FormAgencyLeadComponent implements OnInit, OnDestroy {
     private _leads: LeadsService,
     private _route: ActivatedRoute,
     private _ui: UiService,
+    private _t: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +62,7 @@ export class FormAgencyLeadComponent implements OnInit, OnDestroy {
   openConfirmationModal(): void {
     this._ui
       .showConfirmationModal({
-        text: 'Are you sure you want to submit your information?',
+        text: this._t.instant('ANON.LEADS.CONFIRM_SUBMIT'),
       })
       .pipe(take(1), takeUntil(this.destroy$))
       .subscribe((confirmed: boolean) => {
@@ -104,7 +106,7 @@ export class FormAgencyLeadComponent implements OnInit, OnDestroy {
           this._openSuccessModal();
         },
         error: () => {
-          this._ui.showAlertError('Your information could not be submitted. Please try again later.');
+          this._ui.showAlertError(this._t.instant('ANON.LEADS.AGENCY_SUBMIT_ERROR'));
         },
       });
   }
@@ -112,8 +114,8 @@ export class FormAgencyLeadComponent implements OnInit, OnDestroy {
   private _openSuccessModal(): void {
     this._ui
       .showInformationModal({
-        text: 'Thank you! Your information has been received. One of our specialists will contact you soon.',
-        title: 'SUCCESS!',
+        text: this._t.instant('ANON.LEADS.AGENCY_SUCCESS_TEXT'),
+        title: this._t.instant('ANON.LEADS.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
       })
       .subscribe();

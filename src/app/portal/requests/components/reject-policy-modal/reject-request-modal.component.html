@@ -2,10 +2,10 @@
   <div class="ui-modal" autofocus>
     <div
       class="ui-modal-header white subtitle-2 text-center py-2 back-red-color">
-      Request #{{ request?.serial }}
+      {{ 'PORTAL.REQUESTS.REQUEST_HASH' | translate }}{{ request?.serial }}
     </div>
     <div class="ui-modal-content py-3 px-2 text-center text-1 gray-500">
-      <label class="d-block">What’s your reason for reject this request?</label>
+      <label class="d-block">{{ 'PORTAL.REQUESTS.REJECT_MODAL.LABEL_REASON' | translate }}</label>
       <textarea
         rows="5"
         cols="30"
@@ -16,13 +16,13 @@
       <button
         class="primary-button white back-gray-400 mx-1"
         (click)="close(false)">
-        Cancel
+        {{ 'PORTAL.COMMON.CANCEL' | translate }}
       </button>
       <button
         class="primary-button white mx-1 back-red-color"
         [disabled]="form.invalid"
         (click)="rejectRequest()">
-        Reject
+        {{ 'PORTAL.REQUESTS.REJECT' | translate }}
       </button>
     </div>
   </div>

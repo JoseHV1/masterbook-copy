@@ -26,6 +26,7 @@ import { brokersAdminDataset } from 'src/app/shared/datatsets/roles.datasets';
 import { AccountFormModalComponent } from '../account-form-modal/account-form-modal.component';
 import { IntegrationsService } from '@app/shared/services/integration.service';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-forms-modal',
@@ -48,6 +49,7 @@ export class FormsModalComponent implements OnInit {
     private _data: {
       policy_type: PopulatedPolicyTypeModel;
       show_email?: boolean;
+      filter_active?: boolean;
     },
     private _dialog: MatDialogRef<FormsModalComponent>,
     private _dialogCreate: MatDialog,
@@ -55,9 +57,10 @@ export class FormsModalComponent implements OnInit {
     private _ui: UiService,
     private _auth: AuthService,
     private _integrations: IntegrationsService,
-    private _uploadFile: UploadFileService
+    private _uploadFile: UploadFileService,
+    private _t: TranslateService
   ) {
-    this.title = `${this._data.policy_type.name} forms`.toUpperCase();
+    this.title = this._t.instant('PORTAL.FORMS.MODAL_TITLE', { name: this._data.policy_type.name }).toUpperCase();
     this.showSendEmailOption = this._data.show_email ?? false;
 
     this._ui.showLoader();
@@ -81,7 +84,7 @@ export class FormsModalComponent implements OnInit {
         this.connected = !!google?.connected;
       },
       error: err => {
-        this._ui.showAlertError(`Status failed ${err}`);
+        this._ui.showAlertError(this._t.instant('PORTAL.FORMS.STATUS_LOAD_ERROR'));
       },
     });
   }
@@ -96,12 +99,10 @@ export class FormsModalComponent implements OnInit {
   }
 
   _fetchForms(): Observable<PopulatedFormModel[]> {
+    let filterText = this._forms.buildFormFilterText(this._data.policy_type._id ?? '');
+    if (this._data.filter_active) filterText += '&status=ACTIVE';
     return this._forms
-      .getForms(
-        0,
-        100,
-        this._forms.buildFormFilterText(this._data.policy_type._id ?? '')
-      )
+      .getForms(0, 100, filterText)
       .pipe(
         map(resp => resp.records),
         tap(resp => (this.forms = resp))
@@ -145,7 +146,7 @@ export class FormsModalComponent implements OnInit {
   deleteForm(_id: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this form?`,
+        text: this._t.instant('PORTAL.FORMS.CONFIRM_DELETE'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -163,7 +164,7 @@ export class FormsModalComponent implements OnInit {
         finalize(() => this._ui.hideLoader())
       )
       .subscribe(() => {
-        this._ui.showAlertSuccess('Form deleted successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.FORMS.FORM_DELETED'));
       });
   }
 

@@ -14,6 +14,7 @@ import {
   SafeResourceUrl,
 } from '@angular/platform-browser';
 import { getVideoId } from '@app/shared/helpers/get-video-id';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-how-to-details',
@@ -34,7 +35,8 @@ export class HowToDetailComponent {
     private _router: Router,
     public _url: UrlService,
     public file: UploadFileService,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    private _t: TranslateService
   ) {
     this._ui.showLoader();
     this.activateRoute.params
@@ -66,7 +68,7 @@ export class HowToDetailComponent {
   deleteHowTo(_id: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this video?`,
+        text: this._t.instant('PORTAL.HOW_TO.CONFIRM_DELETE'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -80,9 +82,12 @@ export class HowToDetailComponent {
     this._howTo
       .deleteHowTo(_id)
       .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe(() => {
-        this._ui.showAlertSuccess('video deleted successfully');
-        this._router.navigateByUrl('portal-admin/how-to');
+      .subscribe({
+        next: () => {
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.HOW_TO.DELETED'));
+          this._router.navigateByUrl('portal-admin/how-to');
+        },
+        error: () => this._ui.showAlertError(this._t.instant('PORTAL.HOW_TO.DELETE_ERROR')),
       });
   }
 
@@ -95,9 +100,10 @@ export class HowToDetailComponent {
 
     if (!videoId) {
       this.video = null;
+      return;
     }
 
-    const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0autoplay=1`;
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1`;
     this.video = this._sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
   }
 }

@@ -38,10 +38,12 @@ export class ErrorsHttpInterceptor implements HttpInterceptor {
   }
 
   private extractMessage(err: HttpErrorResponse): string {
+    // 1. Network error
     if (err.status === 0) {
       return this._translate.instant('BACKEND_MESSAGES_ERRORS.NETWORK_ERROR');
     }
 
+    // 2. Blob response (file downloads etc.)
     if (err.error instanceof Blob) {
       return (
         err.statusText ||
@@ -49,6 +51,27 @@ export class ErrorsHttpInterceptor implements HttpInterceptor {
       );
     }
 
+    // 3. Try translation by code FIRST — highest priority
+    const backendCode =
+      err.error?.code ||
+      err.error?.error?.code ||
+      err.error?.response?.code ||
+      undefined;
+
+    if (backendCode && typeof backendCode === 'string') {
+      const key = `BACKEND_MESSAGES_ERRORS.${backendCode}`;
+      const translated = this._translate.instant(key);
+      if (translated !== key) {
+        return translated;
+      }
+    }
+
+    // 4. Validation errors (array of messages from class-validator)
+    if (Array.isArray(err.error?.message)) {
+      return err.error.message.join(', ');
+    }
+
+    // 5. Raw backend message as last resort
     const backendMsg =
       err.error?.message ||
       err.error?.response?.message ||
@@ -62,25 +85,7 @@ export class ErrorsHttpInterceptor implements HttpInterceptor {
       return backendMsg;
     }
 
-    const backendCode =
-      err.error?.code ||
-      err.error?.error?.code ||
-      err.error?.response?.code ||
-      undefined;
-
-    if (backendCode && typeof backendCode === 'string') {
-      const translated = this._translate.instant(
-        `BACKEND_MESSAGES_ERRORS.${backendCode}`
-      );
-      if (translated !== `BACKEND_MESSAGES_ERRORS.${backendCode}`) {
-        return translated;
-      }
-    }
-
-    if (Array.isArray(err.error?.message)) {
-      return err.error.message.join(', ');
-    }
-
+    // 6. HTTP error text
     if (
       err.error?.error &&
       typeof err.error.error === 'string' &&
@@ -89,8 +94,9 @@ export class ErrorsHttpInterceptor implements HttpInterceptor {
       return err.error.error;
     }
 
-    if (err.statusText && err.statusText !== 'Unknown Error')
+    if (err.statusText && err.statusText !== 'Unknown Error') {
       return err.statusText;
+    }
 
     return this._translate.instant('BACKEND_MESSAGES_ERRORS.UNKNOWN_ERROR');
   }

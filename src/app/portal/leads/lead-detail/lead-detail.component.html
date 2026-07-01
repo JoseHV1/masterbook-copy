@@ -5,7 +5,7 @@
       <span
         class="material-icons-outlined me-2"
         style="cursor: pointer"
-        matTooltip="Back to leads"
+        [matTooltip]="'PORTAL.LEADS.BACK' | translate"
         (click)="goBack()">
         arrow_back
       </span>
@@ -18,13 +18,13 @@
         <button mat-menu-item (click)="convertToAccount()">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined text-primary">person_add</span>
-            <span>Convert to account</span>
+            <span>{{ 'PORTAL.LEADS.CONVERT' | translate }}</span>
           </span>
         </button>
         <button mat-menu-item (click)="rejectLead()">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined text-danger">cancel</span>
-            <span>Reject lead</span>
+            <span>{{ 'PORTAL.LEADS.REJECT' | translate }}</span>
           </span>
         </button>
       </mat-menu>
@@ -33,10 +33,10 @@
     <div class="d-flex flex-column align-items-center justify-content-center mt-3" *ngIf="lead">
       <span class="material-icons-outlined dark-blue-400" style="font-size: 64px">person</span>
       <h3 class="text-center w-100 mt-2 mb-1 subtitle-1 dark-blue-400">
-        Lead #{{ lead.serial }}
+        {{ 'PORTAL.LEADS.LEAD_HASH' | translate }}{{ lead.serial }}
       </h3>
       <div class="text-center text-3 gray-500 w-100">
-        Created on: {{ lead.createdAt | date }}
+        {{ 'PORTAL.LEADS.CREATED_ON' | translate }} {{ lead.createdAt | date }}
       </div>
       <span
         class="badge mt-2"
@@ -54,70 +54,56 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">First name</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ lead.first_name | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.LEADS.FIRST_NAME' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.first_name | notNull }}</div>
         </div>
       </div>
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Last name</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ lead.last_name | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.LEADS.LAST_NAME' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.last_name | notNull }}</div>
         </div>
       </div>
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Email</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ lead.email | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.LEADS.EMAIL' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.email | notNull }}</div>
         </div>
       </div>
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Phone number</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ lead.phone_number | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.LEADS.PHONE' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.phone_number | notNull }}</div>
         </div>
       </div>
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Gender</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ lead.gender | titlecase | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.LEADS.GENDER' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.gender | titlecase | notNull }}</div>
         </div>
       </div>
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Address</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ lead.address_info?.address | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.LEADS.ADDRESS' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.address_info.address | notNull }}</div>
         </div>
       </div>
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Zip code</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ lead.address_info?.zipcode | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.LEADS.ZIP' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ lead.address_info.zipcode | notNull }}</div>
         </div>
       </div>
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Capture medium</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.LEADS.CAPTURE_MEDIUM' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ (lead.capture_medium ?? '') | enum | notNull }}
             <span *ngIf="lead.other_capture_medium"> — {{ lead.other_capture_medium }}</span>
@@ -127,7 +113,7 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Areas of interest</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.LEADS.AREAS_OF_INTEREST' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             <span *ngIf="lead.areas_of_interest?.length; else noAreas">
               {{ lead.areas_of_interest!.join(', ') }}
@@ -139,10 +125,8 @@
 
       <div class="col col-12 px-2 px-md-4 my-2" *ngIf="lead.notes">
         <div class="row">
-          <div class="col-12 col-md-2 black px-2 py-2">Notes</div>
-          <div class="col-12 col-md-10 black px-3 py-2 prop-box">
-            {{ lead.notes }}
-          </div>
+          <div class="col-12 col-md-2 black px-2 py-2">{{ 'PORTAL.LEADS.NOTES' | translate }}</div>
+          <div class="col-12 col-md-10 black px-3 py-2 prop-box">{{ lead.notes }}</div>
         </div>
       </div>
 

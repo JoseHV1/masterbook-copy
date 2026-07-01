@@ -1,85 +1,61 @@
 <div class="summary-grid container">
   <!-- Revenue (MTD) -->
   <div class="summary-card">
-    <div class="icon">
-      <i class="pi pi-dollar"></i>
-    </div>
+    <div class="icon"><i class="pi pi-dollar"></i></div>
     <div class="meta">
-      <div class="label">Commissions</div>
-      <div class="value">
-        {{ formatMoney(animatedTotals.revenue_mtd) }}
-      </div>
-      <div class="hint">Month to date</div>
+      <div class="label">{{ 'PORTAL.ACTIVITIES.COMMISSIONS' | translate }}</div>
+      <div class="value">{{ formatMoney(animatedTotals.revenue_mtd) }}</div>
+      <div class="hint">{{ 'PORTAL.ACTIVITIES.COMMISSIONS_MTD' | translate }}</div>
     </div>
   </div>
 
   <!-- Revenue (YTD) -->
   <div class="summary-card">
-    <div class="icon">
-      <i class="pi pi-chart-line"></i>
-    </div>
+    <div class="icon"><i class="pi pi-chart-line"></i></div>
     <div class="meta">
-      <div class="label">Commissions</div>
-      <div class="value">
-        {{ formatMoney(animatedTotals.revenue_ytd) }}
-      </div>
-      <div class="hint">Year to date</div>
+      <div class="label">{{ 'PORTAL.ACTIVITIES.COMMISSIONS' | translate }}</div>
+      <div class="value">{{ formatMoney(animatedTotals.revenue_ytd) }}</div>
+      <div class="hint">{{ 'PORTAL.ACTIVITIES.COMMISSIONS_YTD' | translate }}</div>
     </div>
   </div>
 
   <!-- Active Policies -->
   <div class="summary-card">
-    <div class="icon">
-      <i class="pi pi-shield"></i>
-    </div>
+    <div class="icon"><i class="pi pi-shield"></i></div>
     <div class="meta">
-      <div class="label">Active Policies</div>
-      <div class="value">
-        {{ formatNumber(animatedTotals.policies_actives) }}
-      </div>
-      <div class="hint">In force</div>
+      <div class="label">{{ 'PORTAL.ACTIVITIES.ACTIVE_POLICIES' | translate }}</div>
+      <div class="value">{{ formatNumber(animatedTotals.policies_actives) }}</div>
+      <div class="hint">{{ 'PORTAL.ACTIVITIES.IN_FORCE' | translate }}</div>
     </div>
   </div>
 
-  <!-- Renewals (next 30 days) -->
+  <!-- Renewals -->
   <div class="summary-card">
-    <div class="icon">
-      <i class="pi pi-calendar"></i>
-    </div>
+    <div class="icon"><i class="pi pi-calendar"></i></div>
     <div class="meta">
-      <div class="label">Renewals</div>
-      <div class="value">
-        {{ formatNumber(animatedTotals.total_near_policies_one_month) }}
-      </div>
-      <div class="hint">Next 30 days</div>
+      <div class="label">{{ 'PORTAL.ACTIVITIES.RENEWALS' | translate }}</div>
+      <div class="value">{{ formatNumber(animatedTotals.total_near_policies_one_month) }}</div>
+      <div class="hint">{{ 'PORTAL.ACTIVITIES.NEXT_30' | translate }}</div>
     </div>
   </div>
 
   <!-- Quotes -->
   <div class="summary-card">
-    <div class="icon">
-      <i class="pi pi-send"></i>
-    </div>
+    <div class="icon"><i class="pi pi-send"></i></div>
     <div class="meta">
-      <div class="label">Quotes</div>
-      <div class="value">
-        {{ formatNumber(animatedTotals.total_quotes) }}
-      </div>
-      <div class="hint">Selected range</div>
+      <div class="label">{{ 'PORTAL.ACTIVITIES.QUOTES' | translate }}</div>
+      <div class="value">{{ formatNumber(animatedTotals.total_quotes) }}</div>
+      <div class="hint">{{ 'PORTAL.ACTIVITIES.SELECTED_RANGE' | translate }}</div>
     </div>
   </div>
 
   <!-- Accounts -->
   <div class="summary-card">
-    <div class="icon">
-      <i class="pi pi-users"></i>
-    </div>
+    <div class="icon"><i class="pi pi-users"></i></div>
     <div class="meta">
-      <div class="label">Accounts</div>
-      <div class="value">
-        {{ formatNumber(animatedTotals.total_accounts) }}
-      </div>
-      <div class="hint">Clients</div>
+      <div class="label">{{ 'PORTAL.ACTIVITIES.ACCOUNTS' | translate }}</div>
+      <div class="value">{{ formatNumber(animatedTotals.total_accounts) }}</div>
+      <div class="hint">{{ 'PORTAL.ACTIVITIES.CLIENTS' | translate }}</div>
     </div>
   </div>
 </div>

@@ -9,11 +9,13 @@ import { CDKModule } from 'src/core/cdk/cdk.module';
 import { PictureSelectorModule } from 'src/app/shared/components/picture-selector/picture-selector.module';
 import { ModalChangePasswordModule } from '../modal-change-password/modal-change-password.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [ProfileFormComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     ButtonModule,
     ReactiveFormsModule,
     AddressAutocompleteGoogleModule,

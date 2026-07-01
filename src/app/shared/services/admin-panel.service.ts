@@ -10,6 +10,7 @@ import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
 import { ApiResponseModel } from '../interfaces/models/api-response.model';
 import { AgencyPaymentStatusEnum } from '../enums/agency-payment-status';
+import { TenantModel } from '../interfaces/models/tenant.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,27 +46,74 @@ export class AdminPanelService {
       .pipe(map(response => response.data));
   }
 
-  getAdminListFilters(): FilterWrapperModel {
-    return {
-      filters: [
-        {
-          label: 'Creation date',
-          name: 'created_at_date',
-          type: FilterTypeEnum.DATE_RANGE,
-        },
-        {
-          label: 'Status',
-          name: 'status',
-          type: FilterTypeEnum.SELECT,
-          options: of(enumToDropDown(AgencyPaymentStatusEnum)),
-        },
-        {
-          label: 'Entity type',
-          name: 'role',
-          type: FilterTypeEnum.SELECT,
-          options: of(enumToDropDown(CompleteRegisterRolesEnum)),
-        },
-      ],
-    };
+  createAgency(data: any): Observable<{ result: string; billing_mode: string }> {
+    return this._http
+      .post<ApiResponseModel<{ result: string; billing_mode: string }>>(
+        `${environment.apiUrl}admin-panel/agencies`,
+        data
+      )
+      .pipe(map(response => response.data));
+  }
+
+  createIndependentBroker(data: any): Observable<{ result: string; billing_mode: string }> {
+    return this._http
+      .post<ApiResponseModel<{ result: string; billing_mode: string }>>(
+        `${environment.apiUrl}admin-panel/independent-brokers`,
+        data
+      )
+      .pipe(map(response => response.data));
+  }
+
+  changeBillingMode(agencyId: string, billing_mode: string): Observable<{ result: string }> {
+    return this._http
+      .patch<ApiResponseModel<{ result: string }>>(
+        `${environment.apiUrl}admin-panel/agencies/${agencyId}/billing-mode`,
+        { billing_mode }
+      )
+      .pipe(map(response => response.data));
+  }
+
+  getAuditLog(agencyId: string): Observable<any[]> {
+    return this._http
+      .get<ApiResponseModel<any[]>>(
+        `${environment.apiUrl}admin-panel/agencies/${agencyId}/audit-log`
+      )
+      .pipe(map(response => response.data));
+  }
+
+  getAdminListFilters(tenants: TenantModel[] = []): FilterWrapperModel {
+    const baseFilters: any[] = [
+      {
+        label: 'Creation date',
+        name: 'created_at_date',
+        type: FilterTypeEnum.DATE_RANGE,
+      },
+      {
+        label: 'Status',
+        name: 'status',
+        type: FilterTypeEnum.SELECT,
+        options: of(enumToDropDown(AgencyPaymentStatusEnum)),
+      },
+      {
+        label: 'Entity type',
+        name: 'role',
+        type: FilterTypeEnum.SELECT,
+        options: of(enumToDropDown(CompleteRegisterRolesEnum)),
+      },
+    ];
+
+    // Solo agrega el filtro de tenant si hay tenants disponibles
+    if (tenants.length > 0) {
+      baseFilters.push({
+        label: 'Tenant (Country)',
+        name: 'tenant_id',
+        type: FilterTypeEnum.SELECT,
+        options: of(
+          tenants.map(t => ({ name: `${t.name} (${t.code})`, code: t._id }))
+        ),
+      });
+    }
+
+    return { filters: baseFilters };
   }
 }

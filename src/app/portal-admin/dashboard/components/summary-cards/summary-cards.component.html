@@ -5,11 +5,11 @@
       <i class="pi pi-dollar"></i>
     </div>
     <div class="meta">
-      <div class="label">Total Sales</div>
+      <div class="label">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.TOTAL_SALES' | translate }}</div>
       <div class="value">
         {{ formatMoney((animatedTotals.total_sales_mtd_cents || 0) / 100) }}
       </div>
-      <div class="hint">MTD</div>
+      <div class="hint">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.MTD' | translate }}</div>
     </div>
   </div>
 
@@ -19,11 +19,11 @@
       <i class="pi pi-chart-line"></i>
     </div>
     <div class="meta">
-      <div class="label">Total Sales</div>
+      <div class="label">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.TOTAL_SALES' | translate }}</div>
       <div class="value">
         {{ formatMoney((animatedTotals.total_sales_ytd_cents || 0) / 100) }}
       </div>
-      <div class="hint">YTD</div>
+      <div class="hint">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.YTD' | translate }}</div>
     </div>
   </div>
 
@@ -33,11 +33,11 @@
       <i class="pi pi-building"></i>
     </div>
     <div class="meta">
-      <div class="label">Active Agencies</div>
+      <div class="label">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.ACTIVE_AGENCIES' | translate }}</div>
       <div class="value">
         {{ formatNumber(animatedTotals.active_agencies_last_30_days) }}
       </div>
-      <div class="hint">Last 30 days</div>
+      <div class="hint">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.LAST_30_DAYS' | translate }}</div>
     </div>
   </div>
 
@@ -47,11 +47,11 @@
       <i class="pi pi-shield"></i>
     </div>
     <div class="meta">
-      <div class="label">Active Policies</div>
+      <div class="label">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.ACTIVE_POLICIES' | translate }}</div>
       <div class="value">
         {{ formatNumber(animatedTotals.total_active_policies) }}
       </div>
-      <div class="hint">All agencies</div>
+      <div class="hint">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.ALL_AGENCIES' | translate }}</div>
     </div>
   </div>
 
@@ -61,11 +61,11 @@
       <i class="pi pi-calendar"></i>
     </div>
     <div class="meta">
-      <div class="label">Upcoming Renewals</div>
+      <div class="label">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.UPCOMING_RENEWALS' | translate }}</div>
       <div class="value">
         {{ formatNumber(animatedTotals.renewals_next_30_days) }}
       </div>
-      <div class="hint">Next 30 days</div>
+      <div class="hint">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.NEXT_30_DAYS' | translate }}</div>
     </div>
   </div>
 
@@ -75,11 +75,11 @@
       <i class="pi pi-users"></i>
     </div>
     <div class="meta">
-      <div class="label">Total Users</div>
+      <div class="label">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.TOTAL_USERS' | translate }}</div>
       <div class="value">
         {{ formatNumber(animatedTotals.total_users) }}
       </div>
-      <div class="hint">Agency owners, agents, staff</div>
+      <div class="hint">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.USERS_HINT' | translate }}</div>
     </div>
   </div>
 </div>

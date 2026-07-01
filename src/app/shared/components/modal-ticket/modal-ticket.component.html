@@ -1,7 +1,7 @@
 <h2
   mat-dialog-title
   class="d-flex justify-content-between align-items-start pt-1 pb-1 pt-md-3 pb-md-2">
-  <button mat-icon-button mat-dialog-close aria-label="Cerrar">
+  <button mat-icon-button mat-dialog-close [attr.aria-label]="'PORTAL.SHARED.CLOSE' | translate">
     <mat-icon>close</mat-icon>
   </button>
 </h2>
@@ -9,11 +9,11 @@
 <mat-dialog-content class="px-4 py-2 px-md-5 pb-md-4 mb-3">
   <form [formGroup]="form">
     <div class="row">
-      <h6 class="title-form text-center mb-3 mb-md-4">Ticket</h6>
+      <h6 class="title-form text-center mb-3 mb-md-4">{{ 'GENERAL.TICKET_TITLE' | translate }}</h6>
       <div class="col-12 mb-3 mb-md-4">
-        <label>Email *</label>
+        <label>{{ 'GENERAL.EMAIL_LABEL_REQUIRED' | translate }}</label>
         <app-input
-          placeholder="Enter your email"
+          [placeholder]="'GENERAL.TICKET_PLACEHOLDER_EMAIL' | translate"
           type="email"
           formControlName="email"></app-input>
       </div>
@@ -21,7 +21,7 @@
       <div class="col-12 mb-3 mb-md-4">
         <label> {{ 'GENERAL.DESCRIPTION_BUG' | translate }} *</label>
         <app-input
-          placeholder="Type here..."
+          [placeholder]="'GENERAL.TICKET_PLACEHOLDER_DESCRIPTION' | translate"
           type="text"
           formControlName="description"></app-input>
       </div>
@@ -31,14 +31,14 @@
       <button
         class="primary-button white back-gray-400 mx-1"
         (click)="close(false)">
-        Close
+        {{ 'PORTAL.SHARED.CLOSE' | translate }}
       </button>
 
       <button
         class="primary-button big-button back-light-blue-400 white mx-1 mt-2"
         (click)="createTicket()"
         [disabled]="form.invalid">
-        Send
+        {{ 'GENERAL.SEND' | translate }}
       </button>
     </div>
   </form>

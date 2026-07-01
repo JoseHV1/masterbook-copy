@@ -7,6 +7,7 @@ import { AuthService } from '@app/shared/services/auth.service';
 import { TicketService } from '@app/shared/services/ticket.service';
 import { UiService } from '@app/shared/services/ui.service';
 import { finalize } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-modal-ticket',
@@ -21,7 +22,8 @@ export class ModalTicketComponent implements OnInit {
     private _ticket: TicketService,
     private _ui: UiService,
     private dialogRef: MatDialogRef<ModalTicketComponent>,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _t: TranslateService,
   ) {
     this.form = this._ticket.createTicketForm();
     this.auth = this._auth.getAuth();
@@ -60,9 +62,7 @@ export class ModalTicketComponent implements OnInit {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this.form.reset();
-        this._ui.showAlertSuccess(
-          'Ticket created successfully, you will receive a response from the support team within the next 24 hours.'
-        );
+        this._ui.showAlertSuccess(this._t.instant('SHARED.TICKET.CREATED_SUCCESS'));
         this.dialogRef.close();
       });
   }

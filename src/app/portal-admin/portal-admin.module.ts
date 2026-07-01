@@ -66,8 +66,29 @@ const routes: Routes = [
       {
         path: 'request-forms',
         loadChildren: () =>
-          import('../portal/forms/forms.module').then(
-            module => module.FormsModule
+          import('./forms/admin-forms.module').then(
+            module => module.AdminFormsModule
+          ),
+      },
+      {
+        path: 'tenants',
+        loadChildren: () =>
+          import('./tenants/tenants.module').then(
+            module => module.TenantsModule
+          ),
+      },
+      {
+        path: 'insurers',
+        loadChildren: () =>
+          import('./insurers/insurers.module').then(
+            module => module.AdminInsurersModule
+          ),
+      },
+      {
+        path: 'stripe-billing',
+        loadChildren: () =>
+          import('./stripe-billing/stripe-billing.module').then(
+            module => module.StripeBillingModule
           ),
       },
     ],

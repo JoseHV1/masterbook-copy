@@ -1,7 +1,7 @@
 <mat-card-header class="mb-2">
   <div class="d-flex w-100 justify-content-between align-items-center mb-4">
     <div class="h5 mb-0 d-flex align-items-center gap-2">
-      <span>Report Configuration</span>
+      <span>{{ 'PORTAL.REPORTS.CREATE.SECTION_CONFIG' | translate }}</span>
     </div>
   </div>
 </mat-card-header>
@@ -11,12 +11,12 @@
     <!-- Report Type -->
     <div class="mb-3">
       <div class="section-title">
-        <span>Report Type</span>
+        <span>{{ 'PORTAL.REPORTS.CREATE.SECTION_TYPE' | translate }}</span>
       </div>
       <div class="row g-3">
         <div class="col-12">
           <app-dropdown-field
-            [placeholder]="'Select a report type'"
+            [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_REPORT_TYPE' | translate"
             formControlName="reportType"
             [options]="dropDownReportType"></app-dropdown-field>
         </div>
@@ -28,21 +28,21 @@
       <div class="mb-3">
         <div
           class="section-title d-flex align-items-center justify-content-between">
-          <p>Filters</p>
+          <p>{{ 'PORTAL.REPORTS.CREATE.SECTION_FILTERS' | translate }}</p>
           <span
             class="material-icons-outlined text-danger"
             style="cursor: pointer"
             (click)="resetAllFieldsExceptReportType()"
-            matTooltip="Clean filters">
+            [matTooltip]="'PORTAL.REPORTS.CREATE.CLEAN_FILTERS' | translate">
             delete
           </span>
         </div>
-        <p class="form-help">Refine the scope of your report</p>
+        <p class="form-help">{{ 'PORTAL.REPORTS.CREATE.FILTERS_HELP' | translate }}</p>
 
         <div class="row g-3 mb-3">
           <!-- Date Preset: DROPDOWN -->
           <div class="col-12 col-md-6">
-            <mat-label>Date Range</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_DATE_RANGE' | translate }}</mat-label>
             <app-dropdown-field
               formControlName="dateRange"
               [options]="dropDownDateRange"></app-dropdown-field>
@@ -53,7 +53,7 @@
             class="col-12 col-md-3 d-flex gap-3 align-items-stretch"
             *ngIf="isCustomRange">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>From</mat-label>
+              <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_FROM' | translate }}</mat-label>
               <input
                 matInput
                 [matDatepicker]="pickerFrom"
@@ -69,7 +69,7 @@
             class="col-12 col-md-3 d-flex gap-3 align-items-stretch"
             *ngIf="isCustomRange">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>To</mat-label>
+              <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_TO' | translate }}</mat-label>
               <input
                 matInput
                 [matDatepicker]="pickerTo"
@@ -88,9 +88,9 @@
               'col-12 col-md-6': !isCustomRange
             }"
             *ngIf="show.status">
-            <mat-label>Status</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_STATUS' | translate }}</mat-label>
             <app-dropdown-field
-              [placeholder]="'Select a status'"
+              [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_STATUS' | translate"
               formControlName="status"
               [clearable]="true"
               [multiple]="true"
@@ -102,9 +102,9 @@
         <div class="row g-3">
           <!-- Policy Category -->
           <div class="col-12 col-md-6" *ngIf="show.policyCategory">
-            <mat-label>Policy Category</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_POLICY_CATEGORY' | translate }}</mat-label>
             <app-dropdown-field
-              [placeholder]="'Select a policy category'"
+              [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_POLICY_CATEGORY' | translate"
               formControlName="policyCategory"
               [clearable]="true"
               [multiple]="true"
@@ -115,9 +115,9 @@
           <div
             class="col-12 col-md-6"
             *ngIf="show.businessLine && dropDownBusinessLine.length > 0">
-            <mat-label>Business Line</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_BUSINESS_LINE' | translate }}</mat-label>
             <app-dropdown-field
-              [placeholder]="'Select a business line'"
+              [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_BUSINESS_LINE' | translate"
               formControlName="businessLine"
               [clearable]="true"
               [multiple]="true"
@@ -128,9 +128,9 @@
           <div
             class="col-12 col-md-6"
             *ngIf="show.policyType && dropDownPolicyType.length > 0">
-            <mat-label>Policy Type</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_POLICY_TYPE' | translate }}</mat-label>
             <app-dropdown-field
-              [placeholder]="'Select a policy type'"
+              [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_POLICY_TYPE' | translate"
               formControlName="policyType"
               [clearable]="true"
               [multiple]="true"
@@ -141,9 +141,9 @@
           <div
             class="col-12 col-md-6"
             *ngIf="show.paymentMethod && dropDownPaymentMethod.length > 0">
-            <mat-label>Payment Method</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_PAYMENT_METHOD' | translate }}</mat-label>
             <app-dropdown-field
-              [placeholder]="'Select a payment method'"
+              [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_PAYMENT_METHOD' | translate"
               formControlName="paymentMethod"
               [clearable]="true"
               [multiple]="true"
@@ -152,9 +152,9 @@
 
           <!-- Payment From -->
           <div class="col-12 col-md-6" *ngIf="show.paymentFrom">
-            <mat-label>Payment From</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_PAYMENT_FROM' | translate }}</mat-label>
             <app-dropdown-field
-              [placeholder]="'Select a option'"
+              [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_OPTION' | translate"
               formControlName="paymentFrom"
               [clearable]="true"
               [options]="dropDownpaymentFrom"
@@ -165,9 +165,9 @@
 
           <!-- Insurer -->
           <div class="col-12 col-md-6" *ngIf="show.insurer">
-            <mat-label>Insurer</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_INSURER' | translate }}</mat-label>
             <app-dropdown-field
-              [placeholder]="'Select a insurer'"
+              [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_INSURER' | translate"
               formControlName="insurer"
               [clearable]="true"
               [multiple]="true"
@@ -176,9 +176,9 @@
 
           <!-- Account -->
           <div class="col-12 col-md-6" *ngIf="show.account">
-            <mat-label>Account</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_ACCOUNT' | translate }}</mat-label>
             <app-dropdown-field
-              [placeholder]="'Select a account'"
+              [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_ACCOUNT' | translate"
               formControlName="account"
               [clearable]="true"
               [multiple]="true"
@@ -187,9 +187,9 @@
 
           <!-- Agent -->
           <div class="col-12 col-md-6" *ngIf="show.broker">
-            <mat-label>Agent</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_AGENT' | translate }}</mat-label>
             <app-dropdown-field
-              [placeholder]="'Select a agent'"
+              [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_AGENT' | translate"
               formControlName="broker"
               [clearable]="true"
               [multiple]="true"
@@ -198,7 +198,7 @@
 
           <!-- Minimum Premium -->
           <div class="col-12 col-md-6" *ngIf="show.minPrimeAmount">
-            <mat-label>Minimum Prime Amount</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MIN_PREMIUM' | translate }}</mat-label>
             <app-input
               placeholder="$ 0"
               type="tel"
@@ -210,7 +210,7 @@
 
           <!-- Maximum Premium -->
           <div class="col-12 col-md-6" *ngIf="show.maxPrimeAmount">
-            <mat-label>Maximum Prime Amount</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MAX_PREMIUM' | translate }}</mat-label>
             <app-input
               placeholder="$ 0"
               type="tel"
@@ -220,9 +220,9 @@
               formControlName="maxPrimeAmount"></app-input>
           </div>
 
-          <!-- Minimum Premium -->
+          <!-- Minimum Coverage -->
           <div class="col-12 col-md-6" *ngIf="show.minCoverage">
-            <mat-label>Minimum Coverage</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MIN_COVERAGE' | translate }}</mat-label>
             <app-input
               placeholder="$ 0"
               type="tel"
@@ -232,9 +232,9 @@
               formControlName="minCoverage"></app-input>
           </div>
 
-          <!-- Maximum Premium -->
+          <!-- Maximum Coverage -->
           <div class="col-12 col-md-6" *ngIf="show.maxCoverage">
-            <mat-label>Maximum Coverage</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MAX_COVERAGE' | translate }}</mat-label>
             <app-input
               placeholder="$ 0"
               type="tel"
@@ -246,7 +246,7 @@
 
           <!-- Minimum Deductible -->
           <div class="col-12 col-md-6" *ngIf="show.minDeductible">
-            <mat-label>Minimum Deductible</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MIN_DEDUCTIBLE' | translate }}</mat-label>
             <app-input
               placeholder="$ 0"
               type="tel"
@@ -258,7 +258,7 @@
 
           <!-- Maximum Deductible -->
           <div class="col-12 col-md-6" *ngIf="show.maxDeductible">
-            <mat-label>Maximum Deductible</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MAX_DEDUCTIBLE' | translate }}</mat-label>
             <app-input
               placeholder="$ 0"
               type="tel"
@@ -270,7 +270,7 @@
 
           <!-- Minimum Total Amount -->
           <div class="col-12 col-md-6" *ngIf="show.minTotalAmount">
-            <mat-label>Minimum Total Amount</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MIN_TOTAL' | translate }}</mat-label>
             <app-input
               placeholder="$ 0"
               type="tel"
@@ -282,7 +282,7 @@
 
           <!-- Maximum Total Amount -->
           <div class="col-12 col-md-6" *ngIf="show.maxTotalAmount">
-            <mat-label>Maximum Total Amount</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MAX_TOTAL' | translate }}</mat-label>
             <app-input
               placeholder="$ 0"
               type="tel"
@@ -294,7 +294,7 @@
 
           <!-- Minimum Commission Pay -->
           <div class="col-12 col-md-6" *ngIf="show.minCommissionPay">
-            <mat-label>Minimum Commission Pay</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MIN_COMMISSION' | translate }}</mat-label>
             <app-input
               placeholder="$ 0"
               type="tel"
@@ -306,7 +306,7 @@
 
           <!-- Maximum Commission Pay -->
           <div class="col-12 col-md-6" *ngIf="show.maxCommissionPay">
-            <mat-label>Maximum Commission Pay</mat-label>
+            <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MAX_COMMISSION' | translate }}</mat-label>
             <app-input
               placeholder="$ 0"
               type="tel"
@@ -320,36 +320,36 @@
         <!-- Operations -->
         <div class="mb-3">
           <div class="section-title">
-            <span>Operations</span>
+            <span>{{ 'PORTAL.REPORTS.CREATE.SECTION_OPERATIONS' | translate }}</span>
           </div>
-          <p class="form-help">Group, aggregate, and sort your report data</p>
+          <p class="form-help">{{ 'PORTAL.REPORTS.CREATE.OPERATIONS_HELP' | translate }}</p>
 
           <div class="row g-3">
             <div class="col-md-6" *ngIf="show.groupBy">
-              <mat-label>Group By</mat-label>
+              <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_GROUP_BY' | translate }}</mat-label>
               <app-dropdown-field
-                [placeholder]="'Select a group by'"
+                [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_GROUP_BY' | translate"
                 formControlName="groupBy"
                 [options]="dropDownGroupBy"></app-dropdown-field>
               <small
                 class="text-danger"
                 *ngIf="form.get('groupBy')?.hasError('requiredForAggregate')">
-                Group By is required when Aggregate is selected.
+                {{ 'PORTAL.REPORTS.CREATE.ERROR_GROUP_BY_REQUIRED' | translate }}
               </small>
             </div>
 
             <div class="col-md-6" *ngIf="show.aggregate">
-              <mat-label>Aggregates</mat-label>
+              <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_AGGREGATE' | translate }}</mat-label>
               <app-dropdown-field
-                [placeholder]="'Select a aggregate'"
+                [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_AGGREGATE' | translate"
                 formControlName="aggregate"
                 [options]="dropDownAggregate"></app-dropdown-field>
             </div>
 
             <div class="col-md-6" *ngIf="show.sort">
-              <mat-label>Sort</mat-label>
+              <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_SORT' | translate }}</mat-label>
               <app-dropdown-field
-                [placeholder]="'Select a sort'"
+                [placeholder]="'PORTAL.REPORTS.CREATE.PLACEHOLDER_SORT' | translate"
                 formControlName="sort"
                 [options]="dropDownSort"></app-dropdown-field>
             </div>
@@ -361,7 +361,7 @@
       <div class="mb-2">
         <div class="section-title">
           <mat-icon color="primary">ios_share</mat-icon>
-          <span>Output Format</span>
+          <span>{{ 'PORTAL.REPORTS.CREATE.SECTION_OUTPUT' | translate }}</span>
         </div>
         <mat-button-toggle-group
           formControlName="format"
@@ -388,12 +388,8 @@
         <button
           class="primary-button big-button back-light-blue-500 white"
           (click)="onGenerate()">
-          Generate Report
+          {{ 'PORTAL.REPORTS.CREATE.BTN_GENERATE' | translate }}
         </button>
-        <!-- <button mat-stroked-button color="primary" (click)="onPreview()">
-        <mat-icon>visibility</mat-icon>
-        Preview
-      </button> -->
       </div>
     </div>
   </form>

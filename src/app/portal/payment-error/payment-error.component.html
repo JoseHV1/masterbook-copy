@@ -1,8 +1,8 @@
 <div class="payment-content">
   <h1>
-    AN ERROR OCURRED WHILE <br />
-    PROCESSING YOUR PAYMENT
+    {{ 'PORTAL.PAYMENT_ERROR.TITLE_LINE_1' | translate }} <br />
+    {{ 'PORTAL.PAYMENT_ERROR.TITLE_LINE_2' | translate }}
   </h1>
-  <p>Our payment gateway has not been able to process your payment.</p>
-  <a routerLink="/">Return to Home</a>
+  <p>{{ 'PORTAL.PAYMENT_ERROR.TEXT' | translate }}</p>
+  <a routerLink="/">{{ 'PORTAL.PAYMENT_ERROR.BTN_HOME' | translate }}</a>
 </div>

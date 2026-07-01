@@ -22,15 +22,18 @@ export class LanguageService {
 
   constructor(private translate: TranslateService) {
     this.translate.addLangs(this.availableLangs);
+    // setDefaultLang → fallback cuando una clave no existe en el idioma activo
     this.translate.setDefaultLang(this.availableLangs[0]);
+    // use() → activa el idioma para que los pipes | translate reaccionen
+    this.translate.use(this.availableLangs[0]);
 
     AppComponent.isBrowser.subscribe(isBrowser => {
       if (isBrowser) {
         this.localStorage = localStorage;
         const storageLang = this.localStorage.getItem(this.storageLangPropName);
-        if (storageLang) {
+        if (storageLang && this.availableLangs.includes(storageLang as AvailableLanguagesEnum)) {
           this.currentLang.next(storageLang as AvailableLanguagesEnum);
-          this.translate.setDefaultLang(storageLang as AvailableLanguagesEnum);
+          this.translate.use(storageLang as AvailableLanguagesEnum);
         }
       }
     });
@@ -38,7 +41,8 @@ export class LanguageService {
 
   changeLanguage(lang: AvailableLanguagesEnum): void {
     this.currentLang.next(lang);
-    this.translate.setDefaultLang(lang);
+    // use() cambia el idioma activo → todos los | translate se actualizan
+    this.translate.use(lang);
     if (this.localStorage) {
       this.localStorage.setItem(this.storageLangPropName, lang);
     }

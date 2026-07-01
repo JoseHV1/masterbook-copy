@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { isInvalid } from 'src/app/shared/helpers/is-invalid.helper';
-import { hasError } from 'src/app/shared/helpers/has-error.helper.ts';
+import { hasError } from 'src/app/shared/helpers/has-error.helper';
 import { WelcomeService } from 'src/app/shared/services/welcome.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { AddressAutocompleteModel } from 'src/app/shared/models/address-autocomplete.model';

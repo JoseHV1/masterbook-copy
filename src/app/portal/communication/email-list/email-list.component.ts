@@ -4,6 +4,7 @@ import { finalize, take } from 'rxjs';
 import { EmailService } from 'src/app/shared/services/email.service';
 import { IntegrationsService } from 'src/app/shared/services/integration.service';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-email-list',
@@ -25,7 +26,8 @@ export class EmailListComponent implements OnInit {
   constructor(
     private _integrations: IntegrationsService,
     private _ui: UiService,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private _t: TranslateService
   ) {}
 
   ngOnInit() {
@@ -103,7 +105,7 @@ export class EmailListComponent implements OnInit {
   deleteMail(mail: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this mail?`,
+        text: this._t.instant('PORTAL.COMMUNICATION.DELETE_CONFIRM'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -117,7 +119,7 @@ export class EmailListComponent implements OnInit {
 
     this.emailService.deleteEmail(idMail).subscribe({
       next: () => {
-        this._ui.showAlertSuccess('The email has been successfully deleted.');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.COMMUNICATION.DELETED'));
         this._fetchData('initial');
       },
       error: err => {

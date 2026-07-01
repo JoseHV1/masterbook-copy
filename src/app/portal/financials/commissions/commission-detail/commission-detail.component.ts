@@ -7,6 +7,7 @@ import { PopulatedCommisionModel } from 'src/app/shared/interfaces/models/commis
 import { HttpResponseModel } from 'src/app/shared/models/response/http.response.model';
 import { CommissionsService } from 'src/app/shared/services/commissions.service';
 import { UrlService } from 'src/app/shared/services/url.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-commission-details',
@@ -21,7 +22,8 @@ export class CommissionDetailsComponent {
     private activateRoute: ActivatedRoute,
     public _url: UrlService,
     private _location: Location,
-    private _ui: UiService
+    private _ui: UiService,
+    private _t: TranslateService
   ) {
     this.activateRoute.params.subscribe((params: any) => {
       this._ui.showLoader();
@@ -33,7 +35,7 @@ export class CommissionDetailsComponent {
             this.commission = resp;
           },
           error: error => {
-            this._ui.showAlertError('Error loading commission');
+            this._ui.showAlertError(this._t.instant('PORTAL.COMMISSIONS.LOAD_ERROR'));
           },
         });
     });

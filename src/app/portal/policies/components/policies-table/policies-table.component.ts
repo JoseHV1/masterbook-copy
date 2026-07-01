@@ -17,6 +17,7 @@ import { RenewalReinstalmentModelComponent } from '../renewal-reinstalment-modal
 import { PolicyCategoryEnum } from '@app/shared/enums/policy-category.enum';
 import { PolicyStatus } from '@app/shared/enums/policy-status.enum';
 import { AddEndorsementsModalComponent } from '../add-endorsements-modal/add-endorsements-modal.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-policies-table',
@@ -58,7 +59,8 @@ export class PoliciesTableComponent implements OnInit {
     public url: UrlService,
     private _auth: AuthService,
     private _dialog: MatDialog,
-    private _location: Location
+    private _location: Location,
+    private _t: TranslateService
   ) {
     this.isAdmin = brokersAdminDataset.includes(
       this._auth.getAuth()?.user?.role as RolesEnum
@@ -80,7 +82,7 @@ export class PoliciesTableComponent implements OnInit {
   deletePolicy(_id: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this policy?`,
+        text: this._t.instant('PORTAL.POLICIES.CONFIRM_DELETE'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -95,7 +97,7 @@ export class PoliciesTableComponent implements OnInit {
       .deletePolicy(_id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('Policy deleted successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.POLICIES.DELETED'));
         this.refresh.emit();
       });
   }

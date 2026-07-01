@@ -7,6 +7,7 @@ import { ConvertLeadComponent } from './convert-lead.component';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   { path: '', component: ConvertLeadComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
     MatTooltipModule,
     CDKModule,
     CustomPipesModule,
+    TranslateModule,
   ],
 })
 export class ConvertLeadModule {}

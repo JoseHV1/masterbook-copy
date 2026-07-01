@@ -2,9 +2,9 @@
   <div class="row mb-4">
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>First name*</label>
+      <label>{{ 'LEAD_FORM.FIELD_FIRST_NAME' | translate }}</label>
       <app-input
-        placeholder="Enter First Name"
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_FIRST_NAME' | translate"
         type="text"
         formControlName="first_name"
         autocomplete="given-name">
@@ -12,9 +12,9 @@
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>Last name*</label>
+      <label>{{ 'LEAD_FORM.FIELD_LAST_NAME' | translate }}</label>
       <app-input
-        placeholder="Enter Last Name"
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_LAST_NAME' | translate"
         type="text"
         formControlName="last_name"
         autocomplete="family-name">
@@ -22,9 +22,9 @@
     </div>
 
     <div class="col-12 mb-4 mb-md-0">
-      <label>Email*</label>
+      <label>{{ 'LEAD_FORM.FIELD_EMAIL' | translate }}</label>
       <app-input
-        placeholder="Enter Email Address"
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_EMAIL' | translate"
         type="email"
         formControlName="email"
         autocomplete="email">
@@ -32,9 +32,9 @@
     </div>
 
     <div class="col-12 mb-4 mb-md-0">
-      <label>How did you hear about us?*</label>
+      <label>{{ 'LEAD_FORM.FIELD_HEAR_ABOUT_US' | translate }}</label>
       <app-dropdown-field
-        placeholder="Select an option"
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_SELECT_OPTION' | translate"
         formControlName="capture_medium"
         [options]="dropDownCaptureMedium">
       </app-dropdown-field>
@@ -47,7 +47,7 @@
       class="primary-button big-button back-gray-400 white mx-1"
       type="button"
       (click)="cancelForm()">
-      Cancel
+      {{ 'LEAD_FORM.BTN_CANCEL' | translate }}
     </button>
 
     <button
@@ -55,11 +55,11 @@
       type="button"
       [disabled]="form.invalid"
       (click)="openConfirmationModal()">
-      Submit
+      {{ 'LEAD_FORM.BTN_SUBMIT' | translate }}
     </button>
   </div>
 
   <p class="powered-by">
-    Powered by <span>MyMasterBook</span>
+    {{ 'LEAD_FORM.POWERED_BY' | translate }} <span>MyMasterBook</span>
   </p>
 </form>

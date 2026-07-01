@@ -17,6 +17,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { CalendarComponent } from './calendar.component';
 import { EventDialogComponent } from './components/event-dialog/event-dialog.component';
@@ -52,6 +54,8 @@ const routes: Routes = [
     MatCheckboxModule,
     MatButtonModule,
     MatDividerModule,
+    MatTooltipModule,
+    TranslateModule,
   ],
   declarations: [CalendarComponent, EventDialogComponent],
 })

@@ -1,0 +1,80 @@
+<app-pages-layout>
+  <ng-container content>
+    <div *ngIf="record" class="detail-container">
+
+      <div class="detail-header">
+        <button mat-icon-button (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2>#{{ record.serial }}</h2>
+        <span class="billing-status billing-status--{{ record.status }}">{{ record.status }}</span>
+      </div>
+
+      <div class="detail-grid">
+
+        <div class="detail-section">
+          <h3>General</h3>
+          <div class="field-row">
+            <span class="label">Agency</span>
+            <span class="value">{{ record.agency?.name ?? record.agency_id }}</span>
+          </div>
+          <div class="field-row">
+            <span class="label">Region</span>
+            <span class="value">{{ record.tenant?.name ?? '—' }} ({{ record.tenant?.code ?? '—' }})</span>
+          </div>
+          <div class="field-row">
+            <span class="label">Event type</span>
+            <span class="value mono">{{ record.stripe_event_type }}</span>
+          </div>
+          <div class="field-row">
+            <span class="label">Amount</span>
+            <span class="value">{{ formatAmount(record.amount, record.currency) }}</span>
+          </div>
+          <div class="field-row" *ngIf="record.description">
+            <span class="label">Description</span>
+            <span class="value">{{ record.description }}</span>
+          </div>
+          <div class="field-row" *ngIf="record.paid_at">
+            <span class="label">Paid at</span>
+            <span class="value">{{ record.paid_at | date: 'medium' }}</span>
+          </div>
+          <div class="field-row" *ngIf="record.period_start">
+            <span class="label">Period</span>
+            <span class="value">
+              {{ record.period_start | date: 'mediumDate' }} — {{ record.period_end | date: 'mediumDate' }}
+            </span>
+          </div>
+          <div class="field-row">
+            <span class="label">Recorded at</span>
+            <span class="value">{{ record.createdAt | date: 'medium' }}</span>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <h3>Stripe IDs</h3>
+          <div class="field-row">
+            <span class="label">Event ID</span>
+            <span class="value mono">{{ record.stripe_event_id }}</span>
+          </div>
+          <div class="field-row">
+            <span class="label">Customer ID</span>
+            <span class="value mono">{{ record.stripe_customer_id }}</span>
+          </div>
+          <div class="field-row" *ngIf="record.stripe_subscription_id">
+            <span class="label">Subscription ID</span>
+            <span class="value mono">{{ record.stripe_subscription_id }}</span>
+          </div>
+          <div class="field-row" *ngIf="record.stripe_invoice_id">
+            <span class="label">Invoice ID</span>
+            <span class="value mono">{{ record.stripe_invoice_id }}</span>
+          </div>
+          <div class="field-row" *ngIf="record.stripe_payment_intent_id">
+            <span class="label">Payment Intent ID</span>
+            <span class="value mono">{{ record.stripe_payment_intent_id }}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+</app-pages-layout>

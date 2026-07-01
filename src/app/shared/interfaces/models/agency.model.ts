@@ -1,4 +1,5 @@
 import { PAYMENT_STATUS } from '../../enums/payment-status';
+import { BillingModeEnum } from '../../enums/billing-mode.enum';
 
 export interface AgencyModel {
   _id: string;
@@ -10,6 +11,7 @@ export interface AgencyModel {
   staff_size: number;
   check_branding: boolean;
   payment_status: PAYMENT_STATUS;
+  billing_mode?: BillingModeEnum;
   show_default_forms: boolean;
   createdAt: string;
   updatedAt: string;
@@ -19,4 +21,5 @@ export interface AgencyModel {
   taxes: number;
   business_lines: string[];
   token_leads?: string;
+  tenant_id?: string | null;
 }

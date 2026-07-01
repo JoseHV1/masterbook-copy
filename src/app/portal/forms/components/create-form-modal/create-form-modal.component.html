@@ -10,14 +10,14 @@
     <button
       class="primary-button white back-gray-400 mx-1"
       (click)="close(false)">
-      Close
+      {{ 'PORTAL.FORMS.BTN_CLOSE' | translate }}
     </button>
 
     <button
       class="primary-button white back-light-blue-500 mx-1"
       [disabled]="form.invalid"
       (click)="submitForm()">
-      Save
+      {{ 'PORTAL.FORMS.BTN_SAVE' | translate }}
     </button>
   </div>
 </div>
@@ -25,23 +25,38 @@
 <ng-template #formTemplate>
   <form [formGroup]="form" class="d-flex flex-column align-items-center px-2">
     <div class="col-12 mb-4 mb-md-0">
-      <label>Form Name *</label>
+      <label>{{ 'PORTAL.FORMS.FIELD_FORM_NAME' | translate }}</label>
       <app-input
-        placeholder="Enter form name"
+        [placeholder]="'PORTAL.FORMS.PLACEHOLDER_FORM_NAME' | translate"
         type="text"
         formControlName="name"></app-input>
     </div>
 
     <div class="col-12 mb-4 mb-md-0">
-      <label>Insurer *</label>
+      <label>{{ 'PORTAL.FORMS.FIELD_INSURER' | translate }}</label>
       <app-dropdown-field
         formControlName="insurer_ids"
         [multiple]="true"
         [options]="insurers"></app-dropdown-field>
     </div>
 
+    <div class="col-12 mb-4 mb-md-0" *ngIf="isAdmin">
+      <label>{{ 'PORTAL.PORTAL_ADMIN.FORMS.COL_POLICY_TYPE' | translate }}</label>
+      <app-dropdown-field
+        formControlName="policy_type_id"
+        [options]="policyTypes"></app-dropdown-field>
+    </div>
+
+    <div class="col-12 mb-4 mb-md-0" *ngIf="isAdmin">
+      <label>{{ 'PORTAL.PORTAL_ADMIN.FORMS.FIELD_TENANTS' | translate }}</label>
+      <app-dropdown-field
+        formControlName="tenant_ids"
+        [multiple]="true"
+        [options]="tenants"></app-dropdown-field>
+    </div>
+
     <div class="col-12 mb-4 mb-md-0">
-      <label>Document *</label>
+      <label>{{ 'PORTAL.FORMS.FIELD_DOCUMENT' | translate }}</label>
       <app-file-picker
         formControlName="form_document"
         [mode]="fileUploadMode.INPUT"></app-file-picker>

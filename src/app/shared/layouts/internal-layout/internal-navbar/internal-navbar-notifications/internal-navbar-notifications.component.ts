@@ -16,6 +16,7 @@ import { NotificationStatusEnum } from 'src/app/shared/enums/notification-status
 import { NotificationModel } from 'src/app/shared/interfaces/models/notification.model';
 import { NotificationsService } from 'src/app/shared/services/notifications.service';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-internal-navbar-notifications',
@@ -37,7 +38,8 @@ export class InternalNavbarNotificationsComponent
     private router: Router,
     private _notifications: NotificationsService,
     private _ui: UiService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _t: TranslateService,
   ) {
     this.isBroker = brokerRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -83,7 +85,7 @@ export class InternalNavbarNotificationsComponent
         this.scrollToTop();
       },
       error: err => {
-        this._ui.showAlertError('Error cargando notificaciones');
+        this._ui.showAlertError(this._t.instant('SHARED.NAVBAR_NOTIFICATIONS.LOAD_ERROR'));
       },
     });
   }
@@ -134,7 +136,7 @@ export class InternalNavbarNotificationsComponent
         notification.status = this.notificationStatusEnum.READ;
         this.router.navigateByUrl(finalUrl);
       },
-      error: () => this._ui.showAlertError('Error'),
+      error: () => this._ui.showAlertError(this._t.instant('SHARED.NAVBAR_NOTIFICATIONS.UPDATE_ERROR')),
     });
   }
 }

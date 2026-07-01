@@ -14,11 +14,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [AccountFormModalComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     ReactiveFormsModule,
     CDKModule,
     MatButtonModule,

@@ -31,6 +31,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { DatasetsService } from 'src/app/shared/services/dataset.service';
 import { RequestsService } from 'src/app/shared/services/requests.service';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-form-new-business',
@@ -59,7 +60,8 @@ export class FormNewBusinessComponent implements OnChanges, OnInit, OnDestroy {
     private _router: Router,
     private _dialog: MatDialog,
     private _datasets: DatasetsService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private _t: TranslateService
   ) {
     this.initForm();
   }
@@ -244,12 +246,14 @@ export class FormNewBusinessComponent implements OnChanges, OnInit, OnDestroy {
     request: RequestModel,
     action: 'created' | 'updated'
   ) {
-    const message = `The request {{link}} has been ${action} successfully.`;
+    const message = action === 'created'
+      ? this._t.instant('PORTAL.REQUESTS.CREATED_SUCCESS_TEXT')
+      : this._t.instant('PORTAL.REQUESTS.UPDATED_SUCCESS_TEXT');
 
     this._ui
       .showInformationModal({
         text: message,
-        title: 'SUCCESS!',
+        title: this._t.instant('PORTAL.REQUESTS.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: `#${request.serial}`,
@@ -270,7 +274,7 @@ export class FormNewBusinessComponent implements OnChanges, OnInit, OnDestroy {
   openModalForms(policy_type: PopulatedPolicyTypeModel) {
     this._dialog
       .open(FormsModalComponent, {
-        data: { policy_type, show_email: false },
+        data: { policy_type, show_email: false, filter_active: true },
         autoFocus: false,
         panelClass: 'transparent-modal-container',
       })

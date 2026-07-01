@@ -1,8 +1,8 @@
 <div class="payment-content">
   <h1>
-    PAYMENT COMPLETED <br />
-    SUCCESSFULLY
+    {{ 'PORTAL.PAYMENT_SUCCESS.TITLE_LINE_1' | translate }} <br />
+    {{ 'PORTAL.PAYMENT_SUCCESS.TITLE_LINE_2' | translate }}
   </h1>
-  <p>Transaction powered by Stripe &reg;</p>
-  <a routerLink="/">Return to Home</a>
+  <p>{{ 'PORTAL.PAYMENT_SUCCESS.TEXT' | translate }}</p>
+  <a routerLink="/">{{ 'PORTAL.PAYMENT_SUCCESS.BTN_HOME' | translate }}</a>
 </div>

@@ -68,7 +68,7 @@ export class FilterWrapperComponent implements OnInit {
         filter.options = filter.options.pipe(
           map((opts: { code: string; name: string }[]) => {
             if (!Array.isArray(opts)) return opts;
-            return [{ code: '', name: 'All' }, ...opts];
+            return [{ code: '', name: 'Todos' }, ...opts];
           })
         );
       }

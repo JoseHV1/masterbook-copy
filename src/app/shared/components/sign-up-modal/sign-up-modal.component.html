@@ -124,7 +124,25 @@
         </small>
       </div>
 
-      <div class="mb-3 d-flex justify-content-center" *ngIf="!isLocal">
+      <div class="mb-3">
+        <p-dropdown
+          formControlName="tenant_code"
+          [options]="tenantOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select your country"
+          [filter]="true"
+          [disabled]="loadingTenants"
+          styleClass="w-100"
+          [class.ng-invalid]="fieldInvalid('tenant_code')"
+          [class.ng-dirty]="fieldInvalid('tenant_code')">
+        </p-dropdown>
+        <small *ngIf="fieldInvalid('tenant_code')" class="text-danger" style="font-size: 12px">
+          Please select your country
+        </small>
+      </div>
+
+      <div class="mb-3 d-flex justify-content-center" *ngIf="recaptchaSiteKey">
         <re-captcha formControlName="recaptcha" (resolved)="onResolved($event)">
         </re-captcha>
       </div>

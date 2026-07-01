@@ -1,0 +1,81 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <!-- ── Información básica ───────────────────────────────────── -->
+  <div class="form-section">
+    <h4 class="form-section__title">{{ 'PORTAL.PORTAL_ADMIN.INSURERS.SECTION_BASIC' | translate }}</h4>
+    <div class="row g-3">
+
+      <div class="col-12 col-md-6">
+        <label>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_NAME' | translate }} *</label>
+        <app-input [placeholder]="'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_NAME' | translate" formControlName="name"></app-input>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_EMAIL' | translate }}</label>
+        <app-input [placeholder]="'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_EMAIL' | translate" formControlName="email"></app-input>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_COUNTRY' | translate }}</label>
+        <app-input [placeholder]="'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_COUNTRY' | translate" formControlName="country"></app-input>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_EIN' | translate }}</label>
+        <app-input [placeholder]="'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_EIN' | translate" formControlName="ein"></app-input>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_PHONE' | translate }}</label>
+        <app-input [placeholder]="'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_PHONE' | translate" formControlName="phone_number"></app-input>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_FAX' | translate }}</label>
+        <app-input [placeholder]="'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_FAX' | translate" formControlName="fax"></app-input>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_LOGO' | translate }}</label>
+        <app-input placeholder="https://..." formControlName="logo_url"></app-input>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Asignación de tenants ────────────────────────────────── -->
+  <div class="form-section">
+    <h4 class="form-section__title">{{ 'PORTAL.PORTAL_ADMIN.INSURERS.SECTION_TENANTS' | translate }}</h4>
+    <div class="row g-3">
+
+      <div class="col-12">
+        <label>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.FIELD_TENANTS' | translate }}</label>
+        <app-dropdown-field
+          [placeholder]="'PORTAL.PORTAL_ADMIN.INSURERS.FILTER_ALL_TENANTS' | translate"
+          formControlName="tenant_ids"
+          [options]="tenantOptions"
+          [multiple]="true">
+        </app-dropdown-field>
+        <div style="margin-top: -0.5rem;">
+          <small class="text-muted">{{ 'PORTAL.PORTAL_ADMIN.INSURERS.ASSIGN_HINT' | translate }}</small>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center gap-3 mt-4 pt-2">
+    <button
+      type="button"
+      class="primary-button big-button back-gray-400 white"
+      (click)="cancel.emit()">
+      {{ 'PORTAL.COMMON.CANCEL' | translate }}
+    </button>
+    <button
+      type="submit"
+      class="primary-button big-button back-light-blue-400 white">
+      {{ insurer ? ('PORTAL.PORTAL_ADMIN.INSURERS.SAVE' | translate) : ('PORTAL.PORTAL_ADMIN.INSURERS.CREATE' | translate) }}
+    </button>
+  </div>
+
+</form>

@@ -1,0 +1,76 @@
+.detail-container {
+  padding: 16px;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+.detail-section {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 20px;
+
+  h3 {
+    margin: 0 0 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 8px;
+  }
+}
+
+.field-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  .label {
+    width: 140px;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  .value {
+    font-size: 0.9rem;
+    color: #111827;
+    word-break: break-all;
+
+    &.mono {
+      font-family: monospace;
+      font-size: 0.78rem;
+    }
+  }
+}
+
+.billing-status {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+
+  &--paid   { background: #d1fae5; color: #065f46; }
+  &--failed { background: #fee2e2; color: #991b1b; }
+  &--trial  { background: #fef3c7; color: #92400e; }
+  &--active { background: #dbeafe; color: #1e40af; }
+}

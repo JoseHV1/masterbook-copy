@@ -16,3 +16,34 @@
     }
   }
 }
+
+::ng-deep .dropdown-search-option {
+  position: sticky !important;
+  top: 0;
+  z-index: 10;
+  background: white !important;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 4px 16px !important;
+  min-height: 40px !important;
+
+  &.mdc-list-item--disabled {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  .mdc-list-item__primary-text {
+    width: 100%;
+    overflow: visible !important;
+  }
+}
+
+.dropdown-search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  padding: 4px 0;
+  color: inherit;
+  cursor: text;
+}

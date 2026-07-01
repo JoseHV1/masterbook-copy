@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EmailService } from 'src/app/shared/services/email.service';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-email-detail',
@@ -34,7 +35,8 @@ export class EmailDetailComponent implements OnInit {
     private _ui: UiService,
     private emailService: EmailService,
     private sanitizer: DomSanitizer,
-    private _location: Location
+    private _location: Location,
+    private _t: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -102,7 +104,7 @@ export class EmailDetailComponent implements OnInit {
         },
         error: err => {
           this._ui.showAlertError(
-            'Unauthorized access or error downloading the file.'
+            this._t.instant('PORTAL.COMMUNICATION.DOWNLOAD_ERROR')
           );
         },
       });
@@ -194,11 +196,11 @@ export class EmailDetailComponent implements OnInit {
         next: (resp: any) => {
           this.isReplying = false;
           this.replyText = '';
-          this._ui.showAlertSuccess('Reply sent successfully.');
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.COMMUNICATION.REPLY_SUCCESS'));
         },
         error: (err: any) => {
           this._ui.showAlertError(
-            'Error sending reply. Please check permissions.'
+            this._t.instant('PORTAL.COMMUNICATION.REPLY_ERROR')
           );
         },
       });
@@ -206,7 +208,7 @@ export class EmailDetailComponent implements OnInit {
 
   sendForward(): void {
     if (!this.forwardRecipient.trim() || !this.emailDetail.length) {
-      this._ui.showAlertError('You must specify a recipient.');
+      this._ui.showAlertError(this._t.instant('PORTAL.COMMUNICATION.FORWARD_RECIPIENT_REQUIRED'));
       return;
     }
 
@@ -245,11 +247,11 @@ export class EmailDetailComponent implements OnInit {
           this.isForwarding = false;
           this.replyText = '';
           this.forwardRecipient = '';
-          this._ui.showAlertSuccess('Email forwarded successfully.');
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.COMMUNICATION.FORWARD_SUCCESS'));
         },
         error: (err: any) => {
           this._ui.showAlertError(
-            'Error forwarding email. Check the console for details.'
+            this._t.instant('PORTAL.COMMUNICATION.FORWARD_ERROR')
           );
         },
       });
@@ -266,7 +268,7 @@ export class EmailDetailComponent implements OnInit {
 
           if (pdfBlob.type !== 'application/pdf') {
             this._ui.showAlertError(
-              `Unexpected file type: ${pdfBlob.type}. Expected 'application/pdf'.`
+              this._t.instant('PORTAL.COMMUNICATION.VIEW_PDF_UNEXPECTED_TYPE', { type: pdfBlob.type })
             );
           }
 
@@ -283,7 +285,7 @@ export class EmailDetailComponent implements OnInit {
         },
         error: err => {
           this._ui.showAlertError(
-            'Unauthorized access or error downloading the file.'
+            this._t.instant('PORTAL.COMMUNICATION.DOWNLOAD_ERROR')
           );
         },
       });

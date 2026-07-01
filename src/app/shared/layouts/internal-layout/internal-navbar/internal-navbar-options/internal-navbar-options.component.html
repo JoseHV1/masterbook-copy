@@ -9,7 +9,7 @@
         class="d-flex align-items-center justify-content-start gap-2 option py-2 px-3 my-2"
         (click)="navigateTo('profile')">
         <span class="material-icons-outlined">account_circle</span>
-        <a class="text-menu">Profile</a>
+        <a class="text-menu">{{ 'SHARED.NAVBAR_OPTIONS.PROFILE' | translate }}</a>
       </div>
       <div style="border-bottom: 1px solid #e5e7eb"></div>
       <div
@@ -19,15 +19,15 @@
           userRole === 'INDEPENDANT_BROKER' || userRole === 'AGENCY_OWNER'
         ">
         <span class="material-icons-outlined">apartment</span>
-        <a class="text-menu">Agency Settings</a>
+        <a class="text-menu">{{ 'SHARED.NAVBAR_OPTIONS.AGENCY_SETTINGS' | translate }}</a>
       </div>
       <div style="border-bottom: 1px solid #e5e7eb"></div>
-      <ng-container *ngIf="userRole === ownerRole">
+      <ng-container *ngIf="userRole === ownerRole && !isFreeAgency">
         <div
           class="d-flex align-items-center justify-content-start gap-2 option py-2 px-3 my-2">
           <span class="material-icons-outlined">credit_card</span>
           <a class="text-menu" (click)="navigateToPaymentGateway()"
-            >Manage Payments and Invoices</a
+            >{{ 'SHARED.NAVBAR_OPTIONS.MANAGE_PAYMENTS' | translate }}</a
           >
         </div>
         <div style="border-bottom: 1px solid #e5e7eb"></div>
@@ -36,7 +36,7 @@
         class="d-flex align-items-center justify-content-start gap-2 option py-2 px-3 my-2"
         (click)="logout()">
         <span class="material-icons-outlined">logout</span>
-        <a class="text-menu">Logout</a>
+        <a class="text-menu">{{ 'SHARED.NAVBAR_OPTIONS.LOGOUT' | translate }}</a>
       </div>
     </div>
   </div>

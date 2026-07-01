@@ -17,6 +17,7 @@ import jsPDF from 'jspdf';
 import { ChartFiltersPayload } from './components/chart-filters/chart-filters.component';
 import { ActivatedRoute } from '@angular/router';
 import { UiModalTypeEnum } from '@app/shared/enums/ui-modal-type.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 export type ChartKey =
   | 'summaryCards'
@@ -146,7 +147,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     private _ui: UiService,
     private _dashboard: DashboardService,
     private _auth: AuthService,
-    private activateRoute: ActivatedRoute
+    private activateRoute: ActivatedRoute,
+    private _t: TranslateService
   ) {}
 
   dateRanges = [
@@ -202,8 +204,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         if (notInsurers === 'true') {
           this._ui
             .showInformationModal({
-              text: 'Please set up the commission rates\nbefore submitting a request.',
-              title: 'ALERT!',
+              text: this._t.instant('PORTAL.ACTIVITIES.COMMISSION_RATES_TEXT'),
+              title: this._t.instant('PORTAL.ACTIVITIES.COMMISSION_RATES_TITLE'),
               type: UiModalTypeEnum.WARNING,
             })
             .subscribe();

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { ClientDetailsComponent } from './client-details.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
@@ -10,6 +11,7 @@ import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 
 const routes: Routes = [
   {
@@ -21,6 +23,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [ClientDetailsComponent],
   imports: [
+    TranslateModule,
     CommonModule,
     RouterModule.forChild(routes),
     PagesLayoutModule,
@@ -31,6 +34,7 @@ const routes: Routes = [
     MatExpansionModule,
     MatIconModule,
     MatButtonModule,
+    MatSelectModule,
   ],
   exports: [ClientDetailsComponent],
 })

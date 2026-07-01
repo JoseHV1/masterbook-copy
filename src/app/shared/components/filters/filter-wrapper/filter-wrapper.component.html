@@ -6,7 +6,7 @@
   </span>
 </div>
 <div class="filter-wrapper py-2 px-3">
-  <h4 class="dark-blue-600 subtitle-2 text-center">Apply filters</h4>
+  <h4 class="dark-blue-600 subtitle-2 text-center">{{ 'SHARED.FILTER_WRAPPER.TITLE' | translate }}</h4>
   <form [formGroup]="form" *ngIf="form">
     <div class="filter-component" *ngFor="let filter of config.filters">
       <p>{{ filter.label }}</p>
@@ -29,7 +29,7 @@
 
       <ng-container *ngIf="filter.type === filterTypes.PAYMENT_ENTITY">
         <app-dropdown-field
-          [placeholder]="'Select an option'"
+          [placeholder]="'SHARED.FILTER_WRAPPER.PLACEHOLDER_OPTION' | translate"
           [formControlName]="filter.name"
           (changeSelection)="handlePaymentEntity(filter.name, $event[0])"
           [options]="
@@ -55,7 +55,7 @@
 
       <ng-container *ngIf="filter.type === filterTypes.SELECT">
         <app-dropdown-field
-          [placeholder]="'Select an option'"
+          [placeholder]="'SHARED.FILTER_WRAPPER.PLACEHOLDER_OPTION' | translate"
           [formControlName]="filter.name"
           (changeSelection)="handleDropdown(filter.name, $event[0])"
           [options]="
@@ -65,7 +65,7 @@
 
       <ng-container *ngIf="filter.type === filterTypes.MULTISELECT">
         <app-dropdown-field
-          [placeholder]="'Select an option'"
+          [placeholder]="'SHARED.FILTER_WRAPPER.PLACEHOLDER_OPTION' | translate"
           [formControlName]="filter.name"
           (changeSelection)="handleMultiDropdown(filter.name, $event)"
           [options]="filter.options ? (filter.options | async) ?? [] : []"
@@ -80,8 +80,8 @@
             <input
               matStartDate
               formControlName="start"
-              placeholder="Start date" />
-            <input matEndDate formControlName="end" placeholder="End date" />
+              [placeholder]="'SHARED.FILTER_WRAPPER.PLACEHOLDER_START_DATE' | translate" />
+            <input matEndDate formControlName="end" [placeholder]="'SHARED.FILTER_WRAPPER.PLACEHOLDER_END_DATE' | translate" />
           </mat-date-range-input>
           <mat-datepicker-toggle
             matIconSuffix
@@ -94,12 +94,12 @@
     <button
       class="primary-button back-gray-300 white mx-1"
       (click)="closeFilters.emit()">
-      Cancel
+      {{ 'PORTAL.COMMON.CANCEL' | translate }}
     </button>
     <button
       class="primary-button back-light-blue-400 white mx-1"
       (click)="sendFilters()">
-      Apply filters
+      {{ 'SHARED.FILTER_WRAPPER.BTN_APPLY' | translate }}
     </button>
   </form>
 </div>

@@ -1,13 +1,13 @@
 <h2
   mat-dialog-title
   class="d-flex justify-content-between align-items-start pt-2 pb-1 pt-md-4 pb-md-2">
-  <button mat-icon-button mat-dialog-close aria-label="Cerrar">
+  <button mat-icon-button mat-dialog-close [attr.aria-label]="'PORTAL.SHARED.CLOSE' | translate">
     <mat-icon>close</mat-icon>
   </button>
 </h2>
 
 <mat-dialog-content class="px-4 py-2 px-md-5 py-md-3 mb-3">
-  <h6 class="title-form text-center mb-3 mb-md-4">Change log</h6>
+  <h6 class="title-form text-center mb-3 mb-md-4">{{ 'SHARED.MODAL_CHANGE_LOGS.TITLE' | translate }}</h6>
 
   <ng-container *ngIf="groupedKeys.length > 0; else noData">
     <ng-container *ngFor="let field of groupedKeys">
@@ -19,28 +19,28 @@
           [dataSource]="groupedLogs[field]"
           class="mat-elevation-z1 w-100 mb-4">
           <ng-container matColumnDef="changedBy">
-            <th mat-header-cell *matHeaderCellDef>User</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'SHARED.MODAL_CHANGE_LOGS.TABLE_USER' | translate }}</th>
             <td mat-cell *matCellDef="let log">
               {{ formatValue(log.changedBy) }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="oldValue">
-            <th mat-header-cell *matHeaderCellDef>Old Value</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'SHARED.MODAL_CHANGE_LOGS.TABLE_OLD_VALUE' | translate }}</th>
             <td mat-cell *matCellDef="let log">
               {{ formatValue(log.oldValue) }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="newValue">
-            <th mat-header-cell *matHeaderCellDef>New Value</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'SHARED.MODAL_CHANGE_LOGS.TABLE_NEW_VALUE' | translate }}</th>
             <td mat-cell *matCellDef="let log">
               {{ formatValue(log.newValue) }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="changeDate">
-            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <th mat-header-cell *matHeaderCellDef>{{ 'SHARED.MODAL_CHANGE_LOGS.TABLE_DATE' | translate }}</th>
             <td mat-cell *matCellDef="let log">
               {{ formatDateWithHour(log.changeDate) }}
             </td>
@@ -54,6 +54,6 @@
   </ng-container>
 
   <ng-template #noData>
-    <h3 class="fw-bold text-center mt-4 mb-5 mx-5">No data available</h3>
+    <h3 class="fw-bold text-center mt-4 mb-5 mx-5">{{ 'SHARED.MODAL_CHANGE_LOGS.NO_DATA' | translate }}</h3>
   </ng-template>
 </mat-dialog-content>

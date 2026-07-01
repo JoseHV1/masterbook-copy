@@ -6,6 +6,7 @@ import { FilterWrapperModel } from 'src/app/shared/models/filters.model';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { LeadModel } from '../interfaces/lead.model';
 import { LeadsService } from '../services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-leads-list',
@@ -25,6 +26,7 @@ export class LeadsListComponent extends FilteredTable<LeadModel> {
   constructor(
     private _leads: LeadsService,
     private _ui: UiService,
+    private _t: TranslateService,
   ) {
     super();
     this.filterConfig = this._leads.getLeadListFilters();
@@ -39,7 +41,7 @@ export class LeadsListComponent extends FilteredTable<LeadModel> {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe({
         next: resp => (this.data = resp),
-        error: () => this._ui.showAlertError('Error loading leads. Please try again later.'),
+        error: () => this._ui.showAlertError(this._t.instant('PORTAL.LEADS.LOAD_ERROR')),
       });
   }
 

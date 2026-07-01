@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormAgencyBrokerAdminComponent } from './form-agency-broker-admin.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -19,6 +20,7 @@ import { ModalTermsPoliciesModule } from 'src/app/shared/components/modal-terms-
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    TranslateModule,
     PictureSelectorModule,
     MultiSelectModule,
     CalendarModule,

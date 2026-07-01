@@ -7,6 +7,7 @@ import { UiService } from 'src/app/shared/services/ui.service';
 import { LeadModel } from '../interfaces/lead.model';
 import { LeadsService } from '../services/leads.service';
 import { LeadStatusEnum } from '../enums/lead-status.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-lead-detail',
@@ -23,6 +24,7 @@ export class LeadDetailComponent {
     private _ui: UiService,
     private _router: Router,
     private _location: Location,
+    private _t: TranslateService,
   ) {
     this._ui.showLoader();
     this._route.params
@@ -38,7 +40,7 @@ export class LeadDetailComponent {
       .subscribe({
         next: lead => (this.lead = lead),
         error: () => {
-          this._ui.showAlertError('Lead not found.');
+          this._ui.showAlertError(this._t.instant('PORTAL.LEADS.NOT_FOUND'));
           this._router.navigateByUrl('portal/leads');
         },
       });
@@ -51,7 +53,7 @@ export class LeadDetailComponent {
   rejectLead(): void {
     this._ui
       .showConfirmationModal({
-        text: 'Are you sure you want to reject this lead?',
+        text: this._t.instant('PORTAL.LEADS.CONFIRM_REJECT'),
         type: UiModalTypeEnum.WARNING,
       })
       .pipe(take(1))
@@ -67,10 +69,10 @@ export class LeadDetailComponent {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe({
         next: () => {
-          this._ui.showAlertSuccess('Lead rejected successfully.');
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.LEADS.REJECTED'));
           this.lead.status = LeadStatusEnum.REJECTED;
         },
-        error: () => this._ui.showAlertError('Could not reject the lead. Please try again.'),
+        error: () => this._ui.showAlertError(this._t.instant('PORTAL.LEADS.REJECT_ERROR')),
       });
   }
 

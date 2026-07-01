@@ -15,27 +15,27 @@
             class="primary-button big-button back-light-blue-400 white"
             [disabled]="!form.value.profile_image"
             (click)="save()">
-            Save Photo
+            {{ 'PORTAL.PORTAL_ADMIN.PROFILE.SAVE_PHOTO' | translate }}
           </button>
         </div>
 
         <!-- Info -->
         <div class="admin-profile-info flex-grow-1">
-          <h4 class="admin-profile__title mb-4">Personal Information</h4>
+          <h4 class="admin-profile__title mb-4">{{ 'PORTAL.PORTAL_ADMIN.PROFILE.PERSONAL_INFO' | translate }}</h4>
 
           <div class="row g-3">
             <div class="col-12 col-md-6">
-              <label>First name</label>
+              <label>{{ 'PORTAL.PORTAL_ADMIN.PROFILE.FIRST_NAME' | translate }}</label>
               <p class="admin-profile__value">{{ dataUser.first_name }}</p>
             </div>
 
             <div class="col-12 col-md-6">
-              <label>Last name</label>
+              <label>{{ 'PORTAL.PORTAL_ADMIN.PROFILE.LAST_NAME' | translate }}</label>
               <p class="admin-profile__value">{{ dataUser.last_name }}</p>
             </div>
 
             <div class="col-12">
-              <label>Email</label>
+              <label>{{ 'PORTAL.PORTAL_ADMIN.PROFILE.EMAIL' | translate }}</label>
               <p class="admin-profile__value">{{ dataUser.email }}</p>
             </div>
           </div>
@@ -44,7 +44,7 @@
             <button
               class="primary-button big-button back-gray-400 white"
               (click)="openChangePassword()">
-              Change Password
+              {{ 'PORTAL.PORTAL_ADMIN.PROFILE.CHANGE_PASSWORD' | translate }}
             </button>
           </div>
         </div>
@@ -56,7 +56,7 @@
     <div class="admin-profile-card bg-white rounded shadow-sm p-4 p-lg-5 w-100 mt-3">
       <div class="d-flex align-items-center gap-2 mb-3">
         <span class="material-icons-outlined dark-blue-400" style="font-size: 20px">link</span>
-        <h4 class="admin-profile__title mb-0">Lead Registration Links</h4>
+        <h4 class="admin-profile__title mb-0">{{ 'PORTAL.PORTAL_ADMIN.PROFILE.LEAD_LINKS' | translate }}</h4>
       </div>
 
       <div class="d-flex flex-column gap-2">
@@ -65,7 +65,7 @@
         <div class="d-flex gap-2 align-items-center flex-wrap">
           <div class="social-badge social-badge--facebook">
             <img src="/assets/icons/social/facebook.svg" alt="Facebook" />
-            <span>Facebook</span>
+            <span>{{ 'PORTAL.PORTAL_ADMIN.PROFILE.FACEBOOK' | translate }}</span>
           </div>
           <div class="lead-url-box flex-grow-1">
             <span class="material-icons-outlined me-2" style="font-size: 18px; color: #94a3b8">link</span>
@@ -73,7 +73,7 @@
           </div>
           <button class="copy-url-btn d-flex align-items-center gap-1" (click)="copyUrl('facebook')">
             <span class="material-icons-outlined" style="font-size: 16px">content_copy</span>
-            Copy
+            {{ 'PORTAL.PORTAL_ADMIN.PROFILE.COPY' | translate }}
           </button>
         </div>
 
@@ -81,7 +81,7 @@
         <div class="d-flex gap-2 align-items-center flex-wrap">
           <div class="social-badge social-badge--instagram">
             <img src="/assets/icons/social/instagram.svg" alt="Instagram" />
-            <span>Instagram</span>
+            <span>{{ 'PORTAL.PORTAL_ADMIN.PROFILE.INSTAGRAM' | translate }}</span>
           </div>
           <div class="lead-url-box flex-grow-1">
             <span class="material-icons-outlined me-2" style="font-size: 18px; color: #94a3b8">link</span>
@@ -89,7 +89,7 @@
           </div>
           <button class="copy-url-btn d-flex align-items-center gap-1" (click)="copyUrl('instagram')">
             <span class="material-icons-outlined" style="font-size: 16px">content_copy</span>
-            Copy
+            {{ 'PORTAL.PORTAL_ADMIN.PROFILE.COPY' | translate }}
           </button>
         </div>
 
@@ -97,7 +97,7 @@
         <div class="d-flex gap-2 align-items-center flex-wrap">
           <div class="social-badge social-badge--tiktok">
             <img src="/assets/icons/social/tiktok.svg" alt="TikTok" />
-            <span>TikTok</span>
+            <span>{{ 'PORTAL.PORTAL_ADMIN.PROFILE.TIKTOK' | translate }}</span>
           </div>
           <div class="lead-url-box flex-grow-1">
             <span class="material-icons-outlined me-2" style="font-size: 18px; color: #94a3b8">link</span>
@@ -105,7 +105,7 @@
           </div>
           <button class="copy-url-btn d-flex align-items-center gap-1" (click)="copyUrl('tiktok')">
             <span class="material-icons-outlined" style="font-size: 16px">content_copy</span>
-            Copy
+            {{ 'PORTAL.PORTAL_ADMIN.PROFILE.COPY' | translate }}
           </button>
         </div>
 

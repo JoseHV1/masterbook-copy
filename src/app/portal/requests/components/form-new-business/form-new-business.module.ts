@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormNewBusinessComponent } from './form-new-business.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { FormsModalModule } from 'src/app/portal/forms/components/forms-modal/forms-modal.module';
 
@@ -12,6 +13,7 @@ import { FormsModalModule } from 'src/app/portal/forms/components/forms-modal/fo
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
+    TranslateModule,
     CDKModule,
     FormsModalModule,
     FormsModule,

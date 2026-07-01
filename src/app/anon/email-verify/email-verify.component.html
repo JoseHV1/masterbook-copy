@@ -19,17 +19,16 @@
     class="d-flex align-items-center justify-content-center flex-column"
     *ngIf="!loading && !success">
     <h2 class="title-3 text-center error-color px-3">
-      SE HA PRODUCIDO UN ERROR AL VERIFICAR SU CUENTA.
+      {{ 'EMAIL_VERIFY.ERROR_TITLE' | translate }}
     </h2>
     <p class="mt-2 text-center text-1 gray-500 px-3">
-      Verifique que el enlace de activación coincida con el proporcionado en el
-      correo y que no haya sido utilizado previamente.
+      {{ 'EMAIL_VERIFY.ERROR_TEXT' | translate }}
     </p>
   </section>
 
   <section
     class="d-flex align-items-center justify-content-center flex-column"
     *ngIf="loading">
-    <p class="mt-2 text-center text-1 gray-500 px-3">Loading...</p>
+    <p class="mt-2 text-center text-1 gray-500 px-3">{{ 'GENERAL.LOADING' | translate }}</p>
   </section>
 </div>

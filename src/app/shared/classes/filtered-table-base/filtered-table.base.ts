@@ -1,16 +1,48 @@
+import { inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { skip } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 import { PaginatedResponse } from '../../interfaces/models/paginated-response.model';
 import { FilterActive, FilterWrapperModel } from '../../models/filters.model';
+import { AdminTenantContextService } from '../../services/admin-tenant-context.service';
 
 export abstract class FilteredTable<T> {
   querySearch = '';
   timeout: any = null;
-  filterText = '';
   filtersActive: FilterActive[] = [];
+
+  private _filterText = '';
+  private readonly _adminCtx = inject(AdminTenantContextService);
+  private readonly _destroyRef = inject(DestroyRef);
+
+  /**
+   * filterText incluye automáticamente el filtro de tenant admin activo.
+   * Los componentes lo leen y escriben como siempre — el tenant se concatena en el getter.
+   */
+  get filterText(): string {
+    return this._filterText + this._adminCtx.filterParam;
+  }
+
+  protected set filterText(value: string) {
+    this._filterText = value;
+  }
 
   abstract filterConfig: FilterWrapperModel;
   abstract data: PaginatedResponse<T[]>;
   abstract _fetchData(page: number, hitsPerPage?: number): void;
+
+  constructor() {
+    // skip(1) para no re-fetchear en la carga inicial (el componente ya llama _fetchData en su constructor)
+    this._adminCtx.tenant$
+      .pipe(skip(1), takeUntilDestroyed(this._destroyRef))
+      .subscribe(() => {
+        clearTimeout(this.timeout);
+        this.querySearch = '';
+        this.filtersActive = [];
+        this.filterText = '';
+        this._fetchData(0);
+      });
+  }
 
   handleApplyFilter(filters: Record<string, FilterActive | FilterActive[]>) {
     const flattened: FilterActive[] = Object.values(filters).flatMap(f =>
@@ -44,7 +76,9 @@ export abstract class FilteredTable<T> {
       const valueText = Array.isArray(filter.value)
         ? filter.value.join(',')
         : filter.value;
-      filterText = `${filterText}&${filter.name}=${valueText}`;
+      if (valueText !== '' && valueText !== null && valueText !== undefined) {
+        filterText = `${filterText}&${filter.name}=${valueText}`;
+      }
     });
     this.filterText = filterText;
   }
@@ -70,10 +104,13 @@ export abstract class FilteredTable<T> {
   }
 
   removeFilterFromChip(index: number): void {
-    if (this.filtersActive && this.filtersActive[index]?.name === 'search') {
+    clearTimeout(this.timeout);
+    if (this.filtersActive?.[index]?.name === 'search') {
+      this.querySearch = '';
+    } else if (!this.filtersActive?.some(f => f.name === 'search')) {
+      // A search was being typed (debounce cancelled above) but never applied — discard it
       this.querySearch = '';
     }
-
     this.filtersActive?.splice(index, 1);
     this._applyFilter(this.filtersActive);
   }

@@ -1,7 +1,7 @@
 <ng-template #table>
   <app-pages-layout
     [requirePayment]="false"
-    [button]="{ text: 'Create email', icon: 'add', url: 'send' }">
+    [button]="{ text: ('PORTAL.COMMUNICATION.LIST.BTN_CREATE' | translate), icon: 'add', url: 'send' }">
     <ng-container content>
       <ng-container *ngIf="!loading && connected; else waitOrConnect">
         <div
@@ -9,7 +9,7 @@
           <mat-form-field appearance="outline">
             <input
               matInput
-              placeholder="Search..."
+              [placeholder]="'PORTAL.COMMUNICATION.LIST.PLACEHOLDER_SEARCH' | translate"
               [(ngModel)]="searchQuery"
               (ngModelChange)="searchInbox()" />
             <span matPrefix class="material-icons-outlined ms-3"> search </span>
@@ -26,9 +26,9 @@
             [(ngModel)]="categorySelected"
             (change)="changeCategory()"
             aria-label="Font Style">
-            <mat-button-toggle value="INBOX">Inbox</mat-button-toggle>
-            <mat-button-toggle value="SENT">Sent</mat-button-toggle>
-            <mat-button-toggle value="DRAFT">Drafts</mat-button-toggle>
+            <mat-button-toggle value="INBOX">{{ 'PORTAL.COMMUNICATION.LIST.TAB_INBOX' | translate }}</mat-button-toggle>
+            <mat-button-toggle value="SENT">{{ 'PORTAL.COMMUNICATION.LIST.TAB_SENT' | translate }}</mat-button-toggle>
+            <mat-button-toggle value="DRAFT">{{ 'PORTAL.COMMUNICATION.LIST.TAB_DRAFTS' | translate }}</mat-button-toggle>
           </mat-button-toggle-group>
 
           <div class="pagination-controls mt-4 flex justify-between">
@@ -62,8 +62,8 @@
       </ng-container>
       <ng-template #waitOrConnect>
         <div class="p-4">
-          <p *ngIf="loading">Checking Google connection…</p>
-          <p *ngIf="!loading">Redirecting to connect Google Calendar…</p>
+          <p *ngIf="loading">{{ 'PORTAL.COMMUNICATION.LIST.CHECKING_GOOGLE' | translate }}</p>
+          <p *ngIf="!loading">{{ 'PORTAL.COMMUNICATION.LIST.REDIRECTING_GOOGLE' | translate }}</p>
         </div>
       </ng-template>
     </ng-container>

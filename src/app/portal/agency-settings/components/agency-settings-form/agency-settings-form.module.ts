@@ -8,11 +8,13 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { InputTextModule } from 'primeng/inputtext';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TooltipModule } from 'primeng/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [AgencySettingsFormComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     ReactiveFormsModule,
     FormsModule,
     CDKModule,

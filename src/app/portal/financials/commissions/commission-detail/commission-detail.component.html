@@ -8,7 +8,7 @@
           <span
             class="material-icons-outlined me-2"
             style="cursor: pointer"
-            matTooltip="Back to last page"
+            [matTooltip]="'PORTAL.COMMON.BACK_TO_LAST_PAGE' | translate"
             (click)="goBack()">
             arrow_back
           </span>
@@ -20,17 +20,17 @@
       *ngIf="commission">
       <div class="d-flex flex-column">
         <h3 class="text-center w-100 mb-1 subtitle-1 dark-blue-400">
-          Commission #{{ commission.serial | notNull }}
+          {{ 'PORTAL.COMMISSIONS.COMMISSION_HASH' | translate }}{{ commission.serial | notNull }}
         </h3>
         <p class="text-center text-3 gray-500">
-          Created date on: {{ commission.createdAt | date }}
+          {{ 'PORTAL.COMMISSIONS.CREATED_ON' | translate }} {{ commission.createdAt | date }}
         </p>
       </div>
     </div>
     <div class="row px-4 my-2 px-md-5 my-md-5">
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Commission Amount</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.COMMISSIONS.AMOUNT' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ commission.amount | currency | notNull }}
           </div>
@@ -39,7 +39,7 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Invoice</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.COMMISSIONS.INVOICE' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             <span
               (click)="
@@ -54,7 +54,7 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Policy Number</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.COMMISSIONS.POLICY_NUMBER' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             <span
               (click)="
@@ -69,7 +69,7 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Agent</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.COMMISSIONS.AGENT' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             <span
               (click)="
@@ -88,7 +88,7 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Commission Status</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.COMMISSIONS.STATUS' | translate }}</div>
           <div
             class="col-12 col-md-8 black px-1 py-2 d-flex align-items-center">
             <span [ngClass]="getStatusClass(commission.status)">

@@ -9,6 +9,7 @@ import { provideNgxMask } from 'ngx-mask';
 import { finalize, take } from 'rxjs';
 import { PopulatedPolicyModel } from 'src/app/shared/interfaces/models/policy.model';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cacellation-modal',
@@ -29,7 +30,8 @@ export class RenewalReinstalmentModelComponent {
     @Inject(MAT_DIALOG_DATA)
     private _data: { policy: PopulatedPolicyModel; type: PolicyCategoryEnum },
     private _request: RequestsService,
-    private _ui: UiService
+    private _ui: UiService,
+    private _t: TranslateService
   ) {
     this.policy = this._data.policy;
     this.type = this._data.type;
@@ -45,7 +47,7 @@ export class RenewalReinstalmentModelComponent {
   renewalPolicy(): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to renew your policy?`,
+        text: this._t.instant('PORTAL.POLICIES.CONFIRM_RENEW'),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -56,7 +58,7 @@ export class RenewalReinstalmentModelComponent {
   reinstallmentPolicy(): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to reinstall your policy?`,
+        text: this._t.instant('PORTAL.POLICIES.CONFIRM_REINSTALL'),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -80,7 +82,7 @@ export class RenewalReinstalmentModelComponent {
       .createRequest(req)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('Policy successfully renewal.');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.POLICIES.RENEWED_SUCCESS'));
         this.close(true);
       });
   }
@@ -102,7 +104,7 @@ export class RenewalReinstalmentModelComponent {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this._ui.showAlertSuccess(
-          'The policy reinstallment request has been created successfully.'
+          this._t.instant('PORTAL.POLICIES.REINSTALLED_SUCCESS')
         );
         this.close(true);
       });

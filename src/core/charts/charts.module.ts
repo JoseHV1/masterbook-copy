@@ -24,6 +24,8 @@ import { PaymentsChartComponent } from './dual-line-chart/dual-line-chart.compon
 import { userCompareChartComponent } from './chart-9/user-compare.component';
 import { StackedAreaChartComponent } from './stacked-area-chart/stacked-area-chart.component';
 import { SingleLineChartComponent } from './single-line-chart/single-line-chart';
+import { RequestsByTypeNightingaleChartComponent } from './nightingale-chart/nightingale-chart.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { SingleLineChartComponent } from './single-line-chart/single-line-chart'
     userCompareChartComponent,
     StackedAreaChartComponent,
     SingleLineChartComponent,
+    RequestsByTypeNightingaleChartComponent,
   ],
   imports: [
     CommonModule,
@@ -54,6 +57,7 @@ import { SingleLineChartComponent } from './single-line-chart/single-line-chart'
     MatNativeDateModule,
 
     NgxEchartsModule,
+    TranslateModule,
   ],
   exports: [
     KpiChartComponent,
@@ -69,6 +73,7 @@ import { SingleLineChartComponent } from './single-line-chart/single-line-chart'
     userCompareChartComponent,
     StackedAreaChartComponent,
     SingleLineChartComponent,
+    RequestsByTypeNightingaleChartComponent,
   ],
 })
 export class ChartsModule {}

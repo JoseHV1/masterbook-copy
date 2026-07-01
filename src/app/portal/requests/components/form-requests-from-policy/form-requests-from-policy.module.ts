@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CDKModule } from 'src/core/cdk/cdk.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [FormRequestsFromPolicyComponent],
@@ -13,6 +14,7 @@ import { CDKModule } from 'src/core/cdk/cdk.module';
     CommonModule,
     CustomPipesModule,
     ReactiveFormsModule,
+    TranslateModule,
     ButtonModule,
     MatExpansionModule,
     CDKModule,

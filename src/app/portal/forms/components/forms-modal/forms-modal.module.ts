@@ -7,11 +7,13 @@ import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
 import { FiltersModule } from 'src/app/shared/components/filters/filters.module';
 import { CreateFormModalModule } from '../create-form-modal/create-form-modal.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [FormsModalComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     MatTableModule,
     CustomPipesModule,
     FiltersModule,

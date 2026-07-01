@@ -1,39 +1,39 @@
 <form [formGroup]="form">
   <div class="row mb-4">
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>First name*</label>
+      <label>{{ 'PORTAL.USERS.FIRST_NAME' | translate }}*</label>
       <app-input
-        placeholder="Enter first name"
+        [placeholder]="'PORTAL.USERS.PLACEHOLDER_FIRST_NAME' | translate"
         type="text"
         formControlName="first_name"></app-input>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>Last name*</label>
+      <label>{{ 'PORTAL.USERS.LAST_NAME' | translate }}*</label>
       <app-input
-        placeholder="Enter last name"
+        [placeholder]="'PORTAL.USERS.PLACEHOLDER_LAST_NAME' | translate"
         type="text"
         formControlName="last_name"></app-input>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>User type*</label>
+      <label>{{ 'PORTAL.USERS.TYPE' | translate }}*</label>
       <app-dropdown-field
-        [placeholder]="'Select user type'"
+        [placeholder]="'PORTAL.USERS.PLACEHOLDER_USER_TYPE' | translate"
         formControlName="role"
         [options]="dropDownUserTypes"></app-dropdown-field>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>Email*</label>
+      <label>{{ 'PORTAL.USERS.EMAIL' | translate }}*</label>
       <app-input
-        placeholder="Enter Email Address"
+        [placeholder]="'PORTAL.USERS.PLACEHOLDER_EMAIL' | translate"
         type="email"
         formControlName="email"></app-input>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>Phone number*</label>
+      <label>{{ 'PORTAL.USERS.PHONE' | translate }}*</label>
       <app-input
         placeholder="(XXX) XXX-XXXX"
         type="tel"
@@ -42,24 +42,24 @@
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>Business line*</label>
+      <label>{{ 'PORTAL.USERS.BUSINESS_LINES' | translate }}*</label>
       <app-dropdown-field
-        [placeholder]="'Select business line'"
+        [placeholder]="'PORTAL.USERS.PLACEHOLDER_BUSINESS_LINE' | translate"
         [multiple]="true"
         formControlName="business_lines"
         [options]="businessLineOptions"></app-dropdown-field>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>License number*</label>
+      <label>{{ 'PORTAL.USERS.LICENSE' | translate }}*</label>
       <app-input
-        placeholder="Enter license number"
+        [placeholder]="'PORTAL.USERS.PLACEHOLDER_LICENSE' | translate"
         type="text"
         formControlName="license_number"></app-input>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>License expiry date*</label>
+      <label>{{ 'PORTAL.USERS.LICENSE_EXPIRES' | translate }}*</label>
       <app-date-field
         [placeholder]="'MM/DD/YYYY'"
         [min]="today"
@@ -67,7 +67,7 @@
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>Date of birth*</label>
+      <label>{{ 'PORTAL.USERS.DOB' | translate }}*</label>
       <app-date-field
         [placeholder]="'MM/DD/YYYY'"
         [max]="maxDate"
@@ -75,9 +75,9 @@
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
-      <label>Gender*</label>
+      <label>{{ 'PORTAL.USERS.GENDER' | translate }}*</label>
       <app-dropdown-field
-        [placeholder]="'Select a gender'"
+        [placeholder]="'PORTAL.USERS.PLACEHOLDER_GENDER' | translate"
         formControlName="gender"
         [options]="dropDownGender"></app-dropdown-field>
     </div>
@@ -87,7 +87,7 @@
     <p-button
       [style]="{ width: '120px', height: '45px', marginRight: '15px' }"
       styleClass="p-button-secondary p-button-rounded"
-      label="Cancel"
+      [label]="'PORTAL.COMMON.CANCEL' | translate"
       class="me-1 me-lg-4"
       (onClick)="cancelForm()"></p-button>
     <p-button
@@ -98,7 +98,7 @@
         borderColor: '#049DD9',
       }"
       styleClass="p-button-rounded"
-      label="{{ data ? 'Edit' : 'Save' }}"
+      [label]="(data ? 'PORTAL.COMMON.EDIT' : 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.BTN_SAVE') | translate"
       rounded="true"
       (onClick)="openConfirmationModal()"
       [disabled]="form.invalid"></p-button>

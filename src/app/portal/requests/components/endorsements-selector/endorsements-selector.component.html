@@ -1,10 +1,10 @@
 <div class="px-md-5 my-1 my-md-2 mb-2 mb-md-5 endorsement-selector">
   <form [formGroup]="form">
-    <app-input formControlName="query" placeholder="Search policy type">
+    <app-input formControlName="query" [placeholder]="'PORTAL.REQUESTS.ENDORSEMENTS_SELECTOR.PLACEHOLDER_SEARCH' | translate">
     </app-input>
   </form>
   <div class="lob-selector px-2 px-md-3 py-3 my-1 my-md-2">
-    <p class="subtitle-2 text-center">BUSINESS LINES</p>
+    <p class="subtitle-2 text-center">{{ 'PORTAL.REQUESTS.ENDORSEMENTS_SELECTOR.BUSINESS_LINES' | translate }}</p>
     <div class="d-flex flex-wrap justify-content-center">
       <ng-container *ngFor="let lob of business_lines">
         <div
@@ -21,7 +21,7 @@
 </div>
 
 <h3 class="subtitle-2 dark-blue-400 w-100 text-center mb-4">
-  Select endorsements
+  {{ 'PORTAL.REQUESTS.ENDORSEMENTS_SELECTOR.TITLE' | translate }}
 </h3>
 
 <ng-container *ngFor="let lob of business_lines">
@@ -73,7 +73,7 @@
                     [class.back-dark-blue-300]="!isSelected(type)"
                     [class.white]="!isSelected(type)"
                     (click)="isSelected(type) ? remove(type) : add(type)">
-                    Add
+                    {{ 'PORTAL.REQUESTS.ENDORSEMENTS_SELECTOR.BTN_ADD' | translate }}
                   </button>
                 </div>
               </div>
@@ -90,6 +90,6 @@
     *ngIf="showNext"
     class="primary-button back-dark-blue-300 white mx-1 my-4"
     (click)="next()">
-    Next
+    {{ 'PORTAL.REQUESTS.ENDORSEMENTS_SELECTOR.BTN_NEXT' | translate }}
   </button>
 </div>

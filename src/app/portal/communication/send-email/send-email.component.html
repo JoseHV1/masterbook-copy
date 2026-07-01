@@ -5,7 +5,7 @@
         <span
           class="material-icons-outlined me-2"
           style="cursor: pointer"
-          matTooltip="Back to last page"
+          [matTooltip]="'PORTAL.COMMON.BACK_TO_LAST_PAGE' | translate"
           (click)="goBack()">
           arrow_back
         </span>
@@ -14,7 +14,7 @@
 
     <div class="col-12 mb-4">
       <div class="text-center">
-        <h3 class="subtitle-1 dark-blue-400">New Message</h3>
+        <h3 class="subtitle-1 dark-blue-400">{{ 'PORTAL.COMMUNICATION.SEND.TITLE' | translate }}</h3>
       </div>
     </div>
 
@@ -22,7 +22,7 @@
       <form (ngSubmit)="onSubmit()" class="form-container">
         <div class="row mb-4">
           <div class="col-12 d-flex flex-column">
-            <label>To:</label>
+            <label>{{ 'PORTAL.COMMUNICATION.SEND.FIELD_TO' | translate }}</label>
             <app-input
               id="to"
               name="to"
@@ -34,7 +34,7 @@
 
         <div class="row mb-4">
           <div class="col-12 d-flex flex-column">
-            <label>Subject:</label>
+            <label>{{ 'PORTAL.COMMUNICATION.SEND.FIELD_SUBJECT' | translate }}</label>
             <app-input
               id="subject"
               name="subject"
@@ -46,7 +46,7 @@
 
         <div class="row mb-4">
           <div class="col-12 d-flex flex-column">
-            <label>Body:</label>
+            <label>{{ 'PORTAL.COMMUNICATION.SEND.FIELD_BODY' | translate }}</label>
             <app-input
               id="body"
               name="body"
@@ -61,7 +61,7 @@
         <div class="mb-4 p-3 border border-dashed border-gray-300 rounded-md">
           <div class="d-flex align-items-center justify-content-between mx-2">
             <label class="text-sm font-medium text-gray-700"
-              >Attach file (max 25mb):</label
+              >{{ 'PORTAL.COMMUNICATION.SEND.ATTACH_FILE' | translate }}</label
             >
             <div class="file-input-wrapper">
               <input
@@ -106,13 +106,13 @@
               class="primary-button big-button back-gray-400 white mx-1"
               [disabled]="loading"
               type="cancel">
-              Cancel
+              {{ 'PORTAL.COMMON.CANCEL' | translate }}
             </button>
             <button
               type="submit"
               [disabled]="loading"
               class="primary-button big-button back-light-blue-500 white mx-1">
-              {{ loading ? 'Sending...' : 'Send' }}
+              {{ (loading ? 'PORTAL.COMMUNICATION.SEND.SENDING' : 'PORTAL.COMMUNICATION.SEND.BTN_SEND') | translate }}
             </button>
           </div>
         </div>

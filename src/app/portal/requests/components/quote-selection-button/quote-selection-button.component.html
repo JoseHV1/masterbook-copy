@@ -13,7 +13,7 @@
         class="selection-side"
         (click)="toggleStatus()"
         style="cursor: pointer">
-        <span>Selected</span>
+        <span>{{ 'SHARED.QUOTE_SELECTION.SELECTED' | translate }}</span>
       </div>
 
       <div
@@ -33,7 +33,7 @@
       mat-menu-item
       (click)="goToPolicy()"
       data-testid="quote-create-policy">
-      Create policy
+      {{ 'SHARED.QUOTE_SELECTION.BTN_CREATE_POLICY' | translate }}
     </button>
   </mat-menu>
 </ng-container>
@@ -48,7 +48,7 @@
       request.status === RequestStatusEnum.QUOTE_SELECTED ||
       request.status === RequestStatusEnum.CLOSED
     ">
-    Choose
+    {{ 'SHARED.QUOTE_SELECTION.BTN_CHOOSE' | translate }}
   </button>
 
   <button
@@ -57,6 +57,6 @@
     (click)="toggleStatus()"
     data-testid="quote-selected-button"
     [disabled]="request.status === RequestStatusEnum.CLOSED">
-    Selected
+    {{ 'SHARED.QUOTE_SELECTION.SELECTED' | translate }}
   </button>
 </ng-template>

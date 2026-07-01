@@ -10,6 +10,7 @@ import { provideNgxMask } from 'ngx-mask';
 import { finalize, take } from 'rxjs';
 import { PopulatedPolicyModel } from 'src/app/shared/interfaces/models/policy.model';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cacellation-modal',
@@ -33,7 +34,8 @@ export class AddEndorsementsModalComponent {
     @Inject(MAT_DIALOG_DATA)
     private _data: { policy: PopulatedPolicyModel; type: PolicyCategoryEnum },
     private _request: RequestsService,
-    private _ui: UiService
+    private _ui: UiService,
+    private _t: TranslateService
   ) {
     this.policy = this._data.policy;
     this.type = this._data.type;
@@ -54,7 +56,7 @@ export class AddEndorsementsModalComponent {
 
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want add endorsements?`,
+        text: this._t.instant('PORTAL.POLICIES.CONFIRM_ADD_ENDORSEMENTS'),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -80,7 +82,7 @@ export class AddEndorsementsModalComponent {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this._ui.showAlertSuccess(
-          'The policy add endorsements request has been created successfully.'
+          this._t.instant('PORTAL.POLICIES.ENDORSEMENTS_SUCCESS')
         );
         this.close(true);
       });

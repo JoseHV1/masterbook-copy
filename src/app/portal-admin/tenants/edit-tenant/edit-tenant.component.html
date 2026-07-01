@@ -1,0 +1,27 @@
+<app-pages-layout>
+  <ng-container content>
+    <div class="d-flex align-items-center mb-1 ms-2" *ngIf="tenant">
+      <span
+        class="material-icons-outlined me-2"
+        style="cursor: pointer"
+        [matTooltip]="'PORTAL.COMMON.BACK' | translate"
+        (click)="cancel()">
+        arrow_back
+      </span>
+    </div>
+
+    <div class="col-12 mb-4" *ngIf="tenant">
+      <div class="text-center">
+        <h1 class="subtitle-1 dark-blue-400">{{ 'PORTAL.TENANTS.EDIT_TITLE' | translate }} — {{ tenant.name }}</h1>
+      </div>
+    </div>
+
+    <div class="px-2 px-lg-5" *ngIf="tenant">
+      <app-tenant-form
+        [tenant]="tenant"
+        (formSubmit)="save($event)"
+        (cancel)="cancel()">
+      </app-tenant-form>
+    </div>
+  </ng-container>
+</app-pages-layout>

@@ -4,7 +4,7 @@
       <span
         class="material-icons-outlined me-2"
         style="cursor: pointer"
-        matTooltip="Back to last page"
+        [matTooltip]="'PORTAL.PORTAL_CLIENT.MY_BROKER.BACK' | translate"
         (click)="goBack()">
         arrow_back
       </span>
@@ -14,23 +14,22 @@
         <img class="text-selection-disable img-logo" [src]="logo" />
       </div>
     </div>
-    <div
-      class="d-flex flex-column align-items-center justify-content-center"
-      *ngIf="broker">
+    <div class="d-flex flex-column align-items-center justify-content-center" *ngIf="broker">
       <h3 class="text-center w-100 mt-3 mb-1 subtitle-1 dark-blue-400">
-        {{ broker.user.first_name }}
-        {{ broker.user.last_name }}
+        {{ broker.user.first_name }} {{ broker.user.last_name }}
       </h3>
       <div class="text-center text-3 gray-500 w-100">
-        Created date on: {{ broker.createdAt | date }}
+        {{ 'PORTAL.PORTAL_CLIENT.MY_BROKER.CREATED_ON' | translate }} {{ broker.createdAt | date }}
       </div>
     </div>
 
-    <h4 class="subtitle-1 dark-blue-400 text-center mt-4 mb-0">Contact</h4>
+    <h4 class="subtitle-1 dark-blue-400 text-center mt-4 mb-0">
+      {{ 'PORTAL.PORTAL_CLIENT.MY_BROKER.CONTACT' | translate }}
+    </h4>
     <div class="row px-4 mb-2 mt-0 px-md-5 my-md-4" *ngIf="broker">
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <label class="col-12 col-md-4 black px-2 py-2">Email</label>
+          <label class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_CLIENT.MY_BROKER.EMAIL' | translate }}</label>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ broker.user.email | notNull }}
           </div>
@@ -38,7 +37,7 @@
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <label class="col-12 col-md-4 black px-2 py-2">Phone Number</label>
+          <label class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_CLIENT.MY_BROKER.PHONE' | translate }}</label>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ broker.user.phone_number | notNull }}
           </div>
@@ -46,7 +45,7 @@
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <label class="col-12 col-md-4 black px-2 py-2">Address Info</label>
+          <label class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_CLIENT.MY_BROKER.ADDRESS_INFO' | translate }}</label>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ broker.user.address_info.address | notNull }}
           </div>
@@ -55,12 +54,12 @@
     </div>
 
     <h3 class="subtitle-1 dark-blue-400 text-center mt-4 mb-0">
-      Agency Information
+      {{ 'PORTAL.PORTAL_CLIENT.MY_BROKER.AGENCY_INFO' | translate }}
     </h3>
     <div class="row px-4 mb-2 mt-0 px-md-5 my-md-4" *ngIf="broker">
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <label class="col-12 col-md-4 black px-2 py-2">Name</label>
+          <label class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_CLIENT.MY_BROKER.NAME' | translate }}</label>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ broker.agency.name | notNull }}
           </div>
@@ -68,7 +67,7 @@
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <label class="col-12 col-md-4 black px-2 py-2">Phone Number</label>
+          <label class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_CLIENT.MY_BROKER.PHONE' | translate }}</label>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box no-wrap-text">
             {{ broker.agency.phone_number | notNull }}
           </div>

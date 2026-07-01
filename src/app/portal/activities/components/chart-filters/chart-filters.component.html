@@ -7,9 +7,8 @@
 
 <mat-menu #filterMenu="matMenu">
   <div (click)="$event.stopPropagation()">
-    <!-- Date Range (single) -->
     <mat-form-field *ngIf="showDateRange" appearance="outline">
-      <mat-label>Date Range</mat-label>
+      <mat-label>{{ 'PORTAL.ACTIVITIES.DATE_RANGE' | translate }}</mat-label>
       <mat-select [(value)]="selectedDateRange">
         <mat-option *ngFor="let range of dateRanges" [value]="range.value">
           {{ range.label }}
@@ -17,9 +16,8 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- Agencies (multi) - ADMIN -->
     <mat-form-field *ngIf="showAgencies" appearance="outline">
-      <mat-label>Agencies</mat-label>
+      <mat-label>{{ 'PORTAL.ACTIVITIES.AGENCIES' | translate }}</mat-label>
       <mat-select [(value)]="selectedAgencies" multiple>
         <mat-option *ngFor="let agency of agencies" [value]="agency.code">
           {{ agency.name }}
@@ -27,9 +25,8 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- Agents (multi) - AGENCY DASHBOARD -->
     <mat-form-field *ngIf="showAgents" appearance="outline">
-      <mat-label>Agents</mat-label>
+      <mat-label>{{ 'PORTAL.ACTIVITIES.AGENTS' | translate }}</mat-label>
       <mat-select [(value)]="selectedAgents" multiple>
         <mat-option *ngFor="let agent of agents" [value]="agent.code">
           {{ agent.name }}
@@ -37,13 +34,10 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- Companies (multi) -->
     <mat-form-field *ngIf="showCompanies" appearance="outline">
-      <mat-label>Insurance Companies</mat-label>
+      <mat-label>{{ 'PORTAL.ACTIVITIES.INSURANCE_COMPANIES' | translate }}</mat-label>
       <mat-select [(value)]="selectedCompanies" multiple>
-        <mat-option
-          *ngFor="let company of insuranceCompanies"
-          [value]="company.code">
+        <mat-option *ngFor="let company of insuranceCompanies" [value]="company.code">
           {{ company.name }}
         </mat-option>
       </mat-select>
@@ -51,9 +45,11 @@
 
     <div class="filter-actions">
       <button mat-button color="primary" (click)="applyChartFilters()">
-        Apply
+        {{ 'PORTAL.ACTIVITIES.APPLY' | translate }}
       </button>
-      <button mat-button color="warn" (click)="resetFilters()">Reset</button>
+      <button mat-button color="warn" (click)="resetFilters()">
+        {{ 'PORTAL.ACTIVITIES.RESET' | translate }}
+      </button>
     </div>
   </div>
 </mat-menu>

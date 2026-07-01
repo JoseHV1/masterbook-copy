@@ -2,13 +2,13 @@
   <!-- Botón Modal Ticket -->
   <a class="action-button survey" (click)="openModalTicket()">
     <img src="/assets/images/portal/image_ticket.png" alt="Ticket" />
-    <span class="tooltip-text survey">Create support ticket</span>
+    <span class="tooltip-text survey">{{ 'SHARED.FLOATING_ACTIONS.TOOLTIP_TICKET' | translate }}</span>
   </a>
 
   <!-- Botón Encuesta -->
-  <a [href]="surveyUrl" target="_blank" class="action-button survey">
+  <a *ngIf="surveyUrl" [href]="surveyUrl" target="_blank" class="action-button survey">
     <img src="/assets/images/logo_min.png" alt="Survey" />
-    <span class="tooltip-text survey">Respond to Survey</span>
+    <span class="tooltip-text survey">{{ 'SHARED.FLOATING_ACTIONS.TOOLTIP_SURVEY' | translate }}</span>
   </a>
 
   <!-- Botón WhatsApp -->
@@ -18,6 +18,6 @@
     target="_blank"
     class="action-button whatsapp">
     <img src="/assets/images/whatsapp.png" alt="WhatsApp" />
-    <span class="tooltip-text whatsapp">Contact my Broker</span>
+    <span class="tooltip-text whatsapp">{{ 'SHARED.FLOATING_ACTIONS.TOOLTIP_WHATSAPP' | translate }}</span>
   </a>
 </div>

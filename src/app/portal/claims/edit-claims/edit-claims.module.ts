@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { EditClaimsComponent } from './edit-claims.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [EditClaimsComponent],
   imports: [
+    TranslateModule,
     CommonModule,
     RouterModule.forChild(routes),
     PagesLayoutModule,

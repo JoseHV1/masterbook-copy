@@ -61,7 +61,7 @@
 
       <div
         class="form-group mb-4 d-flex justify-content-center"
-        *ngIf="!isLocal">
+        *ngIf="recaptchaSiteKey">
         <re-captcha
           #captchaElem
           [siteKey]="recaptchaSiteKey"

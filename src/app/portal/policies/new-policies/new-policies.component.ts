@@ -7,7 +7,7 @@ import { PopulatedAccount } from '@app/shared/interfaces/models/accounts.model';
 import { PopulatedPolicyTypeModel } from '@app/shared/interfaces/models/policy-type.model';
 import { InsurerConfigService } from '@app/shared/services/insurer-config.service';
 import { IntegrationsService } from '@app/shared/services/integration.service';
-import { finalize } from 'rxjs';
+import { finalize, take } from 'rxjs';
 import { brokersAdminDataset } from 'src/app/shared/datatsets/roles.datasets';
 import { RolesEnum } from 'src/app/shared/enums/roles.enum';
 import { CreatePolicyRequest } from 'src/app/shared/interfaces/requests/policies/create-policy.request';
@@ -74,13 +74,16 @@ export class NewPoliciesComponent implements OnInit {
         });
     }
 
-    this._insurers.getInsurersWithConfig().subscribe(resp => {
-      if (resp.length === 0) {
-        if (this.isAdmin || role === RolesEnum.INDEPENDANT_BROKER)
-          this.router.navigateByUrl(`portal/insurer?not_insurers=true`);
-        if (!this.isAdmin && role === RolesEnum.INDEPENDANT_BROKER)
-          this.router.navigateByUrl(`portal/dashboard?not_insurers=true`);
-      }
+    this._insurers.getInsurersWithConfig().pipe(take(1)).subscribe({
+      next: resp => {
+        if (resp.length === 0) {
+          if (this.isAdmin || role === RolesEnum.INDEPENDANT_BROKER)
+            this.router.navigateByUrl(`portal/insurer?not_insurers=true`);
+          if (!this.isAdmin && role === RolesEnum.INDEPENDANT_BROKER)
+            this.router.navigateByUrl(`portal/dashboard?not_insurers=true`);
+        }
+      },
+      error: () => {},
     });
   }
 

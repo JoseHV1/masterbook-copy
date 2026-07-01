@@ -2,17 +2,17 @@
   <ng-container content>
     <div class="d-flex justify-content-between align-items-center mb-1 ms-2">
       <span class="material-icons-outlined me-2" style="cursor: pointer"
-        >arrow_back</span
+        (click)="goBack()">arrow_back</span
       >
     </div>
     <div
       class="d-flex flex-column-reverse flex-md-row gap-1 py-4"
       *ngIf="data.records">
       <mat-action-list class="col-md-4 px-1 how-to-list">
-        <p>How to:</p>
+        <p>{{ 'PORTAL.HOW_TO.GRID.TITLE' | translate }}</p>
         <app-input
           [(ngModel)]="query"
-          placeholder="How to ..."
+          [placeholder]="'PORTAL.HOW_TO.GRID.PLACEHOLDER_SEARCH' | translate"
           (ngModelChange)="filterHowTo()"></app-input>
         <button
           mat-list-item
@@ -43,11 +43,10 @@
           class="col-12 col-md-4"
           alt="" />
         <p class="subtitle-1 dark-blue-500">
-          Oops! We couldn't find any videos here.
+          {{ 'PORTAL.HOW_TO.GRID.EMPTY_TITLE' | translate }}
         </p>
         <p class="text-3 black">
-          We're preparing new tutorials to help you master this tool. Come back
-          soon!
+          {{ 'PORTAL.HOW_TO.GRID.EMPTY_TEXT' | translate }}
         </p>
       </div>
     </ng-template>

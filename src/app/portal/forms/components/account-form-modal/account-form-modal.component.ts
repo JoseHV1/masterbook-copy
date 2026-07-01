@@ -13,6 +13,7 @@ import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filter
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormService } from '@app/shared/services/form.service';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface SelectedAccount {
   email: string;
@@ -47,7 +48,8 @@ export class AccountFormModalComponent
     private _dialog: MatDialogRef<AccountFormModalComponent>,
     private _ui: UiService,
     private _forms: FormService,
-    private _accounts: AccountsService
+    private _accounts: AccountsService,
+    private _t: TranslateService
   ) {
     super();
     this.filterConfig = this._accounts.getAccountsListFilters();
@@ -122,15 +124,17 @@ export class AccountFormModalComponent
         next: resp => {
           this._openSuccessModal(resp);
         },
-        error: () => {},
+        error: () => {
+        this._ui.showAlertError(this._t.instant('PORTAL.FORMS.EMAIL_SEND_ERROR'));
+      },
       });
   }
 
   private _openSuccessModal(resp: { message: string; count: number }) {
     this._ui
       .showInformationModal({
-        text: `${resp.message}. Total emails sent: ${resp.count}`,
-        title: 'SUCCESS!',
+        text: this._t.instant('PORTAL.FORMS.EMAIL_SENT_TEXT', { message: resp.message, count: resp.count }),
+        title: this._t.instant('PORTAL.FORMS.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
       })
       .subscribe(() => {

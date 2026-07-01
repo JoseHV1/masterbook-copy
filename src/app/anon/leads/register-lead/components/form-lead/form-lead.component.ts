@@ -13,6 +13,7 @@ import { LeadsService } from 'src/app/portal/leads/services/leads.service';
 import { CreateLeadRequest } from 'src/app/portal/leads/interfaces/requests/create-lead.request';
 import { LeadTokenInfoModel } from 'src/app/portal/leads/interfaces/lead-token-info.model';
 import { AreaOfInterestEnum } from 'src/app/portal/leads/enums/area-of-interest.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 const OTHER_CAPTURE_MEDIUM = 'OTHER';
 
@@ -48,6 +49,7 @@ export class FormLeadComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _ui: UiService,
     private _normalizeText: NormalizeTextPipe,
+    private _t: TranslateService,
   ) {
     this._initForm();
   }
@@ -63,7 +65,7 @@ export class FormLeadComponent implements OnInit, OnDestroy {
     if (!this.token) {
       this.invalidToken = true;
       this.loadingTokenInfo = false;
-      this._ui.showAlertError('The token is not valid. Please use a valid link to register.');
+      this._ui.showAlertError(this._t.instant('ANON.LEADS.INVALID_TOKEN'));
       return;
     }
 
@@ -89,7 +91,7 @@ export class FormLeadComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.invalidToken = true;
-          this._ui.showAlertError('The token is not valid. Please use a valid link to register.');
+          this._ui.showAlertError(this._t.instant('ANON.LEADS.INVALID_TOKEN'));
         },
       });
   }
@@ -175,7 +177,7 @@ export class FormLeadComponent implements OnInit, OnDestroy {
   openConfirmationModal() {
     this._ui
       .showConfirmationModal({
-        text: 'Are you sure you want to submit your information as a lead?',
+        text: this._t.instant('ANON.LEADS.CONFIRM_SUBMIT_LEAD'),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -214,7 +216,7 @@ export class FormLeadComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this._ui.showAlertError(
-            'Your lead could not be created. Please try again later.'
+            this._t.instant('ANON.LEADS.CREATE_ERROR')
           );
         },
       });
@@ -249,8 +251,8 @@ export class FormLeadComponent implements OnInit, OnDestroy {
   private _openSuccessModal() {
     this._ui
       .showInformationModal({
-        text: 'Your lead has been saved successfully. An agent will contact you soon.',
-        title: 'SUCCESS!',
+        text: this._t.instant('ANON.LEADS.SUCCESS_TEXT'),
+        title: this._t.instant('ANON.LEADS.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
       })
       .subscribe();

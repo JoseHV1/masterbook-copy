@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, map, tap } from 'rxjs';
+import { Observable, of, map, take, tap } from 'rxjs';
 import { HttpResponseModel } from '../models/response/http.response.model';
 import { environment } from 'src/environments/environment';
 import { InsuranceCompanyModel } from '../models/DTO/insurance-company/insurance-company.model';
@@ -256,13 +256,16 @@ export class PoliciesService {
 
     let policyOptions = [{ code: 'expired', name: 'Policies Expired' }];
 
-    this._auth.refreshAuth().subscribe(authUser => {
-      if (authUser.days_expiring_policies_notifications) {
-        policyOptions.push({
-          code: 'nearing_expired',
-          name: 'Policies Nearing Expired',
-        });
-      }
+    this._auth.refreshAuth().pipe(take(1)).subscribe({
+      next: authUser => {
+        if (authUser.days_expiring_policies_notifications) {
+          policyOptions.push({
+            code: 'nearing_expired',
+            name: 'Policies Nearing Expired',
+          });
+        }
+      },
+      error: () => {},
     });
 
     filters.push({

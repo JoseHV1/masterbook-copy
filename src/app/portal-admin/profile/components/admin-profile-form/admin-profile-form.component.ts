@@ -10,6 +10,7 @@ import { PopulatedUserModel } from 'src/app/shared/interfaces/models/user.model'
 import { ModalChangePasswordComponent } from 'src/app/portal/profile/components/modal-change-password/modal-change-password.component';
 import { EditProfileRequest } from 'src/app/shared/interfaces/requests/profile/edit-profile.request';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-profile-form',
@@ -33,6 +34,7 @@ export class AdminProfileFormComponent implements OnInit {
     private _ui: UiService,
     private _uploadFile: UploadFileService,
     private _dialog: MatDialog,
+    private _t: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +62,7 @@ export class AdminProfileFormComponent implements OnInit {
   copyUrl(network: string): void {
     const url = `${this.frontBaseUrl}/leads/agency/${this.leadsToken}/${network}`;
     navigator.clipboard.writeText(url).then(() => {
-      this._ui.showAlertSuccess('Link copied to clipboard');
+      this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.PROFILE.LINK_COPIED'));
     });
   }
 
@@ -75,7 +77,7 @@ export class AdminProfileFormComponent implements OnInit {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this._auth.refreshAuth();
-        this._ui.showAlertSuccess('Profile updated successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.PROFILE.UPDATED'));
       });
   }
 }

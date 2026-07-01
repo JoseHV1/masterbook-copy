@@ -1,155 +1,85 @@
 <form [formGroup]="form" data-testid="account-form">
   <div class="row mb-4">
     <div class="col-12 d-flex flex-column">
-      <label>Account name*</label>
-      <app-input
-        [dataTestId]="'account-name'"
-        placeholder="Enter account name"
-        type="text"
-        formControlName="account_name"></app-input>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_ACCOUNT_NAME' | translate }}</label>
+      <app-input [dataTestId]="'account-name'" [placeholder]="'PORTAL.ACCOUNTS.FORM_ACCOUNT_NAME' | translate" type="text" formControlName="account_name"></app-input>
     </div>
   </div>
 
   <div class="row mb-4">
     <div class="col-12 col-md-4 mb-4 mb-md-0">
-      <label>First name*</label>
-      <app-input
-        [dataTestId]="'account-first-name'"
-        placeholder="Enter First Name"
-        type="text"
-        formControlName="first_name"></app-input>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_FIRST_NAME' | translate }}</label>
+      <app-input [dataTestId]="'account-first-name'" [placeholder]="'PORTAL.ACCOUNTS.FIRST_NAME' | translate" type="text" formControlName="first_name"></app-input>
     </div>
 
     <div class="col-12 col-md-4 mb-4 mb-md-0">
-      <label>Last name*</label>
-      <app-input
-        [dataTestId]="'account-last-name'"
-        placeholder="Enter Last Name"
-        type="text"
-        formControlName="last_name"></app-input>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_LAST_NAME' | translate }}</label>
+      <app-input [dataTestId]="'account-last-name'" [placeholder]="'PORTAL.ACCOUNTS.LAST_NAME' | translate" type="text" formControlName="last_name"></app-input>
     </div>
 
     <div class="col-12 col-md-4 mb-4 mb-md-0">
-      <label>SSN/EIN*</label>
-      <app-input
-        [dataTestId]="'account-ssn-last4'"
-        placeholder="Enter last 4 number SSN/EIN"
-        type="text"
-        [inputMask]="'9999'"
-        formControlName="ssn"></app-input>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_SSN' | translate }}</label>
+      <app-input [dataTestId]="'account-ssn-last4'" [placeholder]="'PORTAL.ACCOUNTS.PLACEHOLDER_SSN' | translate" type="text" [inputMask]="'9999'" formControlName="ssn"></app-input>
     </div>
 
     <div class="col-12 col-md-4 mb-4 mb-md-0">
-      <label>Email*</label>
-      <app-input
-        [dataTestId]="'account-email'"
-        placeholder="Enter Email Address"
-        type="email"
-        formControlName="email"></app-input>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_EMAIL' | translate }}</label>
+      <app-input [dataTestId]="'account-email'" [placeholder]="'PORTAL.ACCOUNTS.EMAIL' | translate" type="email" formControlName="email"></app-input>
     </div>
 
     <div class="col-12 col-md-4 mb-4 mb-md-0" *ngIf="!data">
-      <label>Confirm email*</label>
-      <app-input
-        [dataTestId]="'account-email-confirm'"
-        placeholder="Confirm Email Address"
-        type="email"
-        formControlName="email_confirmation"></app-input>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_CONFIRM_EMAIL' | translate }}</label>
+      <app-input [dataTestId]="'account-email-confirm'" [placeholder]="'PORTAL.ACCOUNTS.FORM_CONFIRM_EMAIL' | translate" type="email" formControlName="email_confirmation"></app-input>
     </div>
 
     <div class="col-12 col-md-4 mb-4 mb-md-0" *ngIf="data">
-      <label>Status*</label>
-      <app-dropdown-field
-        data-testid="account-status"
-        [placeholder]="'Select a status'"
-        formControlName="status"
-        [options]="dropDownStatus"></app-dropdown-field>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_STATUS' | translate }}</label>
+      <app-dropdown-field data-testid="account-status" [placeholder]="'PORTAL.ACCOUNTS.FORM_STATUS' | translate" formControlName="status" [options]="dropDownStatus"></app-dropdown-field>
     </div>
 
     <div class="col-12 col-md-2 mb-4 mb-md-0">
-      <label>Phone number*</label>
-      <app-input
-        [dataTestId]="'account-phone'"
-        placeholder="(XXX) XXX-XXXX"
-        type="tel"
-        [inputMask]="'(000) 000-0000'"
-        formControlName="phone_number"></app-input>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_PHONE' | translate }}</label>
+      <app-input [dataTestId]="'account-phone'" placeholder="(XXX) XXX-XXXX" type="tel" [inputMask]="'(000) 000-0000'" formControlName="phone_number"></app-input>
     </div>
 
     <div class="col-12 col-md-2 mb-4 mb-md-0">
-      <label>Extension</label>
-      <app-input
-        [dataTestId]="'account-ext'"
-        placeholder="XXXX"
-        type="tel"
-        [inputMask]="'9999'"
-        formControlName="phone_extension"></app-input>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_EXTENSION' | translate }}</label>
+      <app-input [dataTestId]="'account-ext'" placeholder="XXXX" type="tel" [inputMask]="'9999'" formControlName="phone_extension"></app-input>
     </div>
 
     <div class="col-8 mb-4 mb-md-0">
-      <label>Address*</label>
-      <app-address-input
-        [dataTestId]="'account-address-input'"
-        placeholder="Enter address"
-        formControlName="address"></app-address-input>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_ADDRESS' | translate }}</label>
+      <app-address-input [dataTestId]="'account-address-input'" [placeholder]="'PORTAL.ACCOUNTS.ADDRESS' | translate" formControlName="address"></app-address-input>
     </div>
 
     <div class="col-4 mb-4 mb-md-0">
-      <label>Zip code*</label>
-      <app-input
-        [dataTestId]="'account-zip'"
-        placeholder="XXXXX"
-        type="tel"
-        [inputMask]="'99999'"
-        formControlName="zipcode" />
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_ZIP' | translate }}</label>
+      <app-input [dataTestId]="'account-zip'" placeholder="XXXXX" type="tel" [inputMask]="'99999'" formControlName="zipcode" />
     </div>
 
-    <div
-      [ngClass]="{ 'col-8': showAgentSelector, 'col-12': !showAgentSelector }"
-      class="mb-4 mb-md-0">
-      <label>Additional address information</label>
-      <app-input
-        [dataTestId]="'account-address2'"
-        placeholder="Address additional information"
-        type="text"
-        formControlName="additional_address_information"></app-input>
+    <div [ngClass]="{ 'col-8': showAgentSelector, 'col-12': !showAgentSelector }" class="mb-4 mb-md-0">
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_ADDITIONAL_ADDRESS' | translate }}</label>
+      <app-input [dataTestId]="'account-address2'" [placeholder]="'PORTAL.ACCOUNTS.ADDRESS_EXTRA' | translate" type="text" formControlName="additional_address_information"></app-input>
     </div>
 
     <div class="col-4 mb-4 mb-md-0" *ngIf="showAgentSelector">
-      <label>Agent*</label>
-      <app-agent-selector
-        [dataTestId]="'account-agent-trigger'"
-        [placeholder]="'Select an agent'"
-        formControlName="broker_id"></app-agent-selector>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_AGENT' | translate }}</label>
+      <app-agent-selector [dataTestId]="'account-agent-trigger'" [placeholder]="'PORTAL.ACCOUNTS.FORM_AGENT' | translate" formControlName="broker_id"></app-agent-selector>
     </div>
 
     <div class="col-12 col-md-4 mb-4 mb-md-0">
-      <label>Gender*</label>
-      <app-dropdown-field
-        [dataTestId]="'account-gender-trigger'"
-        data-testid="account-gender"
-        [placeholder]="'Select a gender'"
-        formControlName="gender"
-        [options]="dropDownGender"></app-dropdown-field>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_GENDER' | translate }}</label>
+      <app-dropdown-field [dataTestId]="'account-gender-trigger'" data-testid="account-gender" [placeholder]="'PORTAL.ACCOUNTS.GENDER' | translate" formControlName="gender" [options]="dropDownGender"></app-dropdown-field>
     </div>
 
     <div class="col-12 col-md-4 mb-4 mb-md-0">
-      <label>Date of birth*</label>
-      <app-date-field
-        [dataTestId]="'account-dob-input'"
-        [placeholder]="'Select a date'"
-        formControlName="date_of_birth"
-        [max]="today">
-      </app-date-field>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_DOB' | translate }}</label>
+      <app-date-field [dataTestId]="'account-dob-input'" [placeholder]="'PORTAL.ACCOUNTS.DOB' | translate" formControlName="date_of_birth" [max]="today"></app-date-field>
     </div>
 
     <div class="col-12 col-md-4 mb-4 mb-md-0">
-      <label>Marital status*</label>
-      <app-dropdown-field
-        [dataTestId]="'account-marital-status-trigger'"
-        [placeholder]="'Select marital status'"
-        formControlName="marital_status"
-        [options]="dropDownMaritalStatus"></app-dropdown-field>
+      <label>{{ 'PORTAL.ACCOUNTS.FORM_MARITAL' | translate }}</label>
+      <app-dropdown-field [dataTestId]="'account-marital-status-trigger'" [placeholder]="'PORTAL.ACCOUNTS.MARITAL' | translate" formControlName="marital_status" [options]="dropDownMaritalStatus"></app-dropdown-field>
     </div>
   </div>
 
@@ -158,15 +88,14 @@
       data-testid="account-cancel"
       class="primary-button big-button back-gray-400 white mx-1"
       (click)="cancelForm()">
-      Cancel
+      {{ 'PORTAL.COMMON.CANCEL' | translate }}
     </button>
-
     <button
       data-testid="account-save"
       class="primary-button big-button back-light-blue-400 white mx-1"
       [disabled]="form.invalid"
       (click)="openConfirmationModal()">
-      {{ data ? 'Edit' : 'Save' }}
+      {{ data ? ('PORTAL.COMMON.EDIT' | translate) : ('PORTAL.COMMON.SAVE_CHANGES' | translate) }}
     </button>
   </div>
 </form>

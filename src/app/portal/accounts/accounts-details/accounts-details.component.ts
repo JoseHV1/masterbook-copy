@@ -30,6 +30,7 @@ import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filter
 import { PageEvent } from '@angular/material/paginator';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
 import { IntegrationsService } from '@app/shared/services/integration.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-accounts-details',
@@ -92,6 +93,7 @@ export class AccountsDetailsComponent implements OnInit {
     private _auth: AuthService,
     private _uploadFile: UploadFileService,
     private _integrations: IntegrationsService,
+    private _t: TranslateService,
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -131,7 +133,7 @@ export class AccountsDetailsComponent implements OnInit {
   ngOnInit(): void {
     const googleAuth = this.activateRoute.snapshot.queryParamMap.get('google_auth');
     if (googleAuth === 'success') {
-      this._ui.showAlertSuccess('Google account connected successfully. You can now send emails.');
+      this._ui.showAlertSuccess(this._t.instant('PORTAL.ACCOUNTS.GOOGLE_CONNECTED'));
       this._router.navigate([], {
         queryParams: { google_auth: null },
         queryParamsHandling: 'merge',
@@ -158,13 +160,11 @@ export class AccountsDetailsComponent implements OnInit {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe({
         next: () => {
-          this._ui.showAlertSuccess(
-            "The account's status has been successfully updated"
-          );
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.ACCOUNTS.STATUS_UPDATED'));
           this.account.status = status;
         },
         error: () => {
-          this._ui.showAlertError('Failed to update account status');
+          this._ui.showAlertError(this._t.instant('PORTAL.ACCOUNTS.STATUS_UPDATE_FAILED'));
           event.source.checked =
             this.account.status === AccountStatusEnum.ACTIVE;
         },
@@ -176,8 +176,9 @@ export class AccountsDetailsComponent implements OnInit {
       tap(resp => {
         this.account = resp;
         if (resp.user?.photo_url) {
-          this._uploadFile.getUrlFile(resp.user?.photo_url).subscribe(url => {
-            this.accountProfileImg = url ?? this.accountProfileImgDefault;
+          this._uploadFile.getUrlFile(resp.user?.photo_url).pipe(take(1)).subscribe({
+            next: url => { this.accountProfileImg = url ?? this.accountProfileImgDefault; },
+            error: () => { this.accountProfileImg = this.accountProfileImgDefault; },
           });
         }
       })
@@ -298,16 +299,14 @@ export class AccountsDetailsComponent implements OnInit {
       .resendInvitationEmail(account._id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess(
-          'The invitation email has been resent successfully'
-        );
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.ACCOUNTS.EMAIL_RESENT'));
       });
   }
 
   deleteAccount(_id: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this account?`,
+        text: this._t.instant('PORTAL.ACCOUNTS.CONFIRM_DELETE'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -324,7 +323,7 @@ export class AccountsDetailsComponent implements OnInit {
       .deleteAccount(_id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('Account deleted successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.ACCOUNTS.DELETED'));
         this._router.navigateByUrl('portal/accounts');
       });
   }

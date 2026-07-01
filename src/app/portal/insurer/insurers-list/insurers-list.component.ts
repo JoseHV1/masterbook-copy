@@ -9,6 +9,7 @@ import { PaginatedResponse } from 'src/app/shared/interfaces/models/paginated-re
 import { InsurerConfigService } from 'src/app/shared/services/insurer-config.service';
 import { ActivatedRoute } from '@angular/router';
 import { UiModalTypeEnum } from '@app/shared/enums/ui-modal-type.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-insurers-list',
@@ -31,7 +32,8 @@ export class InsurersListComponent
   constructor(
     private activateRoute: ActivatedRoute,
     private _insurer: InsurerConfigService,
-    private _ui: UiService
+    private _ui: UiService,
+    private _t: TranslateService
   ) {
     super();
     this.filterConfig = this._insurer.getInsurerListFilters();
@@ -45,8 +47,8 @@ export class InsurersListComponent
         if (notInsurers === 'true') {
           this._ui
             .showInformationModal({
-              text: 'Please set up the commission rates\nbefore submitting a request.',
-              title: 'ALERT!',
+              text: this._t.instant('PORTAL.INSURER.COMMISSION_RATES_TEXT'),
+              title: this._t.instant('PORTAL.INSURER.COMMISSION_RATES_TITLE'),
               type: UiModalTypeEnum.WARNING,
             })
             .subscribe();

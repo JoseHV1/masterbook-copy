@@ -23,6 +23,7 @@ import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { IntegrationsService } from '@app/shared/services/integration.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-accounts-details',
@@ -56,6 +57,7 @@ export class UserDetailsComponent implements OnInit {
     private _auth: AuthService,
     private _uploadFile: UploadFileService,
     private _integrations: IntegrationsService,
+    private _t: TranslateService,
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -98,8 +100,8 @@ export class UserDetailsComponent implements OnInit {
 
     const message =
       status === BrokerStatusEnum.ACTIVE
-        ? `an additional recharge`
-        : `a reduction`;
+        ? this._t.instant('PORTAL.USERS.STATUS_ACTION_RECHARGE')
+        : this._t.instant('PORTAL.USERS.STATUS_ACTION_REDUCTION');
     let userCost = 0;
     switch (user.user?.role) {
       case RolesEnum.AGENCY_ADMINISTRATOR:
@@ -113,7 +115,7 @@ export class UserDetailsComponent implements OnInit {
     }
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to update this user? This action will generate ${message} of $${userCost} per month`,
+        text: this._t.instant('PORTAL.USERS.CONFIRM_UPDATE_STATUS', { message, cost: userCost }),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -140,13 +142,11 @@ export class UserDetailsComponent implements OnInit {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe({
         next: () => {
-          this._ui.showAlertSuccess(
-            "The user's status has been successfully updated"
-          );
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.USERS.STATUS_UPDATED'));
           user.status = status;
         },
         error: () => {
-          this._ui.showAlertError('Failed to update user status');
+          this._ui.showAlertError(this._t.instant('PORTAL.USERS.STATUS_UPDATE_FAILED'));
           event.source.checked = user.status === BrokerStatusEnum.ACTIVE;
         },
       });
@@ -207,7 +207,7 @@ export class UserDetailsComponent implements OnInit {
   deleteUser(_id: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this user?`,
+        text: this._t.instant('PORTAL.USERS.CONFIRM_DELETE'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -224,7 +224,7 @@ export class UserDetailsComponent implements OnInit {
       .deleteUser(_id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('User deleted successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.USERS.DELETED'));
         this._router.navigateByUrl('portal/users');
       });
   }
@@ -235,9 +235,7 @@ export class UserDetailsComponent implements OnInit {
       .resendInvitationEmail(user._id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess(
-          'The invitation email has been resent successfully'
-        );
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.USERS.EMAIL_RESENT'));
       });
   }
 
@@ -250,7 +248,7 @@ export class UserDetailsComponent implements OnInit {
     const googleAuth = this.activateRoute.snapshot.queryParamMap.get('google_auth');
     if (googleAuth === 'success') {
       this.googleConnected = true;
-      this._ui.showAlertSuccess('Google account connected successfully. You can now send emails.');
+      this._ui.showAlertSuccess(this._t.instant('PORTAL.USERS.GOOGLE_CONNECTED'));
       this._router.navigate([], {
         queryParams: { google_auth: null },
         queryParamsHandling: 'merge',

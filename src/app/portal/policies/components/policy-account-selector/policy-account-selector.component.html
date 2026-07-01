@@ -1,7 +1,7 @@
 <div
   class="d-flex flex-column py-4 w-100 align-items-center justify-content-center">
   <div class="col-12 col-md-6">
-    <p class="text-center">Client</p>
+    <p class="text-center">{{ 'PORTAL.POLICIES.MODALS.LABEL_CLIENT' | translate }}</p>
     <app-account-selector
       (selectionChange)="handleAccountSelection($event)"
       [extendedInfo]="true"
@@ -14,7 +14,7 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <span class="subtitle-2 dark-blue-400">
-              Selected client information
+              {{ 'PORTAL.POLICIES.MODALS.SELECTED_CLIENT_INFO' | translate }}
             </span>
           </mat-panel-title>
         </mat-expansion-panel-header>
@@ -29,7 +29,7 @@
     class="primary-button back-dark-blue-300 white mx-1 my-4"
     [disabled]="!selectedAccount"
     (click)="sendSelectedAccount()">
-    Next
+    {{ 'PORTAL.POLICIES.MODALS.BTN_NEXT' | translate }}
   </button>
 </div>
 
@@ -37,7 +37,7 @@
   <div class="row">
     <div class="col col-12 col-md-12 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">Account name</div>
+        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.ACCOUNT_NAME' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
           {{ selectedAccount?.account_name | notNull }}
         </div>
@@ -46,7 +46,7 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">Full name</div>
+        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.FULL_NAME' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
           {{
             (selectedAccount?.user?.first_name | notNull) +
@@ -59,7 +59,7 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">Date of birth</div>
+        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.DOB' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
           {{ selectedAccount?.user?.date_of_birth | date | notNull }}
         </div>
@@ -68,7 +68,7 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">Gender</div>
+        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.GENDER' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
           {{ selectedAccount?.user?.gender | notNull | enum }}
         </div>
@@ -77,7 +77,7 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">Marital status</div>
+        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.MARITAL' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
           {{ selectedAccount?.user?.marital_status | notNull | enum }}
         </div>
@@ -86,7 +86,7 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">Country</div>
+        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.COUNTRY' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
           {{ selectedAccount?.user?.address_info?.country | notNull }}
         </div>
@@ -95,7 +95,7 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">Full address</div>
+        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.ADDRESS' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
           {{ selectedAccount?.user?.address_info?.address | notNull }}
         </div>
@@ -104,7 +104,7 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">Zip code</div>
+        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.ZIP' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
           {{ selectedAccount?.user?.address_info?.zipcode | notNull }}
         </div>
@@ -113,7 +113,7 @@
 
     <div class="col col-12 col-md-8 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">Email</div>
+        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.EMAIL' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
           {{ selectedAccount?.user?.email | notNull }}
         </div>

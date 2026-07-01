@@ -1,13 +1,13 @@
 <div class="table-responsive" *ngIf="data">
   <table mat-table [dataSource]="data" style="width: auto; overflow-x: scroll">
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_ID' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         <span
           *ngIf="element.serial; else notId"
           (click)="_url.navigateTo(urlDetails, element.serial)"
           class="light-blue-700 request-id"
-          matTooltip="Go to request details"
+          [matTooltip]="'PORTAL.REQUESTS.TABLE_ID' | translate"
           style="cursor: pointer"
           data-testid="request-serial"
           matTooltipPosition="above">
@@ -18,80 +18,57 @@
     </ng-container>
 
     <ng-container matColumnDef="account_name">
-      <th mat-header-cell *matHeaderCellDef>Account</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.client?.account_name | notNull }}
-      </td>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_ACCOUNT' | translate }}</th>
+      <td mat-cell *matCellDef="let element">{{ element.client?.account_name | notNull }}</td>
     </ng-container>
 
     <ng-container matColumnDef="policy_type">
-      <th mat-header-cell *matHeaderCellDef>Policy type</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.policy_type?.name | notNull }}
-      </td>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_POLICY_TYPE' | translate }}</th>
+      <td mat-cell *matCellDef="let element">{{ element.policy_type?.name | notNull }}</td>
     </ng-container>
 
     <ng-container matColumnDef="insure_object">
-      <th mat-header-cell *matHeaderCellDef>Object to insure</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.insure_object | notNull }}
-      </td>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_OBJECT' | translate }}</th>
+      <td mat-cell *matCellDef="let element">{{ element.insure_object | notNull }}</td>
     </ng-container>
 
     <ng-container matColumnDef="broker_fullname">
-      <th mat-header-cell *matHeaderCellDef>Agent</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.client?.broker?.full_name | notNull }}
-      </td>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_AGENT' | translate }}</th>
+      <td mat-cell *matCellDef="let element">{{ element.client?.broker?.full_name | notNull }}</td>
     </ng-container>
 
     <ng-container matColumnDef="coverage">
-      <th mat-header-cell *matHeaderCellDef>Coverage</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.coverage | currency | notNull }}
-      </td>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_COVERAGE' | translate }}</th>
+      <td mat-cell *matCellDef="let element">{{ element.coverage | currency | notNull }}</td>
     </ng-container>
 
     <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td
-        mat-cell
-        *matCellDef="let element"
-        id="status-request-table"
-        data-testid="request-status">
-        <span [class]="element.status + ' fw-semibold'">
-          {{ element.status | enum | notNull }}
-        </span>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_STATUS' | translate }}</th>
+      <td mat-cell *matCellDef="let element" id="status-request-table" data-testid="request-status">
+        <span [class]="element.status + ' fw-semibold'">{{ element.status | enum | notNull }}</span>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef>Policy cycle</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_CYCLE' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        <span [class]="element.category + ' fw-semibold'">
-          {{ element.category | enum | notNull }}
-        </span>
+        <span [class]="element.category + ' fw-semibold'">{{ element.category | enum | notNull }}</span>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="created_at">
-      <th mat-header-cell *matHeaderCellDef>Created on</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.createdAt | date }}
-      </td>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_CREATED' | translate }}</th>
+      <td mat-cell *matCellDef="let element">{{ element.createdAt | date }}</td>
     </ng-container>
 
     <ng-container matColumnDef="document_url">
-      <th mat-header-cell *matHeaderCellDef>Application</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_APPLICATION' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        <a
-          [href]="element.request_document_url"
-          target="_blank"
-          class="attach-link">
+        <a [href]="element.request_document_url" target="_blank" class="attach-link">
           <span
             class="material-icons-outlined me-2"
             style="cursor: pointer"
-            matTooltip="download request document"
+            [matTooltip]="'PORTAL.REQUESTS.TABLE_DOWNLOAD' | translate"
             matTooltipPosition="above">
             attachment
           </span>
@@ -100,57 +77,39 @@
     </ng-container>
 
     <ng-container matColumnDef="actions" stickyEnd>
-      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_ACTIONS' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         <span>
           <span
             class="material-icons-outlined me-2"
             style="cursor: pointer"
-            [ngClass]="{
-              'gray-500':
-                element.status === 'CLOSED' || element.status === 'REJECTED'
-            }"
-            [matTooltip]="
-              element.status === 'CLOSED' || element.status === 'REJECTED'
-                ? 'Reject this request is not allowed'
-                : 'Reject this request'
-            "
-            matTooltip=""
-            (click)="
-              element.status === 'CLOSED' || element.status === 'REJECTED'
-                ? null
-                : openRejectRequestModal(element)
-            "
+            [ngClass]="{ 'gray-500': element.status === 'CLOSED' || element.status === 'REJECTED' }"
+            [matTooltip]="element.status === 'CLOSED' || element.status === 'REJECTED'
+              ? ('PORTAL.REQUESTS.TOOLTIP_REJECT_NA' | translate)
+              : ('PORTAL.REQUESTS.TOOLTIP_REJECT' | translate)"
+            (click)="element.status === 'CLOSED' || element.status === 'REJECTED' ? null : openRejectRequestModal(element)"
             matTooltipPosition="above">
             playlist_remove
           </span>
         </span>
         <span
           class="material-icons-outlined me-2"
-          [ngClass]="{
-            'gray-500':
-              element.status === 'CLOSED' || element.status === 'REJECTED'
-          }"
+          [ngClass]="{ 'gray-500': element.status === 'CLOSED' || element.status === 'REJECTED' }"
           style="cursor: pointer"
-          [matTooltip]="
-            element.status === 'CLOSED' || element.status === 'REJECTED'
-              ? 'Editing this request is not allowed'
-              : 'Edit this request'
-          "
-          (click)="
-            element.status !== 'CLOSED' && element.status !== 'REJECTED'
-              ? _url.navigateTo('portal/requests', element.serial, 'edit')
-              : null
-          "
+          [matTooltip]="element.status === 'CLOSED' || element.status === 'REJECTED'
+            ? ('PORTAL.REQUESTS.TOOLTIP_EDIT_NA' | translate)
+            : ('PORTAL.REQUESTS.TOOLTIP_EDIT' | translate)"
+          (click)="element.status !== 'CLOSED' && element.status !== 'REJECTED'
+            ? _url.navigateTo('portal/requests', element.serial, 'edit')
+            : null"
           matTooltipPosition="above">
           edit
         </span>
-
         <span
           class="material-icons-outlined me-2 text-danger"
           style="cursor: pointer"
           (click)="deleteRequest(element._id)"
-          matTooltip="Delete this request"
+          [matTooltip]="'PORTAL.REQUESTS.TOOLTIP_DELETE' | translate"
           matTooltipPosition="above">
           delete
         </span>
@@ -160,11 +119,8 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr *matNoDataRow>
       <td colspan="11">
-        <app-default-empty-state
-          [url]="'portal/requests/new'"
-          *ngIf="!filtersActive.length"></app-default-empty-state>
-        <app-filter-empty-state
-          *ngIf="filtersActive.length"></app-filter-empty-state>
+        <app-default-empty-state [url]="'portal/requests/new'" *ngIf="!filtersActive.length"></app-default-empty-state>
+        <app-filter-empty-state *ngIf="filtersActive.length"></app-filter-empty-state>
       </td>
     </tr>
     <tr
@@ -173,6 +129,7 @@
       class="mas-table-row"
       data-testid="request-row"
       [attr.data-request-id]="row._id"
-      [attr.data-request-serial]="row.serial"></tr>
+      [attr.data-request-serial]="row.serial">
+    </tr>
   </table>
 </div>

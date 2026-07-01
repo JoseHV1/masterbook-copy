@@ -55,14 +55,12 @@ export class MultiFileUploadComponent implements ControlValueAccessor {
     if (!file) return;
 
     if (file?.size / 1048576 > this.maxMbAllowed) {
-      this._ui.showAlertError(
-        `The maximum weight allowed is ${this.maxMbAllowed} MB`
-      );
+      this._ui.showAlertError(this._translate.instant('SHARED.FILE.MAX_SIZE_ERROR', { mb: this.maxMbAllowed }));
       return;
     }
 
     if (!this.allowedTypes.includes(file?.type)) {
-      this._ui.showAlertError('This file type is not allowed');
+      this._ui.showAlertError(this._translate.instant('SHARED.FILE.TYPE_NOT_ALLOWED'));
       return;
     }
 

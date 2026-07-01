@@ -4,11 +4,13 @@ import { TabTableUploadFileComponent } from './tab-table-upload-file.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UploadFileErrorsModalModule } from 'src/app/shared/components/upload-file-errors-modal/upload-file-errors-modal.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [TabTableUploadFileComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     MatTableModule,
     MatTooltipModule,
     UploadFileErrorsModalModule,

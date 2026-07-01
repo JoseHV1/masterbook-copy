@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
+import { TranslateModule } from '@ngx-translate/core';
 import { MassiveImportLayoutComponent } from './massive-import-layout.component';
 import { TabUploadFileModule } from './tab-upload-file/tab-upload-file.module';
 import { TabTableUploadFileModule } from './tab-table-upload-file/tab-table-upload-file.module';
@@ -13,6 +14,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   declarations: [MassiveImportLayoutComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     MatTabsModule,
     MatPaginatorModule,
     MatSidenavModule,

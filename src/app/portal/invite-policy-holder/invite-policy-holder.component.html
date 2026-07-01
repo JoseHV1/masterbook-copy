@@ -2,7 +2,7 @@
   <ng-container content>
     <div class="container d-flex flex-column">
       <form (ngSubmit)="sendInvitation()">
-        <label class="fw-semibold" for="email">Email del asegurado:</label>
+        <label class="fw-semibold" for="email">{{ 'PORTAL.INVITE_POLICY_HOLDER.LABEL_EMAIL' | translate }}</label>
         <div class="field col-12 col-md-6 my-2">
           <div class="p-inputgroup">
             <span class="p-inputgroup-addon">
@@ -11,7 +11,7 @@
             <input
               type="text"
               pInputText
-              placeholder="Email"
+              [placeholder]="'PORTAL.INVITE_POLICY_HOLDER.PLACEHOLDER_EMAIL' | translate"
               [formControl]="emailFormControl"
               class="form-control" />
           </div>
@@ -22,12 +22,12 @@
             "
             class="text-danger"
             style="font-size: 12px"
-            >The field is required</small
+            >{{ 'FORM_ERROR.REQUIRED' | translate }}</small
           >
         </div>
         <p-button
           type="submit"
-          label="Send Invitation"
+          [label]="'PORTAL.INVITE_POLICY_HOLDER.BTN_SEND' | translate"
           [disabled]="!emailFormControl.valid"></p-button>
       </form>
     </div>

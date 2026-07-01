@@ -147,3 +147,67 @@
              - echo "Desplegando con Serverless..."
              - npx serverless deploy --stage production
 
+     develop:
+       - step:
+           name: Instalar dependencias y construir US
+           caches:
+             - node
+           script:
+             - corepack enable
+             - corepack prepare yarn@4.12.0 --activate
+             - yarn --version
+             - yarn install --immutable
+             - yarn build:us
+           artifacts:
+             - dist/browser/us/**
+
+       - step:
+           name: Desplegar US a S3
+           image: amazon/aws-cli
+           script:
+             - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+             - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+             - export AWS_REGION=$AWS_REGION
+             - aws s3 sync dist/browser/us s3://$S3_BUCKET/us/ --delete
+             - aws cloudfront create-invalidation --distribution-id $CF_DISTRIBUTION_ID --paths "/us/*"
+
+     feature/pipeline-changes:
+       - parallel:
+           - step:
+               name: Build y Deploy US
+               caches:
+                 - node
+               script:
+                 - corepack enable
+                 - corepack prepare yarn@4.12.0 --activate
+                 - yarn --version
+                 - yarn install --immutable
+                 - yarn build:us
+                 - curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                 - unzip -q awscliv2.zip
+                 - ./aws/install
+                 - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+                 - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+                 - export AWS_REGION=$AWS_REGION
+                 - aws s3 sync dist/browser/us s3://$S3_BUCKET/us/ --delete
+                 - aws cloudfront create-invalidation --distribution-id $CF_DISTRIBUTION_ID --paths "/us/*"
+
+           - step:
+               name: Build y Deploy CO
+               caches:
+                 - node
+               script:
+                 - corepack enable
+                 - corepack prepare yarn@4.12.0 --activate
+                 - yarn --version
+                 - yarn install --immutable
+                 - yarn build:co
+                 - curl -s "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                 - unzip -q awscliv2.zip
+                 - ./aws/install
+                 - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+                 - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+                 - export AWS_REGION=$AWS_REGION
+                 - aws s3 sync dist/browser/co s3://$S3_BUCKET/co/ --delete
+                 - aws cloudfront create-invalidation --distribution-id $CF_DISTRIBUTION_ID --paths "/co/*"
+

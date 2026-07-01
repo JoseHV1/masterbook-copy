@@ -10,8 +10,9 @@ import { AgencySettingsService } from 'src/app/shared/services/agency-settings.s
 import { UiService } from 'src/app/shared/services/ui.service';
 import { BusinessLineModel } from 'src/app/shared/interfaces/models/business-line.model';
 import { isInvalid } from 'src/app/shared/helpers/is-invalid.helper';
-import { hasError } from 'src/app/shared/helpers/has-error.helper.ts';
+import { hasError } from 'src/app/shared/helpers/has-error.helper';
 import { LeadsService } from 'src/app/portal/leads/services/leads.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-agency-settings-form',
@@ -35,6 +36,7 @@ export class AgencySettingsFormComponent implements OnInit {
     private _uploadFile: UploadFileService,
     private _datasets: DatasetsService,
     private _leads: LeadsService,
+    private _t: TranslateService,
   ) { }
 
   ngOnInit(): void {
@@ -44,7 +46,7 @@ export class AgencySettingsFormComponent implements OnInit {
     this._datasets.getBusinessLinesDataset().pipe(
       retry(2),
       catchError(() => {
-        this._ui.showAlertError('Error loading business lines');
+        this._ui.showAlertError(this._t.instant('PORTAL.AGENCY_SETTINGS.LOAD_BUSINESS_LINES_ERROR'));
         return EMPTY;
       }),
       switchMap(lines => {
@@ -52,7 +54,7 @@ export class AgencySettingsFormComponent implements OnInit {
         return this._agencySettings.getAgencySettings().pipe(
           retry(2),
           catchError(() => {
-            this._ui.showAlertError('Error loading agency settings');
+            this._ui.showAlertError(this._t.instant('PORTAL.AGENCY_SETTINGS.LOAD_SETTINGS_ERROR'));
             return EMPTY;
           })
         );
@@ -118,7 +120,7 @@ export class AgencySettingsFormComponent implements OnInit {
   copyUrl(network: string): void {
     const url = `${this.frontBaseUrl}/leads/register/${this.dataAgency?.token_leads}/${network}`;
     navigator.clipboard.writeText(url).then(() => {
-      this._ui.showAlertSuccess('Link copied to clipboard');
+      this._ui.showAlertSuccess(this._t.instant('PORTAL.AGENCY_SETTINGS.LINK_COPIED'));
     });
   }
 
@@ -132,23 +134,21 @@ export class AgencySettingsFormComponent implements OnInit {
       .subscribe({
         next: (agency) => {
           this.dataAgency = agency;
-          this._ui.showAlertSuccess('Your lead URL has been created successfully');
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.AGENCY_SETTINGS.LEAD_URL_CREATED'));
         },
-        error: () => this._ui.showAlertError('An error occurred. Please try again later'),
+        error: () => this._ui.showAlertError(this._t.instant('PORTAL.AGENCY_SETTINGS.LEAD_URL_ERROR')),
       });
   }
 
   private _openSuccessModal() {
-    const message = `The agency settings has been updated successfully`;
-
     this._ui
       .showInformationModal({
-        text: message,
-        title: 'SUCCESS!',
+        text: this._t.instant('PORTAL.AGENCY_SETTINGS.UPDATED_SUCCESS_TEXT'),
+        title: this._t.instant('PORTAL.AGENCY_SETTINGS.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
       })
       .subscribe(() => {
-        this._ui.showAlertSuccess('Profile updated successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.AGENCY_SETTINGS.PROFILE_UPDATED'));
       });
   }
 }

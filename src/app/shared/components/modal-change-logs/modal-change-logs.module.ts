@@ -6,11 +6,13 @@ import { MatTableModule } from '@angular/material/table';
 import { FiltersModule } from '../filters/filters.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [ModalChangeLogsComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     MatTableModule,
     MatDialogModule,
     FiltersModule,

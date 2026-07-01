@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { RegisterLeadComponent } from './register-lead.component';
 import { FormLeadModule } from './components/form-lead/form-lead.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     FormLeadModule,
+    TranslateModule,
   ],
 })
 export class RegisterLeadModule {}

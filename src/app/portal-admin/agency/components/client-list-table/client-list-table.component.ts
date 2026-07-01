@@ -9,6 +9,7 @@ import { FilterActive } from 'src/app/shared/models/filters.model';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-client-list-table',
@@ -30,6 +31,7 @@ export class ClientListTableComponent {
     'account_count',
     'policies_count',
     'status',
+    'tenant',
     'created_at',
     // 'actions',
   ];
@@ -37,7 +39,8 @@ export class ClientListTableComponent {
   constructor(
     private _users: UserService,
     private _ui: UiService,
-    public _url: UrlService
+    public _url: UrlService,
+    private _t: TranslateService,
   ) {}
 
   openUpdateStatusConfirmationModal(
@@ -51,8 +54,8 @@ export class ClientListTableComponent {
 
     const message =
       status === BrokerStatusEnum.ACTIVE
-        ? `an additional recharge`
-        : `a reduction`;
+        ? this._t.instant('PORTAL.PORTAL_ADMIN.AGENCIES.STATUS_ACTION_RECHARGE')
+        : this._t.instant('PORTAL.PORTAL_ADMIN.AGENCIES.STATUS_ACTION_REDUCTION');
     let userCost = 0;
     switch (user.user?.role) {
       case RolesEnum.AGENCY_ADMINISTRATOR:
@@ -66,7 +69,7 @@ export class ClientListTableComponent {
     }
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to update this user? This action will generate ${message} of $${userCost} per month`,
+        text: this._t.instant('PORTAL.PORTAL_ADMIN.AGENCIES.CONFIRM_UPDATE_STATUS', { message, cost: userCost }),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -93,13 +96,11 @@ export class ClientListTableComponent {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe({
         next: () => {
-          this._ui.showAlertSuccess(
-            "The user's status has been successfully updated"
-          );
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.AGENCIES.STATUS_UPDATED'));
           user.status = status;
         },
         error: () => {
-          this._ui.showAlertError('Failed to update user status');
+          this._ui.showAlertError(this._t.instant('PORTAL.PORTAL_ADMIN.AGENCIES.STATUS_UPDATE_FAILED'));
           event.source.checked = user.status === BrokerStatusEnum.ACTIVE;
         },
       });

@@ -3,7 +3,7 @@
     <mat-tab [label]="'Create ' + entity | titlecase">
       <ng-content select="[content]"></ng-content>
     </mat-tab>
-    <mat-tab [label]="'Download Templates for Upload file'">
+    <mat-tab [label]="'PORTAL.SHARED.DOWNLOAD_TEMPLATES_TAB' | translate">
       <app-tab-upload-file
         (uploadCompleted)="onUploadCompleted()"
         [entity]="entity"></app-tab-upload-file>

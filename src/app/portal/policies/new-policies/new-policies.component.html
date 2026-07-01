@@ -7,7 +7,7 @@
             <span
               class="material-icons-outlined me-2"
               style="cursor: pointer"
-              matTooltip="Back to last page"
+              [matTooltip]="'PORTAL.COMMON.BACK_TO_LAST_PAGE' | translate"
               (click)="goBack()">
               arrow_back
             </span>
@@ -18,16 +18,14 @@
           *ngIf="!connected && !preFilledInfo"
           class="alert-login-google py-2 px-3 my-4"
           style="font-size: 14px">
-          To email the policy invoice to the insured party, you must be logged
-          into an active Google session.
-          <span class="payment-button" (click)="loginGoogle()">
-            You can log in here.</span
+          {{ 'PORTAL.POLICIES.GOOGLE_INVOICE_MSG' | translate }}
+          <span class="payment-button" (click)="loginGoogle()">{{ 'PORTAL.POLICIES.GOOGLE_LOGIN' | translate }}</span
           >
         </div>
 
         <div class="col-12 mb-4">
           <div class="text-center">
-            <h3 class="subtitle-1 dark-blue-400">Create Policy</h3>
+            <h3 class="subtitle-1 dark-blue-400">{{ 'PORTAL.POLICIES.CREATE_TITLE' | translate }}</h3>
           </div>
         </div>
 

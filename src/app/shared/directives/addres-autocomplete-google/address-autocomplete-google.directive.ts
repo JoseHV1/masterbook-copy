@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Output } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import {
   AddressAutocompleteModel,
   GeocoderAddress,
@@ -9,7 +9,8 @@ declare const google: any;
 @Directive({
   selector: '[appAddressAutocomplete]',
 })
-export class AddressAutocompleteGoogleDirective {
+export class AddressAutocompleteGoogleDirective implements AfterViewInit {
+  @Input() initialValue?: AddressAutocompleteModel;
   @Output() updateAddress: EventEmitter<AddressAutocompleteModel> =
     new EventEmitter();
   @Output() updateFieldAddress: EventEmitter<string> = new EventEmitter();
@@ -17,6 +18,13 @@ export class AddressAutocompleteGoogleDirective {
   constructor(private autoCompleteAddressInput: ElementRef) {
     this.setAutocomplete();
     this.onListenInputChange();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.initialValue?.address) {
+      this.autoCompleteAddressInput.nativeElement.value = this.initialValue.address;
+      setTimeout(() => this.updateAddress.emit(this.initialValue));
+    }
   }
 
   setAutocomplete() {

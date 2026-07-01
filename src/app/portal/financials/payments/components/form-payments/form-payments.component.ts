@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { hasError } from 'src/app/shared/helpers/has-error.helper.ts';
+import { hasError } from 'src/app/shared/helpers/has-error.helper';
 import { isInvalid } from 'src/app/shared/helpers/is-invalid.helper';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { take, forkJoin, Subject, Observable, merge } from 'rxjs';
@@ -32,6 +32,7 @@ import { DropdownOptionModel } from 'src/app/shared/models/dropdown-option.model
 import { SearchCheckCommissionConfig } from 'src/app/shared/interfaces/models/search-check-commission-config';
 import { enumToDropDown } from '@app/shared/helpers/enum-to-dropdown.helper';
 import { PaymentMethodEnum } from '@app/shared/enums/payment-method.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-form-payments',
@@ -67,7 +68,8 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
     private _activateRoute: ActivatedRoute,
     private _agencySettings: AgencySettingsService,
     private _ui: UiService,
-    public _url: UrlService
+    public _url: UrlService,
+    private _t: TranslateService
   ) {}
 
   ngOnInit() {
@@ -301,7 +303,7 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
           if (!exists) {
             this._ui
               .showConfirmationModal({
-                text: `This insurer does not have a commission config for policy type "${policyType}" and category "${search.category}". Please configure it before continuing.`,
+                text: this._t.instant('PORTAL.PAYMENTS.NO_COMMISSION_CONFIG', { policyType, category: search.category }),
               })
               .pipe(take(1))
               .subscribe(go => {
@@ -414,7 +416,7 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
   openConfirmationModal() {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to create these payments?`,
+        text: this._t.instant('PORTAL.PAYMENTS.CONFIRM_CREATE'),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -424,7 +426,7 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
 
   submitForm(): void {
     if (this.form.invalid) {
-      this._ui.showAlertError('Please complete all required fields');
+      this._ui.showAlertError(this._t.instant('PORTAL.PAYMENTS.REQUIRED_FIELDS'));
       this.form.markAllAsTouched();
       return;
     }
@@ -439,7 +441,7 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
 
     if (formValues.subtotal < totalPaymentApplied) {
       this._ui.showAlertError(
-        'The total payment applied cannot exceed the subtotal'
+        this._t.instant('PORTAL.PAYMENTS.SUBTOTAL_EXCEEDED')
       );
       return;
     }
@@ -449,7 +451,7 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
     );
 
     if (!validApplications.length) {
-      this._ui.showAlertError('You must select at least one policy');
+      this._ui.showAlertError(this._t.instant('PORTAL.PAYMENTS.SELECT_POLICY'));
       return;
     }
 
@@ -508,24 +510,23 @@ export class FormPaymentsComponent implements OnInit, OnChanges, OnDestroy {
               this._openSuccessModal(resp);
             },
             error: () => {
-              this._ui.showAlertError('Failed to submit payment transaction');
+              this._ui.showAlertError(this._t.instant('PORTAL.PAYMENTS.SUBMIT_FAILED'));
             },
           });
         },
         error: () => {
-          this._ui.showAlertError('Failed to resolve invoices');
+          this._ui.showAlertError(this._t.instant('PORTAL.PAYMENTS.RESOLVE_FAILED'));
         },
       });
   }
 
   private _openSuccessModal(payment: PaymentTransactionModel) {
     const paymentSerial = payment.serial;
-    const message = `The payment {{link}} has been updated successfully`;
 
     this._ui
       .showInformationModal({
-        text: message,
-        title: 'SUCCESS!',
+        text: this._t.instant('PORTAL.PAYMENTS.UPDATED_SUCCESS_TEXT'),
+        title: this._t.instant('PORTAL.PAYMENTS.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: paymentSerial,

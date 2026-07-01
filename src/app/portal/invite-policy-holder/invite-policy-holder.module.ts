@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
     InputTextModule,
     ReactiveFormsModule,
     CommonModule,
+    TranslateModule,
   ],
   exports: [InvitePolicyHolderComponent],
 })

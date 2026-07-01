@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { isInvalid } from '../../../../shared/helpers/is-invalid.helper';
-import { hasError } from '../../../../shared/helpers/has-error.helper.ts';
+import { hasError } from '../../../../shared/helpers/has-error.helper';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DropdownOption } from 'src/core/cdk/dropDown/dropdown.component';
-import { finalize, forkJoin, Observable, take, tap } from 'rxjs';
+import { finalize, forkJoin, Observable, Subject, take, takeUntil, tap } from 'rxjs';
 import { InsuranceCompanyModel } from 'src/app/shared/interfaces/models/insurance-company.model';
 import { DatasetsService } from 'src/app/shared/services/dataset.service';
 import { Location } from '@angular/common';
@@ -20,13 +20,15 @@ import { EditPolicyRequest } from 'src/app/shared/interfaces/requests/policies/e
 import { PolicyStatus } from 'src/app/shared/enums/policy-status.enum';
 import { PolicyCategoryEnum } from 'src/app/shared/enums/policy-category.enum';
 import { IntegrationsService } from '@app/shared/services/integration.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-policy-form',
   templateUrl: './policy-form.component.html',
   styleUrls: ['./policy-form.component.scss'],
 })
-export class PolicyFormComponent implements OnInit {
+export class PolicyFormComponent implements OnInit, OnDestroy {
+  private _destroy$ = new Subject<void>();
   @Input() preFilledInfo!: Partial<CreatePolicyRequest>;
   @Input() policy?: Partial<PopulatedPolicyModel>;
 
@@ -48,7 +50,8 @@ export class PolicyFormComponent implements OnInit {
     private _policy: PoliciesService,
     private _cd: ChangeDetectorRef,
     private _auth: AuthService,
-    private _integrations: IntegrationsService
+    private _integrations: IntegrationsService,
+    private _t: TranslateService
   ) {
     this.showAgentSelector = brokersAdminDataset.includes(
       this._auth.getAuth()?.user?.role as RolesEnum
@@ -117,7 +120,7 @@ export class PolicyFormComponent implements OnInit {
     const insurerControl = this.form.get('insurer_id');
 
     if (insurerControl) {
-      insurerControl.statusChanges.subscribe(status => {
+      insurerControl.statusChanges.pipe(takeUntil(this._destroy$)).subscribe(status => {
         if (status === 'INVALID') {
           const errors = insurerControl.errors;
 
@@ -129,14 +132,11 @@ export class PolicyFormComponent implements OnInit {
             if (selectedInsurer) {
               this._ui
                 .showInformationModal({
-                  text:
-                    'To issue this policy, commission settings must be configured for the selected insurance company.<br><br>' +
-                    'This information is required to calculate agent commissions and to ensure accurate financial reporting.<br><br>' +
-                    'We suggest to complete this setup based on your contractual agreement with this insurer.',
-                  title: 'ALERT!',
+                  text: this._t.instant('PORTAL.POLICIES.UNCONFIGURED_INSURER_TEXT'),
+                  title: this._t.instant('PORTAL.POLICIES.UNCONFIGURED_INSURER_TITLE'),
                   type: UiModalTypeEnum.WARNING,
                   redirectButton: {
-                    text: 'Go to Insurance Configuration',
+                    text: this._t.instant('PORTAL.POLICIES.UNCONFIGURED_INSURER_BUTTON'),
                     url: `/portal/insurer/${selectedInsurer.serial}`,
                   },
                 })
@@ -146,6 +146,11 @@ export class PolicyFormComponent implements OnInit {
         }
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   private _fillForm(): void {
@@ -194,7 +199,7 @@ export class PolicyFormComponent implements OnInit {
   openConfirmationModal() {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to save this policy?`,
+        text: this._t.instant('PORTAL.POLICIES.CONFIRM_SAVE'),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -240,7 +245,7 @@ export class PolicyFormComponent implements OnInit {
             }
           }
         } else {
-          this._ui.showAlertError('Internal Server Error');
+          this._ui.showAlertError(this._t.instant('PORTAL.POLICIES.INTERNAL_ERROR'));
         }
       },
       error: err => {
@@ -305,13 +310,14 @@ export class PolicyFormComponent implements OnInit {
   }
 
   private _openSuccessModal(serial: string, _id: string) {
-    const verb = this.policy ? 'updated' : 'created';
-    const message = `The policy {{link}} has been ${verb} successfully,`;
+    const message = this.policy
+      ? this._t.instant('PORTAL.POLICIES.UPDATED_SUCCESS_TEXT')
+      : this._t.instant('PORTAL.POLICIES.CREATED_SUCCESS_TEXT');
 
     this._ui
       .showInformationModal({
         text: message,
-        title: 'SUCCESS!',
+        title: this._t.instant('PORTAL.POLICIES.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: `#${serial}`,
@@ -326,13 +332,13 @@ export class PolicyFormComponent implements OnInit {
   }
 
   private _openSendEmailModal(serial: string, _id: string) {
-    const verb = this.policy ? 'updated' : 'created';
-    const message = `The policy <span class="redirect-link" style="text-decoration: none !important; cursor-pointer: normal;">#${serial}</span> has been ${verb} successfully. Would you like to send the invoice to the account via email?`;
+    const emailKey = this.policy ? 'PORTAL.POLICIES.EMAIL_UPDATED_TEXT' : 'PORTAL.POLICIES.EMAIL_CREATED_TEXT';
+    const message = this._t.instant(emailKey, { serial });
 
     this._ui
       .showInformationModal({
         text: message,
-        title: 'SUCCESS!',
+        title: this._t.instant('PORTAL.POLICIES.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
         additionalButton: true,
       })
@@ -343,13 +349,13 @@ export class PolicyFormComponent implements OnInit {
           this._policy.sendPolicyInvoicesByEmail(_id).subscribe({
             next: () => {
               this._ui.hideLoader();
-              this._ui.showAlertSuccess('Email sent successfully');
+              this._ui.showAlertSuccess(this._t.instant('PORTAL.POLICIES.EMAIL_SENT'));
               this._router.navigate(['/portal/policies']);
             },
             error: err => {
               this._ui.hideLoader();
               this._ui.showAlertError(
-                'An error occurred while sending the email'
+                this._t.instant('PORTAL.POLICIES.EMAIL_SEND_ERROR')
               );
             },
           });

@@ -36,6 +36,7 @@ import { InsurerConfigService } from 'src/app/shared/services/insurer-config.ser
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
 import { IntegrationsService } from '@app/shared/services/integration.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-insurers-details',
@@ -66,6 +67,7 @@ export class InsurersDetailsComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private _auth: AuthService,
     private _integrations: IntegrationsService,
+    private _t: TranslateService,
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -168,7 +170,7 @@ export class InsurersDetailsComponent implements OnInit, OnDestroy {
   send(): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to save this changes?`,
+        text: this._t.instant('PORTAL.INSURER.CONFIRM_SAVE'),
         type: UiModalTypeEnum.INFO,
       })
       .pipe(take(1))
@@ -208,7 +210,7 @@ export class InsurersDetailsComponent implements OnInit, OnDestroy {
       .configInsurer(this.insurer._id, payload)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('Changes saved successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.INSURER.SAVED'));
         this._router.navigate(['/portal/insurer']);
       });
   }
@@ -222,7 +224,7 @@ export class InsurersDetailsComponent implements OnInit, OnDestroy {
     const googleAuth = this.activateRoute.snapshot.queryParamMap.get('google_auth');
     if (googleAuth === 'success') {
       this.googleConnected = true;
-      this._ui.showAlertSuccess('Google account connected successfully. You can now send emails.');
+      this._ui.showAlertSuccess(this._t.instant('PORTAL.INSURER.GOOGLE_CONNECTED'));
       this._router.navigate([], {
         queryParams: { google_auth: null },
         queryParamsHandling: 'merge',

@@ -1,6 +1,6 @@
 <ng-template #table>
   <app-pages-layout
-    [button]="{ text: 'Create policy', icon: 'add', url: 'new' }">
+    [button]="{ text: ('PORTAL.POLICIES.BTN_NEW' | translate), icon: 'add', url: 'new' }">
     <ng-container content>
       <app-filtered-table-header
         [filtersActive]="filtersActive"

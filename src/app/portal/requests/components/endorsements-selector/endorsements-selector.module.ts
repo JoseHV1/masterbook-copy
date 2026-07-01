@@ -9,11 +9,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { EndorsementsSelectorComponent } from './endorsements-selector.component';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [EndorsementsSelectorComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     PagesLayoutModule,
     FilteredTableHeaderModule,
     MatPaginatorModule,

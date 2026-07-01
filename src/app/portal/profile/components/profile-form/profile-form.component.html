@@ -17,15 +17,15 @@
             {{ dataUser.first_name }} {{ dataUser.last_name }}
           </p>
           <p class="text-muted mb-1">
-            <label>Email:</label>
+            <label>{{ 'PORTAL.PROFILE_FORM.LABEL_EMAIL' | translate }}</label>
             {{ dataUser.email }}
           </p>
           <p class="text-muted mb-1">
-            <label>Member of the agency:</label>
+            <label>{{ 'PORTAL.PROFILE_FORM.LABEL_AGENCY' | translate }}</label>
             {{ dataUser.agency.name }}
           </p>
           <p class="text-muted">
-            <label>Created on:</label>
+            <label>{{ 'PORTAL.PROFILE_FORM.LABEL_CREATED_ON' | translate }}</label>
             {{ dataUser.createdAt | date : 'MM/dd/yyyy' }}
           </p>
         </div>
@@ -34,21 +34,21 @@
       <button
         class="primary-button big-button back-light-blue-400 white mx-1 mt-2"
         (click)="openModal()">
-        Change password
+        {{ 'PORTAL.PROFILE_FORM.BTN_CHANGE_PASSWORD' | translate }}
       </button>
     </div>
 
     <!-- Right  -->
     <div class="col-lg-8 ms-lg-5 col-md-12 pe-0 pe-lg-3">
       <h4 class="mt-4 mb-4 mb-md-5 profile__subtitle text-center">
-        Personal Information
+        {{ 'PORTAL.PROFILE_FORM.SECTION_PERSONAL_INFO' | translate }}
       </h4>
 
       <div class="row">
         <div class="col-lg-6">
           <!-- Personal Information -->
           <div class="col-12 mb-4 mb-md-0">
-            <label>Phone number</label>
+            <label>{{ 'PORTAL.PROFILE_FORM.FIELD_PHONE' | translate }}</label>
             <app-input
               placeholder="(XXX) XXX-XXXX"
               type="tel"
@@ -57,24 +57,24 @@
           </div>
 
           <div class="col-12 mb-4 mb-md-0">
-            <label>Address</label>
+            <label>{{ 'PORTAL.PROFILE_FORM.FIELD_ADDRESS' | translate }}</label>
             <app-address-input
-              placeholder="Enter address"
+              [placeholder]="'PORTAL.PROFILE_FORM.PLACEHOLDER_ADDRESS' | translate"
               formControlName="address"></app-address-input>
           </div>
 
           <div class="col-12 mb-4 mb-md-0">
-            <label>Additional Address</label>
+            <label>{{ 'PORTAL.PROFILE_FORM.FIELD_ADDITIONAL_ADDRESS' | translate }}</label>
             <app-input
-              placeholder="Address additional information"
+              [placeholder]="'PORTAL.PROFILE_FORM.PLACEHOLDER_ADDITIONAL_ADDRESS' | translate"
               type="text"
               formControlName="additional_address"></app-input>
           </div>
 
           <div class="col-12 mb-4 mb-md-0">
-            <label>License Number</label>
+            <label>{{ 'PORTAL.PROFILE_FORM.FIELD_LICENSE_NUMBER' | translate }}</label>
             <app-input
-              placeholder="Address additional information"
+              [placeholder]="'PORTAL.PROFILE_FORM.PLACEHOLDER_LICENSE_NUMBER' | translate"
               type="text"
               formControlName="license_number"></app-input>
           </div>
@@ -83,7 +83,7 @@
         <!-- Second Column -->
         <div class="col-lg-6">
           <div class="col-12 mb-4 mb-md-0">
-            <label>Extension</label>
+            <label>{{ 'PORTAL.PROFILE_FORM.FIELD_EXTENSION' | translate }}</label>
             <app-input
               placeholder="XXXX"
               type="tel"
@@ -92,7 +92,7 @@
           </div>
 
           <div class="col-12 mb-4 mb-md-0">
-            <label>Zip Code</label>
+            <label>{{ 'PORTAL.PROFILE_FORM.FIELD_ZIPCODE' | translate }}</label>
             <app-input
               placeholder="XXXXX"
               type="tel"
@@ -101,24 +101,24 @@
           </div>
 
           <div class="col-12 mb-4 mb-md-0">
-            <label>Gender*</label>
+            <label>{{ 'PORTAL.PROFILE_FORM.FIELD_GENDER' | translate }}</label>
             <app-dropdown-field
-              [placeholder]="'Select a gender'"
+              [placeholder]="'PORTAL.PROFILE_FORM.PLACEHOLDER_GENDER' | translate"
               formControlName="gender"
               [options]="dropDownGender"></app-dropdown-field>
           </div>
 
           <div class="col-12 mb-4 mb-md-0">
-            <label>Expiry Date</label>
+            <label>{{ 'PORTAL.PROFILE_FORM.FIELD_EXPIRY_DATE' | translate }}</label>
             <app-date-field
-              [placeholder]="'Select a date'"
+              [placeholder]="'PORTAL.PROFILE_FORM.PLACEHOLDER_DATE' | translate"
               formControlName="license_expires_at"
               [min]="today"></app-date-field>
           </div>
         </div>
 
         <h4 class="mt-4 mb-4 mb-md-5 profile__subtitle text-center">
-          Notifications Settings
+          {{ 'PORTAL.PROFILE_FORM.SECTION_NOTIFICATIONS' | translate }}
         </h4>
 
         <div class="col-12 col-md-6 mb-4 mb-md-0">
@@ -126,7 +126,7 @@
             formControlName="allow_email_notifications"
             color="primary"
             class="custom-checkbox"
-            >I accept to receive email notification</mat-checkbox
+            >{{ 'PORTAL.PROFILE_FORM.CHECK_EMAIL_NOTIFICATIONS' | translate }}</mat-checkbox
           >
         </div>
 
@@ -136,8 +136,7 @@
               formControlName="allow_show_whatsapp_number"
               color="primary"
               class="custom-checkbox"
-              >I would like to share my WhatsApp number with my
-              accounts</mat-checkbox
+              >{{ 'PORTAL.PROFILE_FORM.CHECK_WHATSAPP_SHARE' | translate }}</mat-checkbox
             >
           </div>
 
@@ -146,15 +145,13 @@
               formControlName="allow_expiring_policies_notifications"
               color="primary"
               class="custom-checkbox"
-              >I would like to receive notifications for upcoming policy
-              expirations and filter policies nearing their expiration
-              date</mat-checkbox
+              >{{ 'PORTAL.PROFILE_FORM.CHECK_EXPIRING_POLICIES' | translate }}</mat-checkbox
             >
 
             <div
               class="col-12 mt-3"
               *ngIf="form.get('allow_expiring_policies_notifications')?.value">
-              <label>Days</label>
+              <label>{{ 'PORTAL.PROFILE_FORM.FIELD_DAYS' | translate }}</label>
               <app-input
                 placeholder="0"
                 type="tel"
@@ -165,7 +162,7 @@
         </ng-container>
 
         <h4 class="mt-4 mb-4 mb-md-5 profile__subtitle text-center">
-          Connected Accounts
+          {{ 'PORTAL.PROFILE_FORM.SECTION_CONNECTED_ACCOUNTS' | translate }}
         </h4>
 
         <div class="col-12">
@@ -182,14 +179,14 @@
                 <div>
                   <div class="fw-semibold">Google</div>
                   <div class="text-muted small">
-                    Connected as <strong>{{ googleConnection.email }}</strong>
+                    {{ 'PORTAL.PROFILE_FORM.CONNECTED_AS' | translate }} <strong>{{ googleConnection.email }}</strong>
                   </div>
                 </div>
               </div>
               <button
                 class="primary-button back-light-blue-400 white mx-1 mt-2"
                 (click)="disconnectGoogle()">
-                Disconnect
+                {{ 'PORTAL.PROFILE_FORM.BTN_DISCONNECT' | translate }}
               </button>
             </div>
 
@@ -204,22 +201,21 @@
                   height="28" />
                 <div>
                   <div class="fw-semibold">Google</div>
-                  <div class="text-muted small">Not connected</div>
+                  <div class="text-muted small">{{ 'PORTAL.PROFILE_FORM.NOT_CONNECTED' | translate }}</div>
                 </div>
               </div>
               <button
                 class="primary-button back-light-blue-400 white mx-1 mt-2"
                 (click)="connectGoogle()">
-                Connect
+                {{ 'PORTAL.PROFILE_FORM.BTN_CONNECT' | translate }}
               </button>
             </div>
 
             <div class="text-muted small mt-2" *ngIf="googleConnection">
-              Disconnecting will disable Calendar sync and Gmail sending.
+              {{ 'PORTAL.PROFILE_FORM.DISCONNECT_WARNING' | translate }}
             </div>
             <div class="text-muted small mt-2" *ngIf="!googleConnection">
-              Connect your Google account to enable email sending and calendar
-              reminders.
+              {{ 'PORTAL.PROFILE_FORM.CONNECT_HINT' | translate }}
             </div>
           </div>
         </div>
@@ -230,7 +226,7 @@
             class="primary-button big-button back-light-blue-400 white mx-1"
             [disabled]="isEditing && form.invalid"
             (click)="handleEditSave()">
-            {{ isEditing ? 'Save' : 'Edit' }} Profile
+            {{ (isEditing ? 'PORTAL.PROFILE_FORM.BTN_SAVE_PROFILE' : 'PORTAL.PROFILE_FORM.BTN_EDIT_PROFILE') | translate }}
           </button>
         </div>
       </div>

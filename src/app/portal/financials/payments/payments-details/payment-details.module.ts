@@ -10,6 +10,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
   declarations: [PaymentDetailsComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     RouterModule.forChild(routes),
     PagesLayoutModule,
     CustomPipesModule,

@@ -1,25 +1,35 @@
 <form [formGroup]="form">
-  <div class="row">
+  <div class="row g-3">
     <div class="col-12">
-      <label>title*</label>
+      <label>{{ 'PORTAL.HOW_TO.FORM.FIELD_TITLE' | translate }}</label>
       <app-input
-        placeholder="Title"
+        [placeholder]="'PORTAL.HOW_TO.FORM.PLACEHOLDER_TITLE' | translate"
         type="text"
         formControlName="title"></app-input>
     </div>
 
     <div class="col-12">
-      <div class="NgxEditor_Wrapper py-4">
-        <label class="d-block">description</label>
+      <label>{{ 'PORTAL.HOW_TO.FORM.FIELD_TENANTS' | translate }}</label>
+      <app-dropdown-field
+        [placeholder]="'PORTAL.HOW_TO.FORM.PLACEHOLDER_TENANTS' | translate"
+        formControlName="tenant_ids"
+        [options]="tenantOptions"
+        [multiple]="true">
+      </app-dropdown-field>
+    </div>
+
+    <div class="col-12">
+      <div class="py-4">
+        <label class="d-block">{{ 'PORTAL.HOW_TO.FORM.FIELD_DESCRIPTION' | translate }}</label>
         <app-rich-text-input
           formControlName="description"></app-rich-text-input>
       </div>
     </div>
 
     <div class="col-12">
-      <label>video*</label>
+      <label>{{ 'PORTAL.HOW_TO.FORM.FIELD_VIDEO_URL' | translate }}</label>
       <app-input
-        [placeholder]="'Video Url'"
+        [placeholder]="'PORTAL.HOW_TO.FORM.PLACEHOLDER_VIDEO_URL' | translate"
         formControlName="video"></app-input>
     </div>
   </div>
@@ -29,7 +39,7 @@
       data-testid="how-to-cancel"
       class="primary-button big-button back-gray-400 white mx-1"
       (click)="cancelForm()">
-      Cancel
+      {{ 'PORTAL.COMMON.CANCEL' | translate }}
     </button>
 
     <button
@@ -37,7 +47,7 @@
       class="primary-button big-button back-light-blue-400 white mx-1"
       [disabled]="form.invalid"
       (click)="send()">
-      {{ howTo ? 'Edit' : 'Save' }}
+      {{ (howTo ? 'PORTAL.COMMON.EDIT' : 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.BTN_SAVE') | translate }}
     </button>
   </div>
 </form>

@@ -8,6 +8,7 @@ import { FilterActive } from 'src/app/shared/models/filters.model';
 import { AccountsService } from 'src/app/shared/services/accounts.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-accounts-table',
@@ -36,7 +37,8 @@ export class AccountsTableComponent {
   constructor(
     private _accounts: AccountsService,
     private _ui: UiService,
-    public _url: UrlService
+    public _url: UrlService,
+    private _t: TranslateService,
   ) {}
 
   setStatus(account: PopulatedAccount, event: MatSlideToggleChange): void {
@@ -50,13 +52,11 @@ export class AccountsTableComponent {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe({
         next: () => {
-          this._ui.showAlertSuccess(
-            "The account's status has been successfully updated"
-          );
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.ACCOUNTS.STATUS_UPDATED'));
           account.status = status;
         },
         error: () => {
-          this._ui.showAlertError('Failed to update account status');
+          this._ui.showAlertError(this._t.instant('PORTAL.ACCOUNTS.STATUS_UPDATE_FAILED'));
           event.source.checked = account.status === AccountStatusEnum.ACTIVE;
         },
       });
@@ -68,9 +68,7 @@ export class AccountsTableComponent {
       .resendInvitationEmail(account._id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess(
-          'The invitation email has been resent successfully'
-        );
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.ACCOUNTS.EMAIL_RESENT'));
       });
   }
 
@@ -86,7 +84,7 @@ export class AccountsTableComponent {
   deleteAccount(_id: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this account?`,
+        text: this._t.instant('PORTAL.ACCOUNTS.CONFIRM_DELETE'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -101,7 +99,7 @@ export class AccountsTableComponent {
       .deleteAccount(_id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('Account deleted successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.ACCOUNTS.DELETED'));
         this.refresh.emit();
       });
   }

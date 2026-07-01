@@ -14,6 +14,7 @@ import { LeadStatusEnum } from '../enums/lead-status.enum';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { brokersAdminDataset } from 'src/app/shared/datatsets/roles.datasets';
 import { RolesEnum } from 'src/app/shared/enums/roles.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-convert-lead',
@@ -51,6 +52,7 @@ export class ConvertLeadComponent {
     private _router: Router,
     private _location: Location,
     private _auth: AuthService,
+    private _t: TranslateService,
   ) {
     this.showAgentSelector = brokersAdminDataset.includes(
       this._auth.getAuth()?.user?.role as RolesEnum
@@ -79,7 +81,7 @@ export class ConvertLeadComponent {
           });
         },
         error: () => {
-          this._ui.showAlertError('Lead not found.');
+          this._ui.showAlertError(this._t.instant('PORTAL.LEADS.NOT_FOUND'));
           this._router.navigateByUrl('portal/leads');
         },
       });
@@ -91,7 +93,7 @@ export class ConvertLeadComponent {
 
     this._ui
       .showConfirmationModal({
-        text: 'Are you sure you want to convert this lead into an account? This action cannot be undone.',
+        text: this._t.instant('PORTAL.LEADS.CONFIRM_CONVERT'),
         type: UiModalTypeEnum.WARNING,
       })
       .pipe(take(1))
@@ -109,14 +111,14 @@ export class ConvertLeadComponent {
         next: () => {
           this._ui
             .showInformationModal({
-              title: 'SUCCESS!',
-              text: 'The account has been created successfully. Your client will receive an email with login details.',
+              title: this._t.instant('PORTAL.LEADS.CONVERT_SUCCESS_TITLE'),
+              text: this._t.instant('PORTAL.LEADS.CONVERT_SUCCESS_TEXT'),
               type: UiModalTypeEnum.SUCCESS,
             })
             .pipe(take(1))
             .subscribe(() => this._router.navigateByUrl('portal/leads'));
         },
-        error: () => this._ui.showAlertError('Could not convert the lead. Please try again.'),
+        error: () => this._ui.showAlertError(this._t.instant('PORTAL.LEADS.CONVERT_ERROR')),
       });
   }
 

@@ -5,11 +5,13 @@ import { CommissionsListComponent } from './commissions-list.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [CommissionsListComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     PagesLayoutModule,
     CustomPipesModule,
     MatTableModule,

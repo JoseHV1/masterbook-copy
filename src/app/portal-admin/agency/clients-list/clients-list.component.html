@@ -1,6 +1,14 @@
 <ng-template #table>
   <app-pages-layout>
     <ng-container content>
+      <div class="d-flex justify-content-end mb-2 pe-2" *ngIf="data">
+        <button
+          class="primary-button back-light-blue-400 white"
+          style="padding: 8px 18px; border-radius: 6px;"
+          routerLink="create">
+          + Crear agencia
+        </button>
+      </div>
       <app-filtered-table-header
         [filtersActive]="filtersActive"
         (search)="onQueryFilter($event)"

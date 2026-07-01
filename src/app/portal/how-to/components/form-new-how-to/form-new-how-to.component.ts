@@ -1,50 +1,87 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { hasError } from '@app/shared/helpers/has-error.helper.ts';
+import { hasError } from '@app/shared/helpers/has-error.helper';
 import { isInvalid } from '@app/shared/helpers/is-invalid.helper';
 import { youtubeLinkValidator } from '@app/shared/helpers/mymasterbook-validator';
 import { HowToModel } from '@app/shared/interfaces/models/how-to.model';
 import { CreateHowToRequest } from '@app/shared/interfaces/requests/how-to/create-request.request';
 import { UpdateHowToRequest } from '@app/shared/interfaces/requests/how-to/update-how-to.request';
 import { HowToService } from '@app/shared/services/how-to.service';
-import { finalize } from 'rxjs';
+import { TenantsService } from '@app/shared/services/tenants.service';
+import { TenantStatusEnum } from '@app/shared/enums/tenant-status.enum';
+import { finalize, Subject, takeUntil } from 'rxjs';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-form-new-how-to',
   templateUrl: './form-new-how-to.component.html',
   styleUrls: ['./form-new-how-to.component.scss'],
 })
-export class FormNewHowToComponent implements OnChanges {
+export class FormNewHowToComponent implements OnInit, OnChanges, OnDestroy {
   @Input() howTo?: HowToModel;
   form!: FormGroup;
+
+  tenantOptions: { name: string; code: string }[] = [];
 
   isInvalid = isInvalid;
   hasError = hasError;
 
+  private _destroy$ = new Subject<void>();
+
   constructor(
     private _howTo: HowToService,
     private _ui: UiService,
-    private _router: Router
+    private _router: Router,
+    private _tenants: TenantsService,
+    private _t: TranslateService,
   ) {
     this.initForm();
   }
 
+  ngOnInit(): void {
+    this._loadTenants();
+  }
+
   ngOnChanges(): void {
-    if (this.howTo) this.form.patchValue(this.howTo);
+    if (this.howTo) {
+      this.form.patchValue({
+        title:       this.howTo.title,
+        description: this.howTo.description,
+        video:       this.howTo.video,
+        tenant_ids:  this.howTo.tenant_ids ?? [],
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   initForm(): void {
     this.form = new FormGroup({
-      title: new FormControl(null, [Validators.required]),
+      title:       new FormControl(null, [Validators.required]),
       description: new FormControl(null),
-      video: new FormControl(null, [
-        Validators.required,
-        youtubeLinkValidator(),
-      ]),
+      video:       new FormControl(null, [Validators.required, youtubeLinkValidator()]),
+      tenant_ids:  new FormControl([]),
     });
+  }
+
+  private _loadTenants(): void {
+    this._tenants
+      .getAll(0, 100, `&status=${TenantStatusEnum.ACTIVE}`)
+      .pipe(takeUntil(this._destroy$))
+      .subscribe({ next: resp => {
+        if (resp.records.length === 0 && !this.howTo) {
+          this._ui.showAlertWarning(this._t.instant('PORTAL.TENANTS.REQUIRED_BEFORE_ACTION'));
+          this._router.navigateByUrl('portal-admin/tenants/list');
+          return;
+        }
+        this.tenantOptions = resp.records.map(t => ({ name: `${t.name} (${t.code})`, code: t._id }));
+      }});
   }
 
   send() {
@@ -59,10 +96,13 @@ export class FormNewHowToComponent implements OnChanges {
     this._ui.showLoader();
     this._howTo
       .createHowTo(req)
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe(howTo => {
-        this._reset();
-        this._openSuccessModal(howTo, 'created');
+      .pipe(finalize(() => this._ui.hideLoader()), takeUntil(this._destroy$))
+      .subscribe({
+        next: howTo => {
+          this._reset();
+          this._openSuccessModal(howTo, 'created');
+        },
+        error: () => {},
       });
   }
 
@@ -71,10 +111,13 @@ export class FormNewHowToComponent implements OnChanges {
     this._ui.showLoader();
     this._howTo
       .editHowTo(req, this.howTo?._id ?? '')
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe(howTo => {
-        this._reset();
-        this._openSuccessModal(howTo, 'updated');
+      .pipe(finalize(() => this._ui.hideLoader()), takeUntil(this._destroy$))
+      .subscribe({
+        next: howTo => {
+          this._reset();
+          this._openSuccessModal(howTo, 'updated');
+        },
+        error: () => {},
       });
   }
 
@@ -83,18 +126,19 @@ export class FormNewHowToComponent implements OnChanges {
   }
 
   private _openSuccessModal(data: HowToModel, action: 'created' | 'updated') {
-    const message = `The video {{link}} has been ${action} successfully.`;
+    const textKey = action === 'created' ? 'PORTAL.HOW_TO.CREATED_SUCCESS_TEXT' : 'PORTAL.HOW_TO.UPDATED_SUCCESS_TEXT';
 
     this._ui
       .showInformationModal({
-        text: message,
-        title: 'SUCCESS!',
+        text: this._t.instant(textKey),
+        title: this._t.instant('PORTAL.HOW_TO.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: `#${data.serial}`,
           url: ['/portal-admin/how-to', data.serial],
         },
       })
+      .pipe(takeUntil(this._destroy$))
       .subscribe(result => {
         if (result != 'link') {
           this._router.navigate(['/portal-admin/how-to']);

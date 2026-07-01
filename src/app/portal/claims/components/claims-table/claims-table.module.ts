@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
@@ -11,6 +12,7 @@ import { FiltersModule } from 'src/app/shared/components/filters/filters.module'
 @NgModule({
   declarations: [ClaimsTableComponent],
   imports: [
+    TranslateModule,
     CommonModule,
     MatTableModule,
     CustomPipesModule,

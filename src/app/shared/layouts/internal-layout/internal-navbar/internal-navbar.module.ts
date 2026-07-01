@@ -4,6 +4,7 @@ import { InternalNavbarComponent } from './internal-navbar.component';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { InternalNavbarOptionsModule } from './internal-navbar-options/internal-navbar-options.module';
 import { InternalNavbarNotificationsModule } from './internal-navbar-notifications/internal-navbar-notifications.module';
+import { AdminTenantSelectorModule } from './admin-tenant-selector/admin-tenant-selector.module';
 
 @NgModule({
   declarations: [InternalNavbarComponent],
@@ -12,6 +13,7 @@ import { InternalNavbarNotificationsModule } from './internal-navbar-notificatio
     OverlayPanelModule,
     InternalNavbarOptionsModule,
     InternalNavbarNotificationsModule,
+    AdminTenantSelectorModule,
   ],
   exports: [InternalNavbarComponent],
 })

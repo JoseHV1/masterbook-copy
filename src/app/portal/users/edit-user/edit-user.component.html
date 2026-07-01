@@ -5,7 +5,7 @@
         <span
           class="material-icons-outlined me-2"
           style="cursor: pointer"
-          matTooltip="Back to last page"
+          [matTooltip]="'PORTAL.COMMON.BACK_TO_LAST_PAGE' | translate"
           (click)="goBack()">
           arrow_back
         </span>
@@ -14,7 +14,7 @@
 
     <div class="col-12 mb-4" *ngIf="user">
       <div class="text-center">
-        <h1 class="subtitle-1 dark-blue-400">Edit #{{ user.serial }}</h1>
+        <h1 class="subtitle-1 dark-blue-400">{{ 'PORTAL.USERS.EDIT_TITLE' | translate }} #{{ user.serial }}</h1>
       </div>
     </div>
 

@@ -20,7 +20,7 @@
         class="primary-button back-blue white d-flex align-items-center info-button"
         [disabled]="!isPaid"
         *ngIf="showButtonInfo"
-        [matTooltip]="'How this module works?'"
+        [matTooltip]="'SHARED.PAGES_LAYOUT.TOOLTIP_INFO' | translate"
         (click)="btnInfoClick.emit()">
         <span class="material-icons-outlined" style="color: white !important"
           >info</span
@@ -35,7 +35,7 @@
         *ngIf="button && button.url"
         [matTooltip]="
           !isPaid && requirePayment
-            ? 'You cannot perform this action because your agency has a pending payment. Please contact your administrator.'
+            ? ('SHARED.PAGES_LAYOUT.TOOLTIP_PAYMENT_PENDING' | translate)
             : ''
         "
         [routerLink]="button.url">
@@ -51,7 +51,7 @@
         *ngIf="button && !button.url"
         [matTooltip]="
           !isPaid
-            ? 'You cannot perform this action because your agency has a pending payment. Please contact your administrator.'
+            ? ('SHARED.PAGES_LAYOUT.TOOLTIP_PAYMENT_PENDING' | translate)
             : ''
         "
         (click)="btnClick.emit()">
@@ -70,15 +70,14 @@
 <div class="m-3 m-md-4" style="min-height: calc(100vh - 190px)">
   <div *ngIf="!isPaid" class="not-paid-info py-1 px-3 mb-3">
     <span *ngIf="isOwner">
-      Your payment is still pending.
+      {{ 'SHARED.PAGES_LAYOUT.PAYMENT_PENDING_OWNER_PREFIX' | translate }}
       <span class="payment-button" (click)="goToPaymentIntent()">
-        Click here
+        {{ 'SHARED.PAGES_LAYOUT.PAYMENT_PENDING_OWNER_LINK' | translate }}
       </span>
-      to complete it.
+      {{ 'SHARED.PAGES_LAYOUT.PAYMENT_PENDING_OWNER_SUFFIX' | translate }}
     </span>
     <span *ngIf="!isOwner">
-      Your agency has a pending payment. Please contact your administrator to
-      resolve it.
+      {{ 'SHARED.PAGES_LAYOUT.PAYMENT_PENDING_NON_OWNER' | translate }}
     </span>
   </div>
   <p-card>
@@ -87,7 +86,7 @@
 </div>
 
 <app-floating-actions
-  [surveyUrl]="'https://s.surveyplanet.com/ubdykmvc'"
+  [surveyUrl]="surveyUrl"
   [canShowNumberBroker]="canShowNumberBroker"
   [contactNumberBroker]="contactNumberBroker"
   [isInsured]="isInsured">

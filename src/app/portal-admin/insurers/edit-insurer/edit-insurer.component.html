@@ -1,0 +1,21 @@
+<app-pages-layout>
+  <ng-container content>
+    <div class="d-flex align-items-center mb-1 ms-2" *ngIf="insurer">
+      <span
+        class="material-icons-outlined me-2"
+        style="cursor:pointer"
+        [matTooltip]="'PORTAL.PORTAL_ADMIN.INSURERS.BACK' | translate"
+        (click)="cancel()">
+        arrow_back
+      </span>
+    </div>
+    <div class="col-12 mb-4" *ngIf="insurer">
+      <div class="text-center">
+        <h1 class="subtitle-1 dark-blue-400">{{ 'PORTAL.PORTAL_ADMIN.INSURERS.EDIT_TITLE' | translate }} — {{ insurer.name }}</h1>
+      </div>
+    </div>
+    <div class="px-2 px-lg-5" *ngIf="insurer">
+      <app-insurer-form [insurer]="insurer" (formSubmit)="save($event)" (cancel)="cancel()"></app-insurer-form>
+    </div>
+  </ng-container>
+</app-pages-layout>

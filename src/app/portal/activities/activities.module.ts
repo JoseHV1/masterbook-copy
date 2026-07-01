@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivitiesComponent } from './activities.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -16,6 +17,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 // import { LeafletModule } from '@bluehalo/ngx-leaflet';
 // import { LeafletMarkerClusterModule } from '@bluehalo/ngx-leaflet-markercluster';
@@ -36,6 +38,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [ActivitiesComponent, ClientsMapComponent],
   imports: [
+    TranslateModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -49,6 +52,7 @@ const routes: Routes = [
     MatDividerModule,
     MatIconModule,
     MatButtonModule,
+    MatTooltipModule,
     MatMenuModule,
     BreadcrumbsModule,
     MatCardModule,

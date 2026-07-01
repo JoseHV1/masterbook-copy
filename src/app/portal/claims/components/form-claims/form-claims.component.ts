@@ -23,6 +23,7 @@ import { AuthModel } from 'src/app/shared/interfaces/models/auth.model';
 import { PoliciesService } from 'src/app/shared/services/policies.service';
 import { CreateClaimRequest } from 'src/app/shared/interfaces/requests/claims/create-claim.request';
 import { PopulatedClaimModel } from 'src/app/shared/interfaces/models/claims.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-form-claims',
@@ -64,7 +65,8 @@ export class FormClaimsComponent implements OnInit {
     private _claims: ClaimsService,
     private _policies: PoliciesService,
     private dialog: MatDialog,
-    private _activateRoute: ActivatedRoute
+    private _activateRoute: ActivatedRoute,
+    private _t: TranslateService
   ) {}
 
   ngOnInit() {
@@ -176,7 +178,7 @@ export class FormClaimsComponent implements OnInit {
     const files = Array.from(input.files);
 
     if (this.selectedFiles.length + files.length > 10) {
-      this._ui.showAlertError('You can only select up to 10 files.');
+      this._ui.showAlertError(this._t.instant('PORTAL.CLAIMS.FILE_COUNT_EXCEEDED'));
       return;
     }
 
@@ -185,7 +187,7 @@ export class FormClaimsComponent implements OnInit {
       const extension = file.name.split('.').pop()?.toUpperCase() || '';
 
       if (!this.allowed_types.includes(extension)) {
-        this._ui.showAlertError(`File type not allowed: ${file.name}`);
+        this._ui.showAlertError(this._t.instant('PORTAL.CLAIMS.FILE_TYPE_NOT_ALLOWED', { filename: file.name }));
         return;
       }
 
@@ -254,10 +256,10 @@ export class FormClaimsComponent implements OnInit {
   }
 
   openConfirmationModal() {
-    const action = this.data ? 'edit' : 'save';
+    const confirmKey = this.data ? 'PORTAL.CLAIMS.CONFIRM_EDIT' : 'PORTAL.CLAIMS.CONFIRM_SAVE';
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to ${action} this claim?`,
+        text: this._t.instant(confirmKey),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -331,12 +333,14 @@ export class FormClaimsComponent implements OnInit {
     claimSerial: string,
     action: 'created' | 'updated'
   ) {
-    const message = `The claim {{link}} has been ${action} successfully.`;
+    const message = action === 'created'
+      ? this._t.instant('PORTAL.CLAIMS.CREATED_SUCCESS_TEXT')
+      : this._t.instant('PORTAL.CLAIMS.UPDATED_SUCCESS_TEXT');
 
     this._ui
       .showInformationModal({
         text: message,
-        title: 'SUCCESS!',
+        title: this._t.instant('PORTAL.CLAIMS.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: claimSerial,

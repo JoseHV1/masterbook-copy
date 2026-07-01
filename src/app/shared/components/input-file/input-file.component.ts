@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { UiService } from '../../services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-input-file',
@@ -25,7 +26,7 @@ export class InputFileComponent {
   value!: string;
   allowedTypes: string[] = ['pdf', 'application/pdf'];
 
-  constructor(private _ui: UiService) {}
+  constructor(private _ui: UiService, private _t: TranslateService) {}
 
   openNavigatorFile() {
     this.inputFile.nativeElement.click();
@@ -37,14 +38,12 @@ export class InputFileComponent {
     if (!file) return;
 
     if (file?.size / 1048576 > this.maxMbAllowed) {
-      this._ui.showAlertError(
-        `The maximum weight allowed is ${this.maxMbAllowed} MB`
-      );
+      this._ui.showAlertError(this._t.instant('SHARED.FILE.MAX_SIZE_ERROR', { mb: this.maxMbAllowed }));
       return;
     }
 
     if (!this.allowedTypes.includes(file?.type)) {
-      this._ui.showAlertError('This file type is not allowed');
+      this._ui.showAlertError(this._t.instant('SHARED.FILE.TYPE_NOT_ALLOWED'));
       return;
     }
 

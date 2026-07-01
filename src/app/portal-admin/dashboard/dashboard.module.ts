@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { DashboardComponent } from './dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardStatisticsCardModule } from 'src/app/shared/components/dashboard-statistics-card/dashboard-statistics-card.module';
@@ -22,6 +23,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [DashboardComponent],
   imports: [
+    TranslateModule,
     CommonModule,
     RouterModule.forChild(routes),
     DashboardStatisticsCardModule,

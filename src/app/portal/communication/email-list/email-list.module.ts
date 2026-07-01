@@ -12,6 +12,7 @@ import { NoMorePagePipe } from '../pipe/no-more-page.pipe';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
   declarations: [EmailListComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     RouterModule.forChild(routes),
     PagesLayoutModule,
     MatSidenavModule,

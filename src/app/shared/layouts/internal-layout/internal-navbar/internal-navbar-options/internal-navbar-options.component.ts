@@ -3,6 +3,7 @@ import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { RolesEnum } from 'src/app/shared/enums/roles.enum';
+import { BillingModeEnum } from 'src/app/shared/enums/billing-mode.enum';
 import { PaymetGatewayService } from 'src/app/shared/services/payment-gateway.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
@@ -16,6 +17,7 @@ export class InternalNavbarOptionsComponent {
   imageProfile!: string;
   userRole?: RolesEnum;
   ownerRole: RolesEnum = RolesEnum.AGENCY_OWNER;
+  isFreeAgency = false;
   paymentGatewayManageUrl: null | string = null;
 
   constructor(
@@ -27,6 +29,7 @@ export class InternalNavbarOptionsComponent {
   ) {
     const auth = this._auth.getAuth();
     this.userRole = auth?.user.role;
+    this.isFreeAgency = auth?.user.agency?.billing_mode === BillingModeEnum.FREE;
 
     if (auth && auth.user.photo_url) {
       this._uploadFile.getUrlFile(auth.user.photo_url).subscribe(url => {

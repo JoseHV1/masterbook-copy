@@ -1,6 +1,6 @@
 <div class="filters">
   <mat-form-field appearance="outline">
-    <mat-label>Select an agent</mat-label>
+    <mat-label>{{ 'SHARED.NIGHTINGALE_CHART.FIELD_AGENT' | translate }}</mat-label>
     <mat-select formControlName="agent" (selectionChange)="filterData()">
       <mat-option *ngFor="let agent of agents" [value]="agent.code">
         {{ agent.name }}
@@ -9,7 +9,7 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-    <mat-label>Select an insurance company</mat-label>
+    <mat-label>{{ 'SHARED.NIGHTINGALE_CHART.FIELD_INSURER' | translate }}</mat-label>
     <mat-select formControlName="company" (selectionChange)="filterData()">
       <mat-option *ngFor="let company of companies" [value]="company.code">
         {{ company.name }}
@@ -18,7 +18,7 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-    <mat-label>Start Date</mat-label>
+    <mat-label>{{ 'SHARED.NIGHTINGALE_CHART.FIELD_START_DATE' | translate }}</mat-label>
     <input
       matInput
       [matDatepicker]="startDate"
@@ -29,7 +29,7 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-    <mat-label>End Date</mat-label>
+    <mat-label>{{ 'SHARED.NIGHTINGALE_CHART.FIELD_END_DATE' | translate }}</mat-label>
     <input
       matInput
       [matDatepicker]="endDate"

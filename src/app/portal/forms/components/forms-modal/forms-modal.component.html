@@ -10,14 +10,14 @@
     <button
       class="primary-button white back-gray-400 mx-1"
       (click)="close(false)">
-      Close
+      {{ 'PORTAL.FORMS.BTN_CLOSE' | translate }}
     </button>
 
     <button
       class="primary-button white back-light-blue-500 mx-1"
       *ngIf="showActions"
       (click)="openModalCreateForm()">
-      Add new form
+      {{ 'PORTAL.FORMS.BTN_ADD_NEW' | translate }}
     </button>
   </div>
 </div>
@@ -28,16 +28,14 @@
     style="font-size: 14px"
     *ngIf="showSendEmailOption">
     <span *ngIf="!connected">
-      Please sign in with your Google account to send forms to your clients
-      (accounts).
+      {{ 'PORTAL.FORMS.GOOGLE_SIGN_IN_PREFIX' | translate }}
       <span class="button-login-google" (click)="loginGoogle()">
-        You can log in here.</span
+        {{ 'PORTAL.FORMS.GOOGLE_LOGIN_LINK' | translate }}</span
       >
     </span>
 
     <span *ngIf="connected">
-      Remember that you can send your forms to your accounts at no additional
-      cost.
+      {{ 'PORTAL.FORMS.GOOGLE_CONNECTED_MSG' | translate }}
     </span>
   </div>
 
@@ -47,34 +45,34 @@
       [dataSource]="forms"
       style="width: auto; overflow-x: scroll">
       <ng-container matColumnDef="serial">
-        <th mat-header-cell *matHeaderCellDef>Serial</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.FORMS.TABLE_SERIAL' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           {{ element.serial | notNull }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.FORMS.TABLE_NAME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           {{ element.name | notNull }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="insurer">
-        <th mat-header-cell *matHeaderCellDef>Insurers</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.FORMS.TABLE_INSURERS' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           {{ getInsurerNames(element) | notNull }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.COMMON.ACTIONS' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <span
             class="material-icons-outlined me-2 light-blue-600"
             style="cursor: pointer"
             *ngIf="showActions && connected && showSendEmailOption"
-            matTooltip="Send this form via email"
+            [matTooltip]="'PORTAL.FORMS.TOOLTIP_SEND_EMAIL' | translate"
             (click)="openModalAccounts(element)">
             email
           </span>
@@ -86,7 +84,7 @@
             <span
               class="material-icons-outlined me-2"
               style="cursor: pointer"
-              matTooltip="Download this form">
+              [matTooltip]="'PORTAL.FORMS.TOOLTIP_DOWNLOAD' | translate">
               attachment
             </span>
           </a>
@@ -95,7 +93,7 @@
             class="material-icons-outlined me-2 light-blue-600"
             style="cursor: pointer"
             *ngIf="canModify(element)"
-            matTooltip="Edit this form"
+            [matTooltip]="'PORTAL.FORMS.TOOLTIP_EDIT' | translate"
             (click)="openModalCreateForm(element)">
             edit
           </span>
@@ -104,7 +102,7 @@
             class="material-icons-outlined me-2 red-color"
             style="cursor: pointer"
             *ngIf="canModify(element)"
-            matTooltip="Delete this form"
+            [matTooltip]="'PORTAL.FORMS.TOOLTIP_DELETE' | translate"
             (click)="deleteForm(element._id)">
             delete
           </span>

@@ -1,10 +1,10 @@
 <div class="px-md-5 my-1 my-md-2 mb-2 mb-md-5">
   <form [formGroup]="form">
-    <app-input formControlName="query" placeholder="Search policy type">
+    <app-input formControlName="query" [placeholder]="'PORTAL.REQUESTS.POLICY_TYPE_SELECTOR.PLACEHOLDER_SEARCH' | translate">
     </app-input>
   </form>
   <div class="lob-selector px-2 px-md-3 py-3 my-1 my-md-2">
-    <p class="subtitle-2 text-center">BUSINESS LINES</p>
+    <p class="subtitle-2 text-center">{{ 'PORTAL.REQUESTS.POLICY_TYPE_SELECTOR.BUSINESS_LINES' | translate }}</p>
     <div class="d-flex flex-wrap justify-content-center">
       <ng-container *ngFor="let lob of business_lines">
         <div
@@ -21,7 +21,7 @@
 </div>
 
 <h3 class="subtitle-2 dark-blue-400 w-100 text-center mb-4">
-  Select a policy type
+  {{ 'PORTAL.REQUESTS.POLICY_TYPE_SELECTOR.TITLE' | translate }}
 </h3>
 
 <ng-container *ngFor="let lob of business_lines">
@@ -78,7 +78,7 @@
                       selectedType =
                         selectedType?._id === type._id ? undefined : type
                     ">
-                    {{ selectedType?._id === type._id ? 'Selected' : 'Select' }}
+                    {{ (selectedType?._id === type._id ? 'PORTAL.REQUESTS.POLICY_TYPE_SELECTOR.BTN_SELECTED' : 'PORTAL.REQUESTS.POLICY_TYPE_SELECTOR.BTN_SELECT') | translate }}
                   </button>
                 </div>
               </div>
@@ -97,17 +97,17 @@
     <button
       class="primary-button back-gray-300 white mx-1 my-4"
       (click)="selectPolicyType()">
-      Add Endorsements
+      {{ 'PORTAL.REQUESTS.POLICY_TYPE_SELECTOR.BTN_ADD_ENDORSEMENTS' | translate }}
     </button>
   </div>
   <div class="position-relative">
     <button
       class="primary-button back-dark-blue-300 white mx-1 my-4"
       (click)="skipEndorsements()">
-      Next
+      {{ 'PORTAL.REQUESTS.POLICY_TYPE_SELECTOR.BTN_NEXT' | translate }}
     </button>
     <div class="position-absolute skip-advise bottom-0 text-3 gray-500">
-      skip endorsements
+      {{ 'PORTAL.REQUESTS.POLICY_TYPE_SELECTOR.SKIP_ENDORSEMENTS' | translate }}
     </div>
   </div>
 </div>

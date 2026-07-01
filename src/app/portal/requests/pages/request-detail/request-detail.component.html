@@ -5,7 +5,7 @@
         <span
           class="material-icons-outlined me-2"
           style="cursor: pointer"
-          matTooltip="Back to last page"
+          [matTooltip]="'PORTAL.REQUESTS.BACK' | translate"
           (click)="goBack()">
           arrow_back
         </span>
@@ -21,7 +21,7 @@
             (click)="openModalChangeLogs(request._id)">
             <span class="d-flex align-items-center gap-2">
               <span class="material-icons-outlined">history</span>
-              <span>View Change Logs</span>
+              <span>{{ 'PORTAL.REQUESTS.CHANGE_LOGS' | translate }}</span>
             </span>
           </button>
 
@@ -40,7 +40,7 @@
                 }">
                 playlist_remove
               </span>
-              <span>Reject</span>
+              <span>{{ 'PORTAL.REQUESTS.REJECT' | translate }}</span>
             </span>
           </button>
 
@@ -61,14 +61,14 @@
                 }">
                 edit
               </span>
-              <span>Edit</span>
+              <span>{{ 'PORTAL.REQUESTS.EDIT' | translate }}</span>
             </span>
           </button>
 
           <button mat-menu-item (click)="deleteRequest(request._id)">
             <span class="d-flex align-items-center gap-2">
               <span class="material-icons-outlined text-danger">delete</span>
-              <span>Delete</span>
+              <span>{{ 'PORTAL.REQUESTS.DELETE' | translate }}</span>
             </span>
           </button>
         </mat-menu>
@@ -76,10 +76,10 @@
       <div class="d-flex align-items-center justify-content-center">
         <div class="d-flex flex-column">
           <h3 class="text-center w-100 mb-1 subtitle-1 dark-blue-400">
-            Request #{{ request.serial }}
+            {{ 'PORTAL.REQUESTS.REQUEST_HASH' | translate }}{{ request.serial }}
           </h3>
           <p class="text-3 gray-500 text-center">
-            Created date on:
+            {{ 'PORTAL.REQUESTS.CREATED_ON' | translate }}
             {{ request.createdAt | date : 'MM/dd/yyyy' | notNull }}
           </p>
           <div class="d-flex justify-content-center align-items-center gap-2">
@@ -96,7 +96,7 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <span class="subtitle-2 dark-blue-400">
-                    Personal Information
+                    {{ 'PORTAL.REQUESTS.PERSONAL_INFO' | translate }}
                   </span>
                 </mat-panel-title>
               </mat-expansion-panel-header>
@@ -111,7 +111,7 @@
             <mat-expansion-panel [expanded]="true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <span class="subtitle-2 dark-blue-400"> Request </span>
+                  <span class="subtitle-2 dark-blue-400">{{ 'PORTAL.REQUESTS.REQUEST_LABEL' | translate }}</span>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <ng-container
@@ -131,7 +131,7 @@
             <mat-expansion-panel [expanded]="true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <span class="subtitle-2 dark-blue-400"> Documents </span>
+                  <span class="subtitle-2 dark-blue-400">{{ 'PORTAL.REQUESTS.DOCUMENTS' | translate }}</span>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <ng-container
@@ -145,7 +145,7 @@
             <mat-expansion-panel [expanded]="false">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <span class="subtitle-2 dark-blue-400"> Refered policy </span>
+                  <span class="subtitle-2 dark-blue-400">{{ 'PORTAL.REQUESTS.REFERED' | translate }}</span>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <ng-container
@@ -168,12 +168,12 @@
                     class="d-flex flex-row align-items-center justify-content-between w-100 mb-2 mb-md-3 px-1">
                     <div class="d-flex align-items-center gap-2">
                       <span class="subtitle-2 dark-blue-400">
-                        <span class="d-none d-md-inline">Available</span> Quotes
+                        {{ 'PORTAL.REQUESTS.AVAILABLE_QUOTES' | translate }}
                       </span>
 
                       <span class="badge-quotes-quantity rounded-pill">
                         {{ quotes.length
-                        }}<span class="d-none d-md-inline">&nbsp;found</span>
+                        }}<span class="d-none d-md-inline">&nbsp;{{ 'PORTAL.REQUESTS.AVAILABLE_QUOTES' | translate }}</span>
                       </span>
                     </div>
 
@@ -183,14 +183,14 @@
                         request.status !== REQUEST_STATUS.CLOSED && !isInsured
                       "
                       type="button"
-                      matTooltip="Create Quote"
+                      [matTooltip]="'PORTAL.REQUESTS.CREATE_QUOTE' | translate"
                       (click)="handleCreateQuote($event)">
                       <span class="material-icons-outlined text-white"
                         >add</span
                       >
 
                       <span class="d-none d-md-inline ms-1 text-white"
-                        >Create Quote</span
+                        >{{ 'PORTAL.REQUESTS.CREATE_QUOTE' | translate }}</span
                       >
                     </button>
                   </div>
@@ -234,10 +234,8 @@
           class="alert-login-google py-2 px-3 mt-1 mb-2"
           style="font-size: 14px"
           *ngIf="isBroker">
-          To send the request document to insurers, you must be logged in with
-          Google.
-          <span class="button-login-google" (click)="loginGoogle()">
-            You can log in here.</span
+          {{ 'PORTAL.REQUESTS.GOOGLE_MSG' | translate }}
+          <span class="button-login-google" (click)="loginGoogle()">{{ 'PORTAL.REQUESTS.GOOGLE_LOGIN' | translate }}</span
           >
         </div>
         <div
@@ -246,7 +244,7 @@
           <div class="px-2 my-1">
             <div class="row">
               <div class="col-12 col-md-6 black px-2 py-2">
-                Document {{ i + 1 }}
+                {{ 'PORTAL.REQUESTS.DOCUMENT' | translate }} {{ i + 1 }}
               </div>
               <div
                 class="black px-2 py-2 d-flex align-items-center justify-content-between prop-box">
@@ -261,7 +259,7 @@
                   class="material-icons-outlined ms-2 light-blue-600"
                   style="cursor: pointer"
                   *ngIf="isBroker && connected"
-                  matTooltip="Send this document via email"
+                  [matTooltip]="'PORTAL.REQUESTS.SEND_EMAIL' | translate"
                   (click)="sendQuoteViaEmail(i)">
                   mail
                 </span>
@@ -274,9 +272,9 @@
     <ng-template #formRequesDocument>
       <form [formGroup]="form">
         <div class="col-12 mb-1 mb-md-2">
-          <label>Request document *</label>
+          <label>{{ 'PORTAL.REQUESTS.REQUEST_DOC' | translate }}</label>
           <app-file-picker
-            placeholder="Attach request document"
+            [placeholder]="'PORTAL.REQUESTS.ATTACH_DOC' | translate"
             formControlName="request_documents"
             data-testid="request-upload-input">
           </app-file-picker>
@@ -286,13 +284,13 @@
           <button
             class="primary-button big-button back-dark-blue-400 white mx-1 mb-2"
             (click)="openModalForms()">
-            View Forms
+            {{ 'PORTAL.REQUESTS.VIEW_FORMS' | translate }}
           </button>
           <button
             class="primary-button big-button back-light-blue-400 white mx-1 mb-2"
             (click)="uploadRequestForm()"
             [disabled]="form.invalid">
-            Upload File
+            {{ 'PORTAL.REQUESTS.UPLOAD_FILE' | translate }}
           </button>
         </div>
       </form>
@@ -304,7 +302,7 @@
   <div class="row">
     <ng-container>
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Rejected reason</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.REJECTED_REASON' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ request.rejection_reason }}
         </div>
@@ -317,7 +315,7 @@
   <div class="row mx-1 mx-md-2" id="request-personal-info-details">
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Account name</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.ACCOUNT_NAME' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ request.client?.account_name | notNull }}
         </div>
@@ -326,7 +324,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Full name</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.FULL_NAME' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{
             (request.client?.user?.first_name | notNull) +
@@ -339,7 +337,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Date of birth</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.DOB' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ request.client?.user?.date_of_birth | date | notNull }}
         </div>
@@ -348,7 +346,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Gender</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.GENDER' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ request.client?.user?.gender | notNull | enum }}
         </div>
@@ -357,7 +355,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Marital status</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.MARITAL' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ request.client?.user?.marital_status | notNull | enum }}
         </div>
@@ -366,7 +364,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Country</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.COUNTRY' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ request.client?.user?.address_info?.country | notNull }}
         </div>
@@ -375,7 +373,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Full address</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.ADDRESS' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ request.client?.user?.address_info?.address | notNull }}
         </div>
@@ -384,7 +382,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Zip code</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.ZIP' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ request.client?.user?.address_info?.zipcode | notNull }}
         </div>
@@ -393,13 +391,13 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Email</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.EMAIL' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           <ng-container *ngIf="!isInsured">
             <span
               *ngIf="connected"
               class="clickable-email"
-              matTooltip="Send email"
+              [matTooltip]="'PORTAL.COMMON.SEND_EMAIL' | translate"
               matTooltipPosition="above"
               (click)="openEmailCompose(request.client?.user?.email)">
               {{ request.client?.user?.email | notNull }}
@@ -418,11 +416,11 @@
                 [class.visible]="showEmailDropdown"
                 *ngIf="request.client?.user?.email"
                 (click)="$event.stopPropagation()">
-                To send emails you must be logged in with Google.
+                {{ 'PORTAL.REQUESTS.GOOGLE_MSG' | translate }}
                 <span
                   class="rich-tooltip__link"
                   (click)="openEmailCompose(request.client?.user?.email)">
-                  Login here
+                  {{ 'PORTAL.COMMON.LOGIN_HERE' | translate }}
                 </span>
               </span>
             </span>
@@ -443,7 +441,7 @@
     *ngIf="request.category !== POLICY_CATEGORY.CANCELLATION">
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Policy type</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.POLICY_TYPE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ request.policy_type.name | notNull | enum }}
         </div>
@@ -452,7 +450,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Business line</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.BUSINESS_LINE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ request.policy_type.business_line.name | notNull }}
         </div>
@@ -461,7 +459,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Object of insure</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.OBJECT' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ request.insure_object | notNull }}
         </div>
@@ -470,7 +468,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Coverage limit</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.COVERAGE_LIMIT' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ request.coverage | currency | notNull }}
         </div>
@@ -479,7 +477,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Agent</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.AGENT' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{
             (request.client?.broker?.user?.first_name | notNull) +
@@ -493,7 +491,7 @@
   <div class="row" *ngIf="request.category !== POLICY_CATEGORY.NEW_BUSINESS">
     <div class="col col-12 px-4 my-2">
       <div class="row">
-        <div class="col col-2 black px-2 py-2">additional Info</div>
+        <div class="col col-2 black px-2 py-2">{{ 'PORTAL.REQUESTS.ADDITIONAL_INFO' | translate }}</div>
         <div class="col col-10 black px-3 py-2 prop-box">
           {{ request.additional_info | notNull }}
         </div>
@@ -508,7 +506,7 @@
         class="primary-button back-red-color white mx-2"
         (click)="cancelPolicy()"
         [disabled]="request.status === REQUEST_STATUS.CLOSED">
-        Accept cancellation
+        {{ 'PORTAL.REQUESTS.ACCEPT_CANCELLATION' | translate }}
       </button>
     </div>
   </div>
@@ -538,7 +536,7 @@
             (click)="openAttach(element.document)"
             target="_blank"
             style="cursor: pointer"
-            matTooltip="View PDF"
+            [matTooltip]="'PORTAL.COMMON.VIEW_PDF' | translate"
             class="attach-link">
             {{ element.document | customFile }}
           </a>
@@ -548,7 +546,7 @@
       <div
         class="information-card d-flex flex-column flex-md-row align-items-center justify-content-center w-100 mt-3 shadow-sm">
         <div class="d-flex align-items-center flex-column stat-item">
-          <span class="stat-label">PREMIUM</span>
+          <span class="stat-label">{{ 'PORTAL.REQUESTS.PREMIUM' | translate }}</span>
           <span class="stat-value">{{
             element.prime_amount | currency | notNull
           }}</span>
@@ -558,7 +556,7 @@
         <div class="vr separator d-none d-md-block"></div>
 
         <div class="d-flex align-items-center flex-column stat-item">
-          <span class="stat-label">COVERAGE</span>
+          <span class="stat-label">{{ 'PORTAL.REQUESTS.COVERAGE' | translate }}</span>
           <span class="stat-value">{{
             element.coverage | currency | notNull
           }}</span>
@@ -568,7 +566,7 @@
         <div class="vr separator d-none d-md-block"></div>
 
         <div class="d-flex align-items-center flex-column stat-item">
-          <span class="stat-label">DEDUCTIBLE</span>
+          <span class="stat-label">{{ 'PORTAL.REQUESTS.DEDUCTIBLE' | translate }}</span>
           <span class="stat-value">{{
             element.deductible | currency | notNull
           }}</span>
@@ -593,7 +591,7 @@
         alt="empty"
         style="max-height: 10rem" />
       <h3 class="text-center mt-3 mb-4 w-100 subtitle-2 dark-blue-300">
-        No quotes available for this request.
+        {{ 'PORTAL.REQUESTS.NO_QUOTES' | translate }}
       </h3>
     </div>
   </ng-template>
@@ -603,7 +601,7 @@
   <div class="row mx-1 mx-md-2">
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Insurer</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.POLICY_TYPE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ refreredPolicy?.insurer?.name | notNull }}
         </div>
@@ -612,7 +610,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Policy Type</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.POLICY_TYPE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ refreredPolicy?.policy_type?.name | notNull }}
         </div>
@@ -621,7 +619,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Object to insure</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.OBJECT_INSURE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ refreredPolicy?.insure_object | notNull }}
         </div>
@@ -630,7 +628,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Effective date</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.EFFECTIVE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ refreredPolicy?.start_date | date | notNull }}
         </div>
@@ -639,7 +637,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Expiration date</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.EXPIRATION' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ refreredPolicy?.end_date | date | notNull }}
         </div>
@@ -648,7 +646,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Coverage</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.COVERAGE_LIMIT' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ refreredPolicy?.coverage | currency | notNull }}
         </div>
@@ -657,7 +655,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Premium amount</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.PREMIUM' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ refreredPolicy?.prime_amount | currency | notNull }}
         </div>
@@ -666,7 +664,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Deductible</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.DEDUCTIBLE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ refreredPolicy?.deductible | currency | notNull }}
         </div>
@@ -675,7 +673,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Status</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.STATUS' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ refreredPolicy?.status | notNull | enum }}
         </div>
@@ -684,7 +682,7 @@
 
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">Policy cycle</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.CYCLE' | translate }}</div>
         <div
           class="col col-8 black px-3 py-2 prop-box"
           [class]="'C-' + refreredPolicy?.category + ' fw-semibold'">
@@ -696,7 +694,7 @@
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">
-          Policy coverage details
+          {{ 'PORTAL.REQUESTS.COVERAGE_DETAILS' | translate }}
         </div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ refreredPolicy?.description | notNull }}

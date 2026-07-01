@@ -4,10 +4,11 @@ import { UploadFileErrorsModalComponent } from './upload-file-errors-modal.compo
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [UploadFileErrorsModalComponent],
-  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatDialogModule, MatIconModule, MatButtonModule, TranslateModule],
   exports: [UploadFileErrorsModalComponent],
 })
 export class UploadFileErrorsModalModule {}

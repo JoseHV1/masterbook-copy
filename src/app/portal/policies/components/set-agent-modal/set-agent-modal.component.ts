@@ -5,6 +5,7 @@ import { finalize, take } from 'rxjs';
 import { PopulatedPolicyModel } from 'src/app/shared/interfaces/models/policy.model';
 import { PoliciesService } from 'src/app/shared/services/policies.service';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-set-agent-modal',
@@ -21,7 +22,8 @@ export class SetAgentModalComponent {
     @Inject(MAT_DIALOG_DATA)
     private _data: { policy: PopulatedPolicyModel },
     private _policy: PoliciesService,
-    private _ui: UiService
+    private _ui: UiService,
+    private _t: TranslateService
   ) {
     this.policy = this._data.policy;
     this.selectedAgent = this._data.policy.agent_id;
@@ -30,7 +32,7 @@ export class SetAgentModalComponent {
   setPolicyAgent(): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to assign this agent to policy #${this.policy?.policy_number}?`,
+        text: this._t.instant('PORTAL.POLICIES.CONFIRM_SET_AGENT', { policy_number: this.policy?.policy_number }),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -45,7 +47,7 @@ export class SetAgentModalComponent {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this._ui.showAlertSuccess(
-          'Assignment confirmed: Policy successfully set.'
+          this._t.instant('PORTAL.POLICIES.AGENT_SET_SUCCESS')
         );
         this.close(true);
       });

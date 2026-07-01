@@ -3,7 +3,7 @@ import { finalize, take } from 'rxjs';
 import { RequestsService } from 'src/app/shared/services/requests.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { isInvalid } from '../../../../shared/helpers/is-invalid.helper';
-import { hasError } from '../../../../shared/helpers/has-error.helper.ts';
+import { hasError } from '../../../../shared/helpers/has-error.helper';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { addZero } from '../../../../shared/helpers/add-zero';
 import { PolicyCategoryEnum } from 'src/app/shared/enums/policy-category.enum';
@@ -14,6 +14,7 @@ import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateRequestRequest } from 'src/app/shared/interfaces/requests/requests/update-request.request';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-form-requests-from-policy',
@@ -34,7 +35,8 @@ export class FormRequestsFromPolicyComponent implements OnInit {
     private _ui: UiService,
     private _request: RequestsService,
     private _router: Router,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _t: TranslateService
   ) {
     this.form = new FormGroup({
       insure_object: new FormControl(null, [Validators.required]),
@@ -63,11 +65,10 @@ export class FormRequestsFromPolicyComponent implements OnInit {
 
     if (this.form.invalid) return;
 
+    const confirmKey = action === 'edit' ? 'PORTAL.REQUESTS.CONFIRM_EDIT' : 'PORTAL.REQUESTS.CONFIRM_SAVE';
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to ${
-          action == 'edit' ? 'edited' : 'saved'
-        } this request?`,
+        text: this._t.instant(confirmKey),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -123,12 +124,14 @@ export class FormRequestsFromPolicyComponent implements OnInit {
     request: RequestModel,
     action: 'created' | 'updated'
   ) {
-    const message = `The request {{link}} has been ${action} successfully.`;
+    const message = action === 'created'
+      ? this._t.instant('PORTAL.REQUESTS.CREATED_SUCCESS_TEXT')
+      : this._t.instant('PORTAL.REQUESTS.UPDATED_SUCCESS_TEXT');
 
     this._ui
       .showInformationModal({
         text: message,
-        title: 'SUCCESS!',
+        title: this._t.instant('PORTAL.REQUESTS.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: `#${request.serial}`,

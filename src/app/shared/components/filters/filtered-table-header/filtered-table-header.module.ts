@@ -6,11 +6,13 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [FilteredTableHeaderComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,

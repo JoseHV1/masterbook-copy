@@ -9,11 +9,11 @@
           <!-- Left: nav + date label -->
           <div
             class="col-12 col-md-6 d-flex justify-content-center justify-content-md-start align-items-center mb-2 mb-md-0">
-            <button mat-icon-button (click)="nav('prev')" matTooltip="Previous">
+            <button mat-icon-button (click)="nav('prev')" [matTooltip]="'PORTAL.CALENDAR.TOOLTIP_PREVIOUS' | translate">
               <mat-icon>chevron_left</mat-icon>
             </button>
-            <span class="toolbar-today-label">Today</span>
-            <button mat-icon-button (click)="nav('next')" matTooltip="Next">
+            <span class="toolbar-today-label">{{ 'PORTAL.CALENDAR.TODAY' | translate }}</span>
+            <button mat-icon-button (click)="nav('next')" [matTooltip]="'PORTAL.CALENDAR.TOOLTIP_NEXT' | translate">
               <mat-icon>chevron_right</mat-icon>
             </button>
 
@@ -25,10 +25,12 @@
           <div
             class="col-12 col-md-6 d-flex justify-content-center justify-content-md-end align-items-center gap-2">
             <button
-              mat-icon-button
-              matTooltip="Search events"
+              class="toolbar-filter-btn"
+              [class.toolbar-filter-btn--active]="hasActiveSearch || showSearch"
               (click)="$event.stopPropagation(); showSearch = !showSearch">
-              <mat-icon [class.search-icon-active]="hasActiveSearch">search</mat-icon>
+              <mat-icon class="toolbar-filter-icon">tune</mat-icon>
+              <span>{{ 'PORTAL.CALENDAR.FILTERS' | translate }}</span>
+              <span *ngIf="hasActiveSearch" class="toolbar-filter-dot"></span>
             </button>
             <mat-button-toggle-group
               class="segmented segmented--toolbar"
@@ -37,9 +39,9 @@
               (change)="changeView($event.value)"
               name="view"
               exclusive>
-              <mat-button-toggle value="dayGridMonth" *ngIf="!isMobile">Month</mat-button-toggle>
-              <mat-button-toggle value="timeGridWeek" *ngIf="!isMobile">Week</mat-button-toggle>
-              <mat-button-toggle value="timeGridDay">Day</mat-button-toggle>
+              <mat-button-toggle value="dayGridMonth" *ngIf="!isMobile">{{ 'PORTAL.CALENDAR.VIEW_MONTH' | translate }}</mat-button-toggle>
+              <mat-button-toggle value="timeGridWeek" *ngIf="!isMobile">{{ 'PORTAL.CALENDAR.VIEW_WEEK' | translate }}</mat-button-toggle>
+              <mat-button-toggle value="timeGridDay">{{ 'PORTAL.CALENDAR.VIEW_DAY' | translate }}</mat-button-toggle>
             </mat-button-toggle-group>
           </div>
         </div>
@@ -49,67 +51,67 @@
           <!-- Go to date row -->
           <div class="row px-3 pt-3 pb-1 mx-0">
             <div class="col-12 d-flex align-items-center gap-2">
-              <label class="search-field-label mb-0" style="white-space: nowrap">Go to date</label>
+              <label class="search-field-label mb-0" style="white-space: nowrap">{{ 'PORTAL.CALENDAR.LABEL_GOTO_DATE' | translate }}</label>
               <input
                 type="date"
                 [(ngModel)]="goToDateValue"
                 class="search-field-input"
                 style="max-width: 180px"
                 (keydown.enter)="gotoDate()" />
-              <button class="primary-button back-dark-blue-200 white goto-go-btn" (click)="gotoDate()">Go</button>
+              <button class="primary-button back-dark-blue-200 white goto-go-btn" (click)="gotoDate()">{{ 'PORTAL.CALENDAR.BTN_GO' | translate }}</button>
             </div>
           </div>
           <hr class="mx-3 mt-2 mb-0" style="border-color: #e0e3e8;" />
           <div class="row px-3 py-3 mx-0">
             <div class="col-12 col-md-6 col-lg-4 mb-3">
-              <label class="search-field-label">What</label>
+              <label class="search-field-label">{{ 'PORTAL.CALENDAR.LABEL_WHAT' | translate }}</label>
               <input
                 type="text"
                 [(ngModel)]="searchFilters.what"
-                placeholder="Keywords contained in event"
+                [placeholder]="'PORTAL.CALENDAR.PLACEHOLDER_WHAT' | translate"
                 class="search-field-input" />
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
-              <label class="search-field-label">Who</label>
+              <label class="search-field-label">{{ 'PORTAL.CALENDAR.LABEL_WHO' | translate }}</label>
               <input
                 type="text"
                 [(ngModel)]="searchFilters.who"
-                placeholder="Participant, organizer or creator"
+                [placeholder]="'PORTAL.CALENDAR.PLACEHOLDER_WHO' | translate"
                 class="search-field-input" />
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
-              <label class="search-field-label">Where</label>
+              <label class="search-field-label">{{ 'PORTAL.CALENDAR.LABEL_WHERE' | translate }}</label>
               <input
                 type="text"
                 [(ngModel)]="searchFilters.where"
-                placeholder="Location or room"
+                [placeholder]="'PORTAL.CALENDAR.PLACEHOLDER_WHERE' | translate"
                 class="search-field-input" />
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
-              <label class="search-field-label">Doesn't have</label>
+              <label class="search-field-label">{{ 'PORTAL.CALENDAR.LABEL_DOESNT_HAVE' | translate }}</label>
               <input
                 type="text"
                 [(ngModel)]="searchFilters.doesntHave"
-                placeholder="Keywords not in event"
+                [placeholder]="'PORTAL.CALENDAR.PLACEHOLDER_DOESNT_HAVE' | translate"
                 class="search-field-input" />
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
-              <label class="search-field-label">Date from</label>
+              <label class="search-field-label">{{ 'PORTAL.CALENDAR.LABEL_DATE_FROM' | translate }}</label>
               <input
                 type="date"
                 [(ngModel)]="searchFilters.dateFrom"
                 class="search-field-input" />
             </div>
             <div class="col-12 col-md-6 col-lg-4 mb-3">
-              <label class="search-field-label">Date to</label>
+              <label class="search-field-label">{{ 'PORTAL.CALENDAR.LABEL_DATE_TO' | translate }}</label>
               <input
                 type="date"
                 [(ngModel)]="searchFilters.dateTo"
                 class="search-field-input" />
             </div>
             <div class="col-12 d-flex justify-content-end align-items-end gap-2 mb-1">
-              <button class="primary-button back-gray-400 white" (click)="resetSearch()">Reset</button>
-              <button class="primary-button back-dark-blue-200 white" (click)="applySearch()">Search</button>
+              <button class="primary-button back-gray-400 white" (click)="resetSearch()">{{ 'PORTAL.CALENDAR.BTN_RESET' | translate }}</button>
+              <button class="primary-button back-dark-blue-200 white" (click)="applySearch()">{{ 'PORTAL.CALENDAR.BTN_SEARCH' | translate }}</button>
             </div>
           </div>
         </div>
@@ -123,8 +125,8 @@
 
     <ng-template #waitOrConnect>
       <div class="p-4">
-        <p *ngIf="loading">Checking Google connection…</p>
-        <p *ngIf="!loading">Redirecting to connect Google Calendar…</p>
+        <p *ngIf="loading">{{ 'PORTAL.CALENDAR.CHECKING_GOOGLE' | translate }}</p>
+        <p *ngIf="!loading">{{ 'PORTAL.CALENDAR.REDIRECTING_GOOGLE' | translate }}</p>
       </div>
     </ng-template>
   </ng-container>

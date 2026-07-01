@@ -5,7 +5,7 @@
       *ngIf="currentStep === 1">
       <div class="w-75 mt-2">
         <h3 class="title-3 gray-500 text-center mb-2 mb-md-4 pb-3">
-          How do you plan to use <span class="dark-blue-400">Masterbook?</span>
+          {{ 'REGISTER_TWO.STEP_SELECT.QUESTION' | translate }} <span class="dark-blue-400">{{ 'REGISTER_TWO.STEP_SELECT.BRAND' | translate }}</span>
         </h3>
         <div class="d-md-flex justify-content-center align-items-center">
           <app-card-option-register-two
@@ -20,7 +20,7 @@
             class="primary-button big-button back-light-blue-500 white"
             (click)="nextStep()"
             [disabled]="optionSelected === 0">
-            Continue
+            {{ 'REGISTER_TWO.STEP_SELECT.BTN_CONTINUE' | translate }}
           </button>
         </div>
       </div>

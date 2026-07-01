@@ -7,6 +7,7 @@ import { InvoiceService } from 'src/app/shared/services/invoice.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-invoices-table',
@@ -41,7 +42,8 @@ export class InvoicesTableComponent implements OnInit {
     private _ui: UiService,
     public _url: UrlService,
     private _location: Location,
-    private _uploadFile: UploadFileService
+    private _uploadFile: UploadFileService,
+    private _t: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -90,7 +92,7 @@ export class InvoicesTableComponent implements OnInit {
         },
         error: err => {
           this.errorRowIds.add(id);
-          this._ui.showAlertError('Failed to load payments. Try again.');
+          this._ui.showAlertError(this._t.instant('PORTAL.INVOICES.LOAD_ERROR'));
         },
       });
   }

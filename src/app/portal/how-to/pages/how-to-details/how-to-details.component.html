@@ -6,7 +6,7 @@
       <span
         class="material-icons-outlined me-2"
         style="cursor: pointer"
-        matTooltip="Back to last page"
+        [matTooltip]="'PORTAL.COMMON.BACK_TO_LAST_PAGE' | translate"
         (click)="goBack()">
         arrow_back
       </span>
@@ -22,14 +22,14 @@
           ">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined dark-blue-400">edit</span>
-            Edit
+            {{ 'PORTAL.COMMON.EDIT' | translate }}
           </span>
         </button>
 
         <button mat-menu-item (click)="deleteHowTo(howTo._id)">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined text-danger">delete</span>
-            Delete
+            {{ 'PORTAL.COMMON.DELETE' | translate }}
           </span>
         </button>
       </mat-menu>
@@ -41,7 +41,7 @@
         {{ howTo.title }}
       </h3>
       <div class="text-center text-3 gray-500 w-100">
-        Created date on: {{ howTo.createdAt | date }}
+        {{ 'PORTAL.HOW_TO.DETAIL.CREATED_DATE_ON' | translate }} {{ howTo.createdAt | date }}
       </div>
     </div>
     <div class="row" *ngIf="howTo && video">
@@ -51,7 +51,7 @@
           <div class="video-wrapper" [class.short-mode]="isShort">
             <iframe class="video-iframe" [src]="video" frameborder="0"></iframe>
           </div>
-          <div [innerHTML]="howTo.description"></div>
+          <div [innerHTML]="description"></div>
         </div>
       </div>
     </div>

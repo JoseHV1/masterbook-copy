@@ -6,6 +6,7 @@ import { RequestsService } from '@app/shared/services/requests.service';
 import { finalize, take } from 'rxjs';
 import { PopulatedPolicyModel } from 'src/app/shared/interfaces/models/policy.model';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cacellation-modal',
@@ -22,7 +23,8 @@ export class CancellationModalComponent {
     @Inject(MAT_DIALOG_DATA)
     private _data: { policy: PopulatedPolicyModel },
     private _request: RequestsService,
-    private _ui: UiService
+    private _ui: UiService,
+    private _t: TranslateService
   ) {
     this.policy = this._data.policy;
   }
@@ -30,7 +32,7 @@ export class CancellationModalComponent {
   cancellationPolicy(): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to cancel your policy?`,
+        text: this._t.instant('PORTAL.POLICIES.CONFIRM_CANCEL'),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -55,7 +57,7 @@ export class CancellationModalComponent {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this._ui.showAlertSuccess(
-          'The policy cancellation request has been created successfully.'
+          this._t.instant('PORTAL.POLICIES.CANCELLED_SUCCESS')
         );
         this.close(true);
       });

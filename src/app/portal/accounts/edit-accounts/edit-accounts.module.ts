@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { EditAccountsComponent } from './edit-accounts.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormAccountsModule } from '../components/form-accounts/form-accounts.module';
@@ -16,6 +17,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [EditAccountsComponent],
   imports: [
+    TranslateModule,
     CommonModule,
     RouterModule.forChild(routes),
     FormAccountsModule,

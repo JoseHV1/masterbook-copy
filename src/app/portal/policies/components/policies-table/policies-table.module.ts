@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { PoliciesTableComponent } from './policies-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
@@ -14,6 +15,7 @@ import { AddEndorsementsPolicyModalModule } from '../add-endorsements-modal/add-
 @NgModule({
   declarations: [PoliciesTableComponent],
   imports: [
+    TranslateModule,
     CommonModule,
     MatTableModule,
     CustomPipesModule,

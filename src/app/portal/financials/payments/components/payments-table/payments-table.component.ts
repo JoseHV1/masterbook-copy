@@ -5,6 +5,7 @@ import { PaymentTransactionModel } from 'src/app/shared/models/payment-transacti
 import { finalize, take } from 'rxjs';
 import { PaymentsService } from 'src/app/shared/services/payments.service';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-payments-table',
@@ -38,7 +39,8 @@ export class PaymentsTableComponent {
   constructor(
     public _url: UrlService,
     private _ui: UiService,
-    private _payment: PaymentsService
+    private _payment: PaymentsService,
+    private _t: TranslateService
   ) {}
 
   toggleRow(row: any) {
@@ -87,7 +89,7 @@ export class PaymentsTableComponent {
         },
         error: err => {
           this.errorRowIds.add(id);
-          this._ui.showAlertError('Failed to load payments. Try again.');
+          this._ui.showAlertError(this._t.instant('PORTAL.PAYMENTS.LOAD_ERROR'));
         },
       });
   }

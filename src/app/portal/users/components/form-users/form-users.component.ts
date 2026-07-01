@@ -14,6 +14,7 @@ import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { MyMasterbookValidators } from 'src/app/shared/helpers/mymasterbook-validator';
 import { UpdateBrokerRequest } from 'src/app/shared/interfaces/requests/broker/update-broker.request.js';
 import { DropdownOptionModel } from 'src/app/shared/models/dropdown-option.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-form-users',
@@ -40,7 +41,8 @@ export class FormUsersComponent implements OnInit, OnChanges {
     private _router: Router,
     private _ui: UiService,
     private _user: UserService,
-    private _dataset: DatasetsService
+    private _dataset: DatasetsService,
+    private _t: TranslateService,
   ) {
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
     this.form = new FormGroup({
@@ -87,7 +89,7 @@ export class FormUsersComponent implements OnInit, OnChanges {
   }
 
   openConfirmationModal() {
-    const action = this.data ? 'edit' : 'create';
+    const confirmKey = this.data ? 'PORTAL.USERS.CONFIRM_EDIT' : 'PORTAL.USERS.CONFIRM_CREATE';
     const role = this.form.get('role')?.value;
 
     let userCost = 0;
@@ -104,7 +106,7 @@ export class FormUsersComponent implements OnInit, OnChanges {
 
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to ${action} this user? This action will generate an additional recharge of $${userCost} per month`,
+        text: this._t.instant(confirmKey, { cost: userCost }),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -141,13 +143,13 @@ export class FormUsersComponent implements OnInit, OnChanges {
   private _openSuccessModal(user: PopulatedBrokerModel) {
     const fullname = `${user.user?.first_name ?? ''} ${user.user?.last_name}`;
     const message = this.data
-      ? `The user {{link}} has been updated successfully`
-      : `The user {{link}} has been created successfully. Your new agent will receive an email with login details and further instructions to access their account.`;
+      ? this._t.instant('PORTAL.USERS.UPDATED_SUCCESS_TEXT')
+      : this._t.instant('PORTAL.USERS.CREATED_SUCCESS_TEXT');
 
     this._ui
       .showInformationModal({
         text: message,
-        title: 'SUCCESS!',
+        title: this._t.instant('PORTAL.USERS.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: fullname,

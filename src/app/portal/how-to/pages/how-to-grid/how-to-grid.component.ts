@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import {
   DomSanitizer,
-  SafeHtml,
   SafeResourceUrl,
 } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -11,17 +11,17 @@ import { PaginatedResponse } from '@app/shared/interfaces/models/paginated-respo
 import { HowToService } from '@app/shared/services/how-to.service';
 import { UiService } from '@app/shared/services/ui.service';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
-import { finalize, tap } from 'rxjs';
+import { Subject, finalize, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-how-to-grid',
   templateUrl: './how-to-grid.component.html',
   styleUrls: ['./how-to-grid.component.scss'],
 })
-export class HowToGridComponent implements OnInit {
+export class HowToGridComponent implements OnInit, OnDestroy {
+  private _destroy$ = new Subject<void>();
   selectedVideo: HowToModel | null = null;
   selectedIndex: number = -1;
-  description!: SafeHtml;
   data: PaginatedResponse<HowToModel[]> = {
     records: [],
     page: 0,
@@ -38,8 +38,18 @@ export class HowToGridComponent implements OnInit {
     private readonly _ui: UiService,
     private readonly _sanitizer: DomSanitizer,
     private readonly _router: Router,
+    private readonly _location: Location,
     public file: UploadFileService
   ) {}
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
+  }
+
+  goBack(): void {
+    this._location.back();
+  }
 
   ngOnInit() {
     this._fetchData(this.data.page, this.data.limit);
@@ -62,7 +72,8 @@ export class HowToGridComponent implements OnInit {
           this.data = resp;
           this.filterHowTo();
         }),
-        finalize(() => this._ui.hideLoader())
+        finalize(() => this._ui.hideLoader()),
+        takeUntil(this._destroy$),
       )
       .subscribe();
   }
@@ -71,12 +82,12 @@ export class HowToGridComponent implements OnInit {
     this.filterdResults = this.data.records.filter(item =>
       item.title.toLowerCase().includes(this.query.toLowerCase())
     );
-    if (this.filterdResults[0]) {
+    if (!this.selectedVideo && this.filterdResults[0]) {
       this.selectVideo(this.filterdResults[0]);
       this.selectedIndex = 0;
       return;
     }
-    this.selectedIndex = -1;
+    if (!this.filterdResults.length) this.selectedIndex = -1;
   }
 
   selectVideo(video: HowToModel) {
@@ -96,9 +107,10 @@ export class HowToGridComponent implements OnInit {
 
     if (!videoId) {
       this.safeUrlVideo = null;
+      return;
     }
 
-    const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0autoplay=1`;
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1`;
     this.safeUrlVideo =
       this._sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
   }

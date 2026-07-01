@@ -20,6 +20,7 @@ import { PopulatedAccount } from 'src/app/shared/interfaces/models/accounts.mode
 import { UpdateAccountRequest } from 'src/app/shared/interfaces/requests/accounts/update-account.request';
 import { DropdownOptionModel } from 'src/app/shared/models/dropdown-option.model';
 import { AccountStatusEnum } from 'src/app/shared/enums/account-status.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-form-accounts',
@@ -47,7 +48,8 @@ export class FormAccountsComponent implements OnChanges, OnDestroy {
     private _router: Router,
     private _ui: UiService,
     private _auth: AuthService,
-    private _location: Location
+    private _location: Location,
+    private _t: TranslateService,
   ) {
     this.showAgentSelector = brokersAdminDataset.includes(
       this._auth.getAuth()?.user?.role as RolesEnum
@@ -154,11 +156,11 @@ export class FormAccountsComponent implements OnChanges, OnDestroy {
   }
 
   openConfirmationModal() {
-    const action = this.data ? 'edit' : 'save';
+    const confirmKey = this.data ? 'PORTAL.ACCOUNTS.CONFIRM_EDIT' : 'PORTAL.ACCOUNTS.CONFIRM_SAVE';
 
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to ${action} this account?`,
+        text: this._t.instant(confirmKey),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -216,13 +218,13 @@ export class FormAccountsComponent implements OnChanges, OnDestroy {
   private _openSuccessModal(account: PopulatedAccount) {
     const clientName = this.form.value.account_name;
     const message = this.data
-      ? `The account {{link}} has been updated successfully`
-      : `The account for {{link}} has been created successfully. Your client will receive an email with login details and further instructions to access their account.`;
+      ? this._t.instant('PORTAL.ACCOUNTS.UPDATED_SUCCESS_TEXT')
+      : this._t.instant('PORTAL.ACCOUNTS.CREATED_SUCCESS_TEXT');
 
     this._ui
       .showInformationModal({
         text: message,
-        title: 'SUCCESS!',
+        title: this._t.instant('PORTAL.ACCOUNTS.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: clientName,

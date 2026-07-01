@@ -7,6 +7,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DefaultEmptyStateComponent } from './default-empty-state/default-empty-state.component';
 import { FilterEmptyStateComponent } from './filter-empty-state/filter-empty-state.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { FilterEmptyStateComponent } from './filter-empty-state/filter-empty-sta
   ],
   imports: [
     CommonModule,
+    TranslateModule,
     CDKModule,
     FormsModule,
     ReactiveFormsModule,

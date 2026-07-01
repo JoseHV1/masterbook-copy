@@ -9,11 +9,13 @@ import { PolicyTypeSelectorComponent } from './policy-type-selector.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CDKModule } from 'src/core/cdk/cdk.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [PolicyTypeSelectorComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     PagesLayoutModule,
     FilteredTableHeaderModule,
     MatPaginatorModule,

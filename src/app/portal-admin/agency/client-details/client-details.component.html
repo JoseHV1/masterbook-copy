@@ -1,60 +1,83 @@
 <app-pages-layout>
   <ng-container content>
-    <div
-      class="d-flex justify-content-between align-items-center mb-1 ms-2"
-      *ngIf="agency">
+    <div class="d-flex justify-content-between align-items-center mb-1 ms-2" *ngIf="agency">
       <span
         class="material-icons-outlined me-2"
         style="cursor: pointer"
-        matTooltip="Back to last page"
+        [matTooltip]="'PORTAL.PORTAL_ADMIN.AGENCIES.BACK' | translate"
         (click)="goBack()">
         arrow_back
       </span>
     </div>
-    <div
-      class="d-flex flex-column align-items-center justify-content-center"
-      *ngIf="agency">
+
+    <div class="d-flex flex-column align-items-center justify-content-center" *ngIf="agency">
       <app-picture-selector
         [showSelector]="false"
-        [icon]="
-          agency.logo_url ?? '/assets/icons/user_two.svg'
-        "></app-picture-selector>
+        [icon]="agency.logo_url ?? '/assets/icons/user_two.svg'">
+      </app-picture-selector>
 
       <h3 class="text-center w-100 mt-3 mb-1 subtitle-1 dark-blue-400">
-        Agency #{{ agency.serial }}
+        {{ 'PORTAL.PORTAL_ADMIN.AGENCIES.AGENCY_HASH' | translate }}{{ agency.serial }}
       </h3>
       <div class="text-center text-3 gray-500 w-100">
-        Created date on: {{ agency.createdAt | date }}
+        {{ 'PORTAL.PORTAL_ADMIN.AGENCIES.CREATED_ON' | translate }} {{ agency.createdAt | date }}
       </div>
     </div>
+
     <div class="row px-4 my-2 px-md-5 my-md-5" *ngIf="agency">
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Name</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ agency.name | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.AGENCIES.NAME' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ agency.name | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Payment Status</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.AGENCIES.PAYMENT_STATUS' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             <div
               class="status-badge"
-              [ngClass]="
-                agency.payment_status?.toLowerCase() === 'payed'
-                  ? 'status-success'
-                  : 'status-danger'
-              ">
+              [ngClass]="agency.payment_status?.toLowerCase() === 'payed' ? 'status-success' : 'status-danger'">
               {{ agency.payment_status | titlecase | notNull }}
             </div>
           </div>
         </div>
       </div>
+
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Phone number</div>
+          <div class="col-12 col-md-4 black px-2 py-2">Billing Mode</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box d-flex align-items-center gap-2">
+            <span
+              class="badge"
+              [ngClass]="agency.billing_mode === 'FREE' ? 'bg-success' : 'bg-primary'">
+              {{ agency.billing_mode ?? 'STRIPE' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 px-2 px-md-4 my-2">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-2 black px-2 py-2">Cambiar modo</div>
+          <div class="col-12 col-md-10 black px-3 py-2 d-flex align-items-center gap-3">
+            <select #billingModeSelect class="form-select w-auto">
+              <option value="STRIPE" [selected]="(agency.billing_mode ?? 'STRIPE') === 'STRIPE'">STRIPE (Pago)</option>
+              <option value="FREE" [selected]="agency.billing_mode === 'FREE'">FREE (Gratis)</option>
+            </select>
+            <button
+              class="primary-button back-light-blue-400 white"
+              style="padding: 6px 16px; border-radius: 6px;"
+              [disabled]="changingBillingMode"
+              (click)="changeBillingMode(billingModeSelect.value)">
+              Aplicar
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.AGENCIES.PHONE' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ agency.phone_number ?? '' | phone | notNull }}
           </div>
@@ -62,21 +85,28 @@
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Staff Size</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.AGENCIES.STAFF_SIZE' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ agency.staff_size | notNull }}</div>
+        </div>
+      </div>
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="agency.tenant">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.AGENCIES.TENANT' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ agency.staff_size | notNull }}
+            <span class="badge bg-secondary me-1">{{ agency.tenant.code }}</span>
+            {{ agency.tenant.name }}
           </div>
         </div>
       </div>
     </div>
 
     <h3 class="subtitle-1 dark-blue-400 text-center mt-5 mb-0">
-      Owner Information
+      {{ 'PORTAL.PORTAL_ADMIN.AGENCIES.OWNER_INFO' | translate }}
     </h3>
     <div class="row px-4 mb-2 mt-0 px-md-5 my-md-4" *ngIf="agency">
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Full Name</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.AGENCIES.FULL_NAME' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ agency.owner.user.first_name }} {{ agency.owner.user.last_name }}
           </div>
@@ -84,7 +114,7 @@
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Email</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.AGENCIES.EMAIL' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box no-wrap-text">
             {{ agency.owner.user.email | notNull }}
           </div>
@@ -92,7 +122,7 @@
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Phone Number</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.AGENCIES.PHONE_SHORT' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box no-wrap-text">
             {{ agency.owner.user.phone_number | notNull }}
           </div>
@@ -100,12 +130,46 @@
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Address</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.AGENCIES.ADDRESS' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box no-wrap-text">
             {{ agency.owner.user.address_info.address | notNull }}
           </div>
         </div>
       </div>
     </div>
+    <!-- ── Audit Log de Billing ────────────────────────────────── -->
+    <h3 class="subtitle-1 dark-blue-400 text-center mt-5 mb-3" *ngIf="agency">
+      Historial de cambios de billing
+    </h3>
+    <div class="px-4 px-md-5 mb-5" *ngIf="agency">
+      <div *ngIf="auditLog.length === 0" class="text-center gray-500 py-3">
+        Sin registros de cambios.
+      </div>
+      <div class="table-responsive" *ngIf="auditLog.length > 0">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>Serial</th>
+              <th>Acción</th>
+              <th>Desde</th>
+              <th>Hacia</th>
+              <th>Fecha</th>
+              <th>Notas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let entry of auditLog">
+              <td>{{ entry.serial }}</td>
+              <td><span class="badge bg-secondary">{{ entry.action }}</span></td>
+              <td>{{ entry.from_billing_mode ?? '—' }}</td>
+              <td>{{ entry.to_billing_mode }}</td>
+              <td>{{ entry.createdAt | date:'short' }}</td>
+              <td>{{ entry.notes ?? '—' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </ng-container>
 </app-pages-layout>

@@ -4,8 +4,11 @@
 
 export const environment = {
   production: false,
+  region: 'us',
+  defaultLocale: 'en-US',
+  apiBase: 'https://d2p969tx9vpzv5.cloudfront.net/',
   apiUrl: 'https://d2p969tx9vpzv5.cloudfront.net/',
-  text: 'development',
+  text: 'local',
   STRIPE_PUBLIC_KEY:
     'pk_test_51Mr5saHsG1LCjqV07j8ZKZqlZdGVevqrSM66zNAjBV0RM3pI6pQWi9V2gm1h0CgmwYZJUtoVvDtfDLQ5Tq3uCO6h00ZwohoKXi',
   RECAPTCHA_SITE_KEY: '',

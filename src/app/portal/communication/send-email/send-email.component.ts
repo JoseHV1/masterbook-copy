@@ -10,6 +10,7 @@ import {
 } from 'src/app/shared/services/email.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { AuthService } from '@app/shared/services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-send-email',
@@ -33,6 +34,7 @@ export class SendEmailComponent implements OnInit {
     private _location: Location,
     private _route: ActivatedRoute,
     private _auth: AuthService,
+    private _t: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -59,12 +61,12 @@ export class SendEmailComponent implements OnInit {
   readFile(file: File): void {
     if (file.size > 25 * 1024 * 1024) {
       this.uiService.showInformationModal({
-        text: `The file "${file.name}" is too large (> 25MB) to be attached.`,
-        title: 'File too large',
+        text: this._t.instant('PORTAL.COMMUNICATION.SEND_FILE_TOO_LARGE', { filename: file.name }),
+        title: this._t.instant('PORTAL.COMMUNICATION.SEND_FILE_LARGE_TITLE'),
         type: UiModalTypeEnum.ERROR,
       });
       this.uiService.showAlertError(
-        `The file "${file.name}" is too large (> 25MB) to be attached.`
+        this._t.instant('PORTAL.COMMUNICATION.SEND_FILE_TOO_LARGE', { filename: file.name })
       );
       return;
     }
@@ -96,14 +98,14 @@ export class SendEmailComponent implements OnInit {
 
     if (!this.emailData.to || !this.emailData.subject || !this.emailData.body) {
       this.uiService.showAlertError(
-        'Please complete the Recipient, Subject, and Body fields.'
+        this._t.instant('PORTAL.COMMUNICATION.SEND_REQUIRED_FIELDS')
       );
       this.loading = false;
       return;
     }
 
     if (this.emailData.to === this._auth.getAuth()?.user.email) {
-      this.uiService.showAlertError('You cannot send an email to yourself.');
+      this.uiService.showAlertError(this._t.instant('PORTAL.COMMUNICATION.SEND_TO_SELF'));
       this.loading = false;
       return;
     }
@@ -120,13 +122,13 @@ export class SendEmailComponent implements OnInit {
       .subscribe({
         next: () => {
           this.uiService.showAlertSuccess(
-            'The email has been sent successfully.'
+            this._t.instant('PORTAL.COMMUNICATION.SEND_SUCCESS')
           );
           this.resetForm();
         },
         error: err => {
           this.uiService.showAlertError(
-            'Error sending the email. Please verify the recipient, permissions, or email format.'
+            this._t.instant('PORTAL.COMMUNICATION.SEND_ERROR')
           );
         },
       });

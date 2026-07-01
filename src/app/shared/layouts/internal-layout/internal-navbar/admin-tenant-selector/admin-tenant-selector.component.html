@@ -1,0 +1,46 @@
+<div
+  class="selector"
+  [class.selector--active]="isFiltered"
+  [title]="selected ? selected.domain : ''"
+  (click)="tenantPanel.toggle($event)">
+  <span class="material-icons-outlined selector__icon">
+    {{ isFiltered ? 'business' : 'language' }}
+  </span>
+  <span class="selector__label">{{ selected?.code ?? ('PORTAL.TENANTS.GLOBAL' | translate) }}</span>
+  <span class="selector__dot" *ngIf="isFiltered"></span>
+  <span class="material-icons-outlined selector__caret">
+    {{ tenantPanel.overlayVisible ? 'expand_less' : 'expand_more' }}
+  </span>
+</div>
+
+<p-overlayPanel #tenantPanel>
+  <div class="overlay">
+
+    <!-- Global -->
+    <div
+      class="d-flex align-items-center gap-2 option py-2 px-3 my-1"
+      [class.option--active]="!isFiltered"
+      (click)="select(null, tenantPanel)">
+      <span class="material-icons-outlined opt-icon">language</span>
+      <span class="text-menu">{{ 'PORTAL.TENANTS.GLOBAL' | translate }}</span>
+      <span class="material-icons-outlined opt-check ms-auto" *ngIf="!isFiltered">check</span>
+    </div>
+
+    <div class="divider" *ngIf="tenants.length"></div>
+
+    <!-- Tenants -->
+    <div
+      *ngFor="let tenant of tenants"
+      class="d-flex align-items-center gap-2 option py-2 px-3 my-1"
+      [class.option--active]="selected?._id === tenant._id"
+      (click)="select(tenant, tenantPanel)">
+      <span class="opt-code">{{ tenant.code }}</span>
+      <div class="opt-info">
+        <span class="text-menu">{{ tenant.name }}</span>
+        <span class="opt-domain" *ngIf="tenant.domain">{{ tenant.domain }}</span>
+      </div>
+      <span class="material-icons-outlined opt-check ms-auto" *ngIf="selected?._id === tenant._id">check</span>
+    </div>
+
+  </div>
+</p-overlayPanel>

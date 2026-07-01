@@ -1,5 +1,5 @@
 <ng-template #table>
-  <app-pages-layout [button]="{ text: 'Create user', icon: 'add', url: 'new' }">
+  <app-pages-layout [button]="{ text: ('PORTAL.USERS.BTN_NEW' | translate), icon: 'add', url: 'new' }">
     <ng-container content>
       <app-filtered-table-header
         [filtersActive]="filtersActive"

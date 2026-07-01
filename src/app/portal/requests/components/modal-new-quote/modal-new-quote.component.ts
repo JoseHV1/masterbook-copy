@@ -13,6 +13,7 @@ import { PopulatedRequestModel } from '@app/shared/interfaces/models/request.mod
 import { CreateQuoteRequest } from '@app/shared/interfaces/requests/quotes/create-quote.request';
 import { QuotesService } from '@app/shared/services/quotes.service';
 import { UiModalTypeEnum } from '@app/shared/enums/ui-modal-type.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-modal-new-quote',
@@ -32,7 +33,8 @@ export class ModalNewQuoteComponent {
     private dialogRef: MatDialogRef<ModalNewQuoteComponent>,
     @Inject(MAT_DIALOG_DATA)
     public dataModal: { request: PopulatedRequestModel },
-    private _dataset: DatasetsService
+    private _dataset: DatasetsService,
+    private _t: TranslateService
   ) {
     this.request = dataModal.request;
     this._initData();
@@ -88,14 +90,11 @@ export class ModalNewQuoteComponent {
             if (selectedInsurer) {
               this._ui
                 .showInformationModal({
-                  text:
-                    'To issue this policy, commission settings must be configured for the selected insurance company.<br><br>' +
-                    'This information is required to calculate agent commissions and to ensure accurate financial reporting.<br><br>' +
-                    'We suggest to complete this setup based on your contractual agreement with this insurer.',
-                  title: 'ALERT!',
+                  text: this._t.instant('PORTAL.POLICIES.UNCONFIGURED_INSURER_TEXT'),
+                  title: this._t.instant('PORTAL.POLICIES.UNCONFIGURED_INSURER_TITLE'),
                   type: UiModalTypeEnum.WARNING,
                   redirectButton: {
-                    text: 'Go to Insurance Configuration',
+                    text: this._t.instant('PORTAL.POLICIES.UNCONFIGURED_INSURER_BUTTON'),
                     url: `/portal/insurer/${selectedInsurer.serial}`,
                   },
                 })
@@ -156,7 +155,7 @@ export class ModalNewQuoteComponent {
       .createQuote(req)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('Quote created successfully!');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.REQUESTS.QUOTE_CREATED'));
         this.form.reset();
         this.dialogRef.close(true);
       });

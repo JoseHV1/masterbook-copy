@@ -13,7 +13,7 @@
         {{ option.name }}
       </mat-option>
 
-      <mat-option *ngIf="loading" disabled=""> cargando... </mat-option>
+      <mat-option *ngIf="loading" disabled=""> {{ 'SHARED.SELECTORS.LOADING' | translate }} </mat-option>
     </mat-select>
 
     <ng-template #singleSelectBlock>
@@ -41,7 +41,7 @@
           (keyup.enter)="onEnterItem(option)">
           {{ option.name }}
         </mat-option>
-        <mat-option *ngIf="loading" disabled=""> loading... </mat-option>
+        <mat-option *ngIf="loading" disabled=""> {{ 'SHARED.SELECTORS.LOADING' | translate }} </mat-option>
       </mat-autocomplete>
     </ng-template>
 

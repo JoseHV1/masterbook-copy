@@ -5,11 +5,13 @@ import { PaymentsListComponent } from './payments-list.component';
 import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [PaymentsListComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     PagesLayoutModule,
     CustomPipesModule,
     MatTableModule,

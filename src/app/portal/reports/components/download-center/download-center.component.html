@@ -1,6 +1,6 @@
 <div class="section-title">
   <mat-icon color="primary">history</mat-icon>
-  <span>Recent History</span>
+  <span>{{ 'PORTAL.REPORTS.HISTORY.TITLE' | translate }}</span>
 </div>
 
 <div class="py-3 d-flex justify-content-center" *ngIf="loading">
@@ -21,7 +21,7 @@
         <div>{{ h.title }}</div>
 
         <div class="text-muted small">
-          Generated: {{ h.createdAt | date : 'MMM d, y, h:mm a' }}
+          {{ 'PORTAL.REPORTS.HISTORY.GENERATED' | translate }} {{ h.createdAt | date : 'MMM d, y, h:mm a' }}
         </div>
 
         <!-- STATUS BADGE -->
@@ -43,7 +43,7 @@
         </div>
       </div>
 
-      <button mat-icon-button matTooltip="Download" (click)="download.emit(h)">
+      <button mat-icon-button [matTooltip]="'PORTAL.REPORTS.HISTORY.TOOLTIP_DOWNLOAD' | translate" (click)="download.emit(h)">
         <mat-icon color="primary">download</mat-icon>
       </button>
     </div>
@@ -51,5 +51,5 @@
 </mat-list>
 
 <ng-template #empty>
-  <div class="text-center text-muted py-4">No history yet.</div>
+  <div class="text-center text-muted py-4">{{ 'PORTAL.REPORTS.HISTORY.EMPTY' | translate }}</div>
 </ng-template>

@@ -37,10 +37,17 @@ export class AuthHttpInterceptor implements HttpInterceptor {
           takeUntil(this.cancelRequests$),
           catchError((error: HttpErrorResponse) => {
             if (error.status === 401) {
-              this._auth.logout().subscribe(() => {
-                this.router.navigate(['/']);
-                this.cancelRequests$.next();
-                this.cancelRequests$ = new Subject<void>();
+              this._auth.logout().subscribe({
+                next: () => {
+                  this.router.navigate(['/']);
+                  this.cancelRequests$.next();
+                  this.cancelRequests$ = new Subject<void>();
+                },
+                error: () => {
+                  this.router.navigate(['/']);
+                  this.cancelRequests$.next();
+                  this.cancelRequests$ = new Subject<void>();
+                },
               });
             }
             return throwError(error);

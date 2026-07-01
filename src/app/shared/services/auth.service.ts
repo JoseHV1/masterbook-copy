@@ -109,9 +109,9 @@ export class AuthService {
 
   completeRegister(
     req: CompleteRegisterRequest
-  ): Observable<PopulatedUserModel> {
+  ): Observable<PopulatedUserModel & { billing_mode?: string }> {
     return this._http
-      .post<ApiResponseModel<PopulatedUserModel>>(
+      .post<ApiResponseModel<PopulatedUserModel & { billing_mode?: string }>>(
         `${environment.apiUrl}broker/complete-register`,
         req
       )
@@ -126,6 +126,12 @@ export class AuthService {
           }
         })
       );
+  }
+
+  getOnboardingData(): Observable<any> {
+    return this._http
+      .get<ApiResponseModel<any>>(`${environment.apiUrl}broker/onboarding-data`)
+      .pipe(map(resp => resp.data));
   }
 
   completeRegisterInsured(

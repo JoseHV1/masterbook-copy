@@ -35,6 +35,7 @@ export class InternalMenuComponent {
   ];
 
   canSeeInsurers: RolesEnum[] = [
+    RolesEnum.ADMIN,
     RolesEnum.INDEPENDANT_BROKER,
     RolesEnum.AGENCY_OWNER,
   ];

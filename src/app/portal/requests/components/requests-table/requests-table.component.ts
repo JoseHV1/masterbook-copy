@@ -11,6 +11,7 @@ import { RejectRequestModalComponent } from '../reject-policy-modal/reject-reque
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { Location } from '@angular/common';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-requests-table',
@@ -43,7 +44,8 @@ export class RequestsTableComponent implements OnInit {
     private _request: RequestsService,
     private _dialog: MatDialog,
     private _location: Location,
-    private _uploadFile: UploadFileService
+    private _uploadFile: UploadFileService,
+    private _t: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +62,7 @@ export class RequestsTableComponent implements OnInit {
   deleteRequest(_id: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this request?`,
+        text: this._t.instant('PORTAL.REQUESTS.CONFIRM_DELETE'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -75,7 +77,7 @@ export class RequestsTableComponent implements OnInit {
       .deleteRequest(_id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('Request deleted successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.REQUESTS.DELETED'));
         this.refresh.emit();
       });
   }

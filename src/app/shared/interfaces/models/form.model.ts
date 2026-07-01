@@ -7,7 +7,8 @@ export interface FormModel {
   serial: string;
   agency_id: string;
   policy_type_id: string;
-  insurer_ids: string;
+  insurer_ids: string[];
+  tenant_ids: string[];
   name: string;
   form_document: FileInfoModel;
   status: FormStatusEnum;
@@ -18,4 +19,6 @@ export interface FormModel {
 
 export interface PopulatedFormModel extends FormModel {
   insurers: InsurerModel[];
+  tenants?: { _id: string; name: string; code: string }[];
+  policy_type?: { name: string; business_line?: { name: string } };
 }

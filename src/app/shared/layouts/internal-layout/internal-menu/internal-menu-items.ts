@@ -165,11 +165,6 @@ export const MENU_ITEMS: iternalMenuModel = {
       url: 'request-forms',
     },
     {
-      icon: 'analytics',
-      title: 'Reports',
-      url: 'reports',
-    },
-    {
       icon: 'calendar_today',
       title: 'Calendar',
       url: 'calendar',
@@ -183,6 +178,21 @@ export const MENU_ITEMS: iternalMenuModel = {
       icon: 'help',
       title: 'How To',
       url: 'how-to',
+    },
+    {
+      icon: 'shield',
+      title: 'Insurers',
+      url: 'insurers/list',
+    },
+    {
+      icon: 'language',
+      title: 'Tenants',
+      url: 'tenants/list',
+    },
+    {
+      icon: 'receipt_long',
+      title: 'Subscription Payments',
+      url: 'stripe-billing/list',
     },
   ],
 };

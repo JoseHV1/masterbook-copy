@@ -1,144 +1,100 @@
 <app-pages-layout>
   <ng-container content>
-    <div
-      class="d-flex justify-content-between align-items-center mb-1 ms-2"
-      *ngIf="account">
+    <div class="d-flex justify-content-between align-items-center mb-1 ms-2" *ngIf="account">
       <span
         class="material-icons-outlined me-2"
         style="cursor: pointer"
-        matTooltip="Back to last page"
+        [matTooltip]="'PORTAL.ACCOUNTS.BACK' | translate"
         (click)="goBack()">
         arrow_back
       </span>
-
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon class="dark-blue-400">more_vert</mat-icon>
       </button>
-
       <mat-menu #menu="matMenu" xPosition="before">
-        <button
-          mat-menu-item
-          *ngIf="isOwner"
-          (click)="openModalChangeLogs(account._id)">
+        <button mat-menu-item *ngIf="isOwner" (click)="openModalChangeLogs(account._id)">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined dark-blue-400">history</span>
-            <span>Change Logs</span>
+            <span>{{ 'PORTAL.ACCOUNTS.CHANGE_LOGS' | translate }}</span>
           </span>
         </button>
-
-        <button
-          mat-menu-item
-          (click)="_url.navigateTo('portal/accounts', account._id, 'edit')">
+        <button mat-menu-item (click)="_url.navigateTo('portal/accounts', account._id, 'edit')">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined dark-blue-400">edit</span>
-            <span>Edit</span>
+            <span>{{ 'PORTAL.ACCOUNTS.EDIT' | translate }}</span>
           </span>
         </button>
-
         <button mat-menu-item>
-          <mat-slide-toggle
-            [checked]="account.status === 'ACTIVE'"
-            (change)="setStatus($event)"
-            [color]="'primary'">
+          <mat-slide-toggle [checked]="account.status === 'ACTIVE'" (change)="setStatus($event)" [color]="'primary'">
             <span class="mat-mdc-menu-item-text">
-              {{ account.status === 'ACTIVE' ? 'Inhabilitar' : 'Habilitar' }}
+              {{ account.status === 'ACTIVE' ? ('PORTAL.ACCOUNTS.DISABLE' | translate) : ('PORTAL.ACCOUNTS.ENABLE' | translate) }}
             </span>
           </mat-slide-toggle>
         </button>
-
         <button mat-menu-item (click)="resendInvitation(account)">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined success-color">mail</span>
-            <span>Resend Invitation</span>
+            <span>{{ 'PORTAL.ACCOUNTS.RESEND' | translate }}</span>
           </span>
         </button>
-
         <button mat-menu-item (click)="deleteAccount(account._id)">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined text-danger">delete</span>
-            <span>Delete</span>
+            <span>{{ 'PORTAL.ACCOUNTS.DELETE' | translate }}</span>
           </span>
         </button>
       </mat-menu>
     </div>
-    <div
-      class="d-flex flex-column align-items-center justify-content-center"
-      *ngIf="account">
-      <app-picture-selector
-        [showSelector]="false"
-        [icon]="accountProfileImg"></app-picture-selector>
 
+    <div class="d-flex flex-column align-items-center justify-content-center" *ngIf="account">
+      <app-picture-selector [showSelector]="false" [icon]="accountProfileImg"></app-picture-selector>
       <h3 class="text-center w-100 mt-3 mb-1 subtitle-1 dark-blue-400">
-        Account #{{ account.serial }}
+        {{ 'PORTAL.ACCOUNTS.ACCOUNT_HASH' | translate }}{{ account.serial }}
       </h3>
       <div class="text-center text-3 gray-500 w-100">
-        Created date on: {{ account.createdAt | date }}
+        {{ 'PORTAL.ACCOUNTS.CREATED_ON' | translate }} {{ account.createdAt | date }}
       </div>
     </div>
+
     <div class="row px-4 my-2 px-md-5 my-md-5" *ngIf="account">
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Account name</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.account_name | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.ACCOUNT_NAME' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.account_name | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">SSN / EIN</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.ssn | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.SSN' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.ssn | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">First name</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.user?.first_name | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.FIRST_NAME' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.first_name | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Last name</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.user?.last_name | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.LAST_NAME' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.last_name | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Email</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.EMAIL' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            <span
-              *ngIf="googleConnected"
-              class="clickable-email"
-              matTooltip="Send email"
-              matTooltipPosition="above"
-              (click)="openEmailCompose(account.user?.email)">
+            <span *ngIf="googleConnected" class="clickable-email" [matTooltip]="'PORTAL.COMMON.SEND_EMAIL' | translate" matTooltipPosition="above" (click)="openEmailCompose(account.user?.email)">
               {{ account.user?.email | notNull }}
             </span>
-            <div
-              *ngIf="showEmailDropdown"
-              class="dropdown-backdrop"
-              (click)="showEmailDropdown = false"></div>
-            <span
-              *ngIf="!googleConnected"
-              class="email-rich-tooltip-wrapper"
-              (click)="toggleEmailDropdown($event)">
+            <div *ngIf="showEmailDropdown" class="dropdown-backdrop" (click)="showEmailDropdown = false"></div>
+            <span *ngIf="!googleConnected" class="email-rich-tooltip-wrapper" (click)="toggleEmailDropdown($event)">
               {{ account.user?.email | notNull }}
-              <span
-                class="rich-tooltip"
-                [class.visible]="showEmailDropdown"
-                *ngIf="account.user?.email"
-                (click)="$event.stopPropagation()">
-                To send emails you must be logged in with Google.
-                <span
-                  class="rich-tooltip__link"
-                  (click)="openEmailCompose(account.user?.email)">
-                  Login here
+              <span class="rich-tooltip" [class.visible]="showEmailDropdown" *ngIf="account.user?.email" (click)="$event.stopPropagation()">
+                {{ 'PORTAL.ACCOUNTS.GOOGLE_EMAIL_MSG' | translate }}
+                <span class="rich-tooltip__link" (click)="openEmailCompose(account.user?.email)">
+                  {{ 'PORTAL.ACCOUNTS.GOOGLE_LOGIN' | translate }}
                 </span>
               </span>
             </span>
@@ -147,80 +103,62 @@
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Status</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.status | titlecase | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.STATUS' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.status | titlecase | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Phone number</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.user?.phone_number ?? '' | phone | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.PHONE' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.phone_number ?? '' | phone | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Phone number</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.user?.phone_extension ?? '' | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.PHONE' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.phone_extension ?? '' | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Address</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.user?.address_info?.address | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.ADDRESS' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.address_info?.address | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Zip code</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.user?.address_info?.zipcode | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.ZIP' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.address_info?.zipcode | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Address extra</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.user?.address_info?.additional_address | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.ADDRESS_EXTRA' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.address_info?.additional_address | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Gender</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.user?.gender | titlecase | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.GENDER' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.gender | titlecase | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Date of birth</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.user?.date_of_birth | date | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.DOB' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.date_of_birth | date | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Marital status</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ account.user?.marital_status | notNull }}
-          </div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.MARITAL' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.marital_status | notNull }}</div>
         </div>
       </div>
     </div>
 
     <h3 class="subtitle-1 dark-blue-400 text-center mt-3 mt-md-5 mb-4">
-      Last activities
+      {{ 'PORTAL.ACCOUNTS.LAST_ACTIVITIES' | translate }}
     </h3>
 
     <div class="my-3">
@@ -228,32 +166,14 @@
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <span class="subtitle-2 dark-blue-400">Requests</span>
+              <span class="subtitle-2 dark-blue-400">{{ 'PORTAL.ACCOUNTS.REQUESTS' | translate }}</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-requests-table
-            *ngIf="requests"
-            [filtersActive]="filtersActive"
-            (refresh)="refreshRequests()"
-            [data]="requests.records"></app-requests-table>
-
-          <mat-paginator
-            [length]="requests.total_records"
-            [pageSize]="requests.limit"
-            [pageIndex]="requests.page - 1"
-            [pageSizeOptions]="[5, 10, 20]"
-            (page)="onPageChange($event, 'requests')"
-            showFirstLastButtons>
-          </mat-paginator>
-
-          <div
-            class="d-flex align-items-center justify-content-center"
-            *ngIf="account">
-            <button
-              class="primary-button back-light-blue-400 white my-2"
-              [routerLink]="['/portal/requests/new']"
-              [queryParams]="{ account: account._id }">
-              Create request
+          <app-requests-table *ngIf="requests" [filtersActive]="filtersActive" (refresh)="refreshRequests()" [data]="requests.records"></app-requests-table>
+          <mat-paginator [length]="requests.total_records" [pageSize]="requests.limit" [pageIndex]="requests.page - 1" [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event, 'requests')" showFirstLastButtons></mat-paginator>
+          <div class="d-flex align-items-center justify-content-center" *ngIf="account">
+            <button class="primary-button back-light-blue-400 white my-2" [routerLink]="['/portal/requests/new']" [queryParams]="{ account: account._id }">
+              {{ 'PORTAL.ACCOUNTS.CREATE_REQUEST' | translate }}
             </button>
           </div>
         </mat-expansion-panel>
@@ -265,32 +185,14 @@
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <span class="subtitle-2 dark-blue-400">Policies</span>
+              <span class="subtitle-2 dark-blue-400">{{ 'PORTAL.ACCOUNTS.POLICIES' | translate }}</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-policies-table
-            *ngIf="policies"
-            [filtersActive]="filtersActive"
-            (refresh)="refreshPolicies()"
-            [data]="policies.records"></app-policies-table>
-
-          <mat-paginator
-            [length]="policies.total_records"
-            [pageSize]="policies.limit"
-            [pageIndex]="policies.page - 1"
-            [pageSizeOptions]="[5, 10, 20]"
-            (page)="onPageChange($event, 'policies')"
-            showFirstLastButtons>
-          </mat-paginator>
-
-          <div
-            class="d-flex align-items-center justify-content-center"
-            *ngIf="account">
-            <button
-              class="primary-button back-light-blue-400 white my-2"
-              [routerLink]="['/portal/policies/new']"
-              [queryParams]="{ account: account._id }">
-              Create policies
+          <app-policies-table *ngIf="policies" [filtersActive]="filtersActive" (refresh)="refreshPolicies()" [data]="policies.records"></app-policies-table>
+          <mat-paginator [length]="policies.total_records" [pageSize]="policies.limit" [pageIndex]="policies.page - 1" [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event, 'policies')" showFirstLastButtons></mat-paginator>
+          <div class="d-flex align-items-center justify-content-center" *ngIf="account">
+            <button class="primary-button back-light-blue-400 white my-2" [routerLink]="['/portal/policies/new']" [queryParams]="{ account: account._id }">
+              {{ 'PORTAL.ACCOUNTS.CREATE_POLICY' | translate }}
             </button>
           </div>
         </mat-expansion-panel>
@@ -302,32 +204,14 @@
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <span class="subtitle-2 dark-blue-400">Claims</span>
+              <span class="subtitle-2 dark-blue-400">{{ 'PORTAL.ACCOUNTS.CLAIMS' | translate }}</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-claims-table
-            *ngIf="claims"
-            [filtersActive]="filtersActive"
-            (refresh)="refreshClaims()"
-            [data]="claims.records"></app-claims-table>
-
-          <mat-paginator
-            [length]="claims.total_records"
-            [pageSize]="claims.limit"
-            [pageIndex]="claims.page - 1"
-            [pageSizeOptions]="[5, 10, 20]"
-            (page)="onPageChange($event, 'claims')"
-            showFirstLastButtons>
-          </mat-paginator>
-
-          <div
-            class="d-flex align-items-center justify-content-center"
-            *ngIf="account">
-            <button
-              class="primary-button back-light-blue-400 white my-2"
-              [routerLink]="['/portal/claims/new']"
-              [queryParams]="{ account: account._id }">
-              Create claims
+          <app-claims-table *ngIf="claims" [filtersActive]="filtersActive" (refresh)="refreshClaims()" [data]="claims.records"></app-claims-table>
+          <mat-paginator [length]="claims.total_records" [pageSize]="claims.limit" [pageIndex]="claims.page - 1" [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event, 'claims')" showFirstLastButtons></mat-paginator>
+          <div class="d-flex align-items-center justify-content-center" *ngIf="account">
+            <button class="primary-button back-light-blue-400 white my-2" [routerLink]="['/portal/claims/new']" [queryParams]="{ account: account._id }">
+              {{ 'PORTAL.ACCOUNTS.CREATE_CLAIM' | translate }}
             </button>
           </div>
         </mat-expansion-panel>
@@ -339,32 +223,14 @@
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <span class="subtitle-2 dark-blue-400">Payments</span>
+              <span class="subtitle-2 dark-blue-400">{{ 'PORTAL.ACCOUNTS.PAYMENTS' | translate }}</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-payments-table
-            *ngIf="payments"
-            [filtersActive]="filtersActive"
-            (refresh)="refreshPayments()"
-            [data]="payments.records"></app-payments-table>
-
-          <mat-paginator
-            [length]="payments.total_records"
-            [pageSize]="payments.limit"
-            [pageIndex]="payments.page - 1"
-            [pageSizeOptions]="[5, 10, 20]"
-            (page)="onPageChange($event, 'payments')"
-            showFirstLastButtons>
-          </mat-paginator>
-
-          <div
-            class="d-flex align-items-center justify-content-center"
-            *ngIf="account">
-            <button
-              class="primary-button back-light-blue-400 white my-2"
-              [routerLink]="['/portal/payments/new']"
-              [queryParams]="{ account: account._id }">
-              Create payments
+          <app-payments-table *ngIf="payments" [filtersActive]="filtersActive" (refresh)="refreshPayments()" [data]="payments.records"></app-payments-table>
+          <mat-paginator [length]="payments.total_records" [pageSize]="payments.limit" [pageIndex]="payments.page - 1" [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event, 'payments')" showFirstLastButtons></mat-paginator>
+          <div class="d-flex align-items-center justify-content-center" *ngIf="account">
+            <button class="primary-button back-light-blue-400 white my-2" [routerLink]="['/portal/payments/new']" [queryParams]="{ account: account._id }">
+              {{ 'PORTAL.ACCOUNTS.CREATE_PAYMENT' | translate }}
             </button>
           </div>
         </mat-expansion-panel>
@@ -376,23 +242,11 @@
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <span class="subtitle-2 dark-blue-400">Invoices</span>
+              <span class="subtitle-2 dark-blue-400">{{ 'PORTAL.ACCOUNTS.INVOICES' | translate }}</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-invoices-table
-            *ngIf="invoices"
-            [filtersActive]="filtersActive"
-            (refresh)="refreshInvoices()"
-            [data]="invoices.records"></app-invoices-table>
-
-          <mat-paginator
-            [length]="invoices.total_records"
-            [pageSize]="invoices.limit"
-            [pageIndex]="invoices.page - 1"
-            [pageSizeOptions]="[5, 10, 20]"
-            (page)="onPageChange($event, 'invoices')"
-            showFirstLastButtons>
-          </mat-paginator>
+          <app-invoices-table *ngIf="invoices" [filtersActive]="filtersActive" (refresh)="refreshInvoices()" [data]="invoices.records"></app-invoices-table>
+          <mat-paginator [length]="invoices.total_records" [pageSize]="invoices.limit" [pageIndex]="invoices.page - 1" [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event, 'invoices')" showFirstLastButtons></mat-paginator>
         </mat-expansion-panel>
       </mat-accordion>
     </div>

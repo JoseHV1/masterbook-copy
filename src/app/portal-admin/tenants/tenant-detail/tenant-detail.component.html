@@ -1,0 +1,252 @@
+<app-pages-layout>
+  <ng-container content>
+    <div *ngIf="tenant">
+
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-1 ms-2">
+        <span
+          class="material-icons-outlined me-2"
+          style="cursor: pointer"
+          [matTooltip]="'PORTAL.COMMON.BACK' | translate"
+          (click)="goBack()">
+          arrow_back
+        </span>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon class="dark-blue-400">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item (click)="goToEdit()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined dark-blue-400">edit</span>
+              <span>{{ 'PORTAL.COMMON.EDIT' | translate }}</span>
+            </span>
+          </button>
+          <button
+            mat-menu-item
+            *ngIf="tenant.status === TenantStatusEnum.ACTIVE"
+            (click)="confirmDisable()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined" style="color:#b45309">block</span>
+              <span>{{ 'PORTAL.COMMON.DISABLE' | translate }}</span>
+            </span>
+          </button>
+          <button
+            mat-menu-item
+            *ngIf="tenant.status === TenantStatusEnum.INACTIVE"
+            (click)="confirmEnable()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined" style="color:#065f46">check_circle_outline</span>
+              <span>{{ 'PORTAL.COMMON.ENABLE' | translate }}</span>
+            </span>
+          </button>
+          <button mat-menu-item (click)="confirmHardDelete()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined" style="color:#dc2626">delete_forever</span>
+              <span>{{ 'PORTAL.COMMON.DELETE' | translate }}</span>
+            </span>
+          </button>
+        </mat-menu>
+      </div>
+
+      <!-- Hero -->
+      <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+        <h3 class="text-center w-100 mt-2 mb-1 subtitle-1 dark-blue-400">
+          {{ tenant.name }}
+          <span class="badge bg-secondary ms-2">{{ tenant.code }}</span>
+        </h3>
+        <div class="text-center text-3 gray-500 w-100">
+          {{ 'PORTAL.TENANTS.CREATED_ON' | translate }} {{ tenant.createdAt | date }}
+        </div>
+        <div class="d-flex gap-2 mt-2">
+          <span
+            class="badge"
+            [ngClass]="tenant.status === TenantStatusEnum.ACTIVE ? 'bg-success' : 'bg-danger'">
+            {{ tenant.status | titlecase }}
+          </span>
+          <span *ngIf="tenant.is_primary" class="badge bg-primary">
+            {{ 'PORTAL.TENANTS.DETAIL_PRIMARY_BADGE' | translate }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Data -->
+      <div class="row px-4 my-4 px-md-5">
+
+        <!-- Domain -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.COMMON.DOMAIN' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.domain | notNull }}</div>
+          </div>
+        </div>
+
+        <!-- Timezone -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_TIMEZONE' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.timezone | notNull }}</div>
+          </div>
+        </div>
+
+        <!-- Date format -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_DATE_FORMAT' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.date_format | notNull }}</div>
+          </div>
+        </div>
+
+        <!-- Time format -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.FIELD_TIME_FORMAT' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.time_format | notNull }}</div>
+          </div>
+        </div>
+
+        <!-- Language -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.FIELD_LANGUAGE' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.document_language | notNull | uppercase }}</div>
+          </div>
+        </div>
+
+        <!-- Currency code -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.COMMON.CODE' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.currency_code }}</div>
+          </div>
+        </div>
+
+        <!-- Currency symbol -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_SYMBOL' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.currency_symbol }}</div>
+          </div>
+        </div>
+
+        <!-- Symbol position -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_SYMBOL_POSITION' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.currency_symbol_position | notNull }}</div>
+          </div>
+        </div>
+
+        <!-- Decimal places -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_DECIMAL_PLACES' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.currency_decimal_places }}</div>
+          </div>
+        </div>
+
+        <!-- Thousands separator -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.FIELD_THOUSANDS_SEP' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.currency_thousands_separator | notNull }}</div>
+          </div>
+        </div>
+
+        <!-- Decimal separator -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.FIELD_DECIMAL_SEP' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.currency_decimal_separator | notNull }}</div>
+          </div>
+        </div>
+
+        <!-- Stripe account -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.stripe_account_id">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_STRIPE_ACCOUNT' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.stripe_account_id }}</div>
+          </div>
+        </div>
+
+        <!-- Stripe Pricing -->
+        <div class="col col-12 px-2 px-md-4 my-2">
+          <div class="section-label">Stripe Pricing</div>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.price_agency">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">Precio Agencia</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.price_agency }}</div>
+          </div>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.price_master_user">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">Precio Usuario Master</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.price_master_user }}</div>
+          </div>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.price_regular_user">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">Precio Usuario Regular</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.price_regular_user }}</div>
+          </div>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.url_success">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">URL de Éxito</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.url_success }}</div>
+          </div>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.url_cancel">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">URL de Cancelación</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.url_cancel }}</div>
+          </div>
+        </div>
+
+        <!-- Survey -->
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_SURVEY' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+              {{ tenant.survey_url ? ('PORTAL.COMMON.ENABLED' | translate) : ('PORTAL.COMMON.DISABLED' | translate) }}
+            </div>
+          </div>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.survey_url">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_SURVEY_URL' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.survey_url }}</div>
+          </div>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.accounts_template_url">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_ACCOUNTS_TEMPLATE' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.accounts_template_url }}</div>
+          </div>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.policies_template_url">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_POLICIES_TEMPLATE' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.policies_template_url }}</div>
+          </div>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.s3_folder_key">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_S3_FOLDER' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.s3_folder_key }}</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+</app-pages-layout>

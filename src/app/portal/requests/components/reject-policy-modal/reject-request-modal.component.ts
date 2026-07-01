@@ -7,6 +7,7 @@ import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { PopulatedRequestModel } from 'src/app/shared/interfaces/models/request.model';
 import { RequestsService } from 'src/app/shared/services/requests.service';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reject-request-modal',
@@ -22,7 +23,8 @@ export class RejectRequestModalComponent {
     @Inject(MAT_DIALOG_DATA)
     private _data: { request: PopulatedRequestModel },
     private _ui: UiService,
-    private _requestService: RequestsService
+    private _requestService: RequestsService,
+    private _t: TranslateService
   ) {
     this.request = this._data.request;
     this._initForm();
@@ -37,7 +39,7 @@ export class RejectRequestModalComponent {
   rejectRequest(): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to reject this request #${this.request?.serial}?`,
+        text: this._t.instant('PORTAL.REQUESTS.CONFIRM_REJECT', { serial: this.request?.serial }),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -55,7 +57,7 @@ export class RejectRequestModalComponent {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this._ui.showAlertSuccess(
-          'This request has been rejected successfully.'
+          this._t.instant('PORTAL.REQUESTS.REJECTED')
         );
         this.close(true);
       });

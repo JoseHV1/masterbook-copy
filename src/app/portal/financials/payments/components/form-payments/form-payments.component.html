@@ -1,7 +1,7 @@
 <form [formGroup]="form" data-testid="payment-form">
   <div class="row">
     <div class="col-12 mb-4">
-      <label>Payment From: </label>
+      <label>{{ 'PORTAL.PAYMENTS.TABLE_FROM' | translate }}: </label>
       <mat-radio-group
         formControlName="payment_from"
         aria-label="Select an option"
@@ -10,27 +10,27 @@
           value="1"
           color="primary"
           data-testid="payment-from-account">
-          Account
+          {{ 'PORTAL.PAYMENTS.FORM.OPTION_ACCOUNT' | translate }}
         </mat-radio-button>
         <mat-radio-button
           value="2"
           color="primary"
           data-testid="payment-from-insurer">
-          Insurer
+          {{ 'PORTAL.PAYMENTS.FORM.OPTION_INSURER' | translate }}
         </mat-radio-button>
       </mat-radio-group>
     </div>
 
     <div class="col-12 col-md-4 mb-4">
-      <label>Payment Date *</label>
+      <label>{{ 'PORTAL.PAYMENTS.TABLE_DATE' | translate }} *</label>
       <app-date-field
-        [placeholder]="'Select a date'"
+        [placeholder]="'PORTAL.PROFILE_FORM.PLACEHOLDER_DATE' | translate"
         formControlName="payment_date"
         data-testid="payment-date"></app-date-field>
     </div>
 
     <div class="col-12 col-md-4 mb-4">
-      <label>Total Amount *</label>
+      <label>{{ 'PORTAL.PAYMENTS.TABLE_TOTAL' | translate }} *</label>
       <app-input
         placeholder="$ 0"
         type="tel"
@@ -42,7 +42,7 @@
 
     <ng-container *ngIf="form.get('payment_from')?.value === '1'">
       <div class="col-12 col-md-4 mb-4">
-        <label>Account *</label>
+        <label>{{ 'PORTAL.ACCOUNTS.TITLE' | translate }} *</label>
         <app-account-selector
           [extendedInfo]="true"
           (ngModelChange)="onSelectAccount($event)"
@@ -53,7 +53,7 @@
 
     <ng-container *ngIf="form.get('payment_from')?.value === '2'">
       <div class="col-12 col-md-4 mb-4">
-        <label>Insurer Company *</label>
+        <label>{{ 'PORTAL.PAYMENTS.FORM.FIELD_INSURER_COMPANY' | translate }}</label>
         <app-insurer-selector
           (ngModelChange)="onSelectInsurer($event)"
           formControlName="insurer_company"
@@ -62,17 +62,17 @@
     </ng-container>
 
     <div class="col-12 col-md-4 mb-4">
-      <label>Check / ACH Number *</label>
+      <label>{{ 'PORTAL.PAYMENTS.TABLE_CHECK' | translate }} *</label>
       <app-input
-        placeholder="Enter Check / ACH Number"
+        [placeholder]="'PORTAL.PAYMENTS.FORM.PLACEHOLDER_CHECK_NUMBER' | translate"
         formControlName="check_number"
         data-testid="payment-check-number"></app-input>
     </div>
 
     <div class="col-12 col-md-4 mb-4">
-      <label>Payment Method*</label>
+      <label>{{ 'PORTAL.PAYMENTS.TABLE_METHOD' | translate }}*</label>
       <app-dropdown-field
-        [placeholder]="'Select a payment method'"
+        [placeholder]="'PORTAL.PAYMENTS.FORM.PLACEHOLDER_METHOD' | translate"
         formControlName="method"
         [options]="dropDownPaymentMethod"
         data-testid="payment-method"></app-dropdown-field>
@@ -82,7 +82,7 @@
   <div class="mb-4" data-testid="payment-application-section">
     <div
       class="col-12 col-lg-11 d-flex align-items-center justify-content-start">
-      <h1 class="sub-title">Payment Application</h1>
+      <h1 class="sub-title">{{ 'PORTAL.PAYMENTS.FORM.SECTION_APPLICATIONS' | translate }}</h1>
     </div>
 
     <div *ngIf="showPaymentApplications" data-testid="payment-applications">
@@ -92,7 +92,7 @@
         class="row mb-4"
         [attr.data-testid]="'payment-application-row'">
         <div class="col-12 col-md-3">
-          <label>Policy number*</label>
+          <label>{{ 'PORTAL.PAYMENTS.TABLE_POLICY' | translate }}*</label>
           <app-policy-selector
             (ngModelChange)="onSelectPolicy()"
             [paramsBySearchs]="paramsBySearchPolicies"
@@ -101,15 +101,15 @@
         </div>
 
         <div class="col-12 col-md-3">
-          <label>Invoice number</label>
+          <label>{{ 'PORTAL.PAYMENTS.FORM.FIELD_INVOICE_NUMBER' | translate }}</label>
           <app-input
-            placeholder="Select a policy"
+            [placeholder]="'PORTAL.PAYMENTS.FORM.PLACEHOLDER_INVOICE_NUMBER' | translate"
             formControlName="invoice_number"
             [attr.data-testid]="'payment-invoice-number'"></app-input>
         </div>
 
         <div class="col-12 col-md-3">
-          <label>Payment Applied</label>
+          <label>{{ 'PORTAL.PAYMENTS.FORM.FIELD_PAYMENT_APPLIED' | translate }}</label>
           <app-input
             placeholder="$ 0"
             type="tel"
@@ -121,7 +121,7 @@
         </div>
 
         <div class="col-12 col-md-3">
-          <label>Open Balance</label>
+          <label>{{ 'PORTAL.PAYMENTS.FORM.FIELD_OPEN_BALANCE' | translate }}</label>
           <app-input
             placeholder="$ 0"
             type="tel"
@@ -137,19 +137,19 @@
           class="primary-button back-light-blue-400 white mx-1"
           (click)="addPaymentApplication()"
           data-testid="payment-add-application">
-          Add new
+          {{ 'PORTAL.PAYMENTS.FORM.BTN_ADD_NEW' | translate }}
         </button>
       </div>
     </div>
 
     <div class="my-3 my-md-4" *ngIf="!showPaymentApplications">
-      <h5 class="text-center fw-semibold">No insurer company selected</h5>
+      <h5 class="text-center fw-semibold">{{ 'PORTAL.PAYMENTS.FORM.NO_INSURER_SELECTED' | translate }}</h5>
     </div>
   </div>
 
   <div class="row">
     <div class="col-12 col-md-4 mb-4">
-      <label>Retentions *</label>
+      <label>{{ 'PORTAL.PAYMENTS.TABLE_RETENTIONS' | translate }} *</label>
       <app-input
         placeholder="$ 0"
         type="tel"
@@ -160,7 +160,7 @@
     </div>
 
     <div class="col-12 col-md-4 mb-4">
-      <label>Taxes *</label>
+      <label>{{ 'PORTAL.PAYMENTS.TABLE_TAXES' | translate }} *</label>
       <app-input
         placeholder="$ 0"
         type="tel"
@@ -171,7 +171,7 @@
     </div>
 
     <div class="col-12 col-md-4 mb-4">
-      <label>Sub-total</label>
+      <label>{{ 'PORTAL.PAYMENTS.TABLE_SUBTOTAL' | translate }}</label>
       <app-input
         placeholder="$ 0"
         type="tel"
@@ -187,7 +187,7 @@
       class="primary-button big-button back-gray-400 white mx-1"
       (click)="cancelForm()"
       data-testid="payment-cancel">
-      Cancel
+      {{ 'PORTAL.COMMON.CANCEL' | translate }}
     </button>
 
     <button
@@ -195,7 +195,7 @@
       [disabled]="form.invalid"
       (click)="openConfirmationModal()"
       data-testid="payment-submit">
-      Submit
+      {{ 'PORTAL.PAYMENTS.FORM.BTN_SUBMIT' | translate }}
     </button>
   </div>
 </form>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { PaymentSuccessComponent } from './payment-success.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
   {
@@ -12,6 +13,6 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [PaymentSuccessComponent],
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, RouterModule.forChild(routes), TranslateModule],
 })
 export class PaymentSuccessModule {}

@@ -5,6 +5,7 @@ import { UiService } from '../../services/ui.service';
 import { AuthService } from '../../services/auth.service';
 import { finalize } from 'rxjs';
 import { ResetPasswordRequest } from '../../interfaces/requests/auth/reset-password.request';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-forgot-password-modal',
@@ -29,7 +30,8 @@ export class ForgotPasswordModalComponent {
     private formBuilder: FormBuilder,
     private _authModal: AuthModalService,
     private _ui: UiService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _t: TranslateService,
   ) {
     this.formForgotPassword = this.formBuilder.group({
       email: [
@@ -72,7 +74,7 @@ export class ForgotPasswordModalComponent {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this.step = 2;
-        this._ui.showAlertSuccess('An email has been sent to you');
+        this._ui.showAlertSuccess(this._t.instant('SHARED.AUTH.FORGOT_EMAIL_SENT'));
         this.activeClock();
       });
   }
@@ -101,7 +103,7 @@ export class ForgotPasswordModalComponent {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this.formResetPassword.reset();
-        this._ui.showAlertSuccess('Password successfully changed');
+        this._ui.showAlertSuccess(this._t.instant('SHARED.AUTH.PASSWORD_CHANGED'));
         this.closeModalForgot.emit(false);
       });
   }
@@ -121,9 +123,7 @@ export class ForgotPasswordModalComponent {
         if (this.seconds === 0 && this.minutes === 0) {
           this.clockPaused = true;
           this.step = 1;
-          this._ui.showAlertError(
-            'The code has expired, please request it again'
-          );
+          this._ui.showAlertError(this._t.instant('SHARED.AUTH.CODE_EXPIRED'));
         }
       }
     }, 1000);

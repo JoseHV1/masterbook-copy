@@ -17,6 +17,7 @@ import { switchMap } from 'rxjs/operators';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
 import { IntegrationsService } from '@app/shared/services/integration.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 type FakeGoogleConnection = {
   email: string;
@@ -52,6 +53,7 @@ export class ProfileFormComponent implements OnInit {
     private _integrations: IntegrationsService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
+    private _t: TranslateService,
   ) {
     this.form = this._profile.createEditProfileForm();
   }
@@ -89,7 +91,7 @@ export class ProfileFormComponent implements OnInit {
 
     const googleAuth = this._activatedRoute.snapshot.queryParamMap.get('google_auth');
     if (googleAuth === 'success') {
-      this._ui.showAlertSuccess('Google account connected successfully.');
+      this._ui.showAlertSuccess(this._t.instant('PORTAL.PROFILE_FORM.GOOGLE_CONNECTED'));
       this._router.navigate([], {
         queryParams: { google_auth: null },
         queryParamsHandling: 'merge',
@@ -135,11 +137,11 @@ export class ProfileFormComponent implements OnInit {
         next: status => {
           if (!status.google.connected) this.googleConnection = null;
 
-          this._ui.showAlertSuccess('Google disconnected');
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.PROFILE_FORM.GOOGLE_DISCONNECTED'));
           this._cd.detectChanges();
         },
         error: () => {
-          this._ui.showAlertError?.('Failed to disconnect Google');
+          this._ui.showAlertError?.(this._t.instant('PORTAL.PROFILE_FORM.GOOGLE_DISCONNECT_ERROR'));
         },
       });
   }
@@ -249,7 +251,7 @@ export class ProfileFormComponent implements OnInit {
         this.isEditing = false;
         this.form.disable();
         this._auth.refreshAuth();
-        this._ui.showAlertSuccess('Profile updated successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.PROFILE_FORM.PROFILE_UPDATED'));
       });
   }
 }

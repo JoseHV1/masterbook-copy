@@ -12,34 +12,34 @@
         </app-account-selector>
       </div>
       <button class="primary-button back-gray-500 white" (click)="reset()">
-        Reset
+        {{ 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.BTN_RESET' | translate }}
       </button>
     </div>
 
     <div class="my-3 mb-md-3">
-      <h4 class="subtitle-3 dark-blue-400 mb-md-4 mb-3">Account information</h4>
+      <h4 class="subtitle-3 dark-blue-400 mb-md-4 mb-3">{{ 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.SECTION_ACCOUNT_INFO' | translate }}</h4>
 
       <div class="row mb-3 mb-md-4">
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Account *</label>
+          <label>{{ 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.FIELD_ACCOUNT' | translate }} *</label>
           <app-input
-            placeholder="Select an account"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_AUTO_FILLED' | translate"
             type="text"
             formControlName="account_serial"></app-input>
         </div>
 
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Account name *</label>
+          <label>{{ 'PORTAL.REQUESTS.ACCOUNT_NAME' | translate }} *</label>
           <app-input
-            placeholder="Select an account"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_AUTO_FILLED' | translate"
             type="text"
             formControlName="account_name"></app-input>
         </div>
 
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Agent *</label>
+          <label>{{ 'PORTAL.REQUESTS.AGENT' | translate }} *</label>
           <app-input
-            placeholder="Select an account"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_AUTO_FILLED' | translate"
             type="text"
             formControlName="agent_fullname"></app-input>
         </div>
@@ -47,68 +47,68 @@
     </div>
 
     <div class="my-3 mb-md-3">
-      <h4 class="subtitle-3 dark-blue-400 mb-md-4 mb-3">Client information</h4>
+      <h4 class="subtitle-3 dark-blue-400 mb-md-4 mb-3">{{ 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.SECTION_CLIENT_INFO' | translate }}</h4>
 
       <div class="row mb-3 mb-md-4">
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Full name *</label>
+          <label>{{ 'PORTAL.REQUESTS.FULL_NAME' | translate }} *</label>
           <app-input
-            placeholder="Select an account"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_AUTO_FILLED' | translate"
             type="text"
             formControlName="client_fullname"></app-input>
         </div>
 
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Date of birth*</label>
+          <label>{{ 'PORTAL.REQUESTS.DOB' | translate }}*</label>
           <app-date-field
-            [placeholder]="'Select an account'"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_AUTO_FILLED' | translate"
             formControlName="dob"></app-date-field>
         </div>
 
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Gender *</label>
+          <label>{{ 'PORTAL.REQUESTS.GENDER' | translate }} *</label>
           <app-input
-            placeholder="Select an account"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_AUTO_FILLED' | translate"
             type="text"
             formControlName="gender"></app-input>
         </div>
 
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Marital status *</label>
+          <label>{{ 'PORTAL.REQUESTS.MARITAL' | translate }} *</label>
           <app-input
-            placeholder="Select an account"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_AUTO_FILLED' | translate"
             type="text"
             formControlName="marital_status"></app-input>
         </div>
 
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Country *</label>
+          <label>{{ 'PORTAL.REQUESTS.COUNTRY' | translate }} *</label>
           <app-input
-            placeholder="Select an account"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_AUTO_FILLED' | translate"
             type="text"
             formControlName="country"></app-input>
         </div>
 
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Full address *</label>
+          <label>{{ 'PORTAL.REQUESTS.ADDRESS' | translate }} *</label>
           <app-input
-            placeholder="Select an account"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_AUTO_FILLED' | translate"
             type="text"
             formControlName="address"></app-input>
         </div>
 
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Email *</label>
+          <label>{{ 'PORTAL.REQUESTS.EMAIL' | translate }} *</label>
           <app-input
-            placeholder="Select an account"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_AUTO_FILLED' | translate"
             type="text"
             formControlName="email"></app-input>
         </div>
 
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Phone number *</label>
+          <label>{{ 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.FIELD_PHONE' | translate }}</label>
           <app-input
-            placeholder="Select an account"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_AUTO_FILLED' | translate"
             type="text"
             formControlName="phone"></app-input>
         </div>
@@ -116,19 +116,19 @@
     </div>
 
     <div class="my-3 mb-md-3 mt-md-5">
-      <h4 class="subtitle-3 dark-blue-400 mb-md-4 mb-3">Request information</h4>
+      <h4 class="subtitle-3 dark-blue-400 mb-md-4 mb-3">{{ 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.SECTION_REQUEST_INFO' | translate }}</h4>
 
       <div class="row mb-3 mb-md-4">
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Object to insure *</label>
+          <label>{{ 'PORTAL.REQUESTS.OBJECT_INSURE' | translate }} *</label>
           <app-input
-            placeholder="Type your object to insure"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_OBJECT' | translate"
             type="text"
             formControlName="insure_object"></app-input>
         </div>
 
         <div class="col-12 col-md-4 mb-4 mb-md-0">
-          <label>Coverage limit *</label>
+          <label>{{ 'PORTAL.REQUESTS.COVERAGE_LIMIT' | translate }} *</label>
           <app-input
             placeholder="$ 0.00"
             type="tel"
@@ -138,14 +138,14 @@
         </div>
 
         <div class="col-12 col-md-4 mb-3 mb-md-4">
-          <label>Location *</label>
+          <label>{{ 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.FIELD_LOCATION' | translate }}</label>
           <app-address-input
-            placeholder="Type the location"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_LOCATION' | translate"
             formControlName="address_info"></app-address-input>
         </div>
 
         <div class="col-12">
-          <h4 class="subtitle-3 dark-blue-400 mb-md-4 mb-3">Forms</h4>
+          <h4 class="subtitle-3 dark-blue-400 mb-md-4 mb-3">{{ 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.SECTION_FORMS' | translate }}</h4>
           <div class="d-flex flex-wrap justify-content-start">
             <ng-container *ngFor="let type of policy_types">
               <div class="policy-type-card my-1 mx-md-1 py-2 py-md-3 px-2">
@@ -165,7 +165,7 @@
                     <button
                       class="primary-button back-dark-blue-300 white mx-1"
                       (click)="openModalForms(type)">
-                      View forms
+                      {{ 'PORTAL.REQUESTS.VIEW_FORMS' | translate }}
                     </button>
                   </div>
                 </div>
@@ -175,7 +175,7 @@
         </div>
 
         <h4 class="subtitle-3 dark-blue-400 my-md-4 my-3">
-          Upload your completed request
+          {{ 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.SECTION_UPLOAD' | translate }}
         </h4>
 
         <div class="col-12 mt-2">
@@ -189,14 +189,14 @@
       <button
         class="primary-button big-button back-gray-500 white mx-2"
         (click)="cancel()">
-        Cancel
+        {{ 'PORTAL.COMMON.CANCEL' | translate }}
       </button>
 
       <button
         class="primary-button big-button back-light-blue-500 white mx-2"
         (click)="send()"
         [disabled]="form.invalid">
-        {{ request ? 'Edit' : 'Save' }}
+        {{ (request ? 'PORTAL.COMMON.EDIT' : 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.BTN_SAVE') | translate }}
       </button>
     </div>
   </form>

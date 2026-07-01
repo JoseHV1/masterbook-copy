@@ -15,7 +15,7 @@ export class FilteredTableHeaderComponent {
   querySearch = '';
 
   get visibleChips(): FilterActive[] {
-    return this.filtersActive.filter(c => c.text.toLowerCase() !== 'all');
+    return this.filtersActive.filter(c => c.value !== '' && c.value !== null && c.value !== undefined);
   }
 
   onSearch(): void {

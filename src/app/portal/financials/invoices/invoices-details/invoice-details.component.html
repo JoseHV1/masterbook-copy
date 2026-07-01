@@ -6,7 +6,7 @@
       <span
         class="material-icons-outlined me-2"
         style="cursor: pointer"
-        matTooltip="Back to last page"
+        [matTooltip]="'PORTAL.COMMON.BACK_TO_LAST_PAGE' | translate"
         (click)="goBack()">
         arrow_back
       </span>
@@ -16,17 +16,17 @@
       *ngIf="invoice">
       <div class="d-flex flex-column">
         <h3 class="text-center w-100 mb-1 subtitle-1 dark-blue-400">
-          Invoice # {{ invoice.serial }}
+          {{ 'PORTAL.INVOICES.INVOICE_HASH' | translate }}{{ invoice.serial }}
         </h3>
         <p class="text-3 gray-500 text-center">
-          Created date on: {{ invoice.createdAt | date }}
+          {{ 'PORTAL.PAYMENTS.CREATED_DATE_ON' | translate }} {{ invoice.createdAt | date }}
         </p>
       </div>
     </div>
     <div class="row px-4 my-2 px-md-5 my-md-5" *ngIf="invoice">
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Invoice Date</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.INVOICES.TABLE_INVOICE_DATE' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ invoice.createdAt | date : 'MM/dd/yyyy' }}
           </div>
@@ -35,7 +35,7 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Policy Number</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.INVOICES.TABLE_POLICY_NUMBER' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             <span
               (click)="
@@ -60,7 +60,7 @@
               target="_blank"
               rel="noopener noreferrer">
               <span style="color: #00aaff; cursor: pointer"
-                >{{ 'Download' }}
+                >{{ 'PORTAL.INVOICES.BTN_DOWNLOAD' | translate }}
                 <img
                   src="../../../../assets/icons/pdf.svg"
                   alt="PDF Icon"
@@ -78,7 +78,7 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Insurer</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.FORM_FROM_POLICY.FIELD_INSURER' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ invoice.insurer?.name | notNull }}
           </div>
@@ -87,7 +87,7 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Agent</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.AGENT' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ invoice.broker?.user?.first_name }}
             {{ invoice.broker?.user?.last_name }}
@@ -97,7 +97,7 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Invoice amount</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.INVOICES.TABLE_INVOICE_AMOUNT' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ invoice.amount_due | currency : 'USD' : 'symbol' }}
           </div>
@@ -106,7 +106,7 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Payment applied</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PAYMENTS.TABLE_APPLIED' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{ invoice.amount_paid | currency : 'USD' : 'symbol' }}
           </div>
@@ -115,7 +115,7 @@
 
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
-          <div class="col-12 col-md-4 black px-2 py-2">Open balance</div>
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.INVOICES.TABLE_BALANCE' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             {{
               invoice.amount_due - invoice.amount_paid
@@ -131,7 +131,7 @@
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <h3 class="subtitle-3 dark-blue-400">Payments</h3>
+              <h3 class="subtitle-3 dark-blue-400">{{ 'PORTAL.PAYMENTS.TITLE' | translate }}</h3>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <app-payments-list
@@ -141,7 +141,7 @@
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <h3 class="subtitle-3 dark-blue-400">Commissions</h3>
+              <h3 class="subtitle-3 dark-blue-400">{{ 'PORTAL.COMMISSIONS.TITLE' | translate }}</h3>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <app-commissions-list [data]="comissions"></app-commissions-list>

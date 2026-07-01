@@ -17,6 +17,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { ClaimsService } from 'src/app/shared/services/claims.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-claims-table',
@@ -45,7 +46,8 @@ export class ClaimsTableComponent implements OnChanges {
     public _url: UrlService,
     private _auth: AuthService,
     private _claim: ClaimsService,
-    private _ui: UiService
+    private _ui: UiService,
+    private _t: TranslateService
   ) {
     const userRole = this._auth.getAuth()?.user.role;
     this.isInsured = !!userRole && [RolesEnum.INSURED].includes(userRole);
@@ -191,12 +193,10 @@ export class ClaimsTableComponent implements OnChanges {
   }
 
   private _openSuccessModal(claim: ClaimModel) {
-    const message = `The status claim {{link}} has been updated successfully`;
-
     this._ui
       .showInformationModal({
-        text: message,
-        title: 'SUCCESS!',
+        text: this._t.instant('PORTAL.CLAIMS.STATUS_UPDATED_TEXT'),
+        title: this._t.instant('PORTAL.CLAIMS.SUCCESS_TITLE'),
         type: UiModalTypeEnum.SUCCESS,
         link: {
           name: claim.serial,
@@ -213,7 +213,7 @@ export class ClaimsTableComponent implements OnChanges {
   deleteClaim(_id: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this account?`,
+        text: this._t.instant('PORTAL.CLAIMS.CONFIRM_DELETE'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -228,7 +228,7 @@ export class ClaimsTableComponent implements OnChanges {
       .deleteClaim(_id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('Claim deleted successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.CLAIMS.DELETED'));
         this.refresh.emit();
       });
   }

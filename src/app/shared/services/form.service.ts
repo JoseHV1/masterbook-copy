@@ -11,7 +11,6 @@ import { FormModel, PopulatedFormModel } from '../interfaces/models/form.model';
 import { DatasetsService } from './dataset.service';
 import { PolicyCategoryEnum } from '../enums/policy-category.enum';
 import { ApiResponseModel } from '../interfaces/models/api-response.model';
-import { CreateFormRequest } from '../interfaces/requests/forms/create-form.request';
 import { UpdateFormRequest } from '../interfaces/requests/forms/update-form.request';
 import { NewFormRequest } from '../interfaces/requests/forms/new-form.request';
 import { FormViaEmailModel } from '../models/form-via-email.model';
@@ -21,15 +20,6 @@ import { FormViaEmailModel } from '../models/form-via-email.model';
 })
 export class FormService {
   constructor(private _http: HttpClient, private _dataset: DatasetsService) {}
-
-  /**
-   * @deprecated
-   */
-  createForm(req: CreateFormRequest): Observable<FormModel> {
-    return this._http
-      .post<ApiResponseModel<FormModel>>(environment.apiUrl + 'form', req)
-      .pipe(map(resp => resp.data));
-  }
 
   newForm(req: NewFormRequest): Observable<FormModel> {
     return this._http
@@ -105,6 +95,30 @@ export class FormService {
               }))
             )
           ),
+        },
+      ],
+    };
+  }
+
+  toggleStatus(id: string): Observable<FormModel> {
+    return this._http
+      .patch<ApiResponseModel<FormModel>>(`${environment.apiUrl}form/${id}/status`, {})
+      .pipe(map(resp => resp.data));
+  }
+
+  getAdminFormsFilters(): FilterWrapperModel {
+    return {
+      filters: [
+        {
+          label: 'Creation date',
+          name: 'created_at_date',
+          type: FilterTypeEnum.DATE_RANGE,
+        },
+        {
+          label: 'Tenant',
+          name: 'tenant_id',
+          type: FilterTypeEnum.SELECT,
+          options: of([]),
         },
       ],
     };

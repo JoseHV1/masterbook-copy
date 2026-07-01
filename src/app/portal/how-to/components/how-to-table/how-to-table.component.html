@@ -1,13 +1,13 @@
 <div class="table-responsive" *ngIf="data">
   <table mat-table [dataSource]="data" style="width: auto; overflow-x: scroll">
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.HOW_TO.TABLE.ID' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         <span
           *ngIf="element.serial; else notId"
           (click)="_url.navigateTo('portal-admin/how-to', element.serial)"
           class="light-blue-700"
-          matTooltip="Go to video details"
+          [matTooltip]="'PORTAL.HOW_TO.TABLE.TOOLTIP_GO_DETAIL' | translate"
           style="cursor: pointer"
           data-testid="how-to-serial"
           matTooltipPosition="above">
@@ -18,21 +18,31 @@
     </ng-container>
 
     <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.HOW_TO.TABLE.TITLE' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         {{ element.title | notNull }}
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="tenants">
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.HOW_TO.TABLE.TENANT' | translate }}</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.tenants?.length; else noTenants">
+          <span *ngFor="let t of element.tenants" class="badge bg-secondary me-1">{{ t.code }}</span>
+        </span>
+        <ng-template #noTenants><span class="text-muted small">—</span></ng-template>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="created_at">
-      <th mat-header-cell *matHeaderCellDef>Created on</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.HOW_TO.TABLE.CREATED_ON' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         {{ element.createdAt | date }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.COMMON.ACTIONS' | translate }}</th>
       <td mat-cell *matCellDef="let element; let i = index">
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon class="dark-blue-400">more_vert</mat-icon>
@@ -46,14 +56,14 @@
             ">
             <span class="d-flex align-items-center gap-2">
               <span class="material-icons-outlined dark-blue-400">edit</span>
-              Edit
+              {{ 'PORTAL.COMMON.EDIT' | translate }}
             </span>
           </button>
 
           <button mat-menu-item (click)="deleteHowTo(element._id)">
             <span class="d-flex align-items-center gap-2">
               <span class="material-icons-outlined text-danger">delete</span>
-              Delete
+              {{ 'PORTAL.COMMON.DELETE' | translate }}
             </span>
           </button>
         </mat-menu>
@@ -61,7 +71,7 @@
           class="material-icons-outlined"
           style="cursor: pointer"
           *ngIf="i > 0"
-          matTooltip="Move up"
+          [matTooltip]="'PORTAL.HOW_TO.TABLE.TOOLTIP_MOVE_UP' | translate"
           matTooltipPosition="right"
           (click)="moveItem(element, 'up')">
           arrow_upward
@@ -69,7 +79,7 @@
         <span
           class="material-icons-outlined"
           style="cursor: pointer"
-          matTooltip="Move down"
+          [matTooltip]="'PORTAL.HOW_TO.TABLE.TOOLTIP_MOVE_DOWN' | translate"
           matTooltipPosition="right"
           *ngIf="i < data.length - 1"
           (click)="moveItem(element, 'down')">

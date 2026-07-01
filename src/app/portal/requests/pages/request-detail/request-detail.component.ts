@@ -43,6 +43,7 @@ import { UpdateRequestRequest } from '@app/shared/interfaces/requests/requests/u
 import { UploadFileService } from '@app/shared/services/upload_file.service';
 import { FormsModalComponent } from '@app/portal/forms/components/forms-modal/forms-modal.component';
 import { DatasetsService } from '@app/shared/services/dataset.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-request-detail',
@@ -87,7 +88,8 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
     private _auth: AuthService,
     private _integrations: IntegrationsService,
     private _uploadFile: UploadFileService,
-    private _datasets: DatasetsService
+    private _datasets: DatasetsService,
+    private _t: TranslateService
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -123,14 +125,14 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
         this.connected = !!google?.connected;
       },
       error: err => {
-        this._ui.showAlertError(`Status failed ${err}`);
+        this._ui.showAlertError(this._t.instant('PORTAL.REQUESTS.STATUS_UPDATE_FAILED'));
       },
     });
 
     const googleAuth = this.activateRoute.snapshot.queryParamMap.get('google_auth');
     if (googleAuth === 'success') {
       this.connected = true;
-      this._ui.showAlertSuccess('Google account connected successfully. You can now send emails.');
+      this._ui.showAlertSuccess(this._t.instant('PORTAL.REQUESTS.GOOGLE_CONNECTED'));
       this._router.navigate([], {
         queryParams: { google_auth: null },
         queryParamsHandling: 'merge',
@@ -199,8 +201,8 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
 
   private _openSuccessModal(resp: { message: string; count: number }) {
     this._ui.showInformationModal({
-      text: `The email has been sent to ${resp.count} insurers`,
-      title: 'SUCCESS!',
+      text: this._t.instant('PORTAL.REQUESTS.EMAIL_SENT_TEXT', { count: resp.count }),
+      title: this._t.instant('PORTAL.REQUESTS.EMAIL_SENT_TITLE'),
       type: UiModalTypeEnum.SUCCESS,
     });
   }
@@ -257,7 +259,7 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
         );
         this._dialog
           .open(FormsModalComponent, {
-            data: { policy_type, show_email: false },
+            data: { policy_type, show_email: false, filter_active: true },
             autoFocus: false,
             panelClass: 'transparent-modal-container',
           })
@@ -331,14 +333,14 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
         finalize(() => this._ui.hideLoader())
       )
       .subscribe(() => {
-        this._ui.showAlertSuccess('Quote status set successfully!');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.REQUESTS.QUOTE_STATUS_SET'));
       });
   }
 
   cancelPolicy(): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to accept cancellation of this policy?`,
+        text: this._t.instant('PORTAL.REQUESTS.CONFIRM_CANCEL_POLICY'),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -355,7 +357,7 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
         finalize(() => this._ui.hideLoader())
       )
       .subscribe(() => {
-        this._ui.showAlertSuccess('Policy cancelled successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.REQUESTS.POLICY_CANCELLED'));
       });
   }
 
@@ -387,7 +389,7 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
   deleteRequest(_id: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this request?`,
+        text: this._t.instant('PORTAL.REQUESTS.CONFIRM_DELETE'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -404,7 +406,7 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
       .deleteRequest(_id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('Request deleted successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.REQUESTS.DELETED'));
         this._router.navigateByUrl('portal/requests');
       });
   }
@@ -427,8 +429,8 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
         this.form.reset();
-        this._ui.showAlertSuccess('Request document upload successfully!');
-        window.location.href = window.location.href;
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.REQUESTS.DOCUMENT_UPLOADED'));
+        this._initData();
       });
   }
 }

@@ -5,6 +5,7 @@ import { PAYMENT_STATUS } from '../../enums/payment-status';
 import { RolesEnum } from '../../enums/roles.enum';
 import { PAYABLE_ITEMS } from '../../enums/payable-items.enum';
 import { PaymetGatewayService } from '../../services/payment-gateway.service';
+import { TenantContextService } from '../../services/tenant-context.service';
 import { tap } from 'rxjs';
 
 @Component({
@@ -28,9 +29,14 @@ export class PagesLayoutComponent {
   canShowNumberBroker: boolean = false;
   contactNumberBroker?: string;
 
+  get surveyUrl(): string | null {
+    return this._tenantCtx.snapshot?.survey_url ?? null;
+  }
+
   constructor(
     private _auth: AuthService,
-    private _paymentGateway: PaymetGatewayService
+    private _paymentGateway: PaymetGatewayService,
+    private _tenantCtx: TenantContextService,
   ) {
     const auth = this._auth.getAuth();
     const user = auth?.user;

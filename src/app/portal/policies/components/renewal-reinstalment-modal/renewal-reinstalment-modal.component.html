@@ -2,32 +2,32 @@
   <div
     class="ui-modal-header white subtitle-2 text-center py-2 back-light-blue-500"
     *ngIf="type === 'RENEWAL'">
-    Renew Policy #{{ policy?.policy_number }}
+    {{ 'PORTAL.POLICIES.MODALS.RENEW_TITLE_PREFIX' | translate }}{{ policy?.policy_number }}
   </div>
   <div
     class="ui-modal-header white subtitle-2 text-center py-2 back-light-blue-500"
     *ngIf="type === 'REINSTALLMENT'">
-    Reinstall Policy #{{ policy?.policy_number }}
+    {{ 'PORTAL.POLICIES.MODALS.REINSTALL_TITLE_PREFIX' | translate }}{{ policy?.policy_number }}
   </div>
   <div class="ui-modal-content ui-modal-body y-3 text-center text-1 gray-500">
     <p class="text-1 text-center mt-2 mb-3" *ngIf="type === 'RENEWAL'">
-      Why do you wish to renew this policy?
+      {{ 'PORTAL.POLICIES.MODALS.RENEW_QUESTION' | translate }}
     </p>
     <p class="text-1 text-center mt-2 mb-3" *ngIf="type === 'REINSTALLMENT'">
-      Why do you wish to reinstall this policy?
+      {{ 'PORTAL.POLICIES.MODALS.REINSTALL_QUESTION' | translate }}
     </p>
     <form [formGroup]="form" class="px-4 py-4 align-items-center">
       <div class="row mb-3 mb-md-4">
         <div class="col-12 col-md-6 mb-4 mb-md-0">
-          <label>Object to insure *</label>
+          <label>{{ 'PORTAL.REQUESTS.OBJECT_INSURE' | translate }} *</label>
           <app-input
-            placeholder="Type your object to insure"
+            [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_OBJECT' | translate"
             type="text"
             formControlName="insure_object"></app-input>
         </div>
 
         <div class="col-12 col-md-6 mb-4 mb-md-0">
-          <label>Coverage limit *</label>
+          <label>{{ 'PORTAL.REQUESTS.COVERAGE_LIMIT' | translate }} *</label>
           <app-input
             placeholder="$ 0.00"
             type="tel"
@@ -37,7 +37,7 @@
         </div>
 
         <div class="mb-3 mb-md-4">
-          <label class="d-block">Additional info *</label>
+          <label class="d-block">{{ 'PORTAL.REQUESTS.FORM_FROM_POLICY.FIELD_ADDITIONAL_INFO' | translate }} *</label>
           <textarea
             rows="5"
             cols="30"
@@ -50,7 +50,7 @@
       <button
         class="primary-button white back-gray-400 mx-1"
         (click)="close(false)">
-        Cancel
+        {{ 'PORTAL.COMMON.CANCEL' | translate }}
       </button>
       <button
         class="primary-button white mx-1 back-light-blue-500"
@@ -61,7 +61,7 @@
           !form.value.additional_info
         "
         (click)="renewalPolicy()">
-        Apply
+        {{ 'PORTAL.POLICIES.MODALS.BTN_APPLY' | translate }}
       </button>
       <button
         class="primary-button white mx-1 back-light-blue-500"
@@ -72,7 +72,7 @@
           !form.value.additional_info
         "
         (click)="reinstallmentPolicy()">
-        Apply
+        {{ 'PORTAL.POLICIES.MODALS.BTN_APPLY' | translate }}
       </button>
     </div>
   </div>

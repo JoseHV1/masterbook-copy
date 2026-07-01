@@ -1,7 +1,7 @@
 <h2
   mat-dialog-title
   class="d-flex justify-content-between align-items-start pt-1 pb-1 pt-md-3 pb-md-2">
-  <button mat-icon-button mat-dialog-close aria-label="Cerrar">
+  <button mat-icon-button mat-dialog-close [attr.aria-label]="'PORTAL.SHARED.CLOSE' | translate">
     <mat-icon>close</mat-icon>
   </button>
 </h2>
@@ -9,23 +9,23 @@
 <mat-dialog-content class="px-4 py-2 px-md-5 pb-md-4 mb-3">
   <form [formGroup]="form" *ngIf="form">
     <div class="row">
-      <h6 class="title-form text-center mb-3 mb-md-4">New Quote</h6>
+      <h6 class="title-form text-center mb-3 mb-md-4">{{ 'PORTAL.REQUESTS.MODAL_NEW_QUOTE.TITLE' | translate }}</h6>
       <div class="col-12 col-md-6 mb-3 mb-md-4">
-        <label>Insurer *</label>
+        <label>{{ 'PORTAL.REQUESTS.MODAL_NEW_QUOTE.FIELD_INSURER' | translate }}</label>
         <app-insurance-company-selector
-          [placeholder]="'Select a company'"
+          [placeholder]="'PORTAL.REQUESTS.MODAL_NEW_QUOTE.PLACEHOLDER_INSURER' | translate"
           formControlName="insurer_id"></app-insurance-company-selector>
       </div>
 
       <div class="col-12 col-md-6 mb-3 mb-md-4">
-        <label>Date of quotes *</label>
+        <label>{{ 'PORTAL.REQUESTS.MODAL_NEW_QUOTE.FIELD_QUOTE_DATE' | translate }}</label>
         <app-date-field
-          [placeholder]="'Select a date'"
+          [placeholder]="'PORTAL.REQUESTS.MODAL_NEW_QUOTE.PLACEHOLDER_DATE' | translate"
           formControlName="quote_date"></app-date-field>
       </div>
 
       <div class="col-12 col-md-6 mb-3 mb-md-4">
-        <label>Premium amount *</label>
+        <label>{{ 'PORTAL.REQUESTS.MODAL_NEW_QUOTE.FIELD_PREMIUM' | translate }}</label>
         <app-input
           placeholder="$ 0.00"
           type="tel"
@@ -35,7 +35,7 @@
       </div>
 
       <div class="col-12 col-md-6 mb-3 mb-md-4">
-        <label>Coverage *</label>
+        <label>{{ 'PORTAL.REQUESTS.MODAL_NEW_QUOTE.FIELD_COVERAGE' | translate }}</label>
         <app-input
           placeholder="$ 0.00"
           type="tel"
@@ -45,7 +45,7 @@
       </div>
 
       <div class="col-12 col-md-6 mb-3 mb-md-4">
-        <label>Deductible *</label>
+        <label>{{ 'PORTAL.REQUESTS.MODAL_NEW_QUOTE.FIELD_DEDUCTIBLE' | translate }}</label>
         <app-input
           placeholder="$ 0.00"
           type="tel"
@@ -55,9 +55,9 @@
       </div>
 
       <div class="col-12 col-md-6 mb-3 mb-md-4">
-        <label>Quote copy *</label>
+        <label>{{ 'PORTAL.REQUESTS.MODAL_NEW_QUOTE.FIELD_QUOTE_COPY' | translate }}</label>
         <app-file-picker
-          placeholder="Attach quote copy"
+          [placeholder]="'PORTAL.REQUESTS.MODAL_NEW_QUOTE.PLACEHOLDER_ATTACH' | translate"
           formControlName="document"
           data-testid="policy-upload-input">
         </app-file-picker>
@@ -68,14 +68,14 @@
       <button
         class="big-button primary-button white back-gray-400 mx-1"
         (click)="close(false)">
-        Close
+        {{ 'PORTAL.REQUESTS.MODAL_NEW_QUOTE.BTN_CLOSE' | translate }}
       </button>
 
       <button
         class="primary-button big-button back-light-blue-400 white mx-1 mt-2"
         (click)="createQuote()"
         [disabled]="form.invalid">
-        Save
+        {{ 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.BTN_SAVE' | translate }}
       </button>
     </div>
   </form>

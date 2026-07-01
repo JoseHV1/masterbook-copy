@@ -6,9 +6,19 @@
       [multiple]="multiple"
       [attr.data-testid]="dataTestId ?? null"
       (blur)="updateErrors()"
-      (selectionChange)="changeValue()">
+      (selectionChange)="changeValue()"
+      (openedChange)="!$event && onPanelClose()">
+      <mat-option *ngIf="filter" disabled class="dropdown-search-option">
+        <input
+          class="dropdown-search-input"
+          [value]="searchText"
+          (input)="searchText = $any($event.target).value"
+          (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()"
+          [placeholder]="filterPlaceholder">
+      </mat-option>
       <mat-option
-        *ngFor="let option of options"
+        *ngFor="let option of filteredOptions"
         [value]="option.code"
         [disabled]="option.disabled">
         {{ option.name }}

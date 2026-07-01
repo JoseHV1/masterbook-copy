@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 // Angular Material
 import { MatCardModule } from '@angular/material/card';
@@ -40,6 +41,7 @@ const routes: Routes = [{ path: '', component: ReportsComponent }];
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    TranslateModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,

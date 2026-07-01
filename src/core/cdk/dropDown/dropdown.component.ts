@@ -13,7 +13,21 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
   @Input() multiple: boolean = false;
   @Input() options: DropdownOption[] = [];
   @Input() clearable: boolean = false;
+  @Input() filter: boolean = false;
+  @Input() filterPlaceholder: string = '';
   @Input() dataTestId?: string;
+
+  searchText = '';
+
+  get filteredOptions(): DropdownOption[] {
+    if (!this.filter || !this.searchText.trim()) return this.options;
+    const q = this.searchText.toLowerCase();
+    return this.options.filter(o => o.name.toLowerCase().includes(q));
+  }
+
+  onPanelClose(): void {
+    this.searchText = '';
+  }
 
   @Output() changeSelection: EventEmitter<DropdownOption[]> =
     new EventEmitter();
@@ -37,6 +51,9 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnInit(): void {
+    if (this.filter && !this.filterPlaceholder) {
+      this._translate.get('PORTAL.COMMON.SEARCH').subscribe(v => this.filterPlaceholder = v);
+    }
     this.resetDisabledState();
   }
 

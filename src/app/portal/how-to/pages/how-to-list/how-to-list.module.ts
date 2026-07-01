@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { HowToListComponent } from './how-to-list.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
@@ -9,6 +11,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FilteredTableHeaderModule } from 'src/app/shared/components/filters/filtered-table-header/filtered-table-header.module';
 import { HowToTableModule } from '../../components/how-to-table/how-to-table.module';
+import { CDKModule } from 'src/core/cdk/cdk.module';
 
 const routes: Routes = [
   {
@@ -21,7 +24,10 @@ const routes: Routes = [
   declarations: [HowToListComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
     RouterModule.forChild(routes),
+    CDKModule,
     PagesLayoutModule,
     FiltersModule,
     MatTableModule,

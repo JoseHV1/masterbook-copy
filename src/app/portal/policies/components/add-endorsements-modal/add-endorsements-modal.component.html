@@ -1,11 +1,11 @@
 <div class="ui-modal" autofocus>
   <div
     class="ui-modal-header white subtitle-2 text-center py-2 back-light-blue-500">
-    Add endorsements #{{ policy?.policy_number }}
+    {{ 'PORTAL.POLICIES.MODALS.ADD_ENDORSEMENTS_TITLE_PREFIX' | translate }}{{ policy?.policy_number }}
   </div>
   <div class="ui-modal-content py-3 px-2 text-center text-1 gray-500">
     <p class="text-1 text-center mt-2 mb-3" *ngIf="currentStep === 1">
-      Please, select the endorsements
+      {{ 'PORTAL.POLICIES.MODALS.SELECT_ENDORSEMENTS_PROMPT' | translate }}
     </p>
     <div
       class="col-12 d-flex flex-column px-3 px-md-4 px-lg-4 my-4 ui-modal-body">
@@ -16,15 +16,15 @@
       <form [formGroup]="form" class="row py-4" *ngIf="currentStep === 2">
         <div class="row mb-3 mb-md-4">
           <div class="col-12 col-md-6 mb-4 mb-md-0">
-            <label>Object to insure *</label>
+            <label>{{ 'PORTAL.REQUESTS.OBJECT_INSURE' | translate }} *</label>
             <app-input
-              placeholder="Type your object to insure"
+              [placeholder]="'PORTAL.REQUESTS.FORM_NEW_BUSINESS.PLACEHOLDER_OBJECT' | translate"
               type="text"
               formControlName="insure_object"></app-input>
           </div>
 
           <div class="col-12 col-md-6 mb-4 mb-md-0">
-            <label>Coverage limit *</label>
+            <label>{{ 'PORTAL.REQUESTS.COVERAGE_LIMIT' | translate }} *</label>
             <app-input
               placeholder="$ 0.00"
               type="tel"
@@ -34,7 +34,7 @@
           </div>
 
           <div class="mb-3 mb-md-4">
-            <label class="d-block">Additional info *</label>
+            <label class="d-block">{{ 'PORTAL.REQUESTS.FORM_FROM_POLICY.FIELD_ADDITIONAL_INFO' | translate }} *</label>
             <textarea
               rows="5"
               cols="30"
@@ -48,13 +48,13 @@
       <button
         class="primary-button white back-gray-400 mx-1"
         (click)="close(false)">
-        Cancel
+        {{ 'PORTAL.COMMON.CANCEL' | translate }}
       </button>
       <button
         class="primary-button white mx-1 back-light-blue-500"
         [disabled]="!selectedEndorsements || selectedEndorsements.length === 0"
         (click)="addEndorsements()">
-        {{ currentStep === 1 ? 'Next' : 'Apply' }}
+        {{ (currentStep === 1 ? 'PORTAL.POLICIES.MODALS.BTN_NEXT' : 'PORTAL.POLICIES.MODALS.BTN_APPLY') | translate }}
       </button>
     </div>
   </div>

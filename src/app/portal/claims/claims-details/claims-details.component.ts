@@ -25,6 +25,7 @@ import { AuthService } from '@app/shared/services/auth.service';
 import { ownersRolesDataset } from '@app/shared/datatsets/roles.datasets';
 import { RolesEnum } from '@app/shared/enums/roles.enum';
 import { UploadFileService } from '@app/shared/services/upload_file.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-claims-details',
@@ -45,7 +46,8 @@ export class ClaimsDetailsComponent {
     private _location: Location,
     public _url: UrlService,
     private _auth: AuthService,
-    private _uploadFile: UploadFileService
+    private _uploadFile: UploadFileService,
+    private _t: TranslateService
   ) {
     this.isOwner = ownersRolesDataset.includes(
       this._auth.getAuth()?.user.role ?? RolesEnum.INSURED
@@ -155,7 +157,7 @@ export class ClaimsDetailsComponent {
   openConfirmationModal(id: string) {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this claim?`,
+        text: this._t.instant('PORTAL.CLAIMS.CONFIRM_DELETE'),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -164,7 +166,7 @@ export class ClaimsDetailsComponent {
             next: () => {
               this.router.navigateByUrl(`portal/claims`);
               this._ui.showAlertSuccess(
-                'The claim has been successfully deleted'
+                this._t.instant('PORTAL.CLAIMS.DELETED_DETAIL')
               );
             },
           });

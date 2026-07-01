@@ -41,6 +41,7 @@
           },
           "configurations": {
             "production": {
+              "outputPath": "dist/browser/us",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -114,6 +115,40 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "co": {
+              "outputPath": "dist/browser/co",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.co.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "5mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "100kb",
+                  "maximumError": "100kb"
+                }
+              ],
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                }
+              },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           },
           "defaultConfiguration": "production"
@@ -132,6 +167,9 @@
             },
             "local": {
               "browserTarget": "mymasterbook-portal:build:local"
+            },
+            "co": {
+              "browserTarget": "mymasterbook-portal:build:co"
             }
           },
           "defaultConfiguration": "development"

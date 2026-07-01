@@ -10,6 +10,10 @@ import {
   HttpClientModule,
 } from '@angular/common/http';
 
+import { registerLocaleData } from '@angular/common';
+import localeEn from '@angular/common/locales/en';
+import localeEsCo from '@angular/common/locales/es-CO';
+
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from './shared/services/language.service';
 import { translateBrowserLoaderFactory } from './shared/loaders/translate-loader.browser';
@@ -32,7 +36,10 @@ import { NgxStripeModule } from 'ngx-stripe';
 import { environment } from 'src/environments/environment';
 import { ModalChangeLogsModule } from './shared/components/modal-change-logs/modal-change-logs.module';
 
-import { NgxEchartsModule } from 'ngx-echarts'; // ✅ ADD
+import { NgxEchartsModule } from 'ngx-echarts';
+
+registerLocaleData(localeEn, 'en-US');
+registerLocaleData(localeEsCo, 'es-CO');
 
 @NgModule({
   declarations: [AppComponent],

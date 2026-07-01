@@ -9,6 +9,7 @@ import { FilterActive } from 'src/app/shared/models/filters.model';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-users-table',
@@ -36,7 +37,8 @@ export class UsersTableComponent {
   constructor(
     private _users: UserService,
     private _ui: UiService,
-    public _url: UrlService
+    public _url: UrlService,
+    private _t: TranslateService,
   ) {}
 
   openUpdateStatusConfirmationModal(
@@ -50,8 +52,8 @@ export class UsersTableComponent {
 
     const message =
       status === BrokerStatusEnum.ACTIVE
-        ? `an additional recharge`
-        : `a reduction`;
+        ? this._t.instant('PORTAL.USERS.STATUS_ACTION_RECHARGE')
+        : this._t.instant('PORTAL.USERS.STATUS_ACTION_REDUCTION');
     let userCost = 0;
     switch (user.user?.role) {
       case RolesEnum.AGENCY_ADMINISTRATOR:
@@ -65,7 +67,7 @@ export class UsersTableComponent {
     }
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to update this user? This action will generate ${message} of $${userCost} per month`,
+        text: this._t.instant('PORTAL.USERS.CONFIRM_UPDATE_STATUS', { message, cost: userCost }),
       })
       .pipe(take(1))
       .subscribe((resp: boolean) => {
@@ -92,13 +94,11 @@ export class UsersTableComponent {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe({
         next: () => {
-          this._ui.showAlertSuccess(
-            "The user's status has been successfully updated"
-          );
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.USERS.STATUS_UPDATED'));
           user.status = status;
         },
         error: () => {
-          this._ui.showAlertError('Failed to update user status');
+          this._ui.showAlertError(this._t.instant('PORTAL.USERS.STATUS_UPDATE_FAILED'));
           event.source.checked = user.status === BrokerStatusEnum.ACTIVE;
         },
       });
@@ -110,9 +110,7 @@ export class UsersTableComponent {
       .resendInvitationEmail(user._id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess(
-          'The invitation email has been resent successfully'
-        );
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.USERS.EMAIL_RESENT'));
       });
   }
 
@@ -128,7 +126,7 @@ export class UsersTableComponent {
   deleteUser(_id: string): void {
     this._ui
       .showConfirmationModal({
-        text: `Are you sure you want to delete this user?`,
+        text: this._t.instant('PORTAL.USERS.CONFIRM_DELETE'),
         type: UiModalTypeEnum.ERROR,
       })
       .pipe(take(1))
@@ -143,7 +141,7 @@ export class UsersTableComponent {
       .deleteUser(_id)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
-        this._ui.showAlertSuccess('User deleted successfully');
+        this._ui.showAlertSuccess(this._t.instant('PORTAL.USERS.DELETED'));
         this.refresh.emit();
       });
   }

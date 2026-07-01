@@ -1,5 +1,8 @@
 export const environment = {
   production: true,
+  region: 'us',
+  defaultLocale: 'en-US',
+  apiBase: 'https://apiprd2.mymasterbook.net/',
   apiUrl: 'https://apiprd2.mymasterbook.net/',
   text: 'production',
   STRIPE_PUBLIC_KEY:

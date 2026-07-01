@@ -1,0 +1,112 @@
+<app-pages-layout>
+  <ng-container content>
+    <div *ngIf="form">
+
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-1 ms-2">
+        <span
+          class="material-icons-outlined me-2"
+          style="cursor: pointer"
+          [matTooltip]="'PORTAL.COMMON.BACK' | translate"
+          (click)="goBack()">
+          arrow_back
+        </span>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon class="dark-blue-400">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item (click)="openEditModal()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined dark-blue-400">edit</span>
+              <span>{{ 'PORTAL.COMMON.EDIT' | translate }}</span>
+            </span>
+          </button>
+          <button
+            mat-menu-item
+            *ngIf="form.status?.toLowerCase() === 'active'"
+            (click)="confirmToggleStatus()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined" style="color:#b45309">block</span>
+              <span>{{ 'PORTAL.COMMON.DISABLE' | translate }}</span>
+            </span>
+          </button>
+          <button
+            mat-menu-item
+            *ngIf="form.status?.toLowerCase() !== 'active'"
+            (click)="confirmToggleStatus()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined" style="color:#065f46">check_circle_outline</span>
+              <span>{{ 'PORTAL.COMMON.ENABLE' | translate }}</span>
+            </span>
+          </button>
+          <button mat-menu-item (click)="confirmDelete()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined" style="color:#dc2626">delete_forever</span>
+              <span>{{ 'PORTAL.COMMON.DELETE' | translate }}</span>
+            </span>
+          </button>
+        </mat-menu>
+      </div>
+
+      <!-- Hero -->
+      <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+        <h3 class="text-center w-100 mt-2 mb-1 subtitle-1 dark-blue-400">
+          {{ form.name }}
+          <span class="badge bg-secondary ms-2">{{ form.serial }}</span>
+        </h3>
+        <div class="text-center text-3 gray-500 w-100">
+          {{ 'PORTAL.PORTAL_ADMIN.FORMS.CREATED_ON' | translate }} {{ form.createdAt | date }}
+        </div>
+        <div class="d-flex gap-2 mt-2">
+          <span
+            class="badge"
+            [ngClass]="form.status?.toLowerCase() === 'active' ? 'bg-success' : 'bg-danger'">
+            {{ form.status | titlecase }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Data -->
+      <div class="row px-4 my-4 px-md-5">
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="form.policy_type?.name">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.FORMS.COL_POLICY_TYPE' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ form.policy_type?.name }}</div>
+          </div>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.FORMS.TABLE_INSURERS' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ getInsurerNames() }}</div>
+          </div>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.TITLE' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ getTenantNames() }}</div>
+          </div>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="form.form_document">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.FORMS.FIELD_DOCUMENT' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+              <span
+                class="material-icons-outlined light-blue-600"
+                style="cursor:pointer"
+                [matTooltip]="'PORTAL.FORMS.TOOLTIP_DOWNLOAD' | translate"
+                (click)="openDocument()">
+                attachment
+              </span>
+              {{ form.form_document.name }}.{{ form.form_document.extension }}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+</app-pages-layout>

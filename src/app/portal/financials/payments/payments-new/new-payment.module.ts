@@ -4,6 +4,8 @@ import { NewPaymentComponent } from './new-payment.component';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
 import { RouterModule, Routes } from '@angular/router';
 import { FormPaymentsModule } from '../components/form-payments/form-payments.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const routes: Routes = [
   {
@@ -19,6 +21,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     PagesLayoutModule,
     FormPaymentsModule,
+    TranslateModule,
+    MatTooltipModule,
   ],
   exports: [NewPaymentComponent],
 })

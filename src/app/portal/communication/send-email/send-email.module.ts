@@ -7,6 +7,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimaryButtonModule } from 'src/app/shared/components/primary-button/primary-button.module';
 import { CDKModule } from 'src/core/cdk/cdk.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const routes: Routes = [
   {
@@ -26,6 +28,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     PrimaryButtonModule,
     CDKModule,
+    TranslateModule,
+    MatTooltipModule,
   ],
 })
 export class SendEmailModule {}
