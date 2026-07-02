@@ -1,5 +1,11 @@
-<div class="selector" (click)="optionsOverlay.toggle($event)">
+<div class="selector d-flex align-items-center" (click)="optionsOverlay.toggle($event)">
   <img class="text-selection-disable mt-1 ms-1" [src]="imageProfile" />
+  <img
+    *ngIf="tenantCode"
+    [src]="'https://flagcdn.com/24x18/' + tenantCode + '.png'"
+    width="24"
+    height="18"
+    class="ms-2 tenant-flag" />
 </div>
 
 <p-overlayPanel #optionsOverlay>

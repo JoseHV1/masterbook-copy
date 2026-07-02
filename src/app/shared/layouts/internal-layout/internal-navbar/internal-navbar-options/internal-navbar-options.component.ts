@@ -19,6 +19,7 @@ export class InternalNavbarOptionsComponent {
   ownerRole: RolesEnum = RolesEnum.AGENCY_OWNER;
   isFreeAgency = false;
   paymentGatewayManageUrl: null | string = null;
+  tenantCode: string | null = null;
 
   constructor(
     private _auth: AuthService,
@@ -30,6 +31,8 @@ export class InternalNavbarOptionsComponent {
     const auth = this._auth.getAuth();
     this.userRole = auth?.user.role;
     this.isFreeAgency = auth?.user.agency?.billing_mode === BillingModeEnum.FREE;
+    this.tenantCode = auth?.user?.tenant?.code?.toLowerCase() ?? null;
+    console.log('tenantCode', auth?.user.agency);
 
     if (auth && auth.user.photo_url) {
       this._uploadFile.getUrlFile(auth.user.photo_url).subscribe(url => {
