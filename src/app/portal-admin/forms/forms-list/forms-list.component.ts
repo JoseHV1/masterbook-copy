@@ -110,38 +110,6 @@ export class AdminFormsListComponent
     this._router.navigateByUrl(`portal-admin/request-forms/${form._id}`);
   }
 
-  confirmToggleStatus(form: PopulatedFormModel): void {
-    const isActive = form.status?.toLowerCase() === 'active';
-    this._ui
-      .showConfirmationModal({
-        text: this._t.instant(
-          isActive
-            ? 'PORTAL.PORTAL_ADMIN.FORMS.CONFIRM_DISABLE'
-            : 'PORTAL.PORTAL_ADMIN.FORMS.CONFIRM_ENABLE'
-        ),
-        type: UiModalTypeEnum.ERROR,
-      })
-      .pipe(take(1))
-      .subscribe((confirmed: boolean) => {
-        if (confirmed) this._executeToggleStatus(form._id);
-      });
-  }
-
-  private _executeToggleStatus(id: string): void {
-    this._ui.showLoader();
-    this._forms
-      .toggleStatus(id)
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe({
-        next: () => {
-          this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.SUCCESS_STATUS'));
-          this.refresh();
-        },
-        error: () =>
-          this._ui.showAlertError(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.ERROR_STATUS')),
-      });
-  }
-
   confirmDelete(form: PopulatedFormModel): void {
     if (!form.tenants?.length) {
       this._ui

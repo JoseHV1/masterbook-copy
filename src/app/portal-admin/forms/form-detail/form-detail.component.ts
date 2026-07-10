@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize, switchMap, take } from 'rxjs';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
-import { FormStatusEnum } from 'src/app/shared/enums/form-status.enum';
 import { PopulatedFormModel } from 'src/app/shared/interfaces/models/form.model';
 import { FormService } from 'src/app/shared/services/form.service';
 import { UiService } from 'src/app/shared/services/ui.service';
@@ -82,38 +81,6 @@ export class AdminFormDetailComponent {
         if (res) window.open(res, '_blank');
       },
     });
-  }
-
-  confirmToggleStatus(): void {
-    const isActive = this.form.status === FormStatusEnum.ACTIVE;
-    this._ui
-      .showConfirmationModal({
-        text: this._t.instant(
-          isActive
-            ? 'PORTAL.PORTAL_ADMIN.FORMS.CONFIRM_DISABLE'
-            : 'PORTAL.PORTAL_ADMIN.FORMS.CONFIRM_ENABLE'
-        ),
-        type: UiModalTypeEnum.ERROR,
-      })
-      .pipe(take(1))
-      .subscribe((confirmed: boolean) => {
-        if (confirmed) this._executeToggleStatus();
-      });
-  }
-
-  private _executeToggleStatus(): void {
-    this._ui.showLoader();
-    this._forms
-      .toggleStatus(this.form._id)
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe({
-        next: updated => {
-          this.form = { ...this.form, status: updated.status };
-          this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.SUCCESS_STATUS'));
-        },
-        error: () =>
-          this._ui.showAlertError(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.ERROR_STATUS')),
-      });
   }
 
   confirmDelete(): void {

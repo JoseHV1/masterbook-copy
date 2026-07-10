@@ -80,24 +80,6 @@
                 </button>
                 <button
                   mat-menu-item
-                  *ngIf="element.status?.toLowerCase() === 'active'"
-                  (click)="confirmToggleStatus(element)">
-                  <span class="d-flex align-items-center gap-2">
-                    <span class="material-icons-outlined" style="color:#b45309">block</span>
-                    <span>{{ 'PORTAL.COMMON.DISABLE' | translate }}</span>
-                  </span>
-                </button>
-                <button
-                  mat-menu-item
-                  *ngIf="element.status?.toLowerCase() !== 'active'"
-                  (click)="confirmToggleStatus(element)">
-                  <span class="d-flex align-items-center gap-2">
-                    <span class="material-icons-outlined" style="color:#065f46">check_circle_outline</span>
-                    <span>{{ 'PORTAL.COMMON.ENABLE' | translate }}</span>
-                  </span>
-                </button>
-                <button
-                  mat-menu-item
                   *ngIf="element.tenants?.length"
                   [matTooltip]="'PORTAL.PORTAL_ADMIN.FORMS.TOOLTIP_TENANT_STATUS' | translate"
                   (click)="openTenantStatusModal(element)">
