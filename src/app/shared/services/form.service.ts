@@ -106,6 +106,27 @@ export class FormService {
       .pipe(map(resp => resp.data));
   }
 
+  removeFromTenants(id: string, tenant_ids: string[]): Observable<FormModel> {
+    return this._http
+      .patch<ApiResponseModel<FormModel>>(`${environment.apiUrl}form/${id}/tenants/remove`, {
+        tenant_ids,
+      })
+      .pipe(map(resp => resp.data));
+  }
+
+  updateTenantStatus(
+    id: string,
+    tenant_ids: string[],
+    status: 'ACTIVE' | 'INACTIVE'
+  ): Observable<FormModel> {
+    return this._http
+      .patch<ApiResponseModel<FormModel>>(`${environment.apiUrl}form/${id}/tenants/status`, {
+        tenant_ids,
+        status,
+      })
+      .pipe(map(resp => resp.data));
+  }
+
   getAdminFormsFilters(): FilterWrapperModel {
     return {
       filters: [

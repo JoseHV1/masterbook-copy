@@ -39,6 +39,13 @@ export class LanguageService {
     });
   }
 
+  setFromTenant(tenant?: { document_language?: string } | null): void {
+    const lang = tenant?.document_language as AvailableLanguagesEnum;
+    if (lang && this.availableLangs.includes(lang)) {
+      this.changeLanguage(lang);
+    }
+  }
+
   changeLanguage(lang: AvailableLanguagesEnum): void {
     this.currentLang.next(lang);
     // use() cambia el idioma activo → todos los | translate se actualizan

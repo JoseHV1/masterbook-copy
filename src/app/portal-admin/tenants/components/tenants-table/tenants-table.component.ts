@@ -21,7 +21,6 @@ export class TenantsTableComponent {
     'serial',
     'name',
     'code',
-    'domain',
     'currency',
     'status',
     'actions',

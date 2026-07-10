@@ -10,6 +10,8 @@ import { WeightPipe } from './weight.pipe';
 import { NormalizeTextPipe } from './normalize-text.pipe';
 import { CountryCodePipe } from './country-code.pipe';
 import { AppDateTimePipe } from './app-date-time.pipe';
+import { AppCurrencyPipe } from './app-currency.pipe';
+import { TranslatedNamePipe } from './translated-name.pipe';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { AppDateTimePipe } from './app-date-time.pipe';
     NormalizeTextPipe,
     CountryCodePipe,
     AppDateTimePipe,
+    AppCurrencyPipe,
+    TranslatedNamePipe,
   ],
   imports: [CommonModule],
   providers: [DatePipe],
@@ -37,6 +41,8 @@ import { AppDateTimePipe } from './app-date-time.pipe';
     NormalizeTextPipe,
     CountryCodePipe,
     AppDateTimePipe,
+    AppCurrencyPipe,
+    TranslatedNamePipe,
   ],
 })
 export class CustomPipesModule {}

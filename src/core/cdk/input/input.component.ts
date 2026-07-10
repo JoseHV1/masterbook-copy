@@ -23,6 +23,8 @@ export class InputComponent implements ControlValueAccessor {
   @Input() clearable: boolean = false;
   @Input() dataTestId?: string;
   @Input() autocomplete: string = 'off';
+  @Input() thousandSeparator: string = ',';
+  @Input() decimalMarker: '.' | ',' = '.';
 
   form: FormGroup;
   disabled = false;
@@ -47,7 +49,7 @@ export class InputComponent implements ControlValueAccessor {
   changeValue(): void {
     const rawValue = this.form.get('value')?.value;
     const value =
-      this.inputMask === 'separator.2' ? parseFloat(rawValue) : rawValue;
+      this.inputMask?.startsWith('separator.') ? parseFloat(rawValue) : rawValue;
 
     this.onChange(value);
     this.updateErrors();

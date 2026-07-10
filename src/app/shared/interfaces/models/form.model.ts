@@ -19,6 +19,6 @@ export interface FormModel {
 
 export interface PopulatedFormModel extends FormModel {
   insurers: InsurerModel[];
-  tenants?: { _id: string; name: string; code: string }[];
+  tenants?: { _id: string; name: string; code: string; status?: 'ACTIVE' | 'INACTIVE' }[];
   policy_type?: { name: string; business_line?: { name: string } };
 }

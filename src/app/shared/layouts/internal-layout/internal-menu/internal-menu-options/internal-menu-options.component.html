@@ -17,7 +17,7 @@
       (!item.options?.length || isSomeChildrenActive()) &&
       role === 'admin'
   }">
-  <div class="py-2 px-3" [id]="item.title?.toLowerCase() + '-item'">
+  <div class="py-2 px-3" [id]="navTestId(item) + '-item'">
     <div class="item-info d-flex align-items-center justify-content-start ps-4">
       <span class="material-icons-outlined color-text-{{ role }}">
         {{ item.icon }}
@@ -25,7 +25,7 @@
       <span
         class="text-menu-option color-text-{{ role }}"
         [class.ms-2]="item.icon">
-        {{ item.title || item.name }}
+        {{ (item.title || item.name || '') | translate }}
       </span>
       <span
         *ngIf="item.options"
@@ -59,7 +59,7 @@
       <span
         class="text-submenu-option text-submenu-{{ role }}"
         style="cursor: pointer"
-        >{{ option.name }}</span
+        >{{ (option.name || '') | translate }}</span
       >
     </div>
   </ng-container>

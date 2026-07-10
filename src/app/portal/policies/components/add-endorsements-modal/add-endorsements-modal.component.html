@@ -25,12 +25,7 @@
 
           <div class="col-12 col-md-6 mb-4 mb-md-0">
             <label>{{ 'PORTAL.REQUESTS.COVERAGE_LIMIT' | translate }} *</label>
-            <app-input
-              placeholder="$ 0.00"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              formControlName="coverage"></app-input>
+            <app-currency-input formControlName="coverage"></app-currency-input>
           </div>
 
           <div class="mb-3 mb-md-4">

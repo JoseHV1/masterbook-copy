@@ -106,12 +106,18 @@ export class ClientListTableComponent {
       });
   }
 
-  getStatusClass(status: string | null): string {
-    switch (status) {
-      case 'PAYED':
-        return 'status-active';
-      default:
-        return 'status-inactive';
+  getStatusClass(paymentStatus: string | null, billingMode?: string): string {
+    if (billingMode === 'FREE') return 'status-free';
+    switch (paymentStatus) {
+      case 'PAYED':  return 'status-active';
+      default:       return 'status-inactive';
     }
+  }
+
+  getStatusLabel(paymentStatus: string | null, billingMode?: string): string {
+    if (billingMode === 'FREE') return 'Free';
+    if (paymentStatus === 'PAYED') return 'Paid';
+    if (paymentStatus === 'NOT_PAYED') return 'Not paid';
+    return paymentStatus ?? '—';
   }
 }

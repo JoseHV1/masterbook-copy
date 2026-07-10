@@ -35,7 +35,7 @@ export class AdminTenantSelectorComponent implements OnInit, OnDestroy {
         switchMap(() => this._tenants.getAll(0, 100, `&status=${TenantStatusEnum.ACTIVE}`)),
         takeUntil(this._destroy$),
       )
-      .subscribe({ next: resp => this._setTenants(resp.records) });
+      .subscribe({ next: resp => (this.tenants = resp.records) });
   }
 
   ngOnDestroy(): void {
@@ -47,11 +47,7 @@ export class AdminTenantSelectorComponent implements OnInit, OnDestroy {
     this._tenants
       .getAll(0, 100, `&status=${TenantStatusEnum.ACTIVE}`)
       .pipe(takeUntil(this._destroy$))
-      .subscribe({ next: resp => this._setTenants(resp.records) });
-  }
-
-  private _setTenants(records: TenantModel[]): void {
-    this.tenants = records.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
+      .subscribe({ next: resp => (this.tenants = resp.records) });
   }
 
   select(tenant: TenantModel | null, panel: any): void {

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject, of, timer } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { TenantModel } from 'src/app/shared/interfaces/models/tenant.model';
 import { CreateTenantRequest } from 'src/app/shared/interfaces/requests/tenants/create-tenant.request';
 import { TenantStatusEnum } from 'src/app/shared/enums/tenant-status.enum';
@@ -10,7 +10,6 @@ import { DocumentLanguageEnum } from 'src/app/shared/enums/document-language.enu
 import { CurrencySymbolPositionEnum } from 'src/app/shared/enums/currency-symbol-position.enum';
 import { CountryCodeEnum } from 'src/app/shared/enums/country-code.enum';
 import { UploadFileService } from 'src/app/shared/services/upload_file.service';
-import { TenantsService } from 'src/app/shared/services/tenants.service';
 
 @Component({
   selector: 'app-tenant-form',
@@ -143,7 +142,6 @@ export class TenantFormComponent implements OnInit, OnDestroy {
     private _fb: FormBuilder,
     private _t: TranslateService,
     private _uploadFile: UploadFileService,
-    private _tenants: TenantsService,
   ) {}
 
   ngOnInit(): void {
@@ -201,22 +199,10 @@ export class TenantFormComponent implements OnInit, OnDestroy {
     this._destroy$.complete();
   }
 
-  private _domainUniqueValidator(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      const domain = control.value?.trim();
-      if (!domain) return of(null);
-      return timer(400).pipe(
-        switchMap(() => this._tenants.checkDomain(domain, this.tenant?.serial ?? undefined)),
-        map(res => res.available ? null : { domainTaken: true }),
-      );
-    };
-  }
-
   private _buildForm(): void {
     this.form = this._fb.group({
       name:       [null, [Validators.required]],
       code:       [null, [Validators.required]],
-      domain:     [null, [Validators.required], [this._domainUniqueValidator()]],
       status:     [TenantStatusEnum.ACTIVE, [Validators.required]],
       is_primary: [false],
 
@@ -232,6 +218,7 @@ export class TenantFormComponent implements OnInit, OnDestroy {
       currency_thousands_separator: [null, [Validators.required]],
       currency_decimal_separator:   [null, [Validators.required]],
       stripe_account_id:            [null],
+      admin_email:                  [null, [Validators.email]],
 
       price_agency:      [null],
       price_master_user: [null],
@@ -247,7 +234,6 @@ export class TenantFormComponent implements OnInit, OnDestroy {
     this.form.patchValue({
       name:       tenant.name,
       code:       tenant.code,
-      domain:     tenant.domain,
       status:     tenant.status,
       is_primary: tenant.is_primary,
 
@@ -263,6 +249,7 @@ export class TenantFormComponent implements OnInit, OnDestroy {
       currency_thousands_separator: tenant.currency_thousands_separator,
       currency_decimal_separator:   tenant.currency_decimal_separator,
       stripe_account_id:            tenant.stripe_account_id,
+      admin_email:                  tenant.admin_email ?? null,
 
       price_agency:       tenant.price_agency,
       price_master_user:  tenant.price_master_user,
@@ -348,9 +335,5 @@ export class TenantFormComponent implements OnInit, OnDestroy {
   isInvalid(field: string): boolean {
     const c = this.form.get(field);
     return !!(c?.invalid && c?.touched);
-  }
-
-  isDomainChecking(): boolean {
-    return this.form.get('domain')?.status === 'PENDING';
   }
 }

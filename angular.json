@@ -244,6 +244,15 @@
               "extractLicenses": false,
               "vendorChunk": true,
               "buildOptimizer": false
+            },
+            "co": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.co.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -266,6 +275,10 @@
             "production": {
               "browserTarget": "mymasterbook-portal:build:production",
               "serverTarget": "mymasterbook-portal:server:production"
+            },
+            "co": {
+              "browserTarget": "mymasterbook-portal:build:co",
+              "serverTarget": "mymasterbook-portal:server:co"
             }
           },
           "defaultConfiguration": "development"
@@ -291,6 +304,10 @@
             "local": {
               "browserTarget": "mymasterbook-portal:build:local",
               "serverTarget": "mymasterbook-portal:server:local"
+            },
+            "co": {
+              "browserTarget": "mymasterbook-portal:build:co",
+              "serverTarget": "mymasterbook-portal:server:co"
             }
           },
           "defaultConfiguration": "production"

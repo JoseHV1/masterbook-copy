@@ -9,6 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { InsurerDetailComponent } from './insurer-detail.component';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
 import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { TenantScopeModalModule } from 'src/app/shared/components/modals/tenant-scope-modal/tenant-scope-modal.module';
 
 const routes: Routes = [{ path: '', component: InsurerDetailComponent }];
 
@@ -24,6 +26,8 @@ const routes: Routes = [{ path: '', component: InsurerDetailComponent }];
     MatMenuModule,
     MatIconModule,
     CustomPipesModule,
+    MatDialogModule,
+    TenantScopeModalModule,
   ],
 })
 export class InsurerDetailModule {}

@@ -47,19 +47,11 @@
                 selectedType?._id === type._id
               ">
               <div class="policy-type-card--data">
-                <p class="text-2 fw-semibold text-center">
-                  <span
-                    class="material-icons-outlined"
-                    [class.white]="selectedType?._id === type._id"
-                    [class.dark-blue-400]="selectedType?._id !== type._id">
-                    {{ type.icon ?? 'circle' }}
-                  </span>
-                </p>
                 <p
                   class="text-2 fw-semibold text-center"
                   [class.white]="selectedType?._id === type._id"
                   [class.dark-blue-400]="selectedType?._id !== type._id">
-                  {{ type.name }}
+                  {{ type | translatedName }}
                 </p>
                 <p
                   class="text-3 text-center"

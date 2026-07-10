@@ -8,7 +8,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
+import { DeleteHowToModalModule } from '../../components/delete-how-to-modal/delete-how-to-modal.module';
 
 const routes: Routes = [
   {
@@ -29,7 +31,9 @@ const routes: Routes = [
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
+    MatDialogModule,
     TranslateModule,
+    DeleteHowToModalModule,
   ],
   exports: [HowToDetailComponent],
 })

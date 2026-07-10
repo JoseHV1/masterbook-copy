@@ -39,6 +39,15 @@
               <span>{{ 'PORTAL.COMMON.ENABLE' | translate }}</span>
             </span>
           </button>
+          <button
+            mat-menu-item
+            *ngIf="insurer.tenants?.length"
+            (click)="openTenantStatusModal()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined dark-blue-400">tune</span>
+              <span>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.TOOLTIP_TENANT_STATUS' | translate }}</span>
+            </span>
+          </button>
           <button mat-menu-item (click)="confirmDelete()">
             <span class="d-flex align-items-center gap-2">
               <span class="material-icons-outlined" style="color:#dc2626">delete_forever</span>
@@ -110,8 +119,13 @@
         <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="insurer.tenants?.length">
           <div class="row">
             <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.INSURERS.SECTION_TENANTS' | translate }}</div>
-            <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-              <span *ngFor="let t of insurer.tenants" class="badge bg-secondary me-1">{{ t.code }}</span>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box d-flex flex-wrap gap-1">
+              <span *ngFor="let t of insurer.tenants" class="d-flex align-items-center gap-1">
+                <span class="badge" [ngClass]="t.status === 'INACTIVE' ? 'bg-danger' : 'bg-secondary'">{{ t.code }}</span>
+                <span *ngIf="t.status === 'INACTIVE'" class="text-danger small">
+                  ({{ 'SHARED.TENANT_SCOPE_MODAL.STATUS_INACTIVE' | translate }})
+                </span>
+              </span>
             </div>
           </div>
         </div>

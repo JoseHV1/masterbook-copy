@@ -1,0 +1,77 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <div class="row g-3">
+
+    <div class="col-12">
+      <label>{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_TENANTS' | translate }}</label>
+      <app-dropdown-field
+        [placeholder]="'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FILTER_ALL_TENANTS' | translate"
+        formControlName="tenant_ids"
+        [options]="tenantOptions"
+        [multiple]="true"
+        (changeSelection)="onTenantSelectionChange($event)">
+      </app-dropdown-field>
+      <small class="text-muted d-block mt-1" *ngIf="tenantScopeRestricted">
+        {{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.TENANT_SCOPE_RESTRICTED_HINT' | translate }}
+      </small>
+
+      <div class="row g-2 mt-1" *ngIf="selectedTenants.length">
+        <div class="col-6 col-md-3" *ngFor="let t of selectedTenants">
+          <div class="tenant-status-row d-flex align-items-center justify-content-between">
+            <span>{{ t.name }}</span>
+            <mat-slide-toggle
+              color="primary"
+              [checked]="getTenantStatus(t.code) === 'ACTIVE'"
+              (change)="toggleTenantStatus(t.code)">
+              {{ (getTenantStatus(t.code) === 'ACTIVE' ? 'SHARED.TENANT_SCOPE_MODAL.STATUS_ACTIVE' : 'SHARED.TENANT_SCOPE_MODAL.STATUS_INACTIVE') | translate }}
+            </mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div [class]="activeLanguages.length > 1 ? 'col-12 col-md-6' : 'col-12'" *ngFor="let lang of activeLanguages">
+      <label>{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_NAME' | translate }} ({{ languageLabel(lang) }}) *</label>
+      <app-input
+        [placeholder]="'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_NAME' | translate"
+        [formControlName]="nameControlName(lang)">
+      </app-input>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <label>{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_NAIC_CODE' | translate }} *</label>
+      <app-input [placeholder]="'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_NAIC_CODE' | translate" formControlName="naic_code"></app-input>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <label>{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_TYPE' | translate }} *</label>
+      <app-dropdown-field formControlName="type" [options]="typeOptions"></app-dropdown-field>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <label>{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_BUSINESS_LINE' | translate }} *</label>
+      <app-dropdown-field formControlName="business_line_id" [options]="businessLineOptions"></app-dropdown-field>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <label>{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_POLICY_CATEGORY' | translate }} *</label>
+      <app-dropdown-field formControlName="policy_category_id" [options]="policyCategoryOptions"></app-dropdown-field>
+    </div>
+
+  </div>
+
+  <div class="d-flex justify-content-center gap-3 mt-4 pt-2">
+    <button
+      type="button"
+      class="primary-button big-button back-gray-400 white"
+      (click)="cancel.emit()">
+      {{ 'PORTAL.COMMON.CANCEL' | translate }}
+    </button>
+    <button
+      type="submit"
+      class="primary-button big-button back-light-blue-400 white">
+      {{ policyType ? ('PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.SAVE' | translate) : ('PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.CREATE' | translate) }}
+    </button>
+  </div>
+
+</form>

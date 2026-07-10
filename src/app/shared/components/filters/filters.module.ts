@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CDKModule } from 'src/core/cdk/cdk.module';
+import { CurrencyInputModule } from 'src/app/shared/components/currency-input/currency-input.module';
 import { FilterWrapperComponent } from './filter-wrapper/filter-wrapper.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,6 +24,7 @@ import { TranslateModule } from '@ngx-translate/core';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatFormFieldModule,
+    CurrencyInputModule,
   ],
   exports: [
     FilterWrapperComponent,

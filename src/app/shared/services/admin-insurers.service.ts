@@ -73,6 +73,27 @@ export class AdminInsurersService {
       .pipe(map(resp => resp.data));
   }
 
+  removeFromTenants(id: string, tenant_ids: string[]): Observable<InsurerModel> {
+    return this._http
+      .patch<ApiResponseModel<InsurerModel>>(`${this._base}/${id}/tenants/remove`, {
+        tenant_ids,
+      })
+      .pipe(map(resp => resp.data));
+  }
+
+  updateTenantStatus(
+    id: string,
+    tenant_ids: string[],
+    status: 'ACTIVE' | 'INACTIVE'
+  ): Observable<InsurerModel> {
+    return this._http
+      .patch<ApiResponseModel<InsurerModel>>(`${this._base}/${id}/tenants/status`, {
+        tenant_ids,
+        status,
+      })
+      .pipe(map(resp => resp.data));
+  }
+
   getAdminFilters(): FilterWrapperModel {
     return {
       filters: [

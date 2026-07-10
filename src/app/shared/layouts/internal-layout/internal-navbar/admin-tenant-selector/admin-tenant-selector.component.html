@@ -1,7 +1,7 @@
 <div
   class="selector"
   [class.selector--active]="isFiltered"
-  [title]="selected ? selected.domain : ''"
+  [title]="selected ? selected.name : ''"
   (click)="tenantPanel.toggle($event)">
   <span class="material-icons-outlined selector__icon">
     {{ isFiltered ? 'business' : 'language' }}
@@ -37,7 +37,6 @@
       <span class="opt-code">{{ tenant.code }}</span>
       <div class="opt-info">
         <span class="text-menu">{{ tenant.name }}</span>
-        <span class="opt-domain" *ngIf="tenant.domain">{{ tenant.domain }}</span>
       </div>
       <span class="material-icons-outlined opt-check ms-auto" *ngIf="selected?._id === tenant._id">check</span>
     </div>

@@ -22,17 +22,17 @@
 
     <div class="col-12 col-md-4 mb-3 mb-md-4">
       <label>{{ 'PORTAL.POLICIES.FORM_PREMIUM' | translate }}</label>
-      <app-input placeholder="$ 0" type="tel" [inputMask]="'separator.2'" [maskPrefix]="'$ '" data-testid="policy-premium" formControlName="prime_amount"></app-input>
+      <app-currency-input formControlName="prime_amount" data-testid="policy-premium"></app-currency-input>
     </div>
 
     <div class="col-12 col-md-4 mb-3 mb-md-4">
       <label>{{ 'PORTAL.POLICIES.FORM_COVERAGE' | translate }}</label>
-      <app-input placeholder="$ 0" type="tel" [inputMask]="'separator.2'" [maskPrefix]="'$ '" data-testid="policy-coverage" formControlName="coverage"></app-input>
+      <app-currency-input formControlName="coverage" data-testid="policy-coverage"></app-currency-input>
     </div>
 
     <div class="col-12 col-md-4 mb-3 mb-md-4">
       <label>{{ 'PORTAL.POLICIES.FORM_DEDUCTIBLE' | translate }}</label>
-      <app-input placeholder="$ 0" type="tel" [inputMask]="'separator.2'" [maskPrefix]="'$ '" data-testid="policy-deductible" formControlName="deductible"></app-input>
+      <app-currency-input formControlName="deductible" data-testid="policy-deductible"></app-currency-input>
     </div>
 
     <div class="col-12 col-md-4 mb-3 mb-md-4">

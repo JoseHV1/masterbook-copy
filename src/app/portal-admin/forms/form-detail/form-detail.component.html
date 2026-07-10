@@ -39,6 +39,15 @@
               <span>{{ 'PORTAL.COMMON.ENABLE' | translate }}</span>
             </span>
           </button>
+          <button
+            mat-menu-item
+            *ngIf="form.tenants?.length"
+            (click)="openTenantStatusModal()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined dark-blue-400">tune</span>
+              <span>{{ 'PORTAL.PORTAL_ADMIN.FORMS.TOOLTIP_TENANT_STATUS' | translate }}</span>
+            </span>
+          </button>
           <button mat-menu-item (click)="confirmDelete()">
             <span class="d-flex align-items-center gap-2">
               <span class="material-icons-outlined" style="color:#dc2626">delete_forever</span>

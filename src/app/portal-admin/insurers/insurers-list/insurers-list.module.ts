@@ -11,6 +11,8 @@ import { FilteredTableHeaderModule } from 'src/app/shared/components/filters/fil
 import { FiltersModule } from 'src/app/shared/components/filters/filters.module';
 import { InsurersAdminTableModule } from '../components/insurers-admin-table/insurers-admin-table.module';
 import { CDKModule } from 'src/core/cdk/cdk.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { TenantScopeModalModule } from 'src/app/shared/components/modals/tenant-scope-modal/tenant-scope-modal.module';
 
 const routes: Routes = [{ path: '', component: InsurersListComponent }];
 
@@ -28,6 +30,8 @@ const routes: Routes = [{ path: '', component: InsurersListComponent }];
     InsurersAdminTableModule,
     MatPaginatorModule,
     MatSidenavModule,
+    MatDialogModule,
+    TenantScopeModalModule,
   ],
 })
 export class InsurersListModule {}

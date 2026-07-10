@@ -15,6 +15,7 @@ export class InsurersAdminTableComponent {
   @Output() deleteInsurer = new EventEmitter<InsurerModel>();
   @Output() enableInsurer = new EventEmitter<InsurerModel>();
   @Output() disableInsurer = new EventEmitter<InsurerModel>();
+  @Output() tenantStatus = new EventEmitter<InsurerModel>();
 
   readonly displayedColumns = ['serial', 'name', 'country', 'tenants', 'status', 'actions'];
 

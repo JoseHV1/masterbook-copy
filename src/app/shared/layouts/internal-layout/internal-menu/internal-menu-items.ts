@@ -1,110 +1,112 @@
 import { iternalMenuModel } from './internal-menu-item-model';
 
+const T = 'SHARED.SIDEBAR_MENU.';
+
 export const MENU_ITEMS: iternalMenuModel = {
   agent: [
     {
       icon: 'home',
-      title: 'Dashboard',
+      title: T + 'DASHBOARD',
       url: 'dashboard',
     },
     {
       icon: 'person_search',
-      title: 'Leads',
+      title: T + 'LEADS',
       url: 'leads',
     },
     {
       icon: 'wallet',
-      title: 'Accounts',
+      title: T + 'ACCOUNTS',
       url: 'accounts',
     },
     {
       icon: 'settings',
-      title: 'Operations',
+      title: T + 'OPERATIONS',
       options: [
         {
-          name: 'Requests',
+          name: T + 'REQUESTS',
           url: 'requests',
         },
         {
-          name: 'Policies',
+          name: T + 'POLICIES',
           url: 'policies',
         },
         {
-          name: 'Claims',
+          name: T + 'CLAIMS',
           url: 'claims',
         },
       ],
     },
     {
       icon: 'trending_up',
-      title: 'Financials',
+      title: T + 'FINANCIALS',
       options: [
         {
-          name: 'Invoices',
+          name: T + 'INVOICES',
           url: 'invoices',
         },
         {
-          name: 'Payments',
+          name: T + 'PAYMENTS',
           url: 'payments',
         },
         {
-          name: 'Commissions',
+          name: T + 'COMMISSIONS',
           url: 'commissions',
         },
       ],
     },
     {
       icon: 'article',
-      title: 'Forms',
+      title: T + 'FORMS',
       url: 'request-forms',
     },
     {
       icon: 'group',
-      title: 'Users',
+      title: T + 'USERS',
       url: 'users',
     },
     {
       icon: 'shield',
-      title: 'Insurers',
+      title: T + 'INSURERS',
       url: 'insurer',
     },
     {
       icon: 'bar_chart',
-      title: 'Reports',
+      title: T + 'REPORTS',
       url: 'reports',
     },
     {
       icon: 'calendar_month',
-      title: 'Calendar',
+      title: T + 'CALENDAR',
       url: 'calendar',
     },
     {
       icon: 'mail',
-      title: 'Email',
+      title: T + 'EMAIL',
       url: 'email',
     },
     {
       icon: 'help',
-      title: 'How To',
+      title: T + 'HOW_TO',
       url: 'how-to/help',
     },
   ],
   client: [
     {
       icon: 'home',
-      title: 'Dashboard',
+      title: T + 'DASHBOARD',
       url: '/portal-client',
     },
     {
       icon: 'settings',
-      title: 'Operations',
+      title: T + 'OPERATIONS',
       options: [
         {
-          name: 'Requests',
+          name: T + 'REQUESTS',
           url: 'requests',
         },
         {
-          name: 'Policies',
+          name: T + 'POLICIES',
           url: 'policies',
         },
         /*
@@ -120,78 +122,96 @@ export const MENU_ITEMS: iternalMenuModel = {
     },
     {
       icon: 'trending_up',
-      title: 'Financials',
+      title: T + 'FINANCIALS',
       options: [
         {
-          name: 'Invoices',
+          name: T + 'INVOICES',
           url: 'invoices',
         },
       ],
     },
     {
       icon: 'person',
-      title: 'My Broker',
+      title: T + 'MY_BROKER',
       url: 'my-broker',
     },
   ],
   admin: [
     {
       icon: 'space_dashboard',
-      title: 'Dashboard',
+      title: T + 'DASHBOARD',
       url: 'dashboard',
     },
     {
       icon: 'person_search',
-      title: 'Leads',
+      title: T + 'LEADS',
       options: [
         {
-          name: 'Account',
+          name: T + 'ACCOUNT',
           url: 'leads/account',
         },
         {
-          name: 'Agencies',
+          name: T + 'AGENCIES',
           url: 'leads/agencies',
         },
       ],
     },
     {
       icon: 'business',
-      title: 'Agencies',
+      title: T + 'AGENCIES',
       url: 'agencies',
     },
     {
       icon: 'article',
-      title: 'Forms',
+      title: T + 'FORMS',
       url: 'request-forms',
     },
     {
+      icon: 'shield',
+      title: T + 'INSURERS',
+      url: 'insurers/list',
+    },
+    {
+      icon: 'help',
+      title: T + 'HOW_TO',
+      url: 'how-to',
+    },
+    {
+      icon: 'policy',
+      title: T + 'POLICY_SETTINGS',
+      options: [
+        {
+          name: T + 'BUSINESS_LINES',
+          url: 'policy-settings/business-lines',
+        },
+        {
+          name: T + 'POLICY_CATEGORIES',
+          url: 'policy-settings/policy-categories',
+        },
+        {
+          name: T + 'POLICY_TYPES',
+          url: 'policy-settings/policy-types',
+        },
+      ],
+    },
+    {
       icon: 'calendar_today',
-      title: 'Calendar',
+      title: T + 'CALENDAR',
       url: 'calendar',
     },
     {
       icon: 'mail',
-      title: 'Email',
+      title: T + 'EMAIL',
       url: 'communication',
     },
     {
-      icon: 'help',
-      title: 'How To',
-      url: 'how-to',
-    },
-    {
-      icon: 'shield',
-      title: 'Insurers',
-      url: 'insurers/list',
-    },
-    {
       icon: 'language',
-      title: 'Tenants',
+      title: T + 'TENANTS',
       url: 'tenants/list',
     },
     {
       icon: 'receipt_long',
-      title: 'Subscription Payments',
+      title: T + 'SUBSCRIPTION_PAYMENTS',
       url: 'stripe-billing/list',
     },
   ],

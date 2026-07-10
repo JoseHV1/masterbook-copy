@@ -11,6 +11,7 @@ import { AdminFormDetailComponent } from './form-detail.component';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
 import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
 import { CreateFormModalModule } from 'src/app/portal/forms/components/create-form-modal/create-form-modal.module';
+import { TenantScopeModalModule } from 'src/app/shared/components/modals/tenant-scope-modal/tenant-scope-modal.module';
 
 const routes: Routes = [{ path: '', component: AdminFormDetailComponent }];
 
@@ -28,6 +29,7 @@ const routes: Routes = [{ path: '', component: AdminFormDetailComponent }];
     PagesLayoutModule,
     CustomPipesModule,
     CreateFormModalModule,
+    TenantScopeModalModule,
   ],
 })
 export class AdminFormDetailModule {}

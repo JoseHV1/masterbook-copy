@@ -31,13 +31,7 @@
 
     <div class="col-12 col-md-4 mb-4">
       <label>{{ 'PORTAL.PAYMENTS.TABLE_TOTAL' | translate }} *</label>
-      <app-input
-        placeholder="$ 0"
-        type="tel"
-        [inputMask]="'separator.2'"
-        [maskPrefix]="'$ '"
-        formControlName="total_amount"
-        data-testid="payment-total-amount"></app-input>
+      <app-currency-input formControlName="total_amount" data-testid="payment-total-amount"></app-currency-input>
     </div>
 
     <ng-container *ngIf="form.get('payment_from')?.value === '1'">
@@ -110,25 +104,12 @@
 
         <div class="col-12 col-md-3">
           <label>{{ 'PORTAL.PAYMENTS.FORM.FIELD_PAYMENT_APPLIED' | translate }}</label>
-          <app-input
-            placeholder="$ 0"
-            type="tel"
-            [inputMask]="'separator.2'"
-            [maskPrefix]="'$ '"
-            (ngModelChange)="onPaymentAppliedChange(app)"
-            formControlName="payment_applied"
-            [attr.data-testid]="'payment-applied-amount'"></app-input>
+          <app-currency-input formControlName="payment_applied" [attr.data-testid]="'payment-applied-amount'"></app-currency-input>
         </div>
 
         <div class="col-12 col-md-3">
           <label>{{ 'PORTAL.PAYMENTS.FORM.FIELD_OPEN_BALANCE' | translate }}</label>
-          <app-input
-            placeholder="$ 0"
-            type="tel"
-            [inputMask]="'separator.2'"
-            [maskPrefix]="'$ '"
-            formControlName="open_balance"
-            [attr.data-testid]="'payment-open-balance'"></app-input>
+          <app-currency-input formControlName="open_balance" [attr.data-testid]="'payment-open-balance'"></app-currency-input>
         </div>
       </div>
 
@@ -150,35 +131,17 @@
   <div class="row">
     <div class="col-12 col-md-4 mb-4">
       <label>{{ 'PORTAL.PAYMENTS.TABLE_RETENTIONS' | translate }} *</label>
-      <app-input
-        placeholder="$ 0"
-        type="tel"
-        [inputMask]="'separator.2'"
-        [maskPrefix]="'$ '"
-        formControlName="retentions"
-        data-testid="payment-retentions"></app-input>
+      <app-currency-input formControlName="retentions" data-testid="payment-retentions"></app-currency-input>
     </div>
 
     <div class="col-12 col-md-4 mb-4">
       <label>{{ 'PORTAL.PAYMENTS.TABLE_TAXES' | translate }} *</label>
-      <app-input
-        placeholder="$ 0"
-        type="tel"
-        [inputMask]="'separator.2'"
-        [maskPrefix]="'$ '"
-        formControlName="taxes"
-        data-testid="payment-taxes"></app-input>
+      <app-currency-input formControlName="taxes" data-testid="payment-taxes"></app-currency-input>
     </div>
 
     <div class="col-12 col-md-4 mb-4">
       <label>{{ 'PORTAL.PAYMENTS.TABLE_SUBTOTAL' | translate }}</label>
-      <app-input
-        placeholder="$ 0"
-        type="tel"
-        [inputMask]="'separator.2'"
-        [maskPrefix]="'$ '"
-        formControlName="subtotal"
-        data-testid="payment-subtotal"></app-input>
+      <app-currency-input formControlName="subtotal" data-testid="payment-subtotal"></app-currency-input>
     </div>
   </div>
 

@@ -15,13 +15,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { CurrencyMaskDirective } from 'src/app/shared/directives/currency-mask/currency-mask.directive';
 import { FilePreviewModalModule } from '../file-preview-modal/file-preview-modal.module';
+import { CurrencyInputModule } from 'src/app/shared/components/currency-input/currency-input.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [FormClaimsComponent, CurrencyMaskDirective],
+  declarations: [FormClaimsComponent],
   imports: [
     CommonModule,
     TranslateModule,
@@ -41,6 +41,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatIconModule,
     MatSelectModule,
     FilePreviewModalModule,
+    CurrencyInputModule,
   ],
   exports: [FormClaimsComponent],
 })

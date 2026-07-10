@@ -27,6 +27,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { InternalLayoutModule } from '@app/shared/layouts/internal-layout/internal-layout.module';
 import { PagesLayoutModule } from '@app/shared/layouts/pages-layout/pages-layout.module';
 import { CDKModule } from 'src/core/cdk/cdk.module';
+import { CurrencyInputModule } from 'src/app/shared/components/currency-input/currency-input.module';
 
 const routes: Routes = [{ path: '', component: ReportsComponent }];
 
@@ -59,6 +60,7 @@ const routes: Routes = [{ path: '', component: ReportsComponent }];
     RouterModule.forChild(routes),
     PagesLayoutModule,
     CDKModule,
+    CurrencyInputModule,
   ],
   exports: [ReportsComponent],
 })

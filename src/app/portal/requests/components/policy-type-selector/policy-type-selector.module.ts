@@ -10,6 +10,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
 
 @NgModule({
   declarations: [PolicyTypeSelectorComponent],
@@ -25,6 +26,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     CDKModule,
     ReactiveFormsModule,
+    CustomPipesModule,
   ],
   exports: [PolicyTypeSelectorComponent],
 })

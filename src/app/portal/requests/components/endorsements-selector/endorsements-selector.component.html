@@ -45,14 +45,6 @@
               class="policy-type-card my-1 mx-md-1 py-2 py-md-3 px-2"
               [class.policy-type-card-selected]="isSelected(type)">
               <div class="policy-type-card--data">
-                <p class="text-2 fw-semibold text-center">
-                  <span
-                    class="material-icons-outlined"
-                    [class.white]="isSelected(type)"
-                    [class.dark-blue-400]="!isSelected(type)">
-                    {{ type.icon ?? 'circle' }}
-                  </span>
-                </p>
                 <p
                   class="text-2 fw-semibold text-center"
                   [class.white]="isSelected(type)"

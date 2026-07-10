@@ -7,7 +7,6 @@ export interface CreateTenantRequest {
   // Datos básicos
   name: string;
   code: CountryCodeEnum;
-  domain: string;
   status: TenantStatusEnum;
   is_primary: boolean;
 
@@ -25,6 +24,7 @@ export interface CreateTenantRequest {
   currency_thousands_separator: string;
   currency_decimal_separator: string;
   stripe_account_id?: string;
+  admin_email?: string;
 
   // Stripe Pricing
   price_agency?: string;

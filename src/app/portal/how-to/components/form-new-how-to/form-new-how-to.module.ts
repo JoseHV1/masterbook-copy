@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { FormsModalModule } from 'src/app/portal/forms/components/forms-modal/forms-modal.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [FormNewHowToComponent],
@@ -17,6 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
     CDKModule,
     FormsModalModule,
     FormsModule,
+    MatSlideToggleModule,
   ],
   exports: [FormNewHowToComponent],
 })

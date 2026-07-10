@@ -33,7 +33,7 @@
           <span class="text-dark" style="font-size: 0.75rem"
             >{{
               item.isTransaction === true
-                ? (item.information.value | currency)
+                ? (item.information.value | appCurrency)
                 : item.information.value
             }}
             {{ item.information.description }}</span

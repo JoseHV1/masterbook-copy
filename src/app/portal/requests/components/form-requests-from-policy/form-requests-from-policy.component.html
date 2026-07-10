@@ -55,12 +55,7 @@
 
       <div class="col-12 col-md-6 mb-4 mb-md-0">
         <label>{{ 'PORTAL.REQUESTS.COVERAGE_LIMIT' | translate }} *</label>
-        <app-input
-          placeholder="$ 0.00"
-          type="tel"
-          [inputMask]="'separator.2'"
-          [maskPrefix]="'$ '"
-          formControlName="coverage"></app-input>
+        <app-currency-input formControlName="coverage"></app-currency-input>
       </div>
 
       <div class="mb-3 mb-md-4">
@@ -252,7 +247,7 @@
       <div class="row">
         <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.COVERAGE' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
-          {{ data.policy.coverage | currency | notNull }}
+          {{ data.policy.coverage | appCurrency }}
         </div>
       </div>
     </div>
@@ -261,7 +256,7 @@
       <div class="row">
         <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.FORM_FROM_POLICY.FIELD_PREMIUM_AMOUNT' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
-          {{ data.policy.prime_amount | currency | notNull }}
+          {{ data.policy.prime_amount | appCurrency }}
         </div>
       </div>
     </div>
@@ -270,7 +265,7 @@
       <div class="row">
         <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.DEDUCTIBLE' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
-          {{ data.policy.deductible | currency | notNull }}
+          {{ data.policy.deductible | appCurrency }}
         </div>
       </div>
     </div>

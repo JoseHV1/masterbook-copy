@@ -27,7 +27,7 @@
     <ng-container matColumnDef="payment_applied">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.PAYMENTS.TABLE_APPLIED' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.payment_applied | currency : 'USD' : 'symbol' }}
+        {{ element.payment_applied | appCurrency }}
       </td>
     </ng-container>
 

@@ -26,32 +26,17 @@
 
       <div class="col-12 col-md-6 mb-3 mb-md-4">
         <label>{{ 'PORTAL.REQUESTS.MODAL_NEW_QUOTE.FIELD_PREMIUM' | translate }}</label>
-        <app-input
-          placeholder="$ 0.00"
-          type="tel"
-          [inputMask]="'separator.2'"
-          [maskPrefix]="'$ '"
-          formControlName="prime_amount"></app-input>
+        <app-currency-input formControlName="prime_amount"></app-currency-input>
       </div>
 
       <div class="col-12 col-md-6 mb-3 mb-md-4">
         <label>{{ 'PORTAL.REQUESTS.MODAL_NEW_QUOTE.FIELD_COVERAGE' | translate }}</label>
-        <app-input
-          placeholder="$ 0.00"
-          type="tel"
-          [inputMask]="'separator.2'"
-          [maskPrefix]="'$ '"
-          formControlName="coverage"></app-input>
+        <app-currency-input formControlName="coverage"></app-currency-input>
       </div>
 
       <div class="col-12 col-md-6 mb-3 mb-md-4">
         <label>{{ 'PORTAL.REQUESTS.MODAL_NEW_QUOTE.FIELD_DEDUCTIBLE' | translate }}</label>
-        <app-input
-          placeholder="$ 0.00"
-          type="tel"
-          [inputMask]="'separator.2'"
-          [maskPrefix]="'$ '"
-          formControlName="deductible"></app-input>
+        <app-currency-input formControlName="deductible"></app-currency-input>
       </div>
 
       <div class="col-12 col-md-6 mb-3 mb-md-4">

@@ -1,0 +1,58 @@
+<div class="ui-modal">
+  <div class="ui-modal-header white subtitle-2 text-center py-2 back-error-color">
+    {{ data.titleKey | translate | uppercase }}
+  </div>
+
+  <div class="ui-modal-content py-3 px-3">
+    <div *ngIf="!showModeChoice" class="d-flex align-items-center gap-1 mb-2">
+      {{ 'SHARED.TENANT_SCOPE_MODAL.OPTION_SINGLE' | translate }}
+      <span *ngIf="triggerTenant" class="badge bg-secondary ms-1">{{ triggerTenant.code }}</span>
+    </div>
+
+    <mat-radio-group *ngIf="showModeChoice" [(ngModel)]="mode" class="d-flex flex-column gap-2">
+      <mat-radio-button value="single" color="primary" [disabled]="!triggerTenant">
+        {{ 'SHARED.TENANT_SCOPE_MODAL.OPTION_SINGLE' | translate }}
+        <span *ngIf="triggerTenant" class="badge bg-secondary ms-1">{{ triggerTenant.code }}</span>
+      </mat-radio-button>
+
+      <mat-radio-button value="multiple" color="primary">
+        {{ 'SHARED.TENANT_SCOPE_MODAL.OPTION_MULTIPLE' | translate }}
+      </mat-radio-button>
+    </mat-radio-group>
+
+    <div class="mt-3" *ngIf="mode === 'multiple'">
+      <label class="d-block text-3 gray-500 mb-1">{{ 'SHARED.TENANT_SCOPE_MODAL.FIELD_TENANTS' | translate }}</label>
+      <app-dropdown-field
+        [placeholder]="'SHARED.TENANT_SCOPE_MODAL.PLACEHOLDER_TENANTS' | translate"
+        [(ngModel)]="selectedTenantIds"
+        [options]="tenantOptions"
+        [multiple]="true">
+      </app-dropdown-field>
+    </div>
+
+    <div class="mt-3" *ngIf="data.statusToggle">
+      <label class="d-block text-3 gray-500 mb-1">{{ 'SHARED.TENANT_SCOPE_MODAL.FIELD_STATUS' | translate }}</label>
+      <mat-radio-group [(ngModel)]="targetStatus" class="d-flex gap-3">
+        <mat-radio-button value="ACTIVE" color="primary">
+          {{ 'SHARED.TENANT_SCOPE_MODAL.STATUS_ACTIVE' | translate }}
+        </mat-radio-button>
+        <mat-radio-button value="INACTIVE" color="primary">
+          {{ 'SHARED.TENANT_SCOPE_MODAL.STATUS_INACTIVE' | translate }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+
+  <div class="ui-modal-footer d-flex justify-content-center pb-4">
+    <button class="primary-button white back-gray-400 mx-1" (click)="cancel()">
+      {{ 'SHARED.TENANT_SCOPE_MODAL.BTN_CANCEL' | translate }}
+    </button>
+
+    <button
+      class="primary-button white back-error-color mx-1"
+      [disabled]="!canConfirm"
+      (click)="confirm()">
+      {{ data.confirmButtonKey | translate }}
+    </button>
+  </div>
+</div>

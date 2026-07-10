@@ -307,7 +307,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.COVERAGE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ policy.coverage | currency | notNull }}
+          {{ policy.coverage | appCurrency }}
         </div>
       </div>
     </div>
@@ -316,7 +316,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.PREMIUM' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ policy.prime_amount | currency | notNull }}
+          {{ policy.prime_amount | appCurrency }}
         </div>
       </div>
     </div>
@@ -325,7 +325,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.DEDUCTIBLE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ policy.deductible | currency | notNull }}
+          {{ policy.deductible | appCurrency }}
         </div>
       </div>
     </div>
@@ -453,7 +453,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.COVERAGE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy.coverage | currency | notNull }}
+          {{ refreredPolicy.coverage | appCurrency }}
         </div>
       </div>
     </div>
@@ -462,7 +462,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.PREMIUM' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy.prime_amount | currency | notNull }}
+          {{ refreredPolicy.prime_amount | appCurrency }}
         </div>
       </div>
     </div>
@@ -471,7 +471,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.DEDUCTIBLE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy.deductible | currency | notNull }}
+          {{ refreredPolicy.deductible | appCurrency }}
         </div>
       </div>
     </div>

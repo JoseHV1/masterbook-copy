@@ -15,6 +15,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslateModule } from '@ngx-translate/core';
+import { CurrencyInputModule } from 'src/app/shared/components/currency-input/currency-input.module';
 
 @NgModule({
   declarations: [FormPaymentsComponent],
@@ -33,6 +34,7 @@ import { TranslateModule } from '@ngx-translate/core';
     AutoCompleteModule,
     CDKModule,
     MatRadioModule,
+    CurrencyInputModule,
   ],
   exports: [FormPaymentsComponent],
 })

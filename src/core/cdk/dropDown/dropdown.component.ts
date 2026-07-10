@@ -29,6 +29,29 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
     this.searchText = '';
   }
 
+  trackByCode(_: number, option: DropdownOption): string {
+    return option.code;
+  }
+
+  /**
+   * Computed on demand instead of stamped onto `this.options` (which used to
+   * be reassigned with new object references on every selection change,
+   * forcing `*ngFor` to churn through the mat-options mid-interaction and
+   * occasionally dropping a fast second click). Reading live off the form
+   * value keeps `options` — and therefore the option list — referentially
+   * stable across renders.
+   */
+  isOptionDisabled(option: DropdownOption): boolean {
+    if (option.disabled) return true;
+    if (!this.multiple) return false;
+
+    const selected = this.form.get('value')?.value;
+    if (!Array.isArray(selected)) return false;
+
+    const hasAllSelected = selected.includes('');
+    return hasAllSelected ? option.code !== '' : option.code === '' && selected.length > 0;
+  }
+
   @Output() changeSelection: EventEmitter<DropdownOption[]> =
     new EventEmitter();
 
@@ -54,7 +77,6 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
     if (this.filter && !this.filterPlaceholder) {
       this._translate.get('PORTAL.COMMON.SEARCH').subscribe(v => this.filterPlaceholder = v);
     }
-    this.resetDisabledState();
   }
 
   changeValue(): void {
@@ -69,19 +91,9 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
       if (hasAllSelected) {
         this.form.get('value')?.setValue([''], { emitEvent: false });
 
-        this.options = this.options.map(opt => ({
-          ...opt,
-          disabled: opt.code !== '',
-        }));
-
         const allOption = this.options.find(opt => opt.code === '');
         if (allOption) this.changeSelection.emit([allOption]);
       } else {
-        this.options = this.options.map(opt => ({
-          ...opt,
-          disabled: opt.code === '' && selected.length > 0,
-        }));
-
         const selectedItems = this.options.filter(opt =>
           selected.includes(opt.code)
         );
@@ -103,7 +115,6 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
     this.form.get('value')?.setValue(null);
     this.onChange(null);
     this.onTouched();
-    this.resetDisabledState();
     this.changeSelection.emit([]);
     this.updateErrors();
   }
@@ -120,27 +131,13 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
 
   writeValue(value: any): void {
     if (!value || (Array.isArray(value) && value.length === 0)) {
-      this.resetDisabledState();
       this.form
         .get('value')
         ?.setValue(this.multiple ? [] : null, { emitEvent: false });
     } else {
       this.form.get('value')?.setValue(value, { emitEvent: false });
-      this.syncDisabledState(value);
     }
     this.updateErrors();
-  }
-
-  private syncDisabledState(value: any): void {
-    if (this.multiple && Array.isArray(value)) {
-      const hasAll = value.includes('');
-      this.options = this.options.map(opt => ({
-        ...opt,
-        disabled: hasAll
-          ? opt.code !== ''
-          : opt.code === '' && value.length > 0,
-      }));
-    }
   }
 
   registerOnChange(fn: any): void {
@@ -155,13 +152,6 @@ export class DropdownComponent implements ControlValueAccessor, OnInit {
     isDisabled
       ? this.form.get('value')?.disable()
       : this.form.get('value')?.enable();
-  }
-
-  private resetDisabledState(): void {
-    this.options = this.options.map(opt => ({
-      ...opt,
-      disabled: false,
-    }));
   }
 
   hasValue(): boolean {

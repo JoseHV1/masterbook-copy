@@ -9,6 +9,11 @@ const routes: Routes = [
       import('./forms-list/forms-list.module').then(m => m.AdminFormsListModule),
   },
   {
+    path: 'new',
+    loadChildren: () =>
+      import('./new-form/new-form.module').then(m => m.NewAdminFormModule),
+  },
+  {
     path: ':id',
     loadChildren: () =>
       import('./form-detail/form-detail.module').then(m => m.AdminFormDetailModule),

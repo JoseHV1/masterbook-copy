@@ -10,6 +10,7 @@ import { CreateHowToRequest } from '../interfaces/requests/how-to/create-request
 import { HowToModel } from '../interfaces/models/how-to.model';
 import {
   MoveHowToOrder,
+  ReorderHowToRequest,
   UpdateHowToRequest,
 } from '../interfaces/requests/how-to/update-how-to.request';
 
@@ -75,6 +76,28 @@ export class HowToService {
       .get<ApiResponseModel<PaginatedResponse<HowToModel[]>>>(
         environment.apiUrl +
           `how-to?page=${pageIndex}&limit=${pageSize}${filters ?? ''}`
+      )
+      .pipe(map(resp => resp.data));
+  }
+
+  reorderHowTo(req: ReorderHowToRequest): Observable<{ reordered: number }> {
+    return this._http
+      .put<ApiResponseModel<{ reordered: number }>>(
+        `${environment.apiUrl}how-to/reorder`,
+        req,
+      )
+      .pipe(map(resp => resp.data));
+  }
+
+  updateTenantStatus(
+    id: string,
+    tenant_ids: string[],
+    status: 'ACTIVE' | 'INACTIVE',
+  ): Observable<HowToModel> {
+    return this._http
+      .patch<ApiResponseModel<HowToModel>>(
+        `${environment.apiUrl}how-to/${id}/tenants/status`,
+        { tenant_ids, status },
       )
       .pipe(map(resp => resp.data));
   }

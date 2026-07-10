@@ -18,9 +18,9 @@
           [placeholder]="filterPlaceholder">
       </mat-option>
       <mat-option
-        *ngFor="let option of filteredOptions"
+        *ngFor="let option of filteredOptions; trackBy: trackByCode"
         [value]="option.code"
-        [disabled]="option.disabled">
+        [disabled]="isOptionDisabled(option)">
         {{ option.name }}
       </mat-option>
     </mat-select>

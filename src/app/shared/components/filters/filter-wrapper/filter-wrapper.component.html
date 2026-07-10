@@ -18,13 +18,7 @@
       </ng-container>
 
       <ng-container *ngIf="filter.type === filterTypes.CURRENCY">
-        <app-input
-          placeholder="$ 0"
-          type="tel"
-          [inputMask]="'separator.2'"
-          [maskPrefix]="'$ '"
-          (ngModelChange)="handleNumber(filter.name, $event)"
-          [formControlName]="filter.name"></app-input>
+        <app-currency-input [formControlName]="filter.name"></app-currency-input>
       </ng-container>
 
       <ng-container *ngIf="filter.type === filterTypes.PAYMENT_ENTITY">

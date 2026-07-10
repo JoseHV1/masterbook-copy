@@ -26,6 +26,16 @@
           </span>
         </button>
 
+        <button
+          mat-menu-item
+          *ngIf="howTo.tenants?.length"
+          (click)="openTenantStatusModal()">
+          <span class="d-flex align-items-center gap-2">
+            <span class="material-icons-outlined dark-blue-400">tune</span>
+            {{ 'PORTAL.HOW_TO.TOOLTIP_TENANT_STATUS' | translate }}
+          </span>
+        </button>
+
         <button mat-menu-item (click)="deleteHowTo(howTo._id)">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined text-danger">delete</span>
@@ -51,9 +61,42 @@
           <div class="video-wrapper" [class.short-mode]="isShort">
             <iframe class="video-iframe" [src]="video" frameborder="0"></iframe>
           </div>
-          <div [innerHTML]="description"></div>
         </div>
       </div>
+    </div>
+
+    <div class="row px-4 my-4 px-md-5" *ngIf="howTo">
+
+      <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.HOW_TO.DETAIL.FIELD_TENANTS' | translate }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box d-flex flex-wrap align-items-center gap-1">
+            <ng-container *ngIf="howTo.tenants?.length; else allTenantsBadge">
+              <span
+                *ngFor="let t of howTo.tenants"
+                class="d-flex align-items-center gap-1 me-4">
+                <span>{{ t.name | titlecase }}</span>
+                <span
+                  class="badge"
+                  [ngClass]="t.status === 'INACTIVE' ? 'bg-danger' : 'bg-success'">
+                  {{ (t.status === 'INACTIVE' ? 'PORTAL.HOW_TO.FORM.STATUS_INACTIVE' : 'PORTAL.HOW_TO.FORM.STATUS_ACTIVE') | translate }}
+                </span>
+              </span>
+            </ng-container>
+            <ng-template #allTenantsBadge>
+              <span class="badge bg-secondary">{{ 'PORTAL.HOW_TO.DETAIL.ALL_TENANTS' | translate }}</span>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div class="col col-12 px-2 px-md-4 my-2">
+        <div class="row">
+          <div class="col-12 col-md-2 black px-2 py-2">{{ 'PORTAL.HOW_TO.DETAIL.FIELD_DESCRIPTION' | translate }}</div>
+          <div class="col-12 col-md-10 black px-3 py-2 prop-box" [innerHTML]="description"></div>
+        </div>
+      </div>
+
     </div>
   </ng-container>
 </app-pages-layout>

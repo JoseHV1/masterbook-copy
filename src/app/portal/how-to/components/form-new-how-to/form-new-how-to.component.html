@@ -1,6 +1,6 @@
 <form [formGroup]="form">
-  <div class="row g-3">
-    <div class="col-12">
+  <div class="row">
+    <div class="col-12 form-field-sm">
       <label>{{ 'PORTAL.HOW_TO.FORM.FIELD_TITLE' | translate }}</label>
       <app-input
         [placeholder]="'PORTAL.HOW_TO.FORM.PLACEHOLDER_TITLE' | translate"
@@ -8,25 +8,41 @@
         formControlName="title"></app-input>
     </div>
 
-    <div class="col-12">
+    <div class="col-12 form-field-sm">
       <label>{{ 'PORTAL.HOW_TO.FORM.FIELD_TENANTS' | translate }}</label>
       <app-dropdown-field
         [placeholder]="'PORTAL.HOW_TO.FORM.PLACEHOLDER_TENANTS' | translate"
         formControlName="tenant_ids"
         [options]="tenantOptions"
-        [multiple]="true">
+        [multiple]="true"
+        (changeSelection)="onTenantSelectionChange($event)">
       </app-dropdown-field>
     </div>
 
-    <div class="col-12">
-      <div class="py-4">
-        <label class="d-block">{{ 'PORTAL.HOW_TO.FORM.FIELD_DESCRIPTION' | translate }}</label>
-        <app-rich-text-input
-          formControlName="description"></app-rich-text-input>
+    <div class="col-12 form-field" *ngIf="selectedTenants.length">
+      <label class="d-block">{{ 'PORTAL.HOW_TO.FORM.FIELD_TENANT_STATUS' | translate }}</label>
+      <div class="row g-2 mt-1">
+        <div class="col-6 col-md-3" *ngFor="let t of selectedTenants">
+          <div class="tenant-status-row d-flex align-items-center justify-content-between">
+            <span>{{ t.name }}</span>
+            <mat-slide-toggle
+              color="primary"
+              [checked]="t.status === 'ACTIVE'"
+              (change)="toggleTenantStatus(t.code)">
+              {{ (t.status === 'ACTIVE' ? 'PORTAL.HOW_TO.FORM.STATUS_ACTIVE' : 'PORTAL.HOW_TO.FORM.STATUS_INACTIVE') | translate }}
+            </mat-slide-toggle>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="col-12">
+    <div class="col-12 form-field">
+      <label class="d-block">{{ 'PORTAL.HOW_TO.FORM.FIELD_DESCRIPTION' | translate }}</label>
+      <app-rich-text-input
+        formControlName="description"></app-rich-text-input>
+    </div>
+
+    <div class="col-12 form-field">
       <label>{{ 'PORTAL.HOW_TO.FORM.FIELD_VIDEO_URL' | translate }}</label>
       <app-input
         [placeholder]="'PORTAL.HOW_TO.FORM.PLACEHOLDER_VIDEO_URL' | translate"

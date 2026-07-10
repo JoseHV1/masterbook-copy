@@ -6,7 +6,13 @@ export interface HowToModel {
   video: string;
   order: number;
   tenant_ids?: string[];
-  tenants?: { _id: string; name: string; code: string }[];
+  tenants?: {
+    _id: string;
+    name: string;
+    code: string;
+    order?: number;
+    status?: 'ACTIVE' | 'INACTIVE';
+  }[];
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date;

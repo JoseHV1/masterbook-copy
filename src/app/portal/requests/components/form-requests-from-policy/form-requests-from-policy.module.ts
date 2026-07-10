@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { CurrencyInputModule } from 'src/app/shared/components/currency-input/currency-input.module';
 
 @NgModule({
   declarations: [FormRequestsFromPolicyComponent],
@@ -18,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     ButtonModule,
     MatExpansionModule,
     CDKModule,
+    CurrencyInputModule,
   ],
   exports: [FormRequestsFromPolicyComponent],
 })

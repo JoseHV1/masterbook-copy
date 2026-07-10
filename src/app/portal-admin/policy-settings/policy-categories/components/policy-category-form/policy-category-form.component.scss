@@ -1,0 +1,17 @@
+@import 'theme';
+
+label {
+  font-size: 13px;
+  color: $gray-500;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.tenant-status-row {
+  padding: 0.75rem 1rem;
+  border: 1px solid $gray-200;
+  border-radius: 0.5rem;
+  height: 100%;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}

@@ -199,121 +199,61 @@
           <!-- Minimum Premium -->
           <div class="col-12 col-md-6" *ngIf="show.minPrimeAmount">
             <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MIN_PREMIUM' | translate }}</mat-label>
-            <app-input
-              placeholder="$ 0"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              [clearable]="true"
-              formControlName="minPrimeAmount"></app-input>
+            <app-currency-input [clearable]="true" formControlName="minPrimeAmount"></app-currency-input>
           </div>
 
           <!-- Maximum Premium -->
           <div class="col-12 col-md-6" *ngIf="show.maxPrimeAmount">
             <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MAX_PREMIUM' | translate }}</mat-label>
-            <app-input
-              placeholder="$ 0"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              [clearable]="true"
-              formControlName="maxPrimeAmount"></app-input>
+            <app-currency-input [clearable]="true" formControlName="maxPrimeAmount"></app-currency-input>
           </div>
 
           <!-- Minimum Coverage -->
           <div class="col-12 col-md-6" *ngIf="show.minCoverage">
             <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MIN_COVERAGE' | translate }}</mat-label>
-            <app-input
-              placeholder="$ 0"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              [clearable]="true"
-              formControlName="minCoverage"></app-input>
+            <app-currency-input [clearable]="true" formControlName="minCoverage"></app-currency-input>
           </div>
 
           <!-- Maximum Coverage -->
           <div class="col-12 col-md-6" *ngIf="show.maxCoverage">
             <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MAX_COVERAGE' | translate }}</mat-label>
-            <app-input
-              placeholder="$ 0"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              [clearable]="true"
-              formControlName="maxCoverage"></app-input>
+            <app-currency-input [clearable]="true" formControlName="maxCoverage"></app-currency-input>
           </div>
 
           <!-- Minimum Deductible -->
           <div class="col-12 col-md-6" *ngIf="show.minDeductible">
             <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MIN_DEDUCTIBLE' | translate }}</mat-label>
-            <app-input
-              placeholder="$ 0"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              [clearable]="true"
-              formControlName="minDeductible"></app-input>
+            <app-currency-input [clearable]="true" formControlName="minDeductible"></app-currency-input>
           </div>
 
           <!-- Maximum Deductible -->
           <div class="col-12 col-md-6" *ngIf="show.maxDeductible">
             <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MAX_DEDUCTIBLE' | translate }}</mat-label>
-            <app-input
-              placeholder="$ 0"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              [clearable]="true"
-              formControlName="maxDeductible"></app-input>
+            <app-currency-input [clearable]="true" formControlName="maxDeductible"></app-currency-input>
           </div>
 
           <!-- Minimum Total Amount -->
           <div class="col-12 col-md-6" *ngIf="show.minTotalAmount">
             <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MIN_TOTAL' | translate }}</mat-label>
-            <app-input
-              placeholder="$ 0"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              [clearable]="true"
-              formControlName="minTotalAmount"></app-input>
+            <app-currency-input [clearable]="true" formControlName="minTotalAmount"></app-currency-input>
           </div>
 
           <!-- Maximum Total Amount -->
           <div class="col-12 col-md-6" *ngIf="show.maxTotalAmount">
             <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MAX_TOTAL' | translate }}</mat-label>
-            <app-input
-              placeholder="$ 0"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              [clearable]="true"
-              formControlName="maxTotalAmount"></app-input>
+            <app-currency-input [clearable]="true" formControlName="maxTotalAmount"></app-currency-input>
           </div>
 
           <!-- Minimum Commission Pay -->
           <div class="col-12 col-md-6" *ngIf="show.minCommissionPay">
             <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MIN_COMMISSION' | translate }}</mat-label>
-            <app-input
-              placeholder="$ 0"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              [clearable]="true"
-              formControlName="minCommissionPay"></app-input>
+            <app-currency-input [clearable]="true" formControlName="minCommissionPay"></app-currency-input>
           </div>
 
           <!-- Maximum Commission Pay -->
           <div class="col-12 col-md-6" *ngIf="show.maxCommissionPay">
             <mat-label>{{ 'PORTAL.REPORTS.CREATE.FIELD_MAX_COMMISSION' | translate }}</mat-label>
-            <app-input
-              placeholder="$ 0"
-              type="tel"
-              [inputMask]="'separator.2'"
-              [maskPrefix]="'$ '"
-              [clearable]="true"
-              formControlName="maxCommissionPay"></app-input>
+            <app-currency-input [clearable]="true" formControlName="maxCommissionPay"></app-currency-input>
           </div>
         </div>
 

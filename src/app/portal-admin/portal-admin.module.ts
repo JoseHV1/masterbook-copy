@@ -91,6 +91,13 @@ const routes: Routes = [
             module => module.StripeBillingModule
           ),
       },
+      {
+        path: 'policy-settings',
+        loadChildren: () =>
+          import('./policy-settings/policy-settings.module').then(
+            module => module.PolicySettingsModule
+          ),
+      },
     ],
   },
 

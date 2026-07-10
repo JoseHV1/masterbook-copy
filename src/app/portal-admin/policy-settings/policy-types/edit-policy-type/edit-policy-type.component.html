@@ -1,0 +1,21 @@
+<app-pages-layout>
+  <ng-container content>
+    <div class="d-flex align-items-center mb-1 ms-2" *ngIf="policyType">
+      <span
+        class="material-icons-outlined me-2"
+        style="cursor:pointer"
+        [matTooltip]="'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.BACK' | translate"
+        (click)="cancel()">
+        arrow_back
+      </span>
+    </div>
+    <div class="col-12 mb-4" *ngIf="policyType">
+      <div class="text-center">
+        <h1 class="subtitle-1 dark-blue-400">{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.EDIT_TYPE_TITLE' | translate }} — {{ policyType.name }}</h1>
+      </div>
+    </div>
+    <div class="px-2 px-lg-5" *ngIf="policyType">
+      <app-policy-type-form [policyType]="policyType" (formSubmit)="save($event)" (cancel)="cancel()"></app-policy-type-form>
+    </div>
+  </ng-container>
+</app-pages-layout>

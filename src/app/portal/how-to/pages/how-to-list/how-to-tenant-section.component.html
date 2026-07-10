@@ -1,0 +1,46 @@
+<div class="tenant-section">
+  <mat-drawer-container [hasBackdrop]="false" class="tenant-section__drawer-container">
+    <mat-drawer #drawer [mode]="'over'" [position]="'end'">
+      <app-filter-wrapper
+        [config]="filterConfig"
+        (closeFilters)="drawer.toggle()"
+        (activeFilterChange)="handleApplyFilter($event); drawer.toggle()">
+      </app-filter-wrapper>
+    </mat-drawer>
+
+    <mat-drawer-content>
+      <div class="tenant-section__header">
+        <span class="badge bg-secondary tenant-section__badge">{{ tenant.code }}</span>
+        <h5 class="tenant-section__title">{{ tenant.name | titlecase }}</h5>
+      </div>
+
+      <app-filtered-table-header
+        [filtersActive]="filtersActive"
+        (search)="onSearch($event)"
+        (openFilters)="drawer.toggle()"
+        (removeChip)="removeFilterFromChip($event)">
+      </app-filtered-table-header>
+
+      <div class="tenant-section__loading" *ngIf="loading">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+
+      <app-how-to-table
+        [data]="data.records"
+        [tenantId]="tenant._id"
+        [filtersActive]="filtersActive"
+        (refresh)="refresh()">
+      </app-how-to-table>
+
+      <mat-paginator
+        *ngIf="data.total_records > 0"
+        [pageSizeOptions]="[10, 25, 50]"
+        [length]="data.total_records"
+        [pageIndex]="data.page - 1"
+        [pageSize]="data.limit"
+        (page)="onPageChange($event)"
+        showFirstLastButtons>
+      </mat-paginator>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>

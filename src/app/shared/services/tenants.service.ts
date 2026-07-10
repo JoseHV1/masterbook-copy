@@ -36,7 +36,13 @@ export class TenantsService {
       .get<ApiResponseModel<PaginatedResponse<TenantModel[]>>>(
         `${this._base}?page=${page}&limit=${pageSize}${filters ?? ''}`
       )
-      .pipe(map(resp => resp.data));
+      .pipe(
+        map(resp => resp.data),
+        map(data => ({
+          ...data,
+          records: [...data.records].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? '')),
+        }))
+      );
   }
 
   getOne(serial: string): Observable<TenantModel> {
@@ -63,15 +69,6 @@ export class TenantsService {
       .pipe(map(resp => resp.data));
   }
 
-  checkDomain(domain: string, excludeSerial?: string): Observable<{ available: boolean }> {
-    const params = excludeSerial
-      ? `?domain=${encodeURIComponent(domain)}&excludeSerial=${encodeURIComponent(excludeSerial)}`
-      : `?domain=${encodeURIComponent(domain)}`;
-    return this._http
-      .get<ApiResponseModel<{ available: boolean }>>(`${this._base}/check-domain${params}`)
-      .pipe(map(resp => resp.data));
-  }
-
   hardDelete(serial: string): Observable<void> {
     return this._http
       .delete<ApiResponseModel<void>>(`${this._base}/${serial}`)
@@ -87,7 +84,10 @@ export class TenantsService {
   getPublic(): Observable<{ name: string; code: string }[]> {
     return this._http
       .get<ApiResponseModel<{ name: string; code: string }[]>>(`${this._base}/public`)
-      .pipe(map(resp => resp.data));
+      .pipe(
+        map(resp => resp.data),
+        map(tenants => [...tenants].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? '')))
+      );
   }
 
   getForCurrentAgency(): Observable<TenantModel | null> {

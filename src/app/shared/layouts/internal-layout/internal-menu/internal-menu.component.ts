@@ -52,21 +52,15 @@ export class InternalMenuComponent {
     this.menuItemRole = [...this.MENU_ITEMS[this.role]];
 
     if (userRole !== RolesEnum.AGENCY_OWNER) {
-      this.menuItemRole = this.menuItemRole.filter(
-        item => item.title !== 'Users' && item.url !== 'users'
-      );
+      this.menuItemRole = this.menuItemRole.filter(item => item.url !== 'users');
     }
 
     if (!userRole || !this.canSeeInsurers.includes(userRole)) {
-      this.menuItemRole = this.menuItemRole.filter(
-        item => item.title !== 'Insurers' && item.url !== 'insurers'
-      );
+      this.menuItemRole = this.menuItemRole.filter(item => item.url !== 'insurer');
     }
 
     if (!userRole || !this.canSeeReports.includes(userRole)) {
-      this.menuItemRole = this.menuItemRole.filter(
-        item => item.title !== 'Reports' && item.url !== 'reports'
-      );
+      this.menuItemRole = this.menuItemRole.filter(item => item.url !== 'reports');
     }
   }
 }

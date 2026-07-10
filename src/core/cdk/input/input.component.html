@@ -22,11 +22,11 @@
         formControlName="value"
         (blur)="onTouched(); updateErrors()"
         (input)="changeValue()"
-        thousandSeparator=","
-        decimalMarker="."
+        [thousandSeparator]="thousandSeparator"
+        [decimalMarker]="decimalMarker"
         [suffix]="maskSuffix ?? ''"
         [prefix]="maskPrefix ?? ''"
-        [leadZero]="inputMask === 'separator.2'"
+        [leadZero]="!!inputMask?.startsWith('separator.')"
         [mask]="inputMask ?? undefined" />
     </ng-template>
 

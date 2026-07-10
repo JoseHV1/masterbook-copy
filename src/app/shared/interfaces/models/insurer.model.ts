@@ -12,7 +12,7 @@ export interface InsurerModel {
   fax: string;
   status: InsuranceCompanyStatus;
   tenant_ids: string[];
-  tenants?: { _id: string; name: string; code: string }[];
+  tenants?: { _id: string; name: string; code: string; status?: 'ACTIVE' | 'INACTIVE' }[];
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;

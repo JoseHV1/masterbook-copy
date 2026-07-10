@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { finalize, of, Subject, take, takeUntil } from 'rxjs';
 import { FilteredTable } from 'src/app/shared/classes/filtered-table-base/filtered-table.base';
@@ -13,7 +13,11 @@ import { FilterWrapperModel } from 'src/app/shared/models/filters.model';
 import { FormService } from 'src/app/shared/services/form.service';
 import { TenantsService } from 'src/app/shared/services/tenants.service';
 import { UiService } from 'src/app/shared/services/ui.service';
-import { CreateFormModalComponent } from 'src/app/portal/forms/components/create-form-modal/create-form-modal.component';
+import {
+  TenantScopeModalComponent,
+  TenantScopeModalData,
+  TenantScopeModalResult,
+} from 'src/app/shared/components/modals/tenant-scope-modal/tenant-scope-modal.component';
 
 @Component({
   selector: 'app-admin-forms-list',
@@ -43,7 +47,7 @@ export class AdminFormsListComponent
     private readonly _router: Router,
     private readonly _t: TranslateService,
     private readonly _tenants: TenantsService,
-    private readonly _dialog: MatDialog
+    private readonly _dialog: MatDialog,
   ) {
     super();
     this.filterConfig = this._forms.getAdminFormsFilters();
@@ -98,18 +102,8 @@ export class AdminFormsListComponent
     this._fetchData(this.data.page - 1, this.data.limit);
   }
 
-  openCreateModal(): void {
-    this._dialog
-      .open(CreateFormModalComponent, {
-        autoFocus: false,
-        data: { isAdmin: true },
-        panelClass: 'transparent-modal-container',
-      })
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe(result => {
-        if (result) this.refresh();
-      });
+  goToNew(): void {
+    this._router.navigateByUrl('portal-admin/request-forms/new');
   }
 
   goToDetail(form: PopulatedFormModel): void {
@@ -149,14 +143,45 @@ export class AdminFormsListComponent
   }
 
   confirmDelete(form: PopulatedFormModel): void {
-    this._ui
-      .showConfirmationModal({
-        text: this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.CONFIRM_DELETE'),
-        type: UiModalTypeEnum.ERROR,
-      })
+    if (!form.tenants?.length) {
+      this._ui
+        .showConfirmationModal({
+          text: this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.CONFIRM_DELETE'),
+          type: UiModalTypeEnum.ERROR,
+        })
+        .pipe(take(1))
+        .subscribe((confirmed: boolean) => {
+          if (confirmed) this._executeDelete(form._id);
+        });
+      return;
+    }
+
+    const data: TenantScopeModalData = {
+      titleKey: 'PORTAL.PORTAL_ADMIN.FORMS.DELETE_MODAL_TITLE',
+      confirmButtonKey: 'PORTAL.PORTAL_ADMIN.FORMS.BTN_DELETE',
+      tenants: form.tenants,
+    };
+    this._dialog
+      .open(TenantScopeModalComponent, { data, panelClass: 'transparent-modal-container' })
+      .afterClosed()
       .pipe(take(1))
-      .subscribe((confirmed: boolean) => {
-        if (confirmed) this._executeDelete(form._id);
+      .subscribe((result: TenantScopeModalResult | null) => {
+        if (result) this._executeTenantDelete(form._id, result.tenantIds);
+      });
+  }
+
+  private _executeTenantDelete(id: string, tenantIds: string[]): void {
+    this._ui.showLoader();
+    this._forms
+      .removeFromTenants(id, tenantIds)
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe({
+        next: () => {
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.SUCCESS_DELETED'));
+          this.refresh();
+        },
+        error: () =>
+          this._ui.showAlertError(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.ERROR_DELETE')),
       });
   }
 
@@ -172,6 +197,43 @@ export class AdminFormsListComponent
         },
         error: () =>
           this._ui.showAlertError(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.ERROR_DELETE')),
+      });
+  }
+
+  openTenantStatusModal(form: PopulatedFormModel): void {
+    if (!form.tenants?.length) return;
+
+    const data: TenantScopeModalData = {
+      titleKey: 'PORTAL.PORTAL_ADMIN.FORMS.STATUS_MODAL_TITLE',
+      confirmButtonKey: 'PORTAL.PORTAL_ADMIN.FORMS.BTN_UPDATE_STATUS',
+      tenants: form.tenants,
+      statusToggle: true,
+    };
+    this._dialog
+      .open(TenantScopeModalComponent, { data, panelClass: 'transparent-modal-container' })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result: TenantScopeModalResult | null) => {
+        if (result?.status) this._executeTenantStatusUpdate(form._id, result.tenantIds, result.status);
+      });
+  }
+
+  private _executeTenantStatusUpdate(
+    id: string,
+    tenantIds: string[],
+    status: 'ACTIVE' | 'INACTIVE',
+  ): void {
+    this._ui.showLoader();
+    this._forms
+      .updateTenantStatus(id, tenantIds, status)
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe({
+        next: () => {
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.SUCCESS_TENANT_STATUS'));
+          this.refresh();
+        },
+        error: () =>
+          this._ui.showAlertError(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.ERROR_TENANT_STATUS')),
       });
   }
 }

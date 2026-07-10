@@ -15,7 +15,6 @@ import { AuthService } from './shared/services/auth.service';
 import { environment } from 'src/environments/environment';
 import { LanguageService } from './shared/services/language.service';
 import { TenantsService } from './shared/services/tenants.service';
-import { AvailableLanguagesEnum } from './shared/enums/available-languages.enum';
 import { TenantContextService } from './shared/services/tenant-context.service';
 
 declare var gtag: Function;
@@ -48,9 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
       ).subscribe({
         next: tenant => {
           this._tenantCtx.setTenant(tenant);
-          if (tenant?.document_language) {
-            this._language.changeLanguage(tenant.document_language as unknown as AvailableLanguagesEnum);
-          }
+          this._language.setFromTenant(tenant);
         },
         error: () => {},
       });

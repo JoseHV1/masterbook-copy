@@ -95,6 +95,12 @@ export class AdminPanelService {
         options: of(enumToDropDown(AgencyPaymentStatusEnum)),
       },
       {
+        label: 'Billing mode',
+        name: 'billing_mode',
+        type: FilterTypeEnum.SELECT,
+        options: of([{ name: 'Free', code: 'FREE' }]),
+      },
+      {
         label: 'Entity type',
         name: 'role',
         type: FilterTypeEnum.SELECT,

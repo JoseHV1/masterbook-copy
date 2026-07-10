@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CurrencyInputModule } from 'src/app/shared/components/currency-input/currency-input.module';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -18,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatButtonModule,
     MatIconModule,
     ReactiveFormsModule,
+    CurrencyInputModule,
   ],
   exports: [ModalNewQuoteComponent],
 })

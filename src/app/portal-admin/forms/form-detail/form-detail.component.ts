@@ -11,6 +11,11 @@ import { FormService } from 'src/app/shared/services/form.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UploadFileService } from 'src/app/shared/services/upload_file.service';
 import { CreateFormModalComponent } from 'src/app/portal/forms/components/create-form-modal/create-form-modal.component';
+import {
+  TenantScopeModalComponent,
+  TenantScopeModalData,
+  TenantScopeModalResult,
+} from 'src/app/shared/components/modals/tenant-scope-modal/tenant-scope-modal.component';
 
 @Component({
   selector: 'app-admin-form-detail',
@@ -112,14 +117,45 @@ export class AdminFormDetailComponent {
   }
 
   confirmDelete(): void {
-    this._ui
-      .showConfirmationModal({
-        text: this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.CONFIRM_DELETE'),
-        type: UiModalTypeEnum.ERROR,
-      })
+    if (!this.form.tenants?.length) {
+      this._ui
+        .showConfirmationModal({
+          text: this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.CONFIRM_DELETE'),
+          type: UiModalTypeEnum.ERROR,
+        })
+        .pipe(take(1))
+        .subscribe((confirmed: boolean) => {
+          if (confirmed) this._executeDelete();
+        });
+      return;
+    }
+
+    const data: TenantScopeModalData = {
+      titleKey: 'PORTAL.PORTAL_ADMIN.FORMS.DELETE_MODAL_TITLE',
+      confirmButtonKey: 'PORTAL.PORTAL_ADMIN.FORMS.BTN_DELETE',
+      tenants: this.form.tenants,
+    };
+    this._dialog
+      .open(TenantScopeModalComponent, { data, panelClass: 'transparent-modal-container' })
+      .afterClosed()
       .pipe(take(1))
-      .subscribe((confirmed: boolean) => {
-        if (confirmed) this._executeDelete();
+      .subscribe((result: TenantScopeModalResult | null) => {
+        if (result) this._executeTenantDelete(result.tenantIds);
+      });
+  }
+
+  private _executeTenantDelete(tenantIds: string[]): void {
+    this._ui.showLoader();
+    this._forms
+      .removeFromTenants(this.form._id, tenantIds)
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe({
+        next: () => {
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.SUCCESS_DELETED'));
+          this._router.navigateByUrl('portal-admin/request-forms');
+        },
+        error: () =>
+          this._ui.showAlertError(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.ERROR_DELETE')),
       });
   }
 
@@ -138,6 +174,39 @@ export class AdminFormDetailComponent {
       });
   }
 
+  openTenantStatusModal(): void {
+    if (!this.form.tenants?.length) return;
+
+    const data: TenantScopeModalData = {
+      titleKey: 'PORTAL.PORTAL_ADMIN.FORMS.STATUS_MODAL_TITLE',
+      confirmButtonKey: 'PORTAL.PORTAL_ADMIN.FORMS.BTN_UPDATE_STATUS',
+      tenants: this.form.tenants,
+      statusToggle: true,
+    };
+    this._dialog
+      .open(TenantScopeModalComponent, { data, panelClass: 'transparent-modal-container' })
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result: TenantScopeModalResult | null) => {
+        if (result?.status) this._executeTenantStatusUpdate(result.tenantIds, result.status);
+      });
+  }
+
+  private _executeTenantStatusUpdate(tenantIds: string[], status: 'ACTIVE' | 'INACTIVE'): void {
+    this._ui.showLoader();
+    this._forms
+      .updateTenantStatus(this.form._id, tenantIds, status)
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe({
+        next: () => {
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.SUCCESS_TENANT_STATUS'));
+          this._loadForm();
+        },
+        error: () =>
+          this._ui.showAlertError(this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.ERROR_TENANT_STATUS')),
+      });
+  }
+
   getInsurerNames(): string {
     return (this.form?.insurers || []).map(i => i.name).join(', ') || '—';
   }
@@ -145,6 +214,14 @@ export class AdminFormDetailComponent {
   getTenantNames(): string {
     if (!this.form?.tenants?.length)
       return this._t.instant('PORTAL.PORTAL_ADMIN.FORMS.ALL_TENANTS');
-    return this.form.tenants.map(t => `${t.name} (${t.code})`).join(', ');
+    return this.form.tenants
+      .map(t => {
+        const inactiveSuffix =
+          t.status === 'INACTIVE'
+            ? ` (${this._t.instant('SHARED.TENANT_SCOPE_MODAL.STATUS_INACTIVE')})`
+            : '';
+        return `${t.name} (${t.code})${inactiveSuffix}`;
+      })
+      .join(', ');
   }
 }

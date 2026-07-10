@@ -1,0 +1,11 @@
+@import 'theme';
+
+:host ::ng-deep {
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .mas-table-row:hover {
+    background: $gray-100;
+  }
+}

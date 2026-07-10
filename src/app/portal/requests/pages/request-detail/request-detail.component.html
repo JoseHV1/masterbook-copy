@@ -470,7 +470,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.COVERAGE_LIMIT' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ request.coverage | currency | notNull }}
+          {{ request.coverage | appCurrency }}
         </div>
       </div>
     </div>
@@ -547,9 +547,7 @@
         class="information-card d-flex flex-column flex-md-row align-items-center justify-content-center w-100 mt-3 shadow-sm">
         <div class="d-flex align-items-center flex-column stat-item">
           <span class="stat-label">{{ 'PORTAL.REQUESTS.PREMIUM' | translate }}</span>
-          <span class="stat-value">{{
-            element.prime_amount | currency | notNull
-          }}</span>
+          <span class="stat-value">{{ element.prime_amount | appCurrency }}</span>
         </div>
 
         <hr class="w-100 d-md-none my-2" style="opacity: 0.1" />
@@ -557,9 +555,7 @@
 
         <div class="d-flex align-items-center flex-column stat-item">
           <span class="stat-label">{{ 'PORTAL.REQUESTS.COVERAGE' | translate }}</span>
-          <span class="stat-value">{{
-            element.coverage | currency | notNull
-          }}</span>
+          <span class="stat-value">{{ element.coverage | appCurrency }}</span>
         </div>
 
         <hr class="w-100 d-md-none my-2" style="opacity: 0.1" />
@@ -567,9 +563,7 @@
 
         <div class="d-flex align-items-center flex-column stat-item">
           <span class="stat-label">{{ 'PORTAL.REQUESTS.DEDUCTIBLE' | translate }}</span>
-          <span class="stat-value">{{
-            element.deductible | currency | notNull
-          }}</span>
+          <span class="stat-value">{{ element.deductible | appCurrency }}</span>
         </div>
       </div>
 
@@ -648,7 +642,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.COVERAGE_LIMIT' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.coverage | currency | notNull }}
+          {{ refreredPolicy?.coverage | appCurrency }}
         </div>
       </div>
     </div>
@@ -657,7 +651,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.PREMIUM' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.prime_amount | currency | notNull }}
+          {{ refreredPolicy?.prime_amount | appCurrency }}
         </div>
       </div>
     </div>
@@ -666,7 +660,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.DEDUCTIBLE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.deductible | currency | notNull }}
+          {{ refreredPolicy?.deductible | appCurrency }}
         </div>
       </div>
     </div>

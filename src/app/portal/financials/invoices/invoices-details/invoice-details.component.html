@@ -99,7 +99,7 @@
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.INVOICES.TABLE_INVOICE_AMOUNT' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ invoice.amount_due | currency : 'USD' : 'symbol' }}
+            {{ invoice.amount_due | appCurrency }}
           </div>
         </div>
       </div>
@@ -108,7 +108,7 @@
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PAYMENTS.TABLE_APPLIED' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ invoice.amount_paid | currency : 'USD' : 'symbol' }}
+            {{ invoice.amount_paid | appCurrency }}
           </div>
         </div>
       </div>
@@ -117,10 +117,7 @@
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.INVOICES.TABLE_BALANCE' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{
-              invoice.amount_due - invoice.amount_paid
-                | currency : 'USD' : 'symbol'
-            }}
+            {{ invoice.amount_due - invoice.amount_paid | appCurrency }}
           </div>
         </div>
       </div>

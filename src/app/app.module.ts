@@ -1,5 +1,8 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule, TransferState } from '@angular/platform-browser';
+import { registerLocaleData } from '@angular/common';
+import localeEn from '@angular/common/locales/en';
+import localeEsCo from '@angular/common/locales/es-CO';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,10 +12,6 @@ import {
   HttpClientJsonpModule,
   HttpClientModule,
 } from '@angular/common/http';
-
-import { registerLocaleData } from '@angular/common';
-import localeEn from '@angular/common/locales/en';
-import localeEsCo from '@angular/common/locales/es-CO';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from './shared/services/language.service';
@@ -25,6 +24,8 @@ import { AuthService } from './shared/services/auth.service';
 import { AlertsModule } from './shared/components/alerts/alerts.module';
 import { ErrorsHttpInterceptor } from './shared/interceptors/errors-http.interceptor';
 import { AuthHttpInterceptor } from './shared/interceptors/auth-http.interceptor';
+import { RegionInterceptor } from './shared/interceptors/region.interceptor';
+import { RegionService } from './shared/services/region.service';
 import { ModalsModule } from './shared/components/modals/modals.module';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -78,6 +79,16 @@ registerLocaleData(localeEsCo, 'es-CO');
     LanguageService,
     UiService,
     AuthService,
+    {
+      provide: LOCALE_ID,
+      useFactory: (regionService: RegionService) => regionService.getLocale(),
+      deps: [RegionService],
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RegionInterceptor,
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorsHttpInterceptor,

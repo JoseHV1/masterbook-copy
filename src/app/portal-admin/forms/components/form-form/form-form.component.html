@@ -1,0 +1,66 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit()">
+
+  <div class="row g-3">
+
+    <div class="col-12 col-md-6">
+      <label>{{ 'PORTAL.FORMS.FIELD_FORM_NAME' | translate }}</label>
+      <app-input
+        [placeholder]="'PORTAL.FORMS.PLACEHOLDER_FORM_NAME' | translate"
+        type="text"
+        formControlName="name"></app-input>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <label>{{ 'PORTAL.PORTAL_ADMIN.FORMS.COL_POLICY_TYPE' | translate }}</label>
+      <app-dropdown-field
+        formControlName="policy_type_id"
+        [options]="policyTypes"></app-dropdown-field>
+    </div>
+
+    <div class="col-12">
+      <label>{{ 'PORTAL.PORTAL_ADMIN.FORMS.FIELD_TENANTS' | translate }}</label>
+      <app-dropdown-field
+        [placeholder]="'PORTAL.PORTAL_ADMIN.FORMS.PLACEHOLDER_TENANTS' | translate"
+        formControlName="tenant_ids"
+        [options]="tenants"
+        [multiple]="true">
+      </app-dropdown-field>
+    </div>
+
+    <div class="col-12">
+      <label>{{ 'PORTAL.FORMS.FIELD_INSURER' | translate }}</label>
+      <app-dropdown-field
+        [placeholder]="
+          formGroup.get('insurer_ids')?.disabled
+            ? ('PORTAL.PORTAL_ADMIN.FORMS.PLACEHOLDER_INSURERS_LOCKED' | translate)
+            : ''
+        "
+        formControlName="insurer_ids"
+        [multiple]="true"
+        [options]="insurers"></app-dropdown-field>
+    </div>
+
+    <div class="col-12">
+      <label>{{ 'PORTAL.FORMS.FIELD_DOCUMENT' | translate }}</label>
+      <app-file-picker
+        formControlName="form_document"
+        [mode]="fileUploadMode.INPUT"></app-file-picker>
+    </div>
+
+  </div>
+
+  <div class="d-flex justify-content-center gap-3 mt-4 pt-2">
+    <button
+      type="button"
+      class="primary-button big-button back-gray-400 white"
+      (click)="cancel.emit()">
+      {{ 'PORTAL.COMMON.CANCEL' | translate }}
+    </button>
+    <button
+      type="submit"
+      class="primary-button big-button back-light-blue-400 white">
+      {{ form ? ('PORTAL.FORMS.BTN_SAVE' | translate) : ('PORTAL.PORTAL_ADMIN.FORMS.CREATE' | translate) }}
+    </button>
+  </div>
+
+</form>

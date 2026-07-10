@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
 import { RecaptchaComponent } from 'ng-recaptcha';
 import { TenantsService } from '../../services/tenants.service';
 import { LanguageService } from '../../services/language.service';
-import { AvailableLanguagesEnum } from '../../enums/available-languages.enum';
 import { TenantContextService } from '../../services/tenant-context.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -106,9 +105,7 @@ export class LoginModalComponent implements OnDestroy {
       .subscribe({
         next: ({ user, tenant }) => {
           this._tenantCtx.setTenant(tenant);
-          if (tenant?.document_language) {
-            this._language.changeLanguage(tenant.document_language as unknown as AvailableLanguagesEnum);
-          }
+          this._language.setFromTenant(tenant);
 
           const fullname = `${user.first_name ?? ''} ${user.last_name ?? ''}`;
           this._ui.showAlertSuccess(this._t.instant('SHARED.AUTH.WELCOME', { name: fullname }));

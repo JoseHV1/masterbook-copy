@@ -38,5 +38,5 @@ export interface PopulatedUserModel extends UserModel {
   agency: AgencyModel;
   broker?: BrokerModel;
   account?: AccountModel;
-  tenant?: { _id: string; code: string; name: string };
+  tenant?: { _id: string; code: string; name: string; document_language?: string };
 }

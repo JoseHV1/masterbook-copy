@@ -29,22 +29,17 @@
         </app-dropdown-field>
       </div>
 
-      <div class="col-12">
-        <label>{{ 'PORTAL.TENANTS.FIELD_DOMAIN' | translate }} *</label>
-        <app-input [placeholder]="'PORTAL.TENANTS.FIELD_DOMAIN_HINT' | translate" formControlName="domain"></app-input>
-        <div style="margin-top: -1rem;">
-          <small *ngIf="isDomainChecking()" class="text-muted">
-            {{ 'PORTAL.TENANTS.DOMAIN_CHECKING' | translate }}
-          </small>
-          <small *ngIf="form.get('domain')?.touched && form.get('domain')?.valid && form.get('domain')?.value && !isDomainChecking()" class="text-success">
-            {{ 'PORTAL.TENANTS.DOMAIN_AVAILABLE' | translate }}
-          </small>
-          <small *ngIf="form.get('domain')?.touched && form.get('domain')?.errors?.['domainTaken']" class="text-danger">
-            {{ 'PORTAL.TENANTS.DOMAIN_TAKEN' | translate }}
-          </small>
-        </div>
+      <div class="col-12 col-md-4">
+        <label>Email Admin Plataforma</label>
+        <app-input
+          placeholder="Opcional"
+          type="email"
+          formControlName="admin_email">
+        </app-input>
+        <small *ngIf="isInvalid('admin_email')" class="text-danger">
+          Ingresa un correo electrónico válido
+        </small>
       </div>
-
 
     </div>
   </div>

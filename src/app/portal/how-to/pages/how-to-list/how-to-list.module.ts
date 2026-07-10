@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { HowToListComponent } from './how-to-list.component';
+import { HowToTenantSectionComponent } from './how-to-tenant-section.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
-import { FiltersModule } from 'src/app/shared/components/filters/filters.module';
-import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { FilteredTableHeaderModule } from 'src/app/shared/components/filters/filtered-table-header/filtered-table-header.module';
+import { FiltersModule } from 'src/app/shared/components/filters/filters.module';
 import { HowToTableModule } from '../../components/how-to-table/how-to-table.module';
-import { CDKModule } from 'src/core/cdk/cdk.module';
 
 const routes: Routes = [
   {
@@ -21,19 +20,17 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [HowToListComponent],
+  declarations: [HowToListComponent, HowToTenantSectionComponent],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     TranslateModule,
     RouterModule.forChild(routes),
-    CDKModule,
     PagesLayoutModule,
-    FiltersModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressBarModule,
     MatSidenavModule,
     FilteredTableHeaderModule,
+    FiltersModule,
     HowToTableModule,
   ],
   exports: [HowToListComponent],

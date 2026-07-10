@@ -33,7 +33,10 @@
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.TABLE_TENANTS' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         <span *ngIf="element.tenants?.length; else noTenants">
-          <span *ngFor="let t of element.tenants; let last = last" class="badge bg-secondary me-1">
+          <span
+            *ngFor="let t of element.tenants"
+            class="badge me-1"
+            [ngClass]="t.status === 'INACTIVE' ? 'bg-danger' : 'bg-secondary'">
             {{ t.code }}
           </span>
         </span>
@@ -73,6 +76,16 @@
             <span class="d-flex align-items-center gap-2">
               <span class="material-icons-outlined" style="color:#065f46">check_circle_outline</span>
               <span>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.TOOLTIP_ENABLE' | translate }}</span>
+            </span>
+          </button>
+          <button
+            mat-menu-item
+            *ngIf="element.tenants?.length"
+            [matTooltip]="'PORTAL.PORTAL_ADMIN.INSURERS.TOOLTIP_TENANT_STATUS' | translate"
+            (click)="tenantStatus.emit(element)">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined dark-blue-400">tune</span>
+              <span>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.TOOLTIP_TENANT_STATUS' | translate }}</span>
             </span>
           </button>
           <button mat-menu-item (click)="deleteInsurer.emit(element)">

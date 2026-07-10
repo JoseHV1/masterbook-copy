@@ -32,7 +32,7 @@
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.COMMISSIONS.AMOUNT' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ commission.amount | currency | notNull }}
+            {{ commission.amount | appCurrency }}
           </div>
         </div>
       </div>

@@ -129,12 +129,7 @@
 
         <div class="col-12 col-md-4 mb-4 mb-md-0">
           <label>{{ 'PORTAL.REQUESTS.COVERAGE_LIMIT' | translate }} *</label>
-          <app-input
-            placeholder="$ 0.00"
-            type="tel"
-            [inputMask]="'separator.2'"
-            [maskPrefix]="'$ '"
-            formControlName="coverage"></app-input>
+          <app-currency-input formControlName="coverage"></app-currency-input>
         </div>
 
         <div class="col-12 col-md-4 mb-3 mb-md-4">
@@ -150,11 +145,6 @@
             <ng-container *ngFor="let type of policy_types">
               <div class="policy-type-card my-1 mx-md-1 py-2 py-md-3 px-2">
                 <div class="policy-type-card--data">
-                  <p class="dark-blue-400 text-2 fw-semibold text-center">
-                    <span class="material-icons-outlined">
-                      {{ type.icon ?? 'circle' }}
-                    </span>
-                  </p>
                   <p class="dark-blue-400 text-2 fw-semibold text-center">
                     {{ type.name }}
                   </p>
