@@ -1,17 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import {
-  DomSanitizer,
-  SafeResourceUrl,
-} from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { PageEvent } from '@angular/material/paginator';
 import { getVideoId } from '@app/shared/helpers/get-video-id';
 import { HowToModel } from '@app/shared/interfaces/models/how-to.model';
 import { PaginatedResponse } from '@app/shared/interfaces/models/paginated-response.model';
 import { HowToService } from '@app/shared/services/how-to.service';
 import { UiService } from '@app/shared/services/ui.service';
-import { UploadFileService } from '@app/shared/services/upload_file.service';
-import { Subject, finalize, takeUntil, tap } from 'rxjs';
+import { Subject, finalize, takeUntil } from 'rxjs';
+
+const PAGE_SIZE = 12;
 
 @Component({
   selector: 'app-how-to-grid',
@@ -20,98 +16,71 @@ import { Subject, finalize, takeUntil, tap } from 'rxjs';
 })
 export class HowToGridComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject<void>();
-  selectedVideo: HowToModel | null = null;
-  selectedIndex: number = -1;
+
   data: PaginatedResponse<HowToModel[]> = {
     records: [],
     page: 0,
     limit: 1000,
     total_records: 0,
   };
-  filterdResults: HowToModel[] = [];
-  safeUrlVideo: SafeResourceUrl | null = null;
-  isShort: boolean = false;
+  filteredResults: HowToModel[] = [];
+  pagedResults: HowToModel[] = [];
   query = '';
+  pageIndex = 0;
+  readonly pageSize = PAGE_SIZE;
 
   constructor(
     private readonly _howToService: HowToService,
     private readonly _ui: UiService,
-    private readonly _sanitizer: DomSanitizer,
-    private readonly _router: Router,
-    private readonly _location: Location,
-    public file: UploadFileService
   ) {}
+
+  ngOnInit(): void {
+    this._fetchData();
+  }
 
   ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
   }
 
-  goBack(): void {
-    this._location.back();
-  }
-
-  ngOnInit() {
-    this._fetchData(this.data.page, this.data.limit);
-  }
-
-  _fetchData(page: number, limit?: number) {
-    const hits = limit ?? this.data.limit;
+  private _fetchData(): void {
     this._ui.showLoader();
     this._howToService
-      .getHowToList(page, hits)
-      .pipe(
-        tap(resp => {
-          if (resp.records && Array.isArray(resp.records)) {
-            resp.records.forEach((item: any) => {
-              item.description = this._sanitizer.bypassSecurityTrustHtml(
-                item.description ?? ''
-              );
-            });
-          }
-          this.data = resp;
-          this.filterHowTo();
-        }),
-        finalize(() => this._ui.hideLoader()),
-        takeUntil(this._destroy$),
-      )
-      .subscribe();
+      .getHowToList(0, this.data.limit)
+      .pipe(finalize(() => this._ui.hideLoader()), takeUntil(this._destroy$))
+      .subscribe(resp => {
+        this.data = resp;
+        this.filterHowTo();
+      });
   }
 
   filterHowTo(): void {
-    this.filterdResults = this.data.records.filter(item =>
-      item.title.toLowerCase().includes(this.query.toLowerCase())
-    );
-    if (!this.selectedVideo && this.filterdResults[0]) {
-      this.selectVideo(this.filterdResults[0]);
-      this.selectedIndex = 0;
-      return;
-    }
-    if (!this.filterdResults.length) this.selectedIndex = -1;
+    const q = this.query.trim().toLowerCase();
+    this.filteredResults = q
+      ? this.data.records.filter(item => item.title.toLowerCase().includes(q))
+      : this.data.records;
+    this.pageIndex = 0;
+    this._updatePage();
   }
 
-  selectVideo(video: HowToModel) {
-    this.selectedVideo = video;
-
-    if (this.selectedVideo) {
-      this.processVideoUrl(this.selectedVideo.video);
-    }
+  changePage(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this._updatePage();
   }
 
-  processVideoUrl(url: string) {
-    if (!url) return;
+  private _updatePage(): void {
+    const start = this.pageIndex * this.pageSize;
+    this.pagedResults = this.filteredResults.slice(start, start + this.pageSize);
+  }
 
-    this.isShort = url.includes('/shorts/');
+  thumbnailFor(video: HowToModel): string {
+    const videoId = getVideoId(video.video);
+    return videoId
+      ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+      : 'assets/images/empty/default-empty.svg';
+  }
 
-    const videoId = getVideoId(url);
-
-    if (!videoId) {
-      this.safeUrlVideo = null;
-      return;
-    }
-
-    const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&autoplay=1`;
-    this.safeUrlVideo =
-      this._sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
+  openVideo(video: HowToModel): void {
+    window.open(video.video, '_blank', 'noopener');
   }
 }

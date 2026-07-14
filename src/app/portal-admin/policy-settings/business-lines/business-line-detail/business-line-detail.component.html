@@ -1,0 +1,80 @@
+<app-pages-layout>
+  <ng-container content>
+    <div *ngIf="businessLine">
+
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-1 ms-2">
+        <span
+          class="material-icons-outlined me-2"
+          style="cursor: pointer"
+          [matTooltip]="'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.BACK' | translate"
+          (click)="goBack()">
+          arrow_back
+        </span>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon class="dark-blue-400">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item (click)="goToEdit()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined dark-blue-400">edit</span>
+              <span>{{ 'PORTAL.COMMON.EDIT' | translate }}</span>
+            </span>
+          </button>
+          <button
+            mat-menu-item
+            *ngIf="businessLine.tenants?.length"
+            (click)="openTenantStatusModal()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined dark-blue-400">tune</span>
+              <span>{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.TOOLTIP_TENANT_STATUS' | translate }}</span>
+            </span>
+          </button>
+          <button mat-menu-item (click)="confirmDelete()">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined" style="color:#dc2626">delete_forever</span>
+              <span>{{ 'PORTAL.COMMON.DELETE' | translate }}</span>
+            </span>
+          </button>
+        </mat-menu>
+      </div>
+
+      <!-- Hero -->
+      <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+        <h3 class="text-center w-100 mt-2 mb-1 subtitle-1 dark-blue-400">
+          {{ businessLine | translatedName }}
+          <span class="badge bg-secondary ms-2">{{ businessLine.serial }}</span>
+        </h3>
+        <div class="text-center text-3 gray-500 w-100">
+          {{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.CREATED_ON' | translate }} {{ businessLine.createdAt | date }}
+        </div>
+      </div>
+
+      <!-- Data -->
+      <div class="row px-4 my-4 px-md-5">
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="businessLine.description">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_DESCRIPTION' | translate }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ businessLine.description }}</div>
+          </div>
+        </div>
+
+        <div class="col-12 px-2 px-md-4 my-2">
+          <div class="row">
+            <div class="col-12 black px-2 py-2">{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_TENANTS' | translate }}</div>
+            <div class="col-12 px-3 py-2 prop-box d-flex flex-wrap gap-1" *ngIf="businessLine.tenants?.length; else allTenants">
+              <span *ngFor="let t of businessLine.tenants" class="badge me-1 mb-1" [ngClass]="t.status === 'INACTIVE' ? 'bg-danger' : 'bg-success'">
+                {{ t.code }} — {{ (t.status === 'INACTIVE' ? 'SHARED.TENANT_SCOPE_MODAL.STATUS_INACTIVE' : 'SHARED.TENANT_SCOPE_MODAL.STATUS_ACTIVE') | translate }}
+              </span>
+            </div>
+            <ng-template #allTenants>
+              <div class="col-12 px-3 py-2 prop-box">{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.ALL_TENANTS' | translate }}</div>
+            </ng-template>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+</app-pages-layout>

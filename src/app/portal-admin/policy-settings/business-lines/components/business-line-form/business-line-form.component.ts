@@ -3,12 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import {
-  CreatePolicyCategoryRequest,
-  PolicyCategoryModel,
-} from 'src/app/shared/interfaces/models/policy-category.model';
+  BusinessLineModel,
+  CreateBusinessLineRequest,
+} from 'src/app/shared/interfaces/models/business-line.model';
 import { TenantModel } from 'src/app/shared/interfaces/models/tenant.model';
-import { BusinessLineModel } from 'src/app/shared/interfaces/models/business-line.model';
-import { DatasetsService } from 'src/app/shared/services/dataset.service';
 import { TenantsService } from 'src/app/shared/services/tenants.service';
 import { TenantStatusEnum } from 'src/app/shared/enums/tenant-status.enum';
 import { DocumentLanguageEnum } from 'src/app/shared/enums/document-language.enum';
@@ -16,40 +14,36 @@ import { DocumentLanguageEnum } from 'src/app/shared/enums/document-language.enu
 const ALL_TENANTS_CODE = '';
 
 @Component({
-  selector: 'app-policy-category-form',
-  templateUrl: './policy-category-form.component.html',
-  styleUrls: ['./policy-category-form.component.scss'],
+  selector: 'app-business-line-form',
+  templateUrl: './business-line-form.component.html',
+  styleUrls: ['./business-line-form.component.scss'],
 })
-export class PolicyCategoryFormComponent implements OnInit, OnDestroy {
-  @Input() category: PolicyCategoryModel | null = null;
-  @Output() formSubmit = new EventEmitter<CreatePolicyCategoryRequest>();
+export class BusinessLineFormComponent implements OnInit, OnDestroy {
+  @Input() businessLine: BusinessLineModel | null = null;
+  @Output() formSubmit = new EventEmitter<CreateBusinessLineRequest>();
   @Output() cancel = new EventEmitter<void>();
 
   form!: FormGroup;
-  businessLineOptions: { name: string; code: string }[] = [];
-  businessLineScopeRestricted = false;
   tenantOptions: { name: string; code: string }[] = [];
   selectedTenants: { name: string; code: string }[] = [];
   /** Distinct languages currently required for the name, derived from the ACTIVE-for-this-record selected tenants. */
   activeLanguages: DocumentLanguageEnum[] = [];
 
   private _allTenants: TenantModel[] = [];
-  private _allBusinessLines: BusinessLineModel[] = [];
   private _pendingNameTranslations: { es?: string; en?: string } | null = null;
   private _tenantStatusMap: Record<string, 'ACTIVE' | 'INACTIVE'> = {};
   private _destroy$ = new Subject<void>();
 
   constructor(
     private _fb: FormBuilder,
-    private _dataset: DatasetsService,
     private _tenants: TenantsService,
     private _t: TranslateService,
   ) {}
 
   ngOnInit(): void {
     this._buildForm();
-    if (this.category) this._patchForm(this.category);
-    this._loadOptions();
+    if (this.businessLine) this._patchForm(this.businessLine);
+    this._loadTenants();
 
     this.form
       .get('tenant_ids')!
@@ -57,7 +51,6 @@ export class PolicyCategoryFormComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this._syncSelectedTenants();
         this._recomputeActiveLanguages();
-        this._recomputeBusinessLineOptions();
       });
   }
 
@@ -68,13 +61,10 @@ export class PolicyCategoryFormComponent implements OnInit, OnDestroy {
 
   private _buildForm(): void {
     this.form = this._fb.group({
-      business_line_ids: [[], [Validators.required]],
+      description: [null],
       tenant_ids: [[ALL_TENANTS_CODE]],
     });
-    // Always start with at least one name field present (Spanish by
-    // default) so there's never a window — while tenants are still loading —
-    // where no name control exists at all and Validators.required can't do
-    // its job.
+    // Prevents a window with no name control at all while tenants load.
     this.form.addControl(
       this.nameControlName(DocumentLanguageEnum.ES),
       this._fb.control(null, [Validators.required]),
@@ -82,38 +72,24 @@ export class PolicyCategoryFormComponent implements OnInit, OnDestroy {
     this.activeLanguages = [DocumentLanguageEnum.ES];
   }
 
-  private _patchForm(category: PolicyCategoryModel): void {
-    (category.tenants ?? []).forEach(t => {
+  private _patchForm(businessLine: BusinessLineModel): void {
+    (businessLine.tenants ?? []).forEach(t => {
       this._tenantStatusMap[t._id] = (t.status as 'ACTIVE' | 'INACTIVE') ?? 'ACTIVE';
     });
-    this._pendingNameTranslations = category.name_translations ?? null;
-    const tenantIds = category.tenant_ids ?? [];
+    this._pendingNameTranslations = businessLine.name_translations ?? null;
+    const tenantIds = businessLine.tenant_ids ?? [];
     this.form.patchValue({
-      business_line_ids: category.business_line_ids ?? [],
+      description: businessLine.description ?? null,
       tenant_ids: tenantIds.length ? tenantIds : [ALL_TENANTS_CODE],
     });
-    // _buildForm() always creates the initial name_es control before the
-    // category is known. _applyLanguageFields() only (re)prefills a name
-    // control when the recomputed active languages differ from that
-    // initial [ES] default — so for the common case of a category scoped
-    // to Spanish-speaking tenants (recomputed langs === [ES], same set),
-    // the prefill logic never runs and the field stays empty. Patch it
-    // directly here as the initial value.
+    // _applyLanguageFields() skips its prefill when langs stay [ES] — patch the initial control directly here too.
     const initialLang = DocumentLanguageEnum.ES;
     this.form
       .get(this.nameControlName(initialLang))
-      ?.setValue(this._pendingNameTranslations?.[initialLang] ?? category.name ?? null);
+      ?.setValue(this._pendingNameTranslations?.[initialLang] ?? businessLine.name ?? null);
   }
 
-  private _loadOptions(): void {
-    this._dataset
-      .getBusinessLinesDataset()
-      .pipe(takeUntil(this._destroy$))
-      .subscribe(lines => {
-        this._allBusinessLines = lines;
-        this._recomputeBusinessLineOptions();
-      });
-
+  private _loadTenants(): void {
     this._tenants
       .getAll(0, 100, `&status=${TenantStatusEnum.ACTIVE}`)
       .pipe(takeUntil(this._destroy$))
@@ -128,49 +104,10 @@ export class PolicyCategoryFormComponent implements OnInit, OnDestroy {
         ];
         this._syncSelectedTenants();
         this._recomputeActiveLanguages();
-        this._recomputeBusinessLineOptions();
       });
   }
 
-  /**
-   * Business lines shown for selection are scoped to the currently
-   * selected tenant(s): a business line is eligible if it's global
-   * (tenant_ids empty) or scoped to at least one of the selected tenants.
-   * When "All tenants" is selected, every business line is eligible (the
-   * category itself is unrestricted). Any previously selected business
-   * line that falls out of scope after a tenant change is dropped.
-   */
-  private _recomputeBusinessLineOptions(): void {
-    if (!this._allBusinessLines.length) return;
-
-    const selectedIds: string[] = this.form.get('tenant_ids')!.value ?? [];
-    const isAllSelected = selectedIds.includes(ALL_TENANTS_CODE);
-    const realSelectedIds = selectedIds.filter(id => id !== ALL_TENANTS_CODE);
-
-    this.businessLineScopeRestricted = !isAllSelected;
-    const eligibleLines = isAllSelected
-      ? this._allBusinessLines
-      : this._allBusinessLines.filter(
-          l => !l.tenant_ids?.length || l.tenant_ids.some(id => realSelectedIds.includes(id)),
-        );
-
-    this.businessLineOptions = eligibleLines.map(l => ({ name: l.name, code: l._id }));
-
-    const businessLineIdsControl = this.form.get('business_line_ids')!;
-    const currentSelection: string[] = businessLineIdsControl.value ?? [];
-    const allowedSelection = currentSelection.filter(id =>
-      this.businessLineOptions.some(o => o.code === id),
-    );
-    if (allowedSelection.length !== currentSelection.length) {
-      businessLineIdsControl.setValue(allowedSelection);
-    }
-  }
-
-  /**
-   * When "All tenants" is selected, every real tenant is still shown so its
-   * status can be toggled individually, even though the category itself
-   * stays globally scoped.
-   */
+  // When "All tenants" is selected, every real tenant still shows so its status can be toggled individually.
   _syncSelectedTenants(): void {
     const selectedIds: string[] = this.form.get('tenant_ids')!.value ?? [];
     const isAllSelected = selectedIds.includes(ALL_TENANTS_CODE);
@@ -181,13 +118,7 @@ export class PolicyCategoryFormComponent implements OnInit, OnDestroy {
       : realTenantOptions.filter(t => selectedIds.includes(t.code));
   }
 
-  /**
-   * Fired synchronously from the dropdown's own (changeSelection) output,
-   * which emits the accurate just-clicked selection BEFORE it propagates
-   * through the ControlValueAccessor up to this.form (that propagation via
-   * valueChanges lags one tick behind). Using the emitted payload directly
-   * avoids reading a stale tenant_ids value.
-   */
+  // Uses the dropdown's own emitted selection directly — reading form.get('tenant_ids').value here would be one tick stale.
   onTenantSelectionChange(selected: { name: string; code: string }[]): void {
     const isAllSelected = selected.some(o => o.code === ALL_TENANTS_CODE);
     const realTenantOptions = this.tenantOptions.filter(t => t.code !== ALL_TENANTS_CODE);
@@ -195,7 +126,6 @@ export class PolicyCategoryFormComponent implements OnInit, OnDestroy {
       ? realTenantOptions
       : selected.filter(o => o.code !== ALL_TENANTS_CODE);
     this._recomputeActiveLanguages();
-    this._recomputeBusinessLineOptions();
   }
 
   getTenantStatus(tenantId: string): 'ACTIVE' | 'INACTIVE' {
@@ -205,8 +135,6 @@ export class PolicyCategoryFormComponent implements OnInit, OnDestroy {
   toggleTenantStatus(tenantId: string): void {
     const current = this.getTenantStatus(tenantId);
     this._tenantStatusMap[tenantId] = current === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
-    // A tenant going inactive for this record can remove the last speaker of
-    // a language from the active set — recompute which name fields are needed.
     this._recomputeActiveLanguages();
   }
 
@@ -219,14 +147,7 @@ export class PolicyCategoryFormComponent implements OnInit, OnDestroy {
     return this._t.instant(`PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.${key}`);
   }
 
-  /**
-   * Recomputes which languages need a name field: the distinct
-   * document_language of the currently selected tenants that are ACTIVE for
-   * THIS record (an inactive-for-this-record tenant's language is ignored
-   * unless another active tenant shares it). Falls back to every selected
-   * tenant's language if none are active yet (so the field never disappears
-   * entirely), and to Spanish if nothing is selected at all.
-   */
+  // Distinct document_language of selected tenants ACTIVE for this record; falls back to all selected, then Spanish.
   private _recomputeActiveLanguages(): void {
     if (!this._allTenants.length) return;
 
@@ -265,7 +186,7 @@ export class PolicyCategoryFormComponent implements OnInit, OnDestroy {
       const prefill =
         preserved[l] ??
         this._pendingNameTranslations?.[l] ??
-        this.category?.name ??
+        this.businessLine?.name ??
         null;
       this.form.addControl(this.nameControlName(l), this._fb.control(prefill, [Validators.required]));
     });
@@ -281,9 +202,7 @@ export class PolicyCategoryFormComponent implements OnInit, OnDestroy {
     const isAllSelected = selectedIds.includes(ALL_TENANTS_CODE);
     const tenantIds = selectedIds.filter(id => id !== ALL_TENANTS_CODE);
 
-    // Globally-scoped category: only send explicit overrides, don't force
-    // a tenant_statuses entry for every tenant just because "All" was
-    // checked — the backend already defaults missing entries to ACTIVE.
+    // Global scope: only send explicit INACTIVE overrides, not one entry per tenant.
     const tenant_statuses = isAllSelected
       ? this.selectedTenants
           .filter(t => this.getTenantStatus(t.code) === 'INACTIVE')
@@ -306,7 +225,7 @@ export class PolicyCategoryFormComponent implements OnInit, OnDestroy {
     this.formSubmit.emit({
       name,
       name_translations,
-      business_line_ids: this.form.value.business_line_ids,
+      description: this.form.value.description ?? undefined,
       tenant_ids: tenantIds,
       tenant_statuses,
     });

@@ -66,11 +66,6 @@ export const MENU_ITEMS: iternalMenuModel = {
       url: 'users',
     },
     {
-      icon: 'shield',
-      title: T + 'INSURERS',
-      url: 'insurer',
-    },
-    {
       icon: 'bar_chart',
       title: T + 'REPORTS',
       url: 'reports',

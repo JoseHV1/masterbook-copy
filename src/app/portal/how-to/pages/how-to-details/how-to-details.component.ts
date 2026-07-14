@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -41,7 +40,6 @@ export class HowToDetailComponent {
   constructor(
     private activateRoute: ActivatedRoute,
     private _ui: UiService,
-    private _location: Location,
     private _howTo: HowToService,
     private _router: Router,
     public _url: UrlService,
@@ -78,7 +76,7 @@ export class HowToDetailComponent {
   }
 
   goBack(): void {
-    this._location.back();
+    this._router.navigateByUrl('portal-admin/how-to');
   }
 
   openTenantStatusModal(): void {

@@ -66,18 +66,6 @@
               <span>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.TOOLTIP_EDIT' | translate }}</span>
             </span>
           </button>
-          <button mat-menu-item *ngIf="element.status?.toLowerCase() === 'active'" (click)="disableInsurer.emit(element)">
-            <span class="d-flex align-items-center gap-2">
-              <span class="material-icons-outlined" style="color:#b45309">block</span>
-              <span>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.TOOLTIP_DISABLE' | translate }}</span>
-            </span>
-          </button>
-          <button mat-menu-item *ngIf="element.status?.toLowerCase() !== 'active'" (click)="enableInsurer.emit(element)">
-            <span class="d-flex align-items-center gap-2">
-              <span class="material-icons-outlined" style="color:#065f46">check_circle_outline</span>
-              <span>{{ 'PORTAL.PORTAL_ADMIN.INSURERS.TOOLTIP_ENABLE' | translate }}</span>
-            </span>
-          </button>
           <button
             mat-menu-item
             *ngIf="element.tenants?.length"

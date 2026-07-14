@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,7 +26,6 @@ export class PolicyTypeDetailComponent {
     private readonly _policyTypes: AdminPolicyTypeService,
     private readonly _ui: UiService,
     private readonly _router: Router,
-    private readonly _location: Location,
     private readonly _t: TranslateService,
     private readonly _dialog: MatDialog,
   ) {
@@ -56,7 +54,7 @@ export class PolicyTypeDetailComponent {
   }
 
   goBack(): void {
-    this._location.back();
+    this._router.navigateByUrl('portal-admin/policy-settings/policy-types/list');
   }
 
   confirmDelete(): void {

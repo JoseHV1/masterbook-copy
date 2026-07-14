@@ -61,18 +61,6 @@ export class AdminInsurersService {
       .pipe(map(resp => resp.data));
   }
 
-  enable(id: string): Observable<InsurerModel> {
-    return this._http
-      .patch<ApiResponseModel<InsurerModel>>(`${this._base}/${id}/enable`, {})
-      .pipe(map(resp => resp.data));
-  }
-
-  disable(id: string): Observable<InsurerModel> {
-    return this._http
-      .patch<ApiResponseModel<InsurerModel>>(`${this._base}/${id}/disable`, {})
-      .pipe(map(resp => resp.data));
-  }
-
   removeFromTenants(id: string, tenant_ids: string[]): Observable<InsurerModel> {
     return this._http
       .patch<ApiResponseModel<InsurerModel>>(`${this._base}/${id}/tenants/remove`, {

@@ -36,15 +36,11 @@
     </div>
 
     <div class="col-12">
-      <label>{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_BUSINESS_LINES' | translate }} *</label>
-      <app-dropdown-field
-        formControlName="business_line_ids"
-        [options]="businessLineOptions"
-        [multiple]="true">
-      </app-dropdown-field>
-      <small class="text-muted d-block mt-1" *ngIf="businessLineScopeRestricted">
-        {{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.BUSINESS_LINE_SCOPE_RESTRICTED_HINT' | translate }}
-      </small>
+      <label>{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_DESCRIPTION' | translate }}</label>
+      <app-input
+        [placeholder]="'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_DESCRIPTION' | translate"
+        formControlName="description">
+      </app-input>
     </div>
 
   </div>
@@ -59,7 +55,7 @@
     <button
       type="submit"
       class="primary-button big-button back-light-blue-400 white">
-      {{ category ? ('PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.SAVE' | translate) : ('PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.CREATE' | translate) }}
+      {{ businessLine ? ('PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.SAVE' | translate) : ('PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.CREATE' | translate) }}
     </button>
   </div>
 

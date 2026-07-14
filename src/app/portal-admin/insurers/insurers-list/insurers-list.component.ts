@@ -101,58 +101,6 @@ export class InsurersListComponent extends FilteredTable<InsurerModel> implement
     this._router.navigateByUrl('portal-admin/insurers/new');
   }
 
-  confirmEnable(insurer: InsurerModel): void {
-    this._ui
-      .showConfirmationModal({
-        text: this._t.instant('PORTAL.PORTAL_ADMIN.INSURERS.CONFIRM_ENABLE'),
-        type: UiModalTypeEnum.ERROR,
-      })
-      .pipe(take(1))
-      .subscribe((confirmed: boolean) => {
-        if (confirmed) this._executeEnable(insurer._id);
-      });
-  }
-
-  private _executeEnable(id: string): void {
-    this._ui.showLoader();
-    this._insurers
-      .enable(id)
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe({
-        next: () => {
-          this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.INSURERS.SUCCESS_ENABLED'));
-          this.refresh();
-        },
-        error: () => this._ui.showAlertError(this._t.instant('PORTAL.PORTAL_ADMIN.INSURERS.ERROR_ENABLE')),
-      });
-  }
-
-  confirmDisable(insurer: InsurerModel): void {
-    this._ui
-      .showConfirmationModal({
-        text: this._t.instant('PORTAL.PORTAL_ADMIN.INSURERS.CONFIRM_DISABLE'),
-        type: UiModalTypeEnum.ERROR,
-      })
-      .pipe(take(1))
-      .subscribe((confirmed: boolean) => {
-        if (confirmed) this._executeDisable(insurer._id);
-      });
-  }
-
-  private _executeDisable(id: string): void {
-    this._ui.showLoader();
-    this._insurers
-      .disable(id)
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe({
-        next: () => {
-          this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.INSURERS.SUCCESS_DISABLED'));
-          this.refresh();
-        },
-        error: () => this._ui.showAlertError(this._t.instant('PORTAL.PORTAL_ADMIN.INSURERS.ERROR_DISABLE')),
-      });
-  }
-
   confirmDelete(insurer: InsurerModel): void {
     if (!insurer.tenants?.length) {
       this._ui

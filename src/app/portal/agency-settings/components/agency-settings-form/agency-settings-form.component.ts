@@ -43,7 +43,7 @@ export class AgencySettingsFormComponent implements OnInit {
     this._ui.showLoader();
     this.form = this._agencySettings.createEditSettingsForm();
 
-    this._datasets.getBusinessLinesDataset().pipe(
+    this._datasets.getBusinessLinesListDataset().pipe(
       retry(2),
       catchError(() => {
         this._ui.showAlertError(this._t.instant('PORTAL.AGENCY_SETTINGS.LOAD_BUSINESS_LINES_ERROR'));

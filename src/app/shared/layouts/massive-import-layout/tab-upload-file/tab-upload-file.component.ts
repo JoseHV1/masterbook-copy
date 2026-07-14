@@ -199,12 +199,14 @@ export class TabUploadFileComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // `url` is a raw S3 key, not a fetchable link — resolve it to a presigned URL first.
+    this._uploadFile
+      .getUrlFile(url)
+      .pipe(takeUntil(this._destroy$))
+      .subscribe({
+        next: presigned => window.open(presigned, '_blank'),
+        error: () => this._ui.showAlertError(this._t.instant('SHARED.FILE.BULK_UPLOAD_UNAVAILABLE')),
+      });
   }
 
   openNavigatorFile(): void {

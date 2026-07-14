@@ -15,8 +15,6 @@
         [data]="data.records"
         [filtersActive]="filtersActive"
         (refresh)="refresh()"
-        (enableInsurer)="confirmEnable($event)"
-        (disableInsurer)="confirmDisable($event)"
         (deleteInsurer)="confirmDelete($event)"
         (tenantStatus)="openTenantStatusModal($event)">
       </app-insurers-admin-table>

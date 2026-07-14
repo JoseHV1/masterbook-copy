@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -29,7 +28,6 @@ export class InsurerDetailComponent {
     private readonly _insurers: AdminInsurersService,
     private readonly _ui: UiService,
     private readonly _router: Router,
-    private readonly _location: Location,
     private readonly _t: TranslateService,
     private readonly _dialog: MatDialog,
   ) {
@@ -58,59 +56,7 @@ export class InsurerDetailComponent {
   }
 
   goBack(): void {
-    this._location.back();
-  }
-
-  confirmEnable(): void {
-    this._ui
-      .showConfirmationModal({
-        text: this._t.instant('PORTAL.PORTAL_ADMIN.INSURERS.CONFIRM_ENABLE'),
-        type: UiModalTypeEnum.ERROR,
-      })
-      .pipe(take(1))
-      .subscribe((confirmed: boolean) => {
-        if (confirmed) this._executeEnable();
-      });
-  }
-
-  private _executeEnable(): void {
-    this._ui.showLoader();
-    this._insurers
-      .enable(this.insurer._id)
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe({
-        next: updated => {
-          this.insurer = updated;
-          this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.INSURERS.SUCCESS_ENABLED'));
-        },
-        error: () => this._ui.showAlertError(this._t.instant('PORTAL.PORTAL_ADMIN.INSURERS.ERROR_ENABLE')),
-      });
-  }
-
-  confirmDisable(): void {
-    this._ui
-      .showConfirmationModal({
-        text: this._t.instant('PORTAL.PORTAL_ADMIN.INSURERS.CONFIRM_DISABLE'),
-        type: UiModalTypeEnum.ERROR,
-      })
-      .pipe(take(1))
-      .subscribe((confirmed: boolean) => {
-        if (confirmed) this._executeDisable();
-      });
-  }
-
-  private _executeDisable(): void {
-    this._ui.showLoader();
-    this._insurers
-      .disable(this.insurer._id)
-      .pipe(finalize(() => this._ui.hideLoader()))
-      .subscribe({
-        next: updated => {
-          this.insurer = updated;
-          this._ui.showAlertSuccess(this._t.instant('PORTAL.PORTAL_ADMIN.INSURERS.SUCCESS_DISABLED'));
-        },
-        error: () => this._ui.showAlertError(this._t.instant('PORTAL.PORTAL_ADMIN.INSURERS.ERROR_DISABLE')),
-      });
+    this._router.navigateByUrl('portal-admin/insurers/list');
   }
 
   confirmDelete(): void {

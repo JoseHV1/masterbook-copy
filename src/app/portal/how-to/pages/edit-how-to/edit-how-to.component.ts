@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { finalize, switchMap, take } from 'rxjs';
@@ -18,7 +17,6 @@ export class EditHowToComponent {
     private activateRoute: ActivatedRoute,
     private _ui: UiService,
     private _router: Router,
-    private _location: Location,
     private _howTo: HowToService
   ) {
     this._ui.showLoader();
@@ -41,6 +39,6 @@ export class EditHowToComponent {
   }
 
   goBack(): void {
-    this._location.back();
+    this._router.navigateByUrl('portal-admin/how-to');
   }
 }

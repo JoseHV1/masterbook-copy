@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -29,7 +28,6 @@ export class AdminFormDetailComponent {
     private readonly _forms: FormService,
     private readonly _ui: UiService,
     private readonly _router: Router,
-    private readonly _location: Location,
     private readonly _t: TranslateService,
     private readonly _dialog: MatDialog,
     private readonly _uploadFile: UploadFileService
@@ -55,7 +53,7 @@ export class AdminFormDetailComponent {
   }
 
   goBack(): void {
-    this._location.back();
+    this._router.navigateByUrl('portal-admin/request-forms');
   }
 
   openEditModal(): void {

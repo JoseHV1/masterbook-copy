@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-how-to',
@@ -7,9 +7,9 @@ import { Location } from '@angular/common';
   styleUrls: ['./new-how-to.component.scss'],
 })
 export class NewHowToComponent {
-  constructor(private _location: Location) {}
+  constructor(private _router: Router) {}
 
   goBack(): void {
-    this._location.back();
+    this._router.navigateByUrl('portal-admin/how-to');
   }
 }

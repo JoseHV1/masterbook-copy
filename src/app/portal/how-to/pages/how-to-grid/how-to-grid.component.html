@@ -1,43 +1,45 @@
 <app-pages-layout>
   <ng-container content>
-    <div class="d-flex justify-content-between align-items-center mb-1 ms-2">
-      <span class="material-icons-outlined me-2" style="cursor: pointer"
-        (click)="goBack()">arrow_back</span
-      >
-    </div>
-    <div
-      class="d-flex flex-column-reverse flex-md-row gap-1 py-4"
-      *ngIf="data.records">
-      <mat-action-list class="col-md-4 px-1 how-to-list">
-        <p>{{ 'PORTAL.HOW_TO.GRID.TITLE' | translate }}</p>
+    <ng-container *ngIf="data.records.length; else emptyState">
+      <div class="px-2 px-md-4 py-3">
+        <p class="subtitle-2 dark-blue-400 mb-2">{{ 'PORTAL.HOW_TO.GRID.TITLE' | translate }}</p>
         <app-input
           [(ngModel)]="query"
           [placeholder]="'PORTAL.HOW_TO.GRID.PLACEHOLDER_SEARCH' | translate"
           (ngModelChange)="filterHowTo()"></app-input>
-        <button
-          mat-list-item
-          *ngFor="let video of filterdResults; let i = index"
-          (click)="selectVideo(video); selectedIndex = i"
-          [class.item-active]="selectedIndex === i"
-          class="list-item-color my-1">
-          <span class="list-item-text-color">{{ video.title }}</span>
-        </button>
-      </mat-action-list>
-      <div
-        *ngIf="selectedVideo && safeUrlVideo; else noDataRecords"
-        class="col-md-8">
-        <div class="video-wrapper" [class.short-mode]="isShort">
-          <iframe
-            class="video-iframe"
-            [src]="safeUrlVideo"
-            frameborder="0"></iframe>
-        </div>
-        <div [innerHTML]="selectedVideo.description"></div>
       </div>
-    </div>
 
-    <ng-template #noDataRecords>
-      <div class="col-12 col-md-12 col-sm-12 text-center">
+      <div class="row px-2 px-md-4" *ngIf="pagedResults.length; else noResults">
+        <div class="col-12 col-md-4 mb-4" *ngFor="let video of pagedResults">
+          <div class="how-to-card" (click)="openVideo(video)">
+            <div class="how-to-card__thumb">
+              <img [src]="thumbnailFor(video)" [alt]="video.title" />
+              <span class="material-icons-outlined how-to-card__play">play_circle</span>
+            </div>
+            <p class="how-to-card__title">{{ video.title }}</p>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noResults>
+        <div class="col-12 text-center py-5">
+          <p class="text-3 gray-500">{{ 'PORTAL.HOW_TO.GRID.NO_RESULTS' | translate }}</p>
+        </div>
+      </ng-template>
+
+      <mat-paginator
+        *ngIf="filteredResults.length > pageSize"
+        class="px-2 px-md-4"
+        [length]="filteredResults.length"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+        [hidePageSize]="true"
+        (page)="changePage($event)">
+      </mat-paginator>
+    </ng-container>
+
+    <ng-template #emptyState>
+      <div class="col-12 col-md-12 col-sm-12 text-center py-5">
         <img
           src="assets/images/empty/default-empty.svg"
           class="col-12 col-md-4"

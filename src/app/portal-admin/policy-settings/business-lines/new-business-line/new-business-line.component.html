@@ -1,0 +1,21 @@
+<app-pages-layout>
+  <ng-container content>
+    <div class="d-flex align-items-center mb-1 ms-2">
+      <span
+        class="material-icons-outlined me-2"
+        style="cursor:pointer"
+        [matTooltip]="'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.BACK' | translate"
+        (click)="cancel()">
+        arrow_back
+      </span>
+    </div>
+    <div class="col-12 mb-4">
+      <div class="text-center">
+        <h1 class="subtitle-1 dark-blue-400">{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.NEW_BUSINESS_LINE_TITLE' | translate }}</h1>
+      </div>
+    </div>
+    <div class="px-2 px-lg-5">
+      <app-business-line-form (formSubmit)="create($event)" (cancel)="cancel()"></app-business-line-form>
+    </div>
+  </ng-container>
+</app-pages-layout>

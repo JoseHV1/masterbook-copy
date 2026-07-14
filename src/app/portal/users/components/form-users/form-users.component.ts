@@ -65,7 +65,7 @@ export class FormUsersComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this._ui.showLoader();
     this._dataset
-      .getBusinessLinesDataset()
+      .getBusinessLinesListDataset()
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(lines => {
         this.businessLineOptions = lines.map(line => ({

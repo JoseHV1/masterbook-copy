@@ -23,24 +23,6 @@
           </button>
           <button
             mat-menu-item
-            *ngIf="insurer.status?.toLowerCase() === InsuranceCompanyStatus.ACTIVE"
-            (click)="confirmDisable()">
-            <span class="d-flex align-items-center gap-2">
-              <span class="material-icons-outlined" style="color:#b45309">block</span>
-              <span>{{ 'PORTAL.COMMON.DISABLE' | translate }}</span>
-            </span>
-          </button>
-          <button
-            mat-menu-item
-            *ngIf="insurer.status?.toLowerCase() === InsuranceCompanyStatus.INACTIVE"
-            (click)="confirmEnable()">
-            <span class="d-flex align-items-center gap-2">
-              <span class="material-icons-outlined" style="color:#065f46">check_circle_outline</span>
-              <span>{{ 'PORTAL.COMMON.ENABLE' | translate }}</span>
-            </span>
-          </button>
-          <button
-            mat-menu-item
             *ngIf="insurer.tenants?.length"
             (click)="openTenantStatusModal()">
             <span class="d-flex align-items-center gap-2">
