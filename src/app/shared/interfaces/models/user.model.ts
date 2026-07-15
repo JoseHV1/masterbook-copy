@@ -28,6 +28,7 @@ export interface UserModel {
   createdAt: Date;
   updatedAt: Date;
   accepted_terms_conditions_at: Date;
+  managed_tenant_id?: string | null;
   created_by_admin?: boolean;
   allow_email_notifications?: boolean;
   allow_show_whatsapp_number?: boolean;

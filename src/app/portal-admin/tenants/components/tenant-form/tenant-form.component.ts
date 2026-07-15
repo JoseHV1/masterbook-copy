@@ -218,7 +218,6 @@ export class TenantFormComponent implements OnInit, OnDestroy {
       currency_thousands_separator: [null, [Validators.required]],
       currency_decimal_separator:   [null, [Validators.required]],
       stripe_account_id:            [null],
-      admin_email:                  [null, [Validators.email]],
 
       price_agency:      [null],
       price_master_user: [null],
@@ -249,7 +248,6 @@ export class TenantFormComponent implements OnInit, OnDestroy {
       currency_thousands_separator: tenant.currency_thousands_separator,
       currency_decimal_separator:   tenant.currency_decimal_separator,
       stripe_account_id:            tenant.stripe_account_id,
-      admin_email:                  tenant.admin_email ?? null,
 
       price_agency:       tenant.price_agency,
       price_master_user:  tenant.price_master_user,

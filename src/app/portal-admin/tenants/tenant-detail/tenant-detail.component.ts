@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, switchMap, take } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -7,6 +8,7 @@ import { TenantsService } from 'src/app/shared/services/tenants.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { TenantModel } from 'src/app/shared/interfaces/models/tenant.model';
+import { TenantAdminModel } from 'src/app/shared/interfaces/models/tenant-admin.model';
 import { TenantStatusEnum } from 'src/app/shared/enums/tenant-status.enum';
 
 @Component({
@@ -18,6 +20,12 @@ export class TenantDetailComponent {
   tenant!: TenantModel;
   TenantStatusEnum = TenantStatusEnum;
 
+  admins: TenantAdminModel[] = [];
+  adminsLoading = false;
+  showAdminForm = false;
+  adminSaving = false;
+  adminForm!: FormGroup;
+
   constructor(
     private readonly _route: ActivatedRoute,
     private readonly _tenants: TenantsService,
@@ -25,8 +33,18 @@ export class TenantDetailComponent {
     private readonly _router: Router,
     private readonly _location: Location,
     private readonly _t: TranslateService,
+    private readonly _fb: FormBuilder,
   ) {
+    this._buildAdminForm();
     this._loadTenant();
+  }
+
+  private _buildAdminForm(): void {
+    this.adminForm = this._fb.group({
+      first_name: [null, [Validators.required]],
+      last_name:  [null, [Validators.required]],
+      email:      [null, [Validators.required, Validators.email]],
+    });
   }
 
   private _loadTenant(): void {
@@ -38,11 +56,45 @@ export class TenantDetailComponent {
         finalize(() => this._ui.hideLoader()),
       )
       .subscribe({
-        next: tenant => (this.tenant = tenant),
+        next: tenant => {
+          this.tenant = tenant;
+          this._loadAdmins();
+        },
         error: () => {
           this._ui.showAlertError(this._t.instant('PORTAL.TENANTS.NOT_FOUND'));
           this._router.navigateByUrl('portal-admin/tenants/list');
         },
+      });
+  }
+
+  private _loadAdmins(): void {
+    this.adminsLoading = true;
+    this._tenants.getAdmins(this.tenant.serial)
+      .pipe(finalize(() => (this.adminsLoading = false)))
+      .subscribe({ next: admins => (this.admins = admins) });
+  }
+
+  toggleAdminForm(): void {
+    this.showAdminForm = !this.showAdminForm;
+    if (!this.showAdminForm) this.adminForm.reset();
+  }
+
+  submitAdmin(): void {
+    if (this.adminForm.invalid) {
+      this.adminForm.markAllAsTouched();
+      return;
+    }
+    this.adminSaving = true;
+    this._tenants.createAdmin(this.tenant.serial, this.adminForm.getRawValue())
+      .pipe(finalize(() => (this.adminSaving = false)))
+      .subscribe({
+        next: admin => {
+          this.admins.push(admin);
+          this.showAdminForm = false;
+          this.adminForm.reset();
+          this._ui.showAlertSuccess('Admin creado. Se envió un correo con las credenciales.');
+        },
+        error: () => this._ui.showAlertError('Error al crear el administrador. El correo puede estar en uso.'),
       });
   }
 

@@ -27,7 +27,6 @@ export interface TenantModel {
   currency_thousands_separator: string;
   currency_decimal_separator: string;
   stripe_account_id: string | null;
-  admin_email: string | null;
 
   // Stripe Pricing
   price_agency: string;

@@ -5,8 +5,10 @@ import { environment } from 'src/environments/environment';
 import { ApiResponseModel } from '../interfaces/models/api-response.model';
 import { PaginatedResponse } from '../interfaces/models/paginated-response.model';
 import { TenantModel } from '../interfaces/models/tenant.model';
+import { TenantAdminModel } from '../interfaces/models/tenant-admin.model';
 import { CreateTenantRequest } from '../interfaces/requests/tenants/create-tenant.request';
 import { UpdateTenantRequest } from '../interfaces/requests/tenants/update-tenant.request';
+import { CreateTenantAdminRequest } from '../interfaces/requests/tenants/create-tenant-admin.request';
 import { FilterWrapperModel } from '../models/filters.model';
 import { FilterTypeEnum } from '../enums/filter-type.enum';
 import { TenantStatusEnum } from '../enums/tenant-status.enum';
@@ -88,6 +90,18 @@ export class TenantsService {
         map(resp => resp.data),
         map(tenants => [...tenants].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? '')))
       );
+  }
+
+  getAdmins(serial: string): Observable<TenantAdminModel[]> {
+    return this._http
+      .get<ApiResponseModel<TenantAdminModel[]>>(`${this._base}/${serial}/admins`)
+      .pipe(map(resp => resp.data));
+  }
+
+  createAdmin(serial: string, req: CreateTenantAdminRequest): Observable<TenantAdminModel> {
+    return this._http
+      .post<ApiResponseModel<TenantAdminModel>>(`${this._base}/${serial}/admins`, req)
+      .pipe(map(resp => resp.data));
   }
 
   getForCurrentAgency(): Observable<TenantModel | null> {

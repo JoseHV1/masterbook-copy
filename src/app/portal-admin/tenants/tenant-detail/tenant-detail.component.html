@@ -152,14 +152,6 @@
           </div>
         </div>
 
-        <!-- Admin email -->
-        <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.admin_email">
-          <div class="row">
-            <div class="col-12 col-md-4 black px-2 py-2">Email Admin Plataforma</div>
-            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.admin_email }}</div>
-          </div>
-        </div>
-
         <!-- Stripe account -->
         <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.stripe_account_id">
           <div class="row">
@@ -243,6 +235,58 @@
           <div class="row">
             <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_S3_FOLDER' | translate }}</div>
             <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.s3_folder_key }}</div>
+          </div>
+        </div>
+
+        <!-- Administradores del Tenant -->
+        <div class="col col-12 px-2 px-md-4 my-2 mt-4">
+          <div class="section-label d-flex justify-content-between align-items-center">
+            <span>Administradores del Tenant</span>
+            <button
+              type="button"
+              class="primary-button small-button back-light-blue-400 white"
+              (click)="toggleAdminForm()">
+              + Agregar Admin
+            </button>
+          </div>
+        </div>
+
+        <!-- Formulario inline de nuevo admin -->
+        <div class="col col-12 px-2 px-md-4 my-2" *ngIf="showAdminForm">
+          <form [formGroup]="adminForm" (ngSubmit)="submitAdmin()" class="row g-2 p-3" style="background:#f9f9f9; border-radius:8px; border:1px solid #e0e0e0;">
+            <div class="col-12 col-md-4">
+              <label>Nombre *</label>
+              <app-input placeholder="Nombre" formControlName="first_name"></app-input>
+              <small *ngIf="adminForm.get('first_name')?.invalid && adminForm.get('first_name')?.touched" class="text-danger">Requerido</small>
+            </div>
+            <div class="col-12 col-md-4">
+              <label>Apellido *</label>
+              <app-input placeholder="Apellido" formControlName="last_name"></app-input>
+              <small *ngIf="adminForm.get('last_name')?.invalid && adminForm.get('last_name')?.touched" class="text-danger">Requerido</small>
+            </div>
+            <div class="col-12 col-md-4">
+              <label>Correo *</label>
+              <app-input type="email" placeholder="correo@ejemplo.com" formControlName="email"></app-input>
+              <small *ngIf="adminForm.get('email')?.invalid && adminForm.get('email')?.touched" class="text-danger">Correo inválido</small>
+            </div>
+            <div class="col-12 d-flex gap-2 justify-content-end mt-2">
+              <button type="button" class="primary-button small-button back-gray-400 white" (click)="toggleAdminForm()">Cancelar</button>
+              <button type="submit" class="primary-button small-button back-light-blue-400 white" [disabled]="adminSaving">
+                {{ adminSaving ? 'Creando...' : 'Crear Admin' }}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Lista de admins -->
+        <div class="col col-12 px-2 px-md-4 my-1" *ngIf="!adminsLoading && admins.length === 0 && !showAdminForm">
+          <p class="gray-500 text-3 text-center py-2">No hay administradores asignados a este tenant.</p>
+        </div>
+
+        <div class="col col-12 col-md-6 px-2 px-md-4 my-1" *ngFor="let admin of admins">
+          <div class="row">
+            <div class="col-12 col-md-4 black px-2 py-2">{{ admin.first_name }} {{ admin.last_name }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ admin.email }}</div>
           </div>
         </div>
 
