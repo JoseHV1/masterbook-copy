@@ -610,6 +610,16 @@
   }
 }
 
+.p-checkbox .p-checkbox-box.p-highlight {
+  background: $light-blue-500;
+  border-color: $light-blue-500;
+}
+
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  background: $light-blue-500;
+  border-color: $light-blue-500;
+}
+
 .anon-checkbox {
   .p-checkbox-box {
     border: 1px solid $gray-400;

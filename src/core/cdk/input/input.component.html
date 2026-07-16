@@ -6,6 +6,7 @@
       cdkTextareaAutosize
       [attr.data-testid]="dataTestId ?? null"
       [attr.autocomplete]="autocomplete"
+      [attr.maxlength]="maxLength ?? null"
       [placeholder]="placeholder"
       formControlName="value"
       (blur)="onTouched(); updateErrors()"
@@ -17,6 +18,7 @@
         matInput
         [attr.data-testid]="dataTestId ?? null"
         [attr.autocomplete]="autocomplete"
+        [attr.maxlength]="maxLength ?? null"
         [type]="type"
         [placeholder]="placeholder"
         formControlName="value"

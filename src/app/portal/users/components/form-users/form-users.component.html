@@ -55,6 +55,7 @@
       <app-input
         [placeholder]="'PORTAL.USERS.PLACEHOLDER_LICENSE' | translate"
         type="text"
+        [maxLength]="15"
         formControlName="license_number"></app-input>
     </div>
 
@@ -62,12 +63,14 @@
       <label>{{ 'PORTAL.USERS.LICENSE_EXPIRES' | translate }}*</label>
       <app-date-input
         [min]="today"
+        [max]="maxLicenseExpirationDate"
         formControlName="license_expires_at"></app-date-input>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
       <label>{{ 'PORTAL.USERS.DOB' | translate }}*</label>
       <app-date-input
+        [min]="minDate"
         [max]="maxDate"
         formControlName="date_of_birth"></app-date-input>
     </div>

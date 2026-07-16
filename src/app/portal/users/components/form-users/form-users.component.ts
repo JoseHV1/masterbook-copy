@@ -7,7 +7,7 @@ import { GenderEnum } from '../../../../shared/enums/gender.enum';
 import { NewBrokerRolesEnum } from 'src/app/shared/enums/roles.enum';
 import { DatasetsService } from 'src/app/shared/services/dataset.service';
 import { UserService } from 'src/app/shared/services/user.service';
-import { enumToDropDown, enumToTranslatedDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
+import { enumToTranslatedDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
 import { CreateBrokerRequest } from 'src/app/shared/interfaces/requests/broker/create-broker.request';
 import { PopulatedBrokerModel } from 'src/app/shared/interfaces/models/broker.model';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
@@ -25,15 +25,14 @@ export class FormUsersComponent implements OnInit, OnChanges {
   @Input() data?: PopulatedBrokerModel;
   form!: FormGroup;
   maxDate: Date = new Date();
+  minDate: Date = new Date();
   today: Date = new Date();
-  dropDownUserTypes: DropdownOptionModel[] = enumToDropDown(
-    NewBrokerRolesEnum
-  ).map(option => {
-    if (option.code === NewBrokerRolesEnum.AGENCY_BROKER) {
-      return { ...option, name: 'Agency Agent' };
-    }
-    return option;
-  });
+  maxLicenseExpirationDate: Date = new Date(
+    this.today.getFullYear() + 20,
+    this.today.getMonth(),
+    this.today.getDate()
+  );
+  dropDownUserTypes: DropdownOptionModel[] = [];
   businessLineOptions: DropdownOptionModel[] = [];
   dropDownGender: DropdownOptionModel[] = [];
 
@@ -45,7 +44,13 @@ export class FormUsersComponent implements OnInit, OnChanges {
     private _t: TranslateService,
   ) {
     this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
+    this.dropDownUserTypes = enumToTranslatedDropDown(
+      NewBrokerRolesEnum,
+      'ENUMS.NEW_BROKER_ROLE',
+      this._t
+    );
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
+    this.minDate.setFullYear(this.minDate.getFullYear() - 100);
     this.form = new FormGroup({
       first_name: new FormControl('', Validators.required),
       last_name: new FormControl('', Validators.required),
@@ -56,7 +61,10 @@ export class FormUsersComponent implements OnInit, OnChanges {
       ]),
       phone_number: new FormControl('', Validators.required),
       business_lines: new FormControl('', Validators.required),
-      license_number: new FormControl('', Validators.required),
+      license_number: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(15),
+      ]),
       license_expires_at: new FormControl('', Validators.required),
       date_of_birth: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),

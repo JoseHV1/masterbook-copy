@@ -18,7 +18,7 @@ export const accountTutor = (
     doneBtnText: t('TUTORS.COMMON.DONE_BTN'),
     steps: [
       {
-        element: '#accounts-item',
+        element: '#nav-accounts-item',
         popover: {
           title: t('TUTORS.ACCOUNT.STEP_SECTION_TITLE'),
           description: t('TUTORS.ACCOUNT.STEP_SECTION_DESC'),
@@ -52,7 +52,7 @@ export const accountTutor = (
           side: 'bottom',
           onPrevClick: () => {
             tutor.destroy();
-            const button = getElement('#accounts-item');
+            const button = getElement('#nav-accounts-item');
             button.click();
             setTimeout(() => {
               tutor?.movePrevious();
@@ -78,7 +78,7 @@ export const accountTutor = (
           align: 'center',
           side: 'bottom',
           onNextClick: () => {
-            const button = getElement('#accounts-item');
+            const button = getElement('#nav-accounts-item');
             button.click();
             tutor?.destroy();
           },
@@ -89,7 +89,7 @@ export const accountTutor = (
       if (!service.isCompleted(TutorsSlugsEnum.CREATE_ACCOUNT)) {
         service.markAsCompleted(TutorsSlugsEnum.CREATE_ACCOUNT);
       }
-      const button = getElement('#accounts-item');
+      const button = getElement('#nav-accounts-item');
       button.click();
       tutor?.destroy();
     },

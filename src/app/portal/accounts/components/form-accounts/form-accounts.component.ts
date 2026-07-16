@@ -39,6 +39,11 @@ export class FormAccountsComponent implements OnChanges, OnDestroy {
 
   addZero = addZero;
   today = new Date();
+  minDate = new Date(
+    this.today.getFullYear() - 100,
+    this.today.getMonth(),
+    this.today.getDate()
+  );
 
   private submitting = false;
 
@@ -187,10 +192,16 @@ export class FormAccountsComponent implements OnChanges, OnDestroy {
 
     this._ui.showLoader();
 
-    const req = this._getDataAsRequest() as CreateAccountRequest;
+    const request$ = this.data
+      ? this._accounts.updateAccount(
+          this.data._id,
+          this._getDataAsRequest() as UpdateAccountRequest
+        )
+      : this._accounts.createAccount(
+          this._getDataAsRequest() as CreateAccountRequest
+        );
 
-    this._accounts
-      .createAccount(req)
+    request$
       .pipe(
         finalize(() => {
           this.submitting = false;

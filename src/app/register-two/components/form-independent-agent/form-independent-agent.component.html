@@ -154,23 +154,12 @@
         </div>
 
         <div class="col-md-6">
-          <div
-            class="p-inputgroup anon-input-custom anon-input-date-custom"
-            [ngClass]="{
-              'custom-error': isInvalid(
-                form.controls['license_number_expires_on']
-              )
-            }">
-            <span class="p-inputgroup-addon">
-              <img src="/assets/icons/register-two/calendar.svg" alt="" />
-            </span>
-            <app-date-input
-              formControlName="license_number_expires_on"
-              [min]="today"
-              [max]="maxLicenseExpirationDate"
-              [placeholder]="'REGISTER_TWO.COMMON.FIELD_LICENSE_DATE' | translate">
-            </app-date-input>
-          </div>
+          <app-date-input
+            formControlName="license_number_expires_on"
+            [min]="today"
+            [max]="maxLicenseExpirationDate"
+            [placeholder]="'REGISTER_TWO.COMMON.FIELD_LICENSE_DATE' | translate">
+          </app-date-input>
           <small
             *ngIf="
               hasError(form.controls['license_number_expires_on'], 'required')

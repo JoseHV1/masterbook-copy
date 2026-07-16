@@ -789,6 +789,16 @@
       "SEPARATED": "Separado(a)",
       "ENGAGED": "Comprometido(a)",
       "DOMESTIC_PARTNERSHIP": "Unión libre"
+    },
+    "NEW_BROKER_ROLE": {
+      "AGENCY_BROKER": "Agente de agencia",
+      "AGENCY_ADMINISTRATOR": "Administrador de agencia"
+    },
+    "ROLE": {
+      "AGENCY_OWNER": "Dueño de agencia",
+      "AGENCY_ADMINISTRATOR": "Administrador de agencia",
+      "AGENCY_BROKER": "Agente de agencia",
+      "INDEPENDANT_BROKER": "Agente independiente"
     }
   },
   "TUTORS": {
@@ -822,6 +832,14 @@
     }
   },
   "PORTAL": {
+    "PAGINATOR": {
+      "ITEMS_PER_PAGE": "Elementos por página:",
+      "NEXT_PAGE": "Página siguiente",
+      "PREVIOUS_PAGE": "Página anterior",
+      "FIRST_PAGE": "Primera página",
+      "LAST_PAGE": "Última página",
+      "OF": "de"
+    },
     "COMMON": {
       "EDIT": "Editar",
       "DELETE": "Eliminar",
@@ -1924,6 +1942,7 @@
       "PHONE": "Teléfono",
       "FAX": "Fax",
       "CONFIGURATIONS": "Configuraciones",
+      "CONFIGURATIONS_HINT": "Aquí defines, por tipo de póliza, el porcentaje de comisión de Nuevo Negocio y Renovación. Debes configurar al menos un tipo de póliza para poder crear pólizas o solicitudes con esta aseguradora.",
       "SEARCH_POLICY": "Buscar tipos de póliza",
       "INSURANCE_CATEGORY": "CATEGORÍA DE SEGURO",
       "NEW_BUSINESS": "Negocio nuevo",
@@ -1945,7 +1964,7 @@
       "CONFIRM_SAVE": "¿Estás seguro de que deseas guardar estos cambios?",
       "SAVED": "Cambios guardados exitosamente",
       "GOOGLE_CONNECTED": "Cuenta de Google conectada exitosamente. Ahora puedes enviar correos.",
-      "COMMISSION_RATES_TEXT": "Por favor configura las tarifas de comisión\nantes de enviar una solicitud.",
+      "COMMISSION_RATES_TEXT": "Para crear pólizas o solicitudes necesitas al menos una aseguradora configurada. Entra a la aseguradora, abre 'Configuraciones' y ajusta el porcentaje de comisión (Nuevo Negocio / Renovación) de al menos un tipo de póliza antes de continuar.",
       "COMMISSION_RATES_TITLE": "¡ALERTA!"
     },
     "REPORTS": {
@@ -2055,7 +2074,7 @@
       "COMMISSIONS": "Comisiones",
       "BROKER_NAME": "Agente: {{name}}",
       "MONEY_OVER_TIME": "Dinero en el tiempo",
-      "COMMISSION_RATES_TEXT": "Por favor configura las tarifas de comisión\nantes de enviar una solicitud.",
+      "COMMISSION_RATES_TEXT": "Para crear pólizas o solicitudes necesitas al menos una aseguradora configurada. Entra a la aseguradora, abre 'Configuraciones' y ajusta el porcentaje de comisión (Nuevo Negocio / Renovación) de al menos un tipo de póliza antes de continuar.",
       "COMMISSION_RATES_TITLE": "¡ALERTA!"
     },
     "PORTAL_ADMIN": {

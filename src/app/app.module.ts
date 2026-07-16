@@ -27,6 +27,8 @@ import { AuthHttpInterceptor } from './shared/interceptors/auth-http.interceptor
 import { RegionInterceptor } from './shared/interceptors/region.interceptor';
 import { RegionService } from './shared/services/region.service';
 import { ModalsModule } from './shared/components/modals/modals.module';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomPaginatorIntl } from './shared/services/custom-paginator-intl.service';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -98,6 +100,10 @@ registerLocaleData(localeEsCo, 'es-CO');
       provide: HTTP_INTERCEPTORS,
       useClass: AuthHttpInterceptor,
       multi: true,
+    },
+    {
+      provide: MatPaginatorIntl,
+      useClass: CustomPaginatorIntl,
     },
   ],
   bootstrap: [AppComponent],

@@ -25,6 +25,7 @@ export class InputComponent implements ControlValueAccessor {
   @Input() autocomplete: string = 'off';
   @Input() thousandSeparator: string = ',';
   @Input() decimalMarker: '.' | ',' = '.';
+  @Input() maxLength?: number;
 
   form: FormGroup;
   disabled = false;

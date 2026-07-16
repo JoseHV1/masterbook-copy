@@ -32,11 +32,7 @@
     <ng-container matColumnDef="role">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.USERS.TABLE_TYPE' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        {{
-          element.user?.role === 'AGENCY_BROKER'
-            ? ('PORTAL.USERS.TABLE_AGENCY_AGENT' | translate)
-            : (element.user?.role | enum | notNull)
-        }}
+        {{ element.user?.role | translatedEnum : 'ENUMS.ROLE' | notNull }}
       </td>
     </ng-container>
 

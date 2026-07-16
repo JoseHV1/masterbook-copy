@@ -789,6 +789,16 @@
       "SEPARATED": "Separated",
       "ENGAGED": "Engaged",
       "DOMESTIC_PARTNERSHIP": "Domestic Partnership"
+    },
+    "NEW_BROKER_ROLE": {
+      "AGENCY_BROKER": "Agency Agent",
+      "AGENCY_ADMINISTRATOR": "Agency Administrator"
+    },
+    "ROLE": {
+      "AGENCY_OWNER": "Agency Owner",
+      "AGENCY_ADMINISTRATOR": "Agency Administrator",
+      "AGENCY_BROKER": "Agency Agent",
+      "INDEPENDANT_BROKER": "Independent Agent"
     }
   },
   "TUTORS": {
@@ -822,6 +832,14 @@
     }
   },
   "PORTAL": {
+    "PAGINATOR": {
+      "ITEMS_PER_PAGE": "Items per page:",
+      "NEXT_PAGE": "Next page",
+      "PREVIOUS_PAGE": "Previous page",
+      "FIRST_PAGE": "First page",
+      "LAST_PAGE": "Last page",
+      "OF": "of"
+    },
     "COMMON": {
       "EDIT": "Edit",
       "DELETE": "Delete",
@@ -1924,6 +1942,7 @@
       "PHONE": "Phone",
       "FAX": "Fax",
       "CONFIGURATIONS": "Configurations",
+      "CONFIGURATIONS_HINT": "Here you set, per policy type, the commission percentage for New Business and Renewal. You must configure at least one policy type to be able to create policies or requests with this insurer.",
       "SEARCH_POLICY": "Search policy types",
       "INSURANCE_CATEGORY": "INSURANCE CATEGORY",
       "NEW_BUSINESS": "New Business",
@@ -1945,7 +1964,7 @@
       "CONFIRM_SAVE": "Are you sure you want to save this changes?",
       "SAVED": "Changes saved successfully",
       "GOOGLE_CONNECTED": "Google account connected successfully. You can now send emails.",
-      "COMMISSION_RATES_TEXT": "Please set up the commission rates\nbefore submitting a request.",
+      "COMMISSION_RATES_TEXT": "You need at least one configured insurer to create policies or requests. Open the insurer, go to 'Configurations', and set the commission percentage (New Business / Renewal) for at least one policy type before continuing.",
       "COMMISSION_RATES_TITLE": "ALERT!"
     },
     "REPORTS": {
@@ -2055,7 +2074,7 @@
       "COMMISSIONS": "Commissions",
       "BROKER_NAME": "Broker: {{name}}",
       "MONEY_OVER_TIME": "Money over time",
-      "COMMISSION_RATES_TEXT": "Please set up the commission rates\nbefore submitting a request.",
+      "COMMISSION_RATES_TEXT": "You need at least one configured insurer to create policies or requests. Open the insurer, go to 'Configurations', and set the commission percentage (New Business / Renewal) for at least one policy type before continuing.",
       "COMMISSION_RATES_TITLE": "ALERT!"
     },
     "PORTAL_ADMIN": {

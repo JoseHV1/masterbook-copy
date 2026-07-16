@@ -4,6 +4,7 @@
   display: block;
   width: 100%;
   max-width: 18rem;
+  height: 100%;
 
   .description {
     font-size: 0.75rem;
@@ -12,6 +13,8 @@
 
   .register-card{
     width: 100%;
+    height: 100%;
+    box-sizing: border-box;
     cursor: pointer;
   }
 
