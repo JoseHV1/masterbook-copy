@@ -95,10 +95,10 @@
             <span class="p-inputgroup-addon">
               <img src="/assets/icons/register-two/calendar.svg" alt="" />
             </span>
-            <p-calendar
+            <app-date-input
               formControlName="license_number_expires_on"
-              [minDate]="today"
-              [placeholder]="'REGISTER_TWO.COMMON.FIELD_LICENSE_DATE' | translate"></p-calendar>
+              [min]="today">
+            </app-date-input>
           </div>
           <small
             *ngIf="

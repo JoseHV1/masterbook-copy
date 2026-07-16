@@ -74,7 +74,7 @@
 
     <div class="col-12 col-md-4 mb-4 mb-md-0">
       <label>{{ 'PORTAL.ACCOUNTS.FORM_DOB' | translate }}</label>
-      <app-date-field [dataTestId]="'account-dob-input'" [placeholder]="'PORTAL.ACCOUNTS.DOB' | translate" formControlName="date_of_birth" [max]="today"></app-date-field>
+      <app-date-input formControlName="date_of_birth" [max]="today"></app-date-input>
     </div>
 
     <div class="col-12 col-md-4 mb-4 mb-md-0">

@@ -10,6 +10,7 @@ import { DirectivesModule } from 'src/app/shared/helpers/directives/directives.m
 import { DropdownModule } from 'primeng/dropdown';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { DateInputModule } from 'src/app/shared/components/date-input/date-input.module';
 
 @NgModule({
   declarations: [FormUsersComponent],
@@ -24,6 +25,7 @@ import { TranslateModule } from '@ngx-translate/core';
     DropdownModule,
     DirectivesModule,
     CDKModule,
+    DateInputModule,
   ],
   exports: [FormUsersComponent],
 })

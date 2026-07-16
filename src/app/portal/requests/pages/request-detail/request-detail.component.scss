@@ -101,6 +101,14 @@
     line-height: 1;
   }
 
+  .custom-fab-btn {
+    min-width: auto !important;
+    padding: 0.4rem 1rem !important;
+    font-size: 0.85rem;
+    line-height: 1.2rem;
+    margin-right: 0.5rem;
+  }
+
   .information-card {
     background-color: $white;
     border: 1px solid $portal-gray-200;

@@ -10,6 +10,7 @@ import { DropdownOptionModel } from 'src/app/shared/models/dropdown-option.model
 import { LeadsService } from 'src/app/portal/leads/services/leads.service';
 import { CreateLeadRequest } from 'src/app/portal/leads/interfaces/requests/create-lead.request';
 import { CaptureMediumEnum } from 'src/app/portal/leads/enums/capture-medium.enum';
+import { TenantsService } from 'src/app/shared/services/tenants.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -23,6 +24,7 @@ export class FormAgencyLeadComponent implements OnInit, OnDestroy {
   private token = '';
 
   dropDownCaptureMedium: DropdownOptionModel[] = enumToDropDown(CaptureMediumEnum);
+  tenantOptions: DropdownOptionModel[] = [];
 
   form = new FormGroup({
     first_name: new FormControl<string | null>(null, [
@@ -38,10 +40,12 @@ export class FormAgencyLeadComponent implements OnInit, OnDestroy {
       Validators.pattern(MyMasterbookValidators.emailPattern),
     ]),
     capture_medium: new FormControl<string | null>(null, [Validators.required]),
+    tenant_code: new FormControl<string | null>(null, [Validators.required]),
   });
 
   constructor(
     private _leads: LeadsService,
+    private _tenants: TenantsService,
     private _route: ActivatedRoute,
     private _ui: UiService,
     private _t: TranslateService,
@@ -53,6 +57,13 @@ export class FormAgencyLeadComponent implements OnInit, OnDestroy {
     if (social) {
       this.form.patchValue({ capture_medium: social.toUpperCase() });
     }
+
+    this._tenants
+      .getPublic()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(tenants => {
+        this.tenantOptions = tenants.map(t => ({ name: `${t.name} (${t.code})`, code: t.code }));
+      });
   }
 
   cancelForm(): void {
@@ -89,6 +100,7 @@ export class FormAgencyLeadComponent implements OnInit, OnDestroy {
       last_name: this.form.value.last_name!,
       email: this.form.value.email!,
       capture_medium: this.form.value.capture_medium!,
+      tenant_code: this.form.value.tenant_code!,
     } as unknown as CreateLeadRequest;
 
     this._leads

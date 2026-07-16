@@ -7,7 +7,7 @@ import { UrlService } from 'src/app/shared/services/url.service';
 import { PopulatedUserModel } from 'src/app/shared/interfaces/models/user.model';
 import { FormGroup, Validators } from '@angular/forms';
 import { DropdownOptionModel } from 'src/app/shared/models/dropdown-option.model';
-import { enumToDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
+import { enumToTranslatedDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
 import { GenderEnum } from 'src/app/shared/enums/gender.enum';
 import { EditProfileRequest } from 'src/app/shared/interfaces/requests/profile/edit-profile.request';
 import { AddressAutocompleteModel } from 'src/app/shared/models/address-autocomplete.model';
@@ -35,7 +35,7 @@ export class ProfileFormComponent implements OnInit {
 
   form!: FormGroup;
   dataUser!: PopulatedUserModel;
-  dropDownGender: DropdownOptionModel[] = enumToDropDown(GenderEnum);
+  dropDownGender: DropdownOptionModel[] = [];
   today: Date = new Date();
   isEditing: boolean = false;
   imageProfile!: string;
@@ -55,6 +55,7 @@ export class ProfileFormComponent implements OnInit {
     private _router: Router,
     private _t: TranslateService,
   ) {
+    this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
     this.form = this._profile.createEditProfileForm();
   }
 

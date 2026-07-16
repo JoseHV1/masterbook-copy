@@ -8,7 +8,7 @@ import { AddressAutocompleteModel } from 'src/app/shared/models/address-autocomp
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { MaritalStatusEnum } from 'src/app/shared/enums/marital-status.enum';
-import { enumToDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
+import { enumToTranslatedDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
 import { GenderEnum } from 'src/app/shared/enums/gender.enum';
 import { DropdownOptionModel } from 'src/app/shared/models/dropdown-option.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,6 +17,7 @@ import { CompleteRegisterInsuredRequest } from 'src/app/shared/interfaces/reques
 import { reduceRestLetter } from 'src/app/shared/helpers/reduce-rest-letter';
 import { AuthModel } from 'src/app/shared/interfaces/models/auth.model';
 import { finalize } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-form-insured',
@@ -32,9 +33,8 @@ export class FormInsuredComponent {
   hasError = hasError;
   reduceRestLetter = reduceRestLetter;
 
-  dropDownMaritalStatus: DropdownOptionModel[] =
-    enumToDropDown(MaritalStatusEnum);
-  dropDownGender: DropdownOptionModel[] = enumToDropDown(GenderEnum);
+  dropDownMaritalStatus: DropdownOptionModel[] = [];
+  dropDownGender: DropdownOptionModel[] = [];
 
   constructor(
     private _welcome: WelcomeService,
@@ -42,8 +42,15 @@ export class FormInsuredComponent {
     private _cd: ChangeDetectorRef,
     private _router: Router,
     private _auth: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private _t: TranslateService
   ) {
+    this.dropDownMaritalStatus = enumToTranslatedDropDown(
+      MaritalStatusEnum,
+      'ENUMS.MARITAL_STATUS',
+      this._t
+    );
+    this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
     this.form = this._welcome.createNewInsuredForm();
     this.auth = this._auth.getAuth() as AuthModel;
     this.fillData(this.auth.user);

@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     MatTooltipModule,
+    CustomPipesModule,
   ],
 })
 export class EmailDetailModule {}

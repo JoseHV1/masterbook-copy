@@ -140,19 +140,19 @@
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.GENDER' | translate }}</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.gender | titlecase | notNull }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.gender | translatedEnum:'ENUMS.GENDER' | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.DOB' | translate }}</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.date_of_birth | date | notNull }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.date_of_birth | appDateTime : 'date' | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.MARITAL' | translate }}</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.marital_status | notNull }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.user?.marital_status | translatedEnum:'ENUMS.MARITAL_STATUS' | notNull }}</div>
         </div>
       </div>
     </div>

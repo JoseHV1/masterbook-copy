@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { AdminTenantContextService } from '@app/shared/services/admin-tenant-context.service';
 
 type DashboardTotals = Partial<{
   total_sales_mtd_cents: number;
@@ -45,6 +46,8 @@ export class SummaryCardsComponent implements OnChanges, OnDestroy {
   };
 
   private subs: Subscription[] = [];
+
+  constructor(public adminCtx: AdminTenantContextService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['dashboardTotals'] && this.dashboardTotals) {
@@ -101,15 +104,44 @@ export class SummaryCardsComponent implements OnChanges, OnDestroy {
     return new Intl.NumberFormat().format(value ?? 0);
   }
 
-  formatMoney(value: number, currency = 'USD'): string {
-    return new Intl.NumberFormat(undefined, {
-      style: 'currency',
-      currency,
-      maximumFractionDigits: 2,
-    }).format(value ?? 0);
+  formatMoney(value: number): string {
+    const amount = value ?? 0;
+    const tenant = this.adminCtx.snapshot;
+
+    if (!tenant?.currency_symbol) {
+      return new Intl.NumberFormat(undefined, {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 2,
+      }).format(amount);
+    }
+
+    const {
+      currency_symbol,
+      currency_symbol_position,
+      currency_decimal_places = 2,
+      currency_thousands_separator = ',',
+      currency_decimal_separator = '.',
+    } = tenant;
+
+    const [intPart, decPart] = amount
+      .toFixed(currency_decimal_places)
+      .split('.');
+    const intFormatted = intPart.replace(
+      /\B(?=(\d{3})+(?!\d))/g,
+      currency_thousands_separator
+    );
+    const formatted =
+      currency_decimal_places > 0
+        ? `${intFormatted}${currency_decimal_separator}${decPart}`
+        : intFormatted;
+
+    return currency_symbol_position === 'after'
+      ? `${formatted} ${currency_symbol}`
+      : `${currency_symbol} ${formatted}`;
   }
 
-  formatMoneyFromCents(cents: number, currency = 'USD'): string {
-    return this.formatMoney((cents ?? 0) / 100, currency);
+  formatMoneyFromCents(cents: number): string {
+    return this.formatMoney((cents ?? 0) / 100);
   }
 }

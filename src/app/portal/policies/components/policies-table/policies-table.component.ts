@@ -51,6 +51,7 @@ export class PoliciesTableComponent implements OnInit {
 
   @Input() urlDetails?: string;
   isAdmin = false;
+  isInsured = false;
   policyCategoryEnumType = PolicyCategoryEnum;
   policyStatusEnum = PolicyStatus;
   constructor(
@@ -65,6 +66,7 @@ export class PoliciesTableComponent implements OnInit {
     this.isAdmin = brokersAdminDataset.includes(
       this._auth.getAuth()?.user?.role as RolesEnum
     );
+    this.isInsured = this._auth.getAuth()?.user?.role === RolesEnum.INSURED;
   }
 
   ngOnInit(): void {
@@ -99,6 +101,33 @@ export class PoliciesTableComponent implements OnInit {
       .subscribe(() => {
         this._ui.showAlertSuccess(this._t.instant('PORTAL.POLICIES.DELETED'));
         this.refresh.emit();
+      });
+  }
+
+  resendPolicyEmail(_id: string): void {
+    this._ui
+      .showConfirmationModal({
+        text: this._t.instant('PORTAL.POLICIES.CONFIRM_RESEND_EMAIL'),
+        type: UiModalTypeEnum.INFO,
+      })
+      .pipe(take(1))
+      .subscribe((resp: boolean) => {
+        if (resp) this._executeResendPolicyEmail(_id);
+      });
+  }
+
+  private _executeResendPolicyEmail(_id: string): void {
+    this._ui.showLoader();
+    this._policies
+      .resendPolicyEmail(_id)
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe({
+        next: () => {
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.POLICIES.EMAIL_SENT'));
+        },
+        error: () => {
+          this._ui.showAlertError(this._t.instant('PORTAL.POLICIES.EMAIL_SEND_ERROR'));
+        },
       });
   }
 

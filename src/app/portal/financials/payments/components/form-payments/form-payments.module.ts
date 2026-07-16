@@ -16,6 +16,7 @@ import { CDKModule } from 'src/core/cdk/cdk.module';
 import { MatRadioModule } from '@angular/material/radio';
 import { TranslateModule } from '@ngx-translate/core';
 import { CurrencyInputModule } from 'src/app/shared/components/currency-input/currency-input.module';
+import { DateInputModule } from 'src/app/shared/components/date-input/date-input.module';
 
 @NgModule({
   declarations: [FormPaymentsComponent],
@@ -35,6 +36,7 @@ import { CurrencyInputModule } from 'src/app/shared/components/currency-input/cu
     CDKModule,
     MatRadioModule,
     CurrencyInputModule,
+    DateInputModule,
   ],
   exports: [FormPaymentsComponent],
 })

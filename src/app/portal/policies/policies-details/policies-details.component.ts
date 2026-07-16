@@ -194,6 +194,33 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
+  resendPolicyEmail(_id: string): void {
+    this._ui
+      .showConfirmationModal({
+        text: this._t.instant('PORTAL.POLICIES.CONFIRM_RESEND_EMAIL'),
+        type: UiModalTypeEnum.INFO,
+      })
+      .pipe(take(1))
+      .subscribe((resp: boolean) => {
+        if (resp) this._executeResendPolicyEmail(_id);
+      });
+  }
+
+  private _executeResendPolicyEmail(_id: string): void {
+    this._ui.showLoader();
+    this._policy
+      .resendPolicyEmail(_id)
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe({
+        next: () => {
+          this._ui.showAlertSuccess(this._t.instant('PORTAL.POLICIES.EMAIL_SENT'));
+        },
+        error: () => {
+          this._ui.showAlertError(this._t.instant('PORTAL.POLICIES.EMAIL_SEND_ERROR'));
+        },
+      });
+  }
+
   goBack(): void {
     this._location.back();
   }

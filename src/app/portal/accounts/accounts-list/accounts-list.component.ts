@@ -1,4 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { AccountsService } from '../../../shared/services/accounts.service';
 import { UiService } from '../../../shared/services/ui.service';
 import { finalize } from 'rxjs';
@@ -33,7 +34,8 @@ export class AccountsListComponent
     private _accounts: AccountsService,
     private _ui: UiService,
     private _tutor: TutorService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _translate: TranslateService
   ) {
     super();
     this.filterConfig = this._accounts.getAccountsListFilters();
@@ -64,6 +66,6 @@ export class AccountsListComponent
   }
 
   showTutor() {
-    accountTutor(this._tutor).drive();
+    accountTutor(this._tutor, this._translate).drive();
   }
 }

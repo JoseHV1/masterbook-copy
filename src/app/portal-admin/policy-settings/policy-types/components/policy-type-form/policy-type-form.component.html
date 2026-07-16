@@ -51,11 +51,17 @@
     <div class="col-12 col-md-6">
       <label>{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_BUSINESS_LINE' | translate }} *</label>
       <app-dropdown-field formControlName="business_line_id" [options]="businessLineOptions"></app-dropdown-field>
+      <small class="text-muted d-block mt-1" *ngIf="businessLineScopeRestricted">
+        {{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.BUSINESS_LINE_SCOPE_RESTRICTED_HINT' | translate }}
+      </small>
     </div>
 
     <div class="col-12 col-md-6">
       <label>{{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.FIELD_POLICY_CATEGORY' | translate }} *</label>
       <app-dropdown-field formControlName="policy_category_id" [options]="policyCategoryOptions"></app-dropdown-field>
+      <small class="text-muted d-block mt-1" *ngIf="policyCategoryScopeRestricted">
+        {{ 'PORTAL.PORTAL_ADMIN.POLICY_SETTINGS.POLICY_CATEGORY_SCOPE_RESTRICTED_HINT' | translate }}
+      </small>
     </div>
 
   </div>

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, switchMap, take } from 'rxjs';
 import { MaritalStatusEnum } from 'src/app/shared/enums/marital-status.enum';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
-import { enumToDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
+import { enumToTranslatedDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
 import { DropdownOptionModel } from 'src/app/shared/models/dropdown-option.model';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { LeadsService } from '../services/leads.service';
@@ -27,7 +27,7 @@ export class ConvertLeadComponent {
   LeadStatusEnum = LeadStatusEnum;
   showAgentSelector = false;
   today = new Date();
-  dropDownMaritalStatus: DropdownOptionModel[] = enumToDropDown(MaritalStatusEnum);
+  dropDownMaritalStatus: DropdownOptionModel[] = [];
 
   form = new FormGroup({
     account_name: new FormControl<string | null>(null, [
@@ -54,6 +54,11 @@ export class ConvertLeadComponent {
     private _auth: AuthService,
     private _t: TranslateService,
   ) {
+    this.dropDownMaritalStatus = enumToTranslatedDropDown(
+      MaritalStatusEnum,
+      'ENUMS.MARITAL_STATUS',
+      this._t
+    );
     this.showAgentSelector = brokersAdminDataset.includes(
       this._auth.getAuth()?.user?.role as RolesEnum
     );

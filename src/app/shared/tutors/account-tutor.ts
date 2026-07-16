@@ -1,18 +1,27 @@
 import { driver } from 'driver.js';
+import { TranslateService } from '@ngx-translate/core';
 import { getElement } from '../helpers/get-element';
 import { tutorWaitExistsAndDo } from '../helpers/tutor-wait-exists-and-do';
 import { TutorService } from '../services/tutor.service';
 import { TutorsSlugsEnum } from '../enums/tutors-slugs.enum';
 
-export const accountTutor = (service: TutorService) => {
+export const accountTutor = (
+  service: TutorService,
+  translate: TranslateService
+) => {
+  const t = (key: string) => translate.instant(key);
+
   const tutor = driver({
     popoverClass: 'driverjs-theme',
+    nextBtnText: t('TUTORS.COMMON.NEXT_BTN'),
+    prevBtnText: t('TUTORS.COMMON.PREVIOUS_BTN'),
+    doneBtnText: t('TUTORS.COMMON.DONE_BTN'),
     steps: [
       {
         element: '#accounts-item',
         popover: {
-          title: 'Accounts Section',
-          description: 'See your customer information in Account.',
+          title: t('TUTORS.ACCOUNT.STEP_SECTION_TITLE'),
+          description: t('TUTORS.ACCOUNT.STEP_SECTION_DESC'),
           align: 'start',
           showButtons: ['next'],
         },
@@ -20,8 +29,8 @@ export const accountTutor = (service: TutorService) => {
       {
         element: '#create-account-tutor',
         popover: {
-          title: 'Create Account',
-          description: 'Create your new customer account',
+          title: t('TUTORS.ACCOUNT.STEP_CREATE_TITLE'),
+          description: t('TUTORS.ACCOUNT.STEP_CREATE_DESC'),
           align: 'start',
           showButtons: ['next'],
           onNextClick: () => {
@@ -36,8 +45,8 @@ export const accountTutor = (service: TutorService) => {
       {
         element: '.mat-mdc-tab:nth-child(1)',
         popover: {
-          title: 'Create Account',
-          description: 'Create your account',
+          title: t('TUTORS.ACCOUNT.STEP_CREATE_TITLE'),
+          description: t('TUTORS.ACCOUNT.STEP_CREATE_FORM_DESC'),
           align: 'center',
           showButtons: ['next', 'previous'],
           side: 'bottom',
@@ -55,9 +64,8 @@ export const accountTutor = (service: TutorService) => {
       {
         element: '.mat-mdc-tab:nth-child(2)',
         popover: {
-          title: 'Upload Account Files',
-          description:
-            'Download Template for Account Upload and then Upload the file.',
+          title: t('TUTORS.ACCOUNT.STEP_UPLOAD_TITLE'),
+          description: t('TUTORS.ACCOUNT.STEP_UPLOAD_DESC'),
           align: 'center',
           side: 'bottom',
         },
@@ -65,8 +73,8 @@ export const accountTutor = (service: TutorService) => {
       {
         element: '.mat-mdc-tab:nth-child(3)',
         popover: {
-          title: 'Accounts Uploaded Table Files',
-          description: 'See your accounts uploaded',
+          title: t('TUTORS.ACCOUNT.STEP_TABLE_TITLE'),
+          description: t('TUTORS.ACCOUNT.STEP_TABLE_DESC'),
           align: 'center',
           side: 'bottom',
           onNextClick: () => {

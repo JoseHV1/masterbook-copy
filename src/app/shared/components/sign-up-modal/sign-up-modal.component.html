@@ -12,6 +12,29 @@
       {{ 'GENERAL.REGISTRATION_FORM' | translate }}
     </h6>
     <form [formGroup]="form">
+      <div class="mb-3">
+        <div
+          class="p-inputgroup anon-input-custom anon-select-custom"
+          [ngClass]="{ 'custom-error': fieldInvalid('tenant_code') }">
+          <span class="p-inputgroup-addon">
+            <img src="/assets/icons/register-two/location.svg" alt="" />
+          </span>
+          <p-dropdown
+            formControlName="tenant_code"
+            [options]="tenantOptions"
+            optionLabel="label"
+            optionValue="value"
+            [placeholder]="'SINGUP.INPUT_COUNTRY' | translate"
+            [filter]="true"
+            [disabled]="loadingTenants"
+            styleClass="w-100">
+          </p-dropdown>
+        </div>
+        <small *ngIf="fieldInvalid('tenant_code')" class="text-danger" style="font-size: 12px">
+          {{ 'SINGUP.TEXT_COUNTRY_INVALID' | translate }}
+        </small>
+      </div>
+
       <div class="row mb-3">
         <div class="col-12 col-md-6 mb-3 mb-md-0">
           <app-input
@@ -121,24 +144,6 @@
           class="d-block text-danger"
           style="font-size: 12px">
           {{ 'SINGUP.TEXT_PASSWORDS_NOT_EQUALS' | translate }}
-        </small>
-      </div>
-
-      <div class="mb-3">
-        <p-dropdown
-          formControlName="tenant_code"
-          [options]="tenantOptions"
-          optionLabel="label"
-          optionValue="value"
-          placeholder="Select your country"
-          [filter]="true"
-          [disabled]="loadingTenants"
-          styleClass="w-100"
-          [class.ng-invalid]="fieldInvalid('tenant_code')"
-          [class.ng-dirty]="fieldInvalid('tenant_code')">
-        </p-dropdown>
-        <small *ngIf="fieldInvalid('tenant_code')" class="text-danger" style="font-size: 12px">
-          Please select your country
         </small>
       </div>
 

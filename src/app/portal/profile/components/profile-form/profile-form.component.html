@@ -110,10 +110,9 @@
 
           <div class="col-12 mb-4 mb-md-0">
             <label>{{ 'PORTAL.PROFILE_FORM.FIELD_EXPIRY_DATE' | translate }}</label>
-            <app-date-field
-              [placeholder]="'PORTAL.PROFILE_FORM.PLACEHOLDER_DATE' | translate"
+            <app-date-input
               formControlName="license_expires_at"
-              [min]="today"></app-date-field>
+              [min]="today"></app-date-input>
           </div>
         </div>
 

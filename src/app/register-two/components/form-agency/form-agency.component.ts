@@ -24,6 +24,11 @@ import { MatDialog } from '@angular/material/dialog';
 export class FormAgencyComponent implements OnInit {
   form!: FormGroup;
   today: Date = new Date();
+  maxLicenseExpirationDate: Date = new Date(
+    this.today.getFullYear() + 20,
+    this.today.getMonth(),
+    this.today.getDate()
+  );
   isInvalid = isInvalid;
   hasError = hasError;
   businessLines: BusinessLineModel[] = [];
@@ -45,7 +50,7 @@ export class FormAgencyComponent implements OnInit {
   ) {
     this._ui.showLoader();
     this.form = this._welcome.createAgencyForm();
-    this._datasets.getBusinessLinesDataset()
+    this._datasets.getBusinessLinesListDataset()
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(businessLines => {
         this.businessLines = businessLines;

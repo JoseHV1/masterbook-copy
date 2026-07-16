@@ -7,12 +7,12 @@
 
     <div class="col-12 col-md-4 mb-3 mb-md-4">
       <label>{{ 'PORTAL.POLICIES.FORM_EFFECTIVE' | translate }}</label>
-      <app-date-field data-testid="policy-start-date" [placeholder]="'MM/DD/YYYY'" (ngModelChange)="form.get('end_date')?.setValue(null)" formControlName="start_date"></app-date-field>
+      <app-date-input data-testid="policy-start-date" (ngModelChange)="form.get('end_date')?.setValue(null)" formControlName="start_date"></app-date-input>
     </div>
 
     <div class="col-12 col-md-4 mb-3 mb-md-4">
       <label>{{ 'PORTAL.POLICIES.FORM_EXPIRATION' | translate }}</label>
-      <app-date-field data-testid="policy-end-date" [placeholder]="'MM/DD/YYYY'" [min]="minExpirationDate" formControlName="end_date"></app-date-field>
+      <app-date-input data-testid="policy-end-date" [min]="minExpirationDate" formControlName="end_date"></app-date-input>
     </div>
 
     <div class="col-12 col-md-4 mb-3 mb-md-4">

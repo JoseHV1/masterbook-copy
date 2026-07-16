@@ -222,8 +222,8 @@ export class TenantFormComponent implements OnInit, OnDestroy {
       price_agency:      [null],
       price_master_user: [null],
       price_regular_user:[null],
-      url_success:       [null],
-      url_cancel:        [null],
+      url_success:       ['/portal/purchase-complete'],
+      url_cancel:        ['/portal/payment-failed'],
 
       survey_url: [null, [Validators.pattern(this._urlPattern)]],
     });

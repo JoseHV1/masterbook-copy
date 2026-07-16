@@ -102,11 +102,4 @@ export class SummaryCardsComponent implements OnChanges, OnDestroy {
     return new Intl.NumberFormat().format(value ?? 0);
   }
 
-  formatMoney(value: number, currency = 'USD'): string {
-    return new Intl.NumberFormat(undefined, {
-      style: 'currency',
-      currency,
-      maximumFractionDigits: 2,
-    }).format(value ?? 0);
-  }
 }

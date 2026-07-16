@@ -135,7 +135,7 @@
       <div class="row">
         <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.DOB' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
-          {{ data.policy.client?.user?.date_of_birth | date | notNull }}
+          {{ data.policy.client?.user?.date_of_birth | appDateTime : 'date' | notNull }}
         </div>
       </div>
     </div>
@@ -144,7 +144,7 @@
       <div class="row">
         <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.GENDER' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
-          {{ data.policy.client?.user?.gender | notNull | enum }}
+          {{ data.policy.client?.user?.gender | notNull | translatedEnum:'ENUMS.GENDER' }}
         </div>
       </div>
     </div>
@@ -153,7 +153,7 @@
       <div class="row">
         <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.MARITAL' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
-          {{ data.policy.client?.user?.marital_status | notNull | enum }}
+          {{ data.policy.client?.user?.marital_status | notNull | translatedEnum:'ENUMS.MARITAL_STATUS' }}
         </div>
       </div>
     </div>
@@ -229,7 +229,7 @@
       <div class="row">
         <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.EFFECTIVE' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
-          {{ data.policy.start_date | date | notNull }}
+          {{ data.policy.start_date | appDateTime : 'date' | notNull }}
         </div>
       </div>
     </div>
@@ -238,7 +238,7 @@
       <div class="row">
         <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.EXPIRATION' | translate }}</div>
         <div class="col col-8 black px-3 py-2 prop-box">
-          {{ data.policy.end_date | date | notNull }}
+          {{ data.policy.end_date | appDateTime : 'date' | notNull }}
         </div>
       </div>
     </div>

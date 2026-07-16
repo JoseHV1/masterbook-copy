@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { FormsModalModule } from 'src/app/portal/forms/components/forms-modal/forms-modal.module';
 import { CurrencyInputModule } from 'src/app/shared/components/currency-input/currency-input.module';
+import { DateInputModule } from 'src/app/shared/components/date-input/date-input.module';
 
 @NgModule({
   declarations: [FormNewBusinessComponent],
@@ -19,6 +20,7 @@ import { CurrencyInputModule } from 'src/app/shared/components/currency-input/cu
     FormsModalModule,
     FormsModule,
     CurrencyInputModule,
+    DateInputModule,
   ],
   exports: [FormNewBusinessComponent],
 })

@@ -23,7 +23,7 @@
           >
         </p>
         <p>
-          <strong>{{ 'PORTAL.COMMUNICATION.DETAIL.DATE' | translate }}</strong> {{ emailDetail[0].date | date : 'medium' }}
+          <strong>{{ 'PORTAL.COMMUNICATION.DETAIL.DATE' | translate }}</strong> {{ emailDetail[0].date | appDateTime : 'datetime' }}
         </p>
         <hr />
       </div>
@@ -33,7 +33,7 @@
           <p class="text-xs text-gray-500 mb-2">
             {{ 'PORTAL.COMMUNICATION.DETAIL.FROM' | translate }} {{ message.from }} | {{ 'PORTAL.COMMUNICATION.DETAIL.TO' | translate }} {{ message.to }}
             <span *ngIf="message.cc">| {{ 'PORTAL.COMMUNICATION.DETAIL.CC' | translate }} {{ message.cc }}</span>
-            | {{ message.date | date : 'short' }}
+            | {{ message.date | appDateTime : 'datetime' }}
           </p>
           <div [innerHTML]="message.safeHtmlBody"></div>
         </div>

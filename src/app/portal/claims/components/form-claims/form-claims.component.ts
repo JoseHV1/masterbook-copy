@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { AccountsModel } from 'src/app/shared/models/DTO/account/accounts.model';
 import { MaritalStatusEnum } from 'src/app/shared/enums/marital-status.enum';
-import { enumToDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
+import { enumToTranslatedDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
 import { GenderEnum } from 'src/app/shared/enums/gender.enum';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { ClaimsService } from 'src/app/shared/services/claims.service';
@@ -46,9 +46,8 @@ export class FormClaimsComponent implements OnInit {
 
   fileNamesText = 'No images chosen';
 
-  dropDownMaritalStatus: DropdownOptionModel[] =
-    enumToDropDown(MaritalStatusEnum);
-  dropDownGender: DropdownOptionModel[] = enumToDropDown(GenderEnum);
+  dropDownMaritalStatus: DropdownOptionModel[] = [];
+  dropDownGender: DropdownOptionModel[] = [];
   accountName: string = '';
   accountId: string = '';
   policyId: string = '';
@@ -67,7 +66,14 @@ export class FormClaimsComponent implements OnInit {
     private dialog: MatDialog,
     private _activateRoute: ActivatedRoute,
     private _t: TranslateService
-  ) {}
+  ) {
+    this.dropDownMaritalStatus = enumToTranslatedDropDown(
+      MaritalStatusEnum,
+      'ENUMS.MARITAL_STATUS',
+      this._t
+    );
+    this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
+  }
 
   ngOnInit() {
     this.auth = this._auth.getAuth() as AuthModel;

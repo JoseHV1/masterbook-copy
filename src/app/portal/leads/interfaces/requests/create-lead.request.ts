@@ -12,4 +12,5 @@ export interface CreateLeadRequest {
   areas_of_interest: string[];
   notes?: string;
   other_capture_medium?: string;
+  tenant_code?: string;
 }

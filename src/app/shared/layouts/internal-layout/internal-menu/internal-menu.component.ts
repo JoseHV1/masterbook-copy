@@ -41,7 +41,8 @@ export class InternalMenuComponent {
   ];
 
   constructor(private _auth: AuthService) {
-    const userRole = this._auth.getAuth()?.user.role as RolesEnum | undefined;
+    const user = this._auth.getAuth()?.user;
+    const userRole = user?.role as RolesEnum | undefined;
 
     if (userRole && this.roleMap[userRole]) {
       this.role = this.roleMap[userRole];
@@ -61,6 +62,10 @@ export class InternalMenuComponent {
 
     if (!userRole || !this.canSeeReports.includes(userRole)) {
       this.menuItemRole = this.menuItemRole.filter(item => item.url !== 'reports');
+    }
+
+    if (userRole === RolesEnum.ADMIN && user?.managed_tenant_id) {
+      this.menuItemRole = this.menuItemRole.filter(item => item.url !== 'tenants/list');
     }
   }
 }

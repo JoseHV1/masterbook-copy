@@ -4,7 +4,7 @@
     <div class="icon"><i class="pi pi-dollar"></i></div>
     <div class="meta">
       <div class="label">{{ 'PORTAL.ACTIVITIES.COMMISSIONS' | translate }}</div>
-      <div class="value">{{ formatMoney(animatedTotals.revenue_mtd) }}</div>
+      <div class="value">{{ animatedTotals.revenue_mtd | appCurrency }}</div>
       <div class="hint">{{ 'PORTAL.ACTIVITIES.COMMISSIONS_MTD' | translate }}</div>
     </div>
   </div>
@@ -14,7 +14,7 @@
     <div class="icon"><i class="pi pi-chart-line"></i></div>
     <div class="meta">
       <div class="label">{{ 'PORTAL.ACTIVITIES.COMMISSIONS' | translate }}</div>
-      <div class="value">{{ formatMoney(animatedTotals.revenue_ytd) }}</div>
+      <div class="value">{{ animatedTotals.revenue_ytd | appCurrency }}</div>
       <div class="hint">{{ 'PORTAL.ACTIVITIES.COMMISSIONS_YTD' | translate }}</div>
     </div>
   </div>

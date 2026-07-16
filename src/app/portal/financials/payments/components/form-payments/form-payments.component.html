@@ -23,10 +23,10 @@
 
     <div class="col-12 col-md-4 mb-4">
       <label>{{ 'PORTAL.PAYMENTS.TABLE_DATE' | translate }} *</label>
-      <app-date-field
-        [placeholder]="'PORTAL.PROFILE_FORM.PLACEHOLDER_DATE' | translate"
+      <app-date-input
         formControlName="payment_date"
-        data-testid="payment-date"></app-date-field>
+        data-testid="payment-date">
+      </app-date-input>
     </div>
 
     <div class="col-12 col-md-4 mb-4">

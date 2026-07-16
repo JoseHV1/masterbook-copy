@@ -88,11 +88,6 @@ export const MENU_ITEMS: iternalMenuModel = {
   ],
   client: [
     {
-      icon: 'home',
-      title: T + 'DASHBOARD',
-      url: '/portal-client',
-    },
-    {
       icon: 'settings',
       title: T + 'OPERATIONS',
       options: [

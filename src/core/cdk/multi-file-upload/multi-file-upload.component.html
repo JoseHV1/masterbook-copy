@@ -15,7 +15,7 @@
             {{ item.extension }}
           </span>
         </p>
-        <p class="subtext-2">{{ item.created_at | date | notNull }}</p>
+        <p class="subtext-2">{{ item.created_at | appDateTime : 'date' | notNull }}</p>
         <span
           class="material-icons-outlined position-absolute remove"
           (click)="removeFile(i)">

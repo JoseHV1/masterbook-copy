@@ -25,7 +25,16 @@ export class AppDateTimePipe implements PipeTransform {
   }
 
   private _toAngularDateFormat(format?: string): string {
-    if (format === 'MM/DD/YYYY') return 'MM/dd/yyyy';
-    return 'dd/MM/yyyy';
+    const map: Record<string, string> = {
+      'MM/DD/YYYY': 'MM/dd/yyyy',
+      'DD/MM/YYYY': 'dd/MM/yyyy',
+      'YYYY-MM-DD': 'yyyy-MM-dd',
+      'DD-MM-YYYY': 'dd-MM-yyyy',
+      'MM-DD-YYYY': 'MM-dd-yyyy',
+      'YYYY/MM/DD': 'yyyy/MM/dd',
+      'DD.MM.YYYY': 'dd.MM.yyyy',
+      'MM.DD.YYYY': 'MM.dd.yyyy',
+    };
+    return (format && map[format]) ?? 'dd/MM/yyyy';
   }
 }

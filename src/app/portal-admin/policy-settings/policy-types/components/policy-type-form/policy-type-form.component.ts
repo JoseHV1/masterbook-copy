@@ -7,6 +7,7 @@ import {
   PolicyTypeModel,
 } from 'src/app/shared/interfaces/models/policy-type.model';
 import { PolicyCategoryModel } from 'src/app/shared/interfaces/models/policy-category.model';
+import { BusinessLineModel } from 'src/app/shared/interfaces/models/business-line.model';
 import { TenantModel } from 'src/app/shared/interfaces/models/tenant.model';
 import { DatasetsService } from 'src/app/shared/services/dataset.service';
 import { TenantsService } from 'src/app/shared/services/tenants.service';
@@ -32,11 +33,14 @@ export class PolicyTypeFormComponent implements OnInit, OnDestroy {
   tenantOptions: { name: string; code: string }[] = [];
   selectedTenants: { name: string; code: string }[] = [];
   tenantScopeRestricted = false;
+  businessLineScopeRestricted = false;
+  policyCategoryScopeRestricted = false;
   typeOptions = Object.values(ProductTypeEnum).map(t => ({ name: t, code: t }));
   /** Distinct languages currently required for the name, derived from the ACTIVE-for-this-record selected tenants. */
   activeLanguages: DocumentLanguageEnum[] = [];
 
   private _categories: PolicyCategoryModel[] = [];
+  private _allBusinessLines: BusinessLineModel[] = [];
   private _allTenants: TenantModel[] = [];
   private _allTenantOptions: { name: string; code: string }[] = [];
   private _pendingNameTranslations: { es?: string; en?: string } | null = null;
@@ -66,6 +70,8 @@ export class PolicyTypeFormComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this._syncSelectedTenants();
         this._recomputeActiveLanguages();
+        this._recomputeBusinessLineOptions();
+        this._recomputePolicyCategoryOptions();
       });
   }
 
@@ -124,7 +130,8 @@ export class PolicyTypeFormComponent implements OnInit, OnDestroy {
       .getBusinessLinesDataset()
       .pipe(takeUntil(this._destroy$))
       .subscribe(lines => {
-        this.businessLineOptions = lines.map(l => ({ name: l.name, code: l._id }));
+        this._allBusinessLines = lines;
+        this._recomputeBusinessLineOptions();
       });
 
     this._dataset
@@ -132,7 +139,7 @@ export class PolicyTypeFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroy$))
       .subscribe(categories => {
         this._categories = categories;
-        this.policyCategoryOptions = categories.map(c => ({ name: c.name, code: c._id }));
+        this._recomputePolicyCategoryOptions();
         this._applyCategoryTenantScope(this.form.get('policy_category_id')!.value);
       });
 
@@ -150,6 +157,63 @@ export class PolicyTypeFormComponent implements OnInit, OnDestroy {
         ];
         this._applyCategoryTenantScope(this.form.get('policy_category_id')!.value);
       });
+  }
+
+  /**
+   * Business lines shown for selection are scoped to the currently
+   * selected tenant(s): a business line is eligible if it's global
+   * (tenant_ids empty) or scoped to at least one of the selected tenants.
+   * When "All tenants" is selected, every business line is eligible. Any
+   * previously selected business line that falls out of scope after a
+   * tenant change is dropped.
+   */
+  private _recomputeBusinessLineOptions(): void {
+    if (!this._allBusinessLines.length) return;
+
+    const selectedIds: string[] = this.form.get('tenant_ids')!.value ?? [];
+    const isAllSelected = selectedIds.includes(ALL_TENANTS_CODE);
+    const realSelectedIds = selectedIds.filter(id => id !== ALL_TENANTS_CODE);
+
+    this.businessLineScopeRestricted = !isAllSelected;
+    const eligibleLines = isAllSelected
+      ? this._allBusinessLines
+      : this._allBusinessLines.filter(
+          l => !l.tenant_ids?.length || l.tenant_ids.some(id => realSelectedIds.includes(id)),
+        );
+
+    this.businessLineOptions = eligibleLines.map(l => ({ name: l.name, code: l._id }));
+
+    const businessLineControl = this.form.get('business_line_id')!;
+    if (businessLineControl.value && !this.businessLineOptions.some(o => o.code === businessLineControl.value)) {
+      businessLineControl.setValue(null);
+    }
+  }
+
+  /**
+   * Same tenant-scoping rule as business lines, applied to the policy
+   * category select: a category is eligible if it's global or scoped to at
+   * least one of the currently selected tenants.
+   */
+  private _recomputePolicyCategoryOptions(): void {
+    if (!this._categories.length) return;
+
+    const selectedIds: string[] = this.form.get('tenant_ids')!.value ?? [];
+    const isAllSelected = selectedIds.includes(ALL_TENANTS_CODE);
+    const realSelectedIds = selectedIds.filter(id => id !== ALL_TENANTS_CODE);
+
+    this.policyCategoryScopeRestricted = !isAllSelected;
+    const eligibleCategories = isAllSelected
+      ? this._categories
+      : this._categories.filter(
+          c => !c.tenant_ids?.length || c.tenant_ids.some(id => realSelectedIds.includes(id)),
+        );
+
+    this.policyCategoryOptions = eligibleCategories.map(c => ({ name: c.name, code: c._id }));
+
+    const categoryControl = this.form.get('policy_category_id')!;
+    if (categoryControl.value && !this.policyCategoryOptions.some(o => o.code === categoryControl.value)) {
+      categoryControl.setValue(null);
+    }
   }
 
   /**
@@ -230,6 +294,8 @@ export class PolicyTypeFormComponent implements OnInit, OnDestroy {
       ? realTenantOptions
       : selected.filter(o => o.code !== ALL_TENANTS_CODE);
     this._recomputeActiveLanguages();
+    this._recomputeBusinessLineOptions();
+    this._recomputePolicyCategoryOptions();
   }
 
   getTenantStatus(tenantId: string): 'ACTIVE' | 'INACTIVE' {

@@ -10,6 +10,7 @@ import { PictureSelectorModule } from 'src/app/shared/components/picture-selecto
 import { ModalChangePasswordModule } from '../modal-change-password/modal-change-password.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TranslateModule } from '@ngx-translate/core';
+import { DateInputModule } from 'src/app/shared/components/date-input/date-input.module';
 
 @NgModule({
   declarations: [ProfileFormComponent],
@@ -24,6 +25,7 @@ import { TranslateModule } from '@ngx-translate/core';
     PictureSelectorModule,
     ModalChangePasswordModule,
     MatCheckboxModule,
+    DateInputModule,
   ],
   exports: [ProfileFormComponent],
 })

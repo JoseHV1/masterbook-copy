@@ -38,7 +38,7 @@
                   <ng-container matColumnDef="date">
                     <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.INVOICES.TABLE_DATE' | translate }}</th>
                     <td mat-cell *matCellDef="let payment">
-                      {{ payment.payment_date | date : 'mediumDate' }}
+                      {{ payment.payment_date | appDateTime : 'date' }}
                     </td>
                   </ng-container>
 
@@ -251,7 +251,7 @@
     <ng-container matColumnDef="invoice_date">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.INVOICES.TABLE_INVOICE_DATE' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.createdAt | date | notNull }}
+        {{ element.createdAt | appDateTime : 'date' | notNull }}
       </td>
     </ng-container>
 

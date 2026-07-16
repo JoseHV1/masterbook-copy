@@ -196,7 +196,7 @@
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.USERS.LICENSE_EXPIRES' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ user.license_expires_at | date | notNull }}
+            {{ user.license_expires_at | appDateTime : 'date' | notNull }}
           </div>
         </div>
       </div>
@@ -204,7 +204,7 @@
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.USERS.DOB' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ user.user?.date_of_birth | date | notNull }}
+            {{ user.user?.date_of_birth | appDateTime : 'date' | notNull }}
           </div>
         </div>
       </div>
@@ -212,7 +212,7 @@
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.USERS.GENDER' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ user.user?.gender | titlecase | notNull }}
+            {{ user.user?.gender | translatedEnum:'ENUMS.GENDER' | notNull }}
           </div>
         </div>
       </div>

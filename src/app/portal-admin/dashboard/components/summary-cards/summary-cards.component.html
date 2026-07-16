@@ -2,7 +2,10 @@
   <!-- Total Sales (MTD) -->
   <div class="summary-card">
     <div class="icon">
-      <i class="pi pi-dollar"></i>
+      <ng-container *ngIf="(adminCtx.tenant$ | async) as tenant; else dollarIconMtd">
+        {{ tenant.currency_symbol }}
+      </ng-container>
+      <ng-template #dollarIconMtd><i class="pi pi-dollar"></i></ng-template>
     </div>
     <div class="meta">
       <div class="label">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.TOTAL_SALES' | translate }}</div>
@@ -16,7 +19,10 @@
   <!-- Total Sales (YTD) -->
   <div class="summary-card">
     <div class="icon">
-      <i class="pi pi-chart-line"></i>
+      <ng-container *ngIf="(adminCtx.tenant$ | async) as tenant; else chartIconYtd">
+        {{ tenant.currency_symbol }}
+      </ng-container>
+      <ng-template #chartIconYtd><i class="pi pi-chart-line"></i></ng-template>
     </div>
     <div class="meta">
       <div class="label">{{ 'PORTAL.PORTAL_ADMIN.DASHBOARD.TOTAL_SALES' | translate }}</div>

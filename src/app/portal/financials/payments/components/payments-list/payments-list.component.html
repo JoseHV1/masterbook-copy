@@ -13,7 +13,7 @@
     <ng-container matColumnDef="payment_date">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.PAYMENTS.TABLE_DATE' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.payment_date | date : 'MM/dd/yyyy' }}
+        {{ element.payment_date | appDateTime : 'date' }}
       </td>
     </ng-container>
 

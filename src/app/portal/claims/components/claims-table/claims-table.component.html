@@ -10,7 +10,7 @@
     <ng-container matColumnDef="creation_date">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.CLAIMS.TABLE_CLAIM_DATE' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        {{ 'PORTAL.CLAIMS.TABLE_CREATED' | translate }} {{ element.createdAt | date | notNull }}
+        {{ 'PORTAL.CLAIMS.TABLE_CREATED' | translate }} {{ element.createdAt | appDateTime : 'date' | notNull }}
       </td>
     </ng-container>
 
@@ -30,7 +30,7 @@
 
     <ng-container matColumnDef="date_of_event">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.CLAIMS.TABLE_EVENT' | translate }}</th>
-      <td mat-cell *matCellDef="let element">{{ element.event_date | date | notNull }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.event_date | appDateTime : 'date' | notNull }}</td>
     </ng-container>
 
     <ng-container matColumnDef="status">

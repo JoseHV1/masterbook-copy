@@ -67,9 +67,14 @@ export class CurrencyInputComponent implements ControlValueAccessor, OnDestroy {
 
   private _buildPlaceholder(): string {
     const tenant = this._tenantCtx.snapshot;
-    if (!tenant) return '0';
-    const { currency_symbol, currency_symbol_position, currency_decimal_places,
-            currency_thousands_separator, currency_decimal_separator } = tenant;
+    if (!tenant?.currency_symbol) return '0';
+    const {
+      currency_symbol,
+      currency_symbol_position,
+      currency_decimal_places = 2,
+      currency_thousands_separator = ',',
+      currency_decimal_separator = '.',
+    } = tenant;
     const [intPart, decPart] = (1000).toFixed(currency_decimal_places).split('.');
     const intFormatted = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, currency_thousands_separator);
     const formatted = currency_decimal_places > 0

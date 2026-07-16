@@ -8,7 +8,7 @@ import { UiService } from 'src/app/shared/services/ui.service';
 import { AccountsService } from '../../../../shared/services/accounts.service';
 import { finalize, Subject, take, takeUntil } from 'rxjs';
 import { MaritalStatusEnum } from 'src/app/shared/enums/marital-status.enum';
-import { enumToDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
+import { enumToDropDown, enumToTranslatedDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
 import { GenderEnum } from 'src/app/shared/enums/gender.enum';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { MyMasterbookValidators } from 'src/app/shared/helpers/mymasterbook-validator';
@@ -33,9 +33,8 @@ export class FormAccountsComponent implements OnChanges, OnDestroy {
 
   form!: FormGroup;
   showAgentSelector = false;
-  dropDownMaritalStatus: DropdownOptionModel[] =
-    enumToDropDown(MaritalStatusEnum);
-  dropDownGender: DropdownOptionModel[] = enumToDropDown(GenderEnum);
+  dropDownMaritalStatus: DropdownOptionModel[] = [];
+  dropDownGender: DropdownOptionModel[] = [];
   dropDownStatus: DropdownOptionModel[] = enumToDropDown(AccountStatusEnum);
 
   addZero = addZero;
@@ -54,6 +53,12 @@ export class FormAccountsComponent implements OnChanges, OnDestroy {
     this.showAgentSelector = brokersAdminDataset.includes(
       this._auth.getAuth()?.user?.role as RolesEnum
     );
+    this.dropDownMaritalStatus = enumToTranslatedDropDown(
+      MaritalStatusEnum,
+      'ENUMS.MARITAL_STATUS',
+      this._t
+    );
+    this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
     this._initForm();
   }
 

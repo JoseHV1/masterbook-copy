@@ -1,18 +1,22 @@
 @import 'theme';
 
 :host {
+  display: block;
+  width: 100%;
+  max-width: 18rem;
+
   .description {
     font-size: 0.75rem;
     font-weight: 400;
   }
 
   .register-card{
-    width: 18rem !important;
+    width: 100%;
     cursor: pointer;
   }
 
   .card-active {
-    background-color: $light-blue-700;
+    background-color: $light-blue-500;
     border-radius: 0.625rem;
     color: $white;
   }

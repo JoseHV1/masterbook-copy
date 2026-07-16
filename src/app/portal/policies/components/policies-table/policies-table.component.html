@@ -27,7 +27,7 @@
     <ng-container matColumnDef="created_at">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.POLICIES.TABLE_CREATED' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.createdAt | date | notNull }}
+        {{ element.createdAt | appDateTime : 'date' | notNull }}
       </td>
     </ng-container>
 
@@ -127,14 +127,14 @@
     <ng-container matColumnDef="effective_date">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.POLICIES.TABLE_EFFECTIVE' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.start_date | date | notNull }}
+        {{ element.start_date | appDateTime : 'date' | notNull }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="expires_date">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.POLICIES.TABLE_EXPIRES' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.end_date | date | notNull }}
+        {{ element.end_date | appDateTime : 'date' | notNull }}
       </td>
     </ng-container>
 
@@ -170,6 +170,15 @@
           [matTooltip]="'PORTAL.POLICIES.TOOLTIP_ENDORSEMENTS' | translate"
           matTooltipPosition="above">
           post_add
+        </span>
+        <span
+          *ngIf="!isInsured"
+          class="material-icons-outlined me-2 text-primary"
+          style="cursor: pointer"
+          (click)="resendPolicyEmail(element._id)"
+          [matTooltip]="'PORTAL.POLICIES.TOOLTIP_RESEND_EMAIL' | translate"
+          matTooltipPosition="above">
+          forward_to_inbox
         </span>
         <span
           class="material-icons-outlined me-2 text-danger"

@@ -343,4 +343,13 @@ export class PoliciesService {
       )
       .pipe(map(resp => resp.data));
   }
+
+  resendPolicyEmail(policy_id: string) {
+    return this._http
+      .post<ApiResponseModel<any>>(
+        `${environment.apiUrl}policy/resend-email/${policy_id}`,
+        {}
+      )
+      .pipe(map(resp => resp.data));
+  }
 }

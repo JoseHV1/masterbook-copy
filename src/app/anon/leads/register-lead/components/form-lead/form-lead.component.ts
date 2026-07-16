@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { finalize, Subject, take, takeUntil } from 'rxjs';
-import { enumToDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
+import { enumToTranslatedDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
 import { MyMasterbookValidators } from 'src/app/shared/helpers/mymasterbook-validator';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { GenderEnum } from 'src/app/shared/enums/gender.enum';
@@ -27,7 +27,7 @@ export class FormLeadComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject();
 
   form!: FormGroup;
-  dropDownGender: DropdownOptionModel[] = enumToDropDown(GenderEnum);
+  dropDownGender: DropdownOptionModel[] = [];
   dropDownCaptureMedium: DropdownOptionModel[] = [];
   areasOfInterestOptions: DropdownOptionModel[] = Object.values(AreaOfInterestEnum).map(v => ({
     code: v,
@@ -51,6 +51,7 @@ export class FormLeadComponent implements OnInit, OnDestroy {
     private _normalizeText: NormalizeTextPipe,
     private _t: TranslateService,
   ) {
+    this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
     this._initForm();
   }
 

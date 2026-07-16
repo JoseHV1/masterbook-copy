@@ -19,6 +19,7 @@ import { FilePreviewModalModule } from '../file-preview-modal/file-preview-modal
 import { CurrencyInputModule } from 'src/app/shared/components/currency-input/currency-input.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
+import { DateInputModule } from 'src/app/shared/components/date-input/date-input.module';
 
 @NgModule({
   declarations: [FormClaimsComponent],
@@ -42,6 +43,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatSelectModule,
     FilePreviewModalModule,
     CurrencyInputModule,
+    DateInputModule,
   ],
   exports: [FormClaimsComponent],
 })

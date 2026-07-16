@@ -68,7 +68,6 @@ export class DatasetsService {
       .pipe(map(resp => resp.data));
   }
 
-  // Tenant-scoped, unlike getBusinessLinesDataset() (unfiltered by design for pre-agency registration screens).
   getBusinessLinesListDataset(): Observable<BusinessLineModel[]> {
     return this._http
       .get<ApiResponseModel<PaginatedResponse<BusinessLineModel[]>>>(

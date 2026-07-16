@@ -224,6 +224,7 @@
     "FIELD_AREAS_INTEREST": "Areas of interest*",
     "PLACEHOLDER_AREAS_INTEREST": "Select areas of interest",
     "FIELD_HEAR_ABOUT_US": "How did you hear about us?*",
+    "FIELD_COUNTRY": "Country*",
     "PLACEHOLDER_SELECT_OPTION": "Select an option",
     "FIELD_DESCRIBE": "Please describe*",
     "PLACEHOLDER_DESCRIBE": "Describe how you heard about us",
@@ -260,7 +261,11 @@
     "STEP_SELECT": {
       "QUESTION": "How do you plan to use",
       "BRAND": "Masterbook?",
-      "BTN_CONTINUE": "Continue"
+      "BTN_CONTINUE": "Continue",
+      "AGENCY_TITLE": "Agency",
+      "AGENCY_DESCRIPTION": "Manage your team of agents, policies, and clients all in one place. Ideal if you run an insurance agency with one or more collaborators.",
+      "INDEPENDENT_AGENT_TITLE": "Independent Agent",
+      "INDEPENDENT_AGENT_DESCRIPTION": "Manage your own clients, policies, and commissions without needing a team. Ideal if you work individually as an insurance broker."
     },
     "COMMON": {
       "YOUR_PHOTO": "Your photo",
@@ -330,7 +335,9 @@
     "TEXT_PASSWORDS_NOT_EQUALS": "Both passwords must match",
     "TEXT_PASSWORD_UPPERCASE_INVALID": "Must include at least one uppercase letter (A-Z).",
     "TEXT_PASSWORD_NUMBER_INVALID": "Must include at least one number (0-9).",
-    "TEXT_PASSWORD_SPECIAL_CHAR_INVALID": "Must include at least one special character (e.g., !@#$)."
+    "TEXT_PASSWORD_SPECIAL_CHAR_INVALID": "Must include at least one special character (e.g., !@#$).",
+    "INPUT_COUNTRY": "Select your country",
+    "TEXT_COUNTRY_INVALID": "Please select your country"
   },
   "PROFILE": {
     "TEXT_1": "Profile",
@@ -768,6 +775,52 @@
       "AGENCY_SUBTITLE": "Tell us about yourself and one of our specialists will reach out to guide you through the process."
     }
   },
+  "ENUMS": {
+    "GENDER": {
+      "MALE": "Male",
+      "FEMALE": "Female",
+      "OTHER": "Other"
+    },
+    "MARITAL_STATUS": {
+      "SINGLE": "Single",
+      "MARRIED": "Married",
+      "DIVORCED": "Divorced",
+      "WIDOWED": "Widowed",
+      "SEPARATED": "Separated",
+      "ENGAGED": "Engaged",
+      "DOMESTIC_PARTNERSHIP": "Domestic Partnership"
+    }
+  },
+  "TUTORS": {
+    "COMMON": {
+      "NEXT_BTN": "Next",
+      "PREVIOUS_BTN": "Previous",
+      "DONE_BTN": "Done"
+    },
+    "ACCOUNT": {
+      "STEP_SECTION_TITLE": "Accounts Section",
+      "STEP_SECTION_DESC": "See your customer information in Accounts.",
+      "STEP_CREATE_TITLE": "Create Account",
+      "STEP_CREATE_DESC": "Create your new customer account",
+      "STEP_CREATE_FORM_DESC": "Create your account",
+      "STEP_UPLOAD_TITLE": "Upload Account Files",
+      "STEP_UPLOAD_DESC": "Download the template for account upload and then upload the file.",
+      "STEP_TABLE_TITLE": "Accounts Uploaded Table Files",
+      "STEP_TABLE_DESC": "See your uploaded accounts"
+    },
+    "REQUEST": {
+      "STEP_CREATE_TITLE": "Create a new request",
+      "STEP_CREATE_DESC": "Create a customer request for insurance or see what your customer has created in their portal.",
+      "STEP_STATUS_TITLE": "Request Status",
+      "STEP_STATUS_DESC": "Review the request for documents and application required",
+      "STEP_PERSONAL_INFO_TITLE": "Personal Information",
+      "STEP_PERSONAL_INFO_DESC": "Personal information details",
+      "STEP_INFO_TITLE": "Request Information",
+      "STEP_INFO_DESC": "Request information details",
+      "STEP_QUOTES_TITLE": "Available Quotes",
+      "STEP_QUOTES_DESC": "Available quotes details"
+    }
+  },
   "PORTAL": {
     "COMMON": {
       "EDIT": "Edit",
@@ -1109,6 +1162,8 @@
       "TOOLTIP_CANCELLATION": "Request for policy cancellation",
       "TOOLTIP_RENEW": "Request for policy renew",
       "TOOLTIP_REINSTALLMENT": "Request for policy reinstallment",
+      "TOOLTIP_RESEND_EMAIL": "Resend policy by email to the client",
+      "CONFIRM_RESEND_EMAIL": "Resend this policy by email to the client?",
       "FORM_POLICY_NUMBER": "Policy number*",
       "FORM_EFFECTIVE": "Effective date*",
       "FORM_EXPIRATION": "Expiration date*",
@@ -2017,7 +2072,11 @@
         "TOTAL_USERS": "Total Users",
         "USERS_HINT": "Agency owners, agents, staff",
         "AGENCIES_ADDED": "Agencies added",
-        "PLATFORM_USAGE": "Platform usage"
+        "PLATFORM_USAGE": "Platform usage",
+        "LAST_7_DAYS": "Last 7 days",
+        "LAST_90_DAYS": "Last 90 days",
+        "LAST_YEAR": "Last year",
+        "ALL_TIME": "All time"
       },
       "LEADS": {
         "BACK": "Back to leads",
@@ -2036,6 +2095,7 @@
         "AREAS": "Areas of interest",
         "NOTES": "Notes",
         "TABLE_SERIAL": "Serial",
+        "TABLE_TENANT": "Tenant",
         "TABLE_NAME": "Name",
         "TABLE_EMAIL": "Email",
         "TABLE_PHONE": "Phone",
@@ -2215,6 +2275,7 @@
         "ALL_TENANTS": "All",
         "TENANT_SCOPE_RESTRICTED_HINT": "Only tenants enabled for the selected policy category are shown.",
         "BUSINESS_LINE_SCOPE_RESTRICTED_HINT": "Only business lines available for the selected tenants are shown.",
+        "POLICY_CATEGORY_SCOPE_RESTRICTED_HINT": "Only policy categories available for the selected tenants are shown.",
         "SAVE": "Save changes",
         "CREATE": "Create",
         "BTN_NEW_CATEGORY": "Add category",

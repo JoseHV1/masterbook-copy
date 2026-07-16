@@ -4,7 +4,7 @@ import { FormIndependentAgentComponent } from './form-independent-agent.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { CalendarModule } from 'primeng/calendar';
+import { DateInputModule } from 'src/app/shared/components/date-input/date-input.module';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -27,7 +27,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     PictureSelectorModule,
     MultiSelectModule,
     DropdownModule,
-    CalendarModule,
+    DateInputModule,
     InputTextModule,
     CheckboxModule,
     TooltipModule,

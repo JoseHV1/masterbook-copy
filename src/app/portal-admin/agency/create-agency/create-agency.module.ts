@@ -10,6 +10,7 @@ import { CreateAgencyComponent } from './create-agency.component';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { AddressAutocompleteGoogleModule } from 'src/app/shared/directives/addres-autocomplete-google/address-autocomplete-google.module';
+import { DateInputModule } from 'src/app/shared/components/date-input/date-input.module';
 
 const routes: Routes = [
   { path: '', component: CreateAgencyComponent },
@@ -29,6 +30,7 @@ const routes: Routes = [
     NgxMaskDirective,
     NgxMaskPipe,
     AddressAutocompleteGoogleModule,
+    DateInputModule,
   ],
   providers: [provideNgxMask()],
 })

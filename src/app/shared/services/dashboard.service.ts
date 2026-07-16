@@ -182,12 +182,16 @@ export class DashboardService {
    * Optional: agency_ids=a,b,c
    */
   getAdminSummaryCards(
-    agencyIds: string[] = []
+    agencyIds: string[] = [],
+    tenantId?: string
   ): Observable<HttpResponseModel<any>> {
     let params = new HttpParams();
 
     if (agencyIds?.length) {
       params = params.set('agency_ids', agencyIds.join(','));
+    }
+    if (tenantId) {
+      params = params.set('tenant_id', tenantId);
     }
 
     return this._api.get<HttpResponseModel<any>>(
@@ -197,16 +201,20 @@ export class DashboardService {
   }
 
   /**
-   * GET /admin/dashboard/agencies-added-trend?period=90d&agency_ids=a,b
+   * GET /admin/dashboard/agencies-added-trend?period=90d&agency_ids=a,b&tenant_id=x
    */
   getAgenciesAddedTrend(
     period: AdminPeriod = '90d',
-    agencyIds: string[] = []
+    agencyIds: string[] = [],
+    tenantId?: string
   ): Observable<HttpResponseModel<any>> {
     let params = new HttpParams().set('period', period);
 
     if (agencyIds?.length) {
       params = params.set('agency_ids', agencyIds.join(','));
+    }
+    if (tenantId) {
+      params = params.set('tenant_id', tenantId);
     }
 
     return this._api.get<HttpResponseModel<any>>(
@@ -216,16 +224,20 @@ export class DashboardService {
   }
 
   /**
-   * GET /admin/dashboard/active-agencies-trend?period=90d&agency_ids=a,b
+   * GET /admin/dashboard/active-agencies-trend?period=90d&agency_ids=a,b&tenant_id=x
    */
   getActiveAgenciesTrend(
     period: AdminPeriod = '90d',
-    agencyIds: string[] = []
+    agencyIds: string[] = [],
+    tenantId?: string
   ): Observable<HttpResponseModel<any>> {
     let params = new HttpParams().set('period', period);
 
     if (agencyIds?.length) {
       params = params.set('agency_ids', agencyIds.join(','));
+    }
+    if (tenantId) {
+      params = params.set('tenant_id', tenantId);
     }
 
     return this._api.get<HttpResponseModel<any>>(
@@ -235,16 +247,20 @@ export class DashboardService {
   }
 
   /**
-   * GET /admin/dashboard/usage-breakdown?period=30d&agency_ids=a,b
+   * GET /admin/dashboard/usage-breakdown?period=30d&agency_ids=a,b&tenant_id=x
    */
   getAdminUsageBreakdown(
     period: AdminPeriod = '30d',
-    agencyIds: string[] = []
+    agencyIds: string[] = [],
+    tenantId?: string
   ): Observable<HttpResponseModel<any>> {
     let params = new HttpParams().set('period', period);
 
     if (agencyIds?.length) {
       params = params.set('agency_ids', agencyIds.join(','));
+    }
+    if (tenantId) {
+      params = params.set('tenant_id', tenantId);
     }
 
     return this._api.get<HttpResponseModel<any>>(

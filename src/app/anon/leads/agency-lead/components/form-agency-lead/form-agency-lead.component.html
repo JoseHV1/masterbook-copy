@@ -31,7 +31,16 @@
       </app-input>
     </div>
 
-    <div class="col-12 mb-4 mb-md-0">
+    <div class="col-12 col-md-6 mb-4 mb-md-0">
+      <label>{{ 'LEAD_FORM.FIELD_COUNTRY' | translate }}</label>
+      <app-dropdown-field
+        [placeholder]="'LEAD_FORM.PLACEHOLDER_SELECT_OPTION' | translate"
+        formControlName="tenant_code"
+        [options]="tenantOptions">
+      </app-dropdown-field>
+    </div>
+
+    <div class="col-12 col-md-6 mb-4 mb-md-0">
       <label>{{ 'LEAD_FORM.FIELD_HEAR_ABOUT_US' | translate }}</label>
       <app-dropdown-field
         [placeholder]="'LEAD_FORM.PLACEHOLDER_SELECT_OPTION' | translate"

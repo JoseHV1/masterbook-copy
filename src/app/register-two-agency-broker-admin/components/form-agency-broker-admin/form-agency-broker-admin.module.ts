@@ -4,7 +4,7 @@ import { FormAgencyBrokerAdminComponent } from './form-agency-broker-admin.compo
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { CalendarModule } from 'primeng/calendar';
+import { DateInputModule } from 'src/app/shared/components/date-input/date-input.module';
 import { InputTextModule } from 'primeng/inputtext';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TooltipModule } from 'primeng/tooltip';
@@ -23,7 +23,7 @@ import { ModalTermsPoliciesModule } from 'src/app/shared/components/modal-terms-
     TranslateModule,
     PictureSelectorModule,
     MultiSelectModule,
-    CalendarModule,
+    DateInputModule,
     InputTextModule,
     CheckboxModule,
     TooltipModule,

@@ -60,18 +60,16 @@
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
       <label>{{ 'PORTAL.USERS.LICENSE_EXPIRES' | translate }}*</label>
-      <app-date-field
-        [placeholder]="'MM/DD/YYYY'"
+      <app-date-input
         [min]="today"
-        formControlName="license_expires_at"></app-date-field>
+        formControlName="license_expires_at"></app-date-input>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">
       <label>{{ 'PORTAL.USERS.DOB' | translate }}*</label>
-      <app-date-field
-        [placeholder]="'MM/DD/YYYY'"
+      <app-date-input
         [max]="maxDate"
-        formControlName="date_of_birth"></app-date-field>
+        formControlName="date_of_birth"></app-date-input>
     </div>
 
     <div class="col-12 col-md-6 mb-4 mb-md-0">

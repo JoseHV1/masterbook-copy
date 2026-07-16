@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { finalize, skip, Subject, takeUntil } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 import {
   DashboardService,
   AdminPeriod,
 } from '../../shared/services/dashboard.service';
 import { UiService } from '@app/shared/services/ui.service';
+import { AdminTenantContextService } from '@app/shared/services/admin-tenant-context.service';
 import { ChartFiltersPayload } from '@app/portal/activities/components/chart-filters/chart-filters.component'; // adjust path if needed
 
 export type AdminChartKey =
@@ -21,24 +23,18 @@ type TrendPoint = { day?: string; month?: string; count: number };
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   agenciesList: { code: string; name: string }[] = [];
 
   // labels shown under titles
   selectedDateRange: Record<AdminChartKey, string> = {
-    summaryCards: 'Last 30 days',
-    agenciesAddedTrend: 'Last 90 days',
-    activeAgenciesTrend: 'Last 90 days',
-    usageBreakdown: 'Last 30 days',
+    summaryCards: '',
+    agenciesAddedTrend: '',
+    activeAgenciesTrend: '',
+    usageBreakdown: '',
   };
 
-  dateRanges = [
-    { label: 'Last 7 days', value: '7d' },
-    { label: 'Last 30 days', value: '30d' },
-    { label: 'Last 90 days', value: '90d' },
-    { label: 'Last year', value: '1year' },
-    { label: 'All time', value: 'all' },
-  ];
+  dateRanges: { label: string; value: string }[] = [];
 
   // --- responses ---
   adminTotals: any;
@@ -46,16 +42,71 @@ export class DashboardComponent implements OnInit {
   usageBreakdown: any;
   activeAgenciesTrend: TrendPoint[] = [];
 
-  constructor(private _dashboard: DashboardService, private _ui: UiService) {}
+  private _lastFilters: Record<
+    AdminChartKey,
+    { period: AdminPeriod; agencyIds: string[] }
+  > = {
+    summaryCards: { period: '30d', agencyIds: [] },
+    agenciesAddedTrend: { period: '90d', agencyIds: [] },
+    activeAgenciesTrend: { period: '90d', agencyIds: [] },
+    usageBreakdown: { period: '30d', agencyIds: [] },
+  };
+
+  private _destroy$ = new Subject<void>();
+
+  constructor(
+    private _dashboard: DashboardService,
+    private _ui: UiService,
+    private _adminCtx: AdminTenantContextService,
+    private _t: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.loadAgencies();
 
-    // initial loads
     this.fetchChartData('summaryCards', '30d', []);
     this.fetchChartData('agenciesAddedTrend', '90d', []);
     this.fetchChartData('activeAgenciesTrend', '90d', []);
     this.fetchChartData('usageBreakdown', '30d', []);
+
+    this._t
+      .get([
+        'PORTAL.PORTAL_ADMIN.DASHBOARD.LAST_7_DAYS',
+        'PORTAL.PORTAL_ADMIN.DASHBOARD.LAST_30_DAYS',
+        'PORTAL.PORTAL_ADMIN.DASHBOARD.LAST_90_DAYS',
+        'PORTAL.PORTAL_ADMIN.DASHBOARD.LAST_YEAR',
+        'PORTAL.PORTAL_ADMIN.DASHBOARD.ALL_TIME',
+      ])
+      .pipe(takeUntil(this._destroy$))
+      .subscribe(translations => {
+        this.dateRanges = [
+          { label: translations['PORTAL.PORTAL_ADMIN.DASHBOARD.LAST_7_DAYS'], value: '7d' },
+          { label: translations['PORTAL.PORTAL_ADMIN.DASHBOARD.LAST_30_DAYS'], value: '30d' },
+          { label: translations['PORTAL.PORTAL_ADMIN.DASHBOARD.LAST_90_DAYS'], value: '90d' },
+          { label: translations['PORTAL.PORTAL_ADMIN.DASHBOARD.LAST_YEAR'], value: '1year' },
+          { label: translations['PORTAL.PORTAL_ADMIN.DASHBOARD.ALL_TIME'], value: 'all' },
+        ];
+
+        (Object.keys(this._lastFilters) as AdminChartKey[]).forEach(chart => {
+          const { period } = this._lastFilters[chart];
+          this.selectedDateRange[chart] =
+            this.dateRanges.find(r => r.value === period)?.label ?? period;
+        });
+      });
+
+    this._adminCtx.tenant$
+      .pipe(skip(1), takeUntil(this._destroy$))
+      .subscribe(() => {
+        (Object.keys(this._lastFilters) as AdminChartKey[]).forEach(chart => {
+          const { period, agencyIds } = this._lastFilters[chart];
+          this.fetchChartData(chart, period, agencyIds);
+        });
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   private loadAgencies(): void {
@@ -80,13 +131,16 @@ export class DashboardComponent implements OnInit {
   ) {
     this.selectedDateRange[chart] =
       this.dateRanges.find(r => r.value === period)?.label ?? period;
+    this._lastFilters[chart] = { period, agencyIds };
+
+    const tenantId = this._adminCtx.snapshot?._id;
 
     this._ui.showLoader();
 
     switch (chart) {
       case 'summaryCards':
         return this._dashboard
-          .getAdminSummaryCards(agencyIds)
+          .getAdminSummaryCards(agencyIds, tenantId)
           .pipe(finalize(() => this._ui.hideLoader()))
           .subscribe((resp: any) => {
             this.adminTotals = resp?.data ?? resp;
@@ -94,7 +148,7 @@ export class DashboardComponent implements OnInit {
 
       case 'agenciesAddedTrend':
         return this._dashboard
-          .getAgenciesAddedTrend(period, agencyIds)
+          .getAgenciesAddedTrend(period, agencyIds, tenantId)
           .pipe(finalize(() => this._ui.hideLoader()))
           .subscribe((resp: any) => {
             this.agenciesAddedTrend = (resp?.data ??
@@ -104,7 +158,7 @@ export class DashboardComponent implements OnInit {
 
       case 'activeAgenciesTrend':
         return this._dashboard
-          .getActiveAgenciesTrend(period, agencyIds)
+          .getActiveAgenciesTrend(period, agencyIds, tenantId)
           .pipe(finalize(() => this._ui.hideLoader()))
           .subscribe((resp: any) => {
             this.activeAgenciesTrend = (resp?.data ??
@@ -114,7 +168,7 @@ export class DashboardComponent implements OnInit {
 
       case 'usageBreakdown':
         return this._dashboard
-          .getAdminUsageBreakdown(period, agencyIds)
+          .getAdminUsageBreakdown(period, agencyIds, tenantId)
           .pipe(finalize(() => this._ui.hideLoader()))
           .subscribe((resp: any) => {
             this.usageBreakdown = resp?.data ?? resp;

@@ -8,6 +8,7 @@ import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-lay
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { CustomPipesModule } from 'src/app/shared/pipes/custom-pipes.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { DateInputModule } from 'src/app/shared/components/date-input/date-input.module';
 
 const routes: Routes = [
   { path: '', component: ConvertLeadComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
     CDKModule,
     CustomPipesModule,
     TranslateModule,
+    DateInputModule,
   ],
 })
 export class ConvertLeadModule {}

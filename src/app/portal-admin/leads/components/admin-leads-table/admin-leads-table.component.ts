@@ -12,6 +12,7 @@ export class AdminLeadsTableComponent {
   @Input() data: LeadModel[] = [];
   @Input() filtersActive: FilterActive[] = [];
   @Input() showActions = false;
+  @Input() showTenant = false;
   @Input() detailBasePath = '';
   @Output() refresh = new EventEmitter<void>();
   @Output() transferLead = new EventEmitter<LeadModel>();
@@ -29,6 +30,9 @@ export class AdminLeadsTableComponent {
   ];
 
   get displayedColumns(): string[] {
-    return this.showActions ? [...this.baseColumns, 'actions'] : this.baseColumns;
+    const columns = this.showTenant
+      ? [...this.baseColumns.slice(0, 1), 'tenant', ...this.baseColumns.slice(1)]
+      : [...this.baseColumns];
+    return this.showActions ? [...columns, 'actions'] : columns;
   }
 }

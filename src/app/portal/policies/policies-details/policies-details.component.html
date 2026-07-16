@@ -51,6 +51,13 @@
             </span>
           </button>
 
+          <button mat-menu-item (click)="resendPolicyEmail(policy._id)">
+            <span class="d-flex align-items-center gap-2">
+              <span class="material-icons-outlined dark-blue-400">forward_to_inbox</span>
+              <span>{{ 'PORTAL.POLICIES.TOOLTIP_RESEND_EMAIL' | translate }}</span>
+            </span>
+          </button>
+
           <button mat-menu-item (click)="deletePolicy(policy._id)">
             <span class="d-flex align-items-center gap-2">
               <span class="material-icons-outlined text-danger">delete</span>
@@ -161,7 +168,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.DOB' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ policy.client?.user?.date_of_birth | date | notNull }}
+          {{ policy.client?.user?.date_of_birth | appDateTime : 'date' | notNull }}
         </div>
       </div>
     </div>
@@ -170,7 +177,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.GENDER' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ policy.client?.user?.gender | notNull | enum }}
+          {{ policy.client?.user?.gender | notNull | translatedEnum:'ENUMS.GENDER' }}
         </div>
       </div>
     </div>
@@ -179,7 +186,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.MARITAL' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ policy.client?.user?.marital_status | notNull | enum }}
+          {{ policy.client?.user?.marital_status | notNull | translatedEnum:'ENUMS.MARITAL_STATUS' }}
         </div>
       </div>
     </div>
@@ -289,7 +296,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.EFFECTIVE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ policy.start_date | date | notNull }}
+          {{ policy.start_date | appDateTime : 'date' | notNull }}
         </div>
       </div>
     </div>
@@ -298,7 +305,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.EXPIRATION' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ policy.end_date | date | notNull }}
+          {{ policy.end_date | appDateTime : 'date' | notNull }}
         </div>
       </div>
     </div>
@@ -435,7 +442,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.EFFECTIVE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy.start_date | date | notNull }}
+          {{ refreredPolicy.start_date | appDateTime : 'date' | notNull }}
         </div>
       </div>
     </div>
@@ -444,7 +451,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.EXPIRATION' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy.end_date | date | notNull }}
+          {{ refreredPolicy.end_date | appDateTime : 'date' | notNull }}
         </div>
       </div>
     </div>

@@ -224,6 +224,7 @@
     "FIELD_AREAS_INTEREST": "Áreas de interés*",
     "PLACEHOLDER_AREAS_INTEREST": "Selecciona áreas de interés",
     "FIELD_HEAR_ABOUT_US": "¿Cómo te enteraste de nosotros?*",
+    "FIELD_COUNTRY": "País*",
     "PLACEHOLDER_SELECT_OPTION": "Selecciona una opción",
     "FIELD_DESCRIBE": "Por favor describe*",
     "PLACEHOLDER_DESCRIBE": "Describe cómo te enteraste de nosotros",
@@ -260,7 +261,11 @@
     "STEP_SELECT": {
       "QUESTION": "¿Cómo planeas usar",
       "BRAND": "Masterbook?",
-      "BTN_CONTINUE": "Continuar"
+      "BTN_CONTINUE": "Continuar",
+      "AGENCY_TITLE": "Agencia",
+      "AGENCY_DESCRIPTION": "Administra tu equipo de agentes, pólizas y clientes desde un solo lugar. Ideal si tienes una agencia de seguros con uno o más colaboradores.",
+      "INDEPENDENT_AGENT_TITLE": "Agente Independiente",
+      "INDEPENDENT_AGENT_DESCRIPTION": "Gestiona tus propios clientes, pólizas y comisiones sin necesidad de un equipo. Ideal si trabajas de forma individual como corredor de seguros."
     },
     "COMMON": {
       "YOUR_PHOTO": "Tu foto",
@@ -330,7 +335,9 @@
     "TEXT_PASSWORDS_NOT_EQUALS": "Ambas contraseñas deben coincidir",
     "TEXT_PASSWORD_UPPERCASE_INVALID": "Debe incluir al menos una letra mayúscula (A-Z).",
     "TEXT_PASSWORD_NUMBER_INVALID": "Debe incluir al menos un número (0-9).",
-    "TEXT_PASSWORD_SPECIAL_CHAR_INVALID": "Debe incluir al menos un carácter especial (ej. !@#$)."
+    "TEXT_PASSWORD_SPECIAL_CHAR_INVALID": "Debe incluir al menos un carácter especial (ej. !@#$).",
+    "INPUT_COUNTRY": "Selecciona tu país",
+    "TEXT_COUNTRY_INVALID": "Por favor selecciona tu país"
   },
   "PROFILE": {
     "TEXT_1": "Perfil",
@@ -768,6 +775,52 @@
       "AGENCY_SUBTITLE": "Cuéntanos sobre ti y uno de nuestros especialistas se pondrá en contacto para guiarte en el proceso."
     }
   },
+  "ENUMS": {
+    "GENDER": {
+      "MALE": "Masculino",
+      "FEMALE": "Femenino",
+      "OTHER": "Otro"
+    },
+    "MARITAL_STATUS": {
+      "SINGLE": "Soltero(a)",
+      "MARRIED": "Casado(a)",
+      "DIVORCED": "Divorciado(a)",
+      "WIDOWED": "Viudo(a)",
+      "SEPARATED": "Separado(a)",
+      "ENGAGED": "Comprometido(a)",
+      "DOMESTIC_PARTNERSHIP": "Unión libre"
+    }
+  },
+  "TUTORS": {
+    "COMMON": {
+      "NEXT_BTN": "Siguiente",
+      "PREVIOUS_BTN": "Anterior",
+      "DONE_BTN": "Listo"
+    },
+    "ACCOUNT": {
+      "STEP_SECTION_TITLE": "Sección de Cuentas",
+      "STEP_SECTION_DESC": "Consulta la información de tus clientes en Cuentas.",
+      "STEP_CREATE_TITLE": "Crear Cuenta",
+      "STEP_CREATE_DESC": "Crea la cuenta de tu nuevo cliente",
+      "STEP_CREATE_FORM_DESC": "Crea tu cuenta",
+      "STEP_UPLOAD_TITLE": "Cargar Archivos de Cuentas",
+      "STEP_UPLOAD_DESC": "Descarga la plantilla para la carga de cuentas y luego sube el archivo.",
+      "STEP_TABLE_TITLE": "Tabla de Archivos de Cuentas Cargados",
+      "STEP_TABLE_DESC": "Consulta las cuentas que subiste"
+    },
+    "REQUEST": {
+      "STEP_CREATE_TITLE": "Crear una nueva solicitud",
+      "STEP_CREATE_DESC": "Crea una solicitud de seguro para tu cliente o revisa lo que tu cliente creó en su portal.",
+      "STEP_STATUS_TITLE": "Estado de la Solicitud",
+      "STEP_STATUS_DESC": "Revisa la solicitud de documentos y la aplicación requerida",
+      "STEP_PERSONAL_INFO_TITLE": "Información Personal",
+      "STEP_PERSONAL_INFO_DESC": "Detalles de la información personal",
+      "STEP_INFO_TITLE": "Información de la Solicitud",
+      "STEP_INFO_DESC": "Detalles de la información de la solicitud",
+      "STEP_QUOTES_TITLE": "Cotizaciones Disponibles",
+      "STEP_QUOTES_DESC": "Detalles de las cotizaciones disponibles"
+    }
+  },
   "PORTAL": {
     "COMMON": {
       "EDIT": "Editar",
@@ -1109,6 +1162,8 @@
       "TOOLTIP_CANCELLATION": "Solicitar cancelación de póliza",
       "TOOLTIP_RENEW": "Solicitar renovación de póliza",
       "TOOLTIP_REINSTALLMENT": "Solicitar reinstalación de póliza",
+      "TOOLTIP_RESEND_EMAIL": "Reenviar póliza por correo al cliente",
+      "CONFIRM_RESEND_EMAIL": "¿Reenviar esta póliza por correo electrónico al cliente?",
       "FORM_POLICY_NUMBER": "Número de póliza*",
       "FORM_EFFECTIVE": "Fecha de vigencia*",
       "FORM_EXPIRATION": "Fecha de vencimiento*",
@@ -2017,7 +2072,11 @@
         "TOTAL_USERS": "Total de usuarios",
         "USERS_HINT": "Propietarios, agentes y personal",
         "AGENCIES_ADDED": "Agencias agregadas",
-        "PLATFORM_USAGE": "Uso de la plataforma"
+        "PLATFORM_USAGE": "Uso de la plataforma",
+        "LAST_7_DAYS": "Últimos 7 días",
+        "LAST_90_DAYS": "Últimos 90 días",
+        "LAST_YEAR": "Último año",
+        "ALL_TIME": "Todo el tiempo"
       },
       "LEADS": {
         "BACK": "Volver a leads",
@@ -2036,6 +2095,7 @@
         "AREAS": "Áreas de interés",
         "NOTES": "Notas",
         "TABLE_SERIAL": "Serial",
+        "TABLE_TENANT": "Tenant",
         "TABLE_NAME": "Nombre",
         "TABLE_EMAIL": "Correo",
         "TABLE_PHONE": "Teléfono",
@@ -2215,6 +2275,7 @@
         "ALL_TENANTS": "Todos",
         "TENANT_SCOPE_RESTRICTED_HINT": "Solo se muestran los tenants habilitados para la categoría de póliza seleccionada.",
         "BUSINESS_LINE_SCOPE_RESTRICTED_HINT": "Solo se muestran las líneas de negocio disponibles para los tenants seleccionados.",
+        "POLICY_CATEGORY_SCOPE_RESTRICTED_HINT": "Solo se muestran las categorías de póliza disponibles para los tenants seleccionados.",
         "SAVE": "Guardar cambios",
         "CREATE": "Crear",
         "BTN_NEW_CATEGORY": "Agregar categoría",

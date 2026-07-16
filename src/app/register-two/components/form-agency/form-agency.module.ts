@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
-import { CalendarModule } from 'primeng/calendar';
+import { DateInputModule } from 'src/app/shared/components/date-input/date-input.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -27,7 +27,7 @@ import { ModalTermsPoliciesModule } from 'src/app/shared/components/modal-terms-
     TooltipModule,
     InputTextModule,
     PictureSelectorModule,
-    CalendarModule,
+    DateInputModule,
     DropdownModule,
     MultiSelectModule,
     InputTextareaModule,

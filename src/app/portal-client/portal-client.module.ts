@@ -11,10 +11,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () =>
-          import('./dashboard/dashboard.module').then(
-            module => module.DashboardModule
-          ),
+        pathMatch: 'full',
+        redirectTo: 'policies',
       },
       {
         path: 'requests',

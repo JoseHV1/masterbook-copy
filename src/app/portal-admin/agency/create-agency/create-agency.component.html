@@ -67,11 +67,10 @@
 
             <div class="col-12 col-md-3">
               <label>Fecha de nacimiento *</label>
-              <app-date-field
+              <app-date-input
                 formControlName="date_of_birth"
-                placeholder="MM/DD/YYYY"
                 [max]="maxDob">
-              </app-date-field>
+              </app-date-input>
             </div>
 
           </div>
@@ -166,11 +165,10 @@
 
             <div class="col-12 col-md-6">
               <label>Vencimiento de licencia *</label>
-              <app-date-field
+              <app-date-input
                 formControlName="license_expires_at"
-                placeholder="MM/DD/YYYY"
                 [min]="minLicenseDate">
-              </app-date-field>
+              </app-date-input>
             </div>
 
             <div class="col-12">

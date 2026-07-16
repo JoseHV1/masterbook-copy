@@ -7,7 +7,7 @@ import { GenderEnum } from '../../../../shared/enums/gender.enum';
 import { NewBrokerRolesEnum } from 'src/app/shared/enums/roles.enum';
 import { DatasetsService } from 'src/app/shared/services/dataset.service';
 import { UserService } from 'src/app/shared/services/user.service';
-import { enumToDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
+import { enumToDropDown, enumToTranslatedDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
 import { CreateBrokerRequest } from 'src/app/shared/interfaces/requests/broker/create-broker.request';
 import { PopulatedBrokerModel } from 'src/app/shared/interfaces/models/broker.model';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
@@ -35,7 +35,7 @@ export class FormUsersComponent implements OnInit, OnChanges {
     return option;
   });
   businessLineOptions: DropdownOptionModel[] = [];
-  dropDownGender: DropdownOptionModel[] = enumToDropDown(GenderEnum);
+  dropDownGender: DropdownOptionModel[] = [];
 
   constructor(
     private _router: Router,
@@ -44,6 +44,7 @@ export class FormUsersComponent implements OnInit, OnChanges {
     private _dataset: DatasetsService,
     private _t: TranslateService,
   ) {
+    this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
     this.form = new FormGroup({
       first_name: new FormControl('', Validators.required),

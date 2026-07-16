@@ -12,6 +12,7 @@ import { CountryCodePipe } from './country-code.pipe';
 import { AppDateTimePipe } from './app-date-time.pipe';
 import { AppCurrencyPipe } from './app-currency.pipe';
 import { TranslatedNamePipe } from './translated-name.pipe';
+import { TranslatedEnumPipe } from './translated-enum.pipe';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { TranslatedNamePipe } from './translated-name.pipe';
     AppDateTimePipe,
     AppCurrencyPipe,
     TranslatedNamePipe,
+    TranslatedEnumPipe,
   ],
   imports: [CommonModule],
   providers: [DatePipe],
@@ -43,6 +45,7 @@ import { TranslatedNamePipe } from './translated-name.pipe';
     AppDateTimePipe,
     AppCurrencyPipe,
     TranslatedNamePipe,
+    TranslatedEnumPipe,
   ],
 })
 export class CustomPipesModule {}

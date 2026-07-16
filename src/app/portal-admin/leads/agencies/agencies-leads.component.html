@@ -11,6 +11,7 @@
       <app-admin-leads-table
         [data]="data.records"
         [filtersActive]="filtersActive"
+        [showTenant]="true"
         detailBasePath="portal-admin/leads/agencies"
         (refresh)="refresh()">
       </app-admin-leads-table>

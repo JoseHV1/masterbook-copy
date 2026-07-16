@@ -20,4 +20,5 @@ export interface LeadModel {
   converted_at?: Date;
   createdAt: Date;
   updatedAt: Date;
+  tenant?: { _id: string; name: string; code: string } | null;
 }

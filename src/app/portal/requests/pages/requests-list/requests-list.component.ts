@@ -1,4 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 import { RequestsService } from 'src/app/shared/services/requests.service';
 import { UiService } from 'src/app/shared/services/ui.service';
@@ -39,7 +40,8 @@ export class RequestsListComponent
     private _ui: UiService,
     public _url: UrlService,
     private _tutor: TutorService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _translate: TranslateService
   ) {
     super();
     const currentUser = this._auth.getAuth() as AuthModel;
@@ -84,7 +86,8 @@ export class RequestsListComponent
     requestTutor(
       this._tutor,
       this._auth.getAuth()?.user.role as RolesEnum,
-      this.data.records.length > 0
+      this.data.records.length > 0,
+      this._translate
     ).drive();
   }
 }
