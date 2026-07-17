@@ -24,7 +24,7 @@
           </div>
           <div class="field-row">
             <span class="label">Event type</span>
-            <span class="value mono">{{ record.stripe_event_type }}</span>
+            <span class="value">{{ record.stripe_event_type | stripeEventLabel | translate }}</span>
           </div>
           <div class="field-row">
             <span class="label">Amount</span>

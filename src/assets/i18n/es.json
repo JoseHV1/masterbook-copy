@@ -2527,5 +2527,16 @@
     "UPLOAD_FILE": {
       "NO_INSURERS": "No hay aseguradoras configuradas. Necesitas tener al menos 1 aseguradora para continuar"
     }
+  },
+  "STRIPE_EVENTS": {
+    "CUSTOMER_SUBSCRIPTION_CREATED": "Suscripción creada",
+    "CUSTOMER_SUBSCRIPTION_UPDATED": "Suscripción actualizada",
+    "CUSTOMER_SUBSCRIPTION_DELETED": "Suscripción cancelada",
+    "CUSTOMER_SUBSCRIPTION_PAUSED":  "Suscripción pausada",
+    "CUSTOMER_SUBSCRIPTION_RESUMED": "Suscripción reactivada",
+    "INVOICE_PAID":                  "Pago recibido",
+    "INVOICE_PAYMENT_FAILED":        "Pago fallido",
+    "INVOICE_CREATED":               "Factura creada",
+    "INVOICE_FINALIZED":             "Factura finalizada"
   }
 }

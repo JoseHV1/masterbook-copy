@@ -36,7 +36,7 @@
     <ng-container matColumnDef="event_type">
       <th mat-header-cell *matHeaderCellDef>Event</th>
       <td mat-cell *matCellDef="let row">
-        <span style="font-size: 0.8rem; color: #555">{{ row.stripe_event_type }}</span>
+        <span style="font-size: 0.8rem; color: #555">{{ row.stripe_event_type | stripeEventLabel | translate }}</span>
       </td>
     </ng-container>
 

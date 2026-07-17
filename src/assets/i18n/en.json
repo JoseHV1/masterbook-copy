@@ -1,4 +1,4 @@
-{
+﻿{
   "GENERAL": {
     "MASTERBOOK": "MasterBook",
     "SIGN_UP": "Sign up",
@@ -46,8 +46,8 @@
     "SECTION_1": {
       "TEXT_0": "FOR AGENTS & AGENCY",
       "TEXT_1": "Transform Your Insurance Agency with MasterBook: The Comprehensive Solution for Insurance Brokers",
-      "TEXT_2": "In the highly competitive insurance industry, MasterBook is the ultimate tool that simplifies and optimizes every aspect of your agency’s operations. Specifically designed for insurance brokers, our SaaS (Software as a Service) platform centralizes all critical operations, from managing clients and policies to tracking commissions and claims.",
-      "TEXT_3": "With MasterBook, forget the chaos of managing scattered information or inefficient tools. Now you can focus on what truly matters: delivering exceptional service to your clients while maximizing your business’s profitability.",
+      "TEXT_2": "In the highly competitive insurance industry, MasterBook is the ultimate tool that simplifies and optimizes every aspect of your agencyâ€™s operations. Specifically designed for insurance brokers, our SaaS (Software as a Service) platform centralizes all critical operations, from managing clients and policies to tracking commissions and claims.",
+      "TEXT_3": "With MasterBook, forget the chaos of managing scattered information or inefficient tools. Now you can focus on what truly matters: delivering exceptional service to your clients while maximizing your businessâ€™s profitability.",
       "TEXT_4": "Take your agency to the next level with MasterBook!"
     },
     "SECTION_2": {
@@ -115,10 +115,10 @@
       "TEXT_2": "Is adaptable and flexible to provide you with agility and reliability as a work tool.",
       "TEXT_3": "Personalized Virtual Service for",
       "TEXT_4": "insurance professionals",
-      "TEXT_5": "In a constantly changing environment where insurance brokers face multiple administrative challenges, <b>MasterBook</b> stands out as the most comprehensive solution to address these issues. Forget about complicated processes and uncoordinated tools. With <b>MasterBook</b>, you’ll have an all-in-one solution that:",
+      "TEXT_5": "In a constantly changing environment where insurance brokers face multiple administrative challenges, <b>MasterBook</b> stands out as the most comprehensive solution to address these issues. Forget about complicated processes and uncoordinated tools. With <b>MasterBook</b>, youâ€™ll have an all-in-one solution that:",
       "ITEM_1": "Simplifies the management of daily operations.",
       "ITEM_2": "Centralizes critical information for your agency.",
-      "ITEM_3": "Optimizes your team’s time and resources.",
+      "ITEM_3": "Optimizes your teamâ€™s time and resources.",
       "ITEM_4": "Delivers excellent service to your insured clients.",
       "TEXT_5_2": "Whether managing policies, requests, or commissions, <b>MasterBook</b> is designed to make every task easier and more efficient.",
       "QUOTE": "Quote follow up",
@@ -154,7 +154,7 @@
       "TEXT_2": "for the Insured Client in",
       "FEATURE_1_TITLE": "1. Transparency and Real-Time Access to Information",
       "FEATURE_1_TEXT_1": "Check the status of your policies, including renewals, exclusions, cancellations, and terms.",
-      "FEATURE_1_TEXT_2": "Stay informed about your premiums and due dates so you’re never caught off guard by unexpected charges.",
+      "FEATURE_1_TEXT_2": "Stay informed about your premiums and due dates so youâ€™re never caught off guard by unexpected charges.",
       "FEATURE_1_TEXT_3": "Review the details of your endorsements and coverages with total clarity.",
       "FEATURE_2_TITLE": "2. Track Requests and Quotes",
       "FEATURE_2_TEXT_1": "Easily track the progress of your insurance requests.",
@@ -918,7 +918,7 @@
       "TIME_FORMAT_24H": "24h (14:30)",
       "TIME_FORMAT_12H": "12h (2:30 PM)",
       "FIELD_DECIMAL_PLACES": "Decimal places",
-      "FIELD_DECIMAL_PLACES_HINT": "0 for COP/CLP · 2 for USD/MXN",
+      "FIELD_DECIMAL_PLACES_HINT": "0 for COP/CLP Â· 2 for USD/MXN",
       "FIELD_THOUSANDS_SEP": "Thousands separator",
       "FIELD_THOUSANDS_SEP_HINT": ". for Latam, , for USA",
       "FIELD_DECIMAL_SEP": "Decimal separator",
@@ -1451,8 +1451,8 @@
       "LABEL_DATE_TO": "Date to",
       "BTN_RESET": "Reset",
       "BTN_SEARCH": "Search",
-      "CHECKING_GOOGLE": "Checking Google connection…",
-      "REDIRECTING_GOOGLE": "Redirecting to connect Google Calendar…",
+      "CHECKING_GOOGLE": "Checking Google connectionâ€¦",
+      "REDIRECTING_GOOGLE": "Redirecting to connect Google Calendarâ€¦",
       "EVENT_DIALOG": {
         "TITLE_EDIT": "Edit event",
         "TITLE_CREATE": "Create event",
@@ -1506,8 +1506,8 @@
         "TAB_INBOX": "Inbox",
         "TAB_SENT": "Sent",
         "TAB_DRAFTS": "Drafts",
-        "CHECKING_GOOGLE": "Checking Google connection…",
-        "REDIRECTING_GOOGLE": "Redirecting to connect Google Calendar…"
+        "CHECKING_GOOGLE": "Checking Google connectionâ€¦",
+        "REDIRECTING_GOOGLE": "Redirecting to connect Google Calendarâ€¦"
       },
       "SEND": {
         "TITLE": "New Message",
@@ -1833,7 +1833,7 @@
         "BTN_NEXT": "Next"
       },
       "REJECT_MODAL": {
-        "LABEL_REASON": "What’s your reason for reject this request?"
+        "LABEL_REASON": "Whatâ€™s your reason for reject this request?"
       },
       "GOOGLE_CONNECTED": "Google account connected successfully. You can now send emails.",
       "EMAIL_SENT_TITLE": "SUCCESS!",
@@ -2020,12 +2020,12 @@
       },
       "PREVIEW": {
         "TITLE": "Preview",
-        "LOADING": "Loading preview…",
+        "LOADING": "Loading previewâ€¦",
         "REPORT_TYPE": "Report Type:",
         "ESTIMATED_RECORDS": "Estimated Records:",
         "DATE_RANGE": "Date Range:",
         "ESTIMATED_SIZE": "Estimated Size:",
-        "EMPTY_LINE_1": "Select filters and click “Preview”",
+        "EMPTY_LINE_1": "Select filters and click â€œPreviewâ€",
         "EMPTY_LINE_2": "or generate the report to see complete data"
       },
       "HISTORY": {
@@ -2527,5 +2527,16 @@
     "UPLOAD_FILE": {
       "NO_INSURERS": "No insurers configured. You need to have at least 1 insurer to proceed"
     }
+  },
+  "STRIPE_EVENTS": {
+    "CUSTOMER_SUBSCRIPTION_CREATED": "Subscription created",
+    "CUSTOMER_SUBSCRIPTION_UPDATED": "Subscription updated",
+    "CUSTOMER_SUBSCRIPTION_DELETED": "Subscription cancelled",
+    "CUSTOMER_SUBSCRIPTION_PAUSED":  "Subscription paused",
+    "CUSTOMER_SUBSCRIPTION_RESUMED": "Subscription resumed",
+    "INVOICE_PAID":                  "Payment received",
+    "INVOICE_PAYMENT_FAILED":        "Payment failed",
+    "INVOICE_CREATED":               "Invoice created",
+    "INVOICE_FINALIZED":             "Invoice finalized"
   }
 }
