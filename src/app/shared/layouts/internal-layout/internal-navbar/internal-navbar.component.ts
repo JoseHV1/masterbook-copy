@@ -21,6 +21,7 @@ export class InternalNavbarComponent implements OnDestroy {
   userId!: string;
   logo!: string | null;
   showLogo: boolean = false;
+  logoLoadError = false;
 
   private roleMap: Record<RolesEnum, 'agent' | 'client' | 'admin'> = {
     [RolesEnum.INSURED]: 'client',
@@ -65,8 +66,10 @@ export class InternalNavbarComponent implements OnDestroy {
       }
 
       if (user.agency?.logo_url) {
-        this._uploadFile.getUrlFile(user.agency?.logo_url).subscribe(url => {
-          this.logo = url;
+        this.logoLoadError = false;
+        this._uploadFile.getUrlFile(user.agency?.logo_url).subscribe({
+          next: url => (this.logo = url),
+          error: () => (this.logoLoadError = true),
         });
         this.showLogo = user.agency?.check_branding ?? false;
       }

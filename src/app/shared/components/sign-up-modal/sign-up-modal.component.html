@@ -13,23 +13,12 @@
     </h6>
     <form [formGroup]="form">
       <div class="mb-3">
-        <div
-          class="p-inputgroup anon-input-custom anon-select-custom"
-          [ngClass]="{ 'custom-error': fieldInvalid('tenant_code') }">
-          <span class="p-inputgroup-addon">
-            <img src="/assets/icons/register-two/location.svg" alt="" />
-          </span>
-          <p-dropdown
-            formControlName="tenant_code"
-            [options]="tenantOptions"
-            optionLabel="label"
-            optionValue="value"
-            [placeholder]="'SINGUP.INPUT_COUNTRY' | translate"
-            [filter]="true"
-            [disabled]="loadingTenants"
-            styleClass="w-100">
-          </p-dropdown>
-        </div>
+        <app-dropdown-field
+          formControlName="tenant_code"
+          [options]="tenantOptions"
+          [placeholder]="'SINGUP.INPUT_COUNTRY' | translate"
+          [filter]="true">
+        </app-dropdown-field>
         <small *ngIf="fieldInvalid('tenant_code')" class="text-danger" style="font-size: 12px">
           {{ 'SINGUP.TEXT_COUNTRY_INVALID' | translate }}
         </small>

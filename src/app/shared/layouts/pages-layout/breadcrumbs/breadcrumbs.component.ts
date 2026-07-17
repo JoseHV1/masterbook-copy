@@ -1,6 +1,8 @@
 import { Component, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { BREADCRUMB_LABELS } from './breadcrumb-labels.map';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -11,11 +13,12 @@ export class BreadcrumbsComponent implements OnDestroy {
   destroy$: Subject<void> = new Subject();
   menuItems!: any[];
   homeLinks = ['portal', 'portal-client'];
+  private currentUrl: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private translate: TranslateService) {
     this.menuItems = [];
-    const urlInitial = this.router.url.split('?')[0];
-    this.mapUrlToItems(urlInitial);
+    this.currentUrl = this.router.url.split('?')[0];
+    this.mapUrlToItems(this.currentUrl);
 
     this.router.events
       .pipe(
@@ -23,9 +26,13 @@ export class BreadcrumbsComponent implements OnDestroy {
         filter(event => event instanceof NavigationEnd)
       )
       .subscribe((item: any) => {
-        const url = item.url.split('?')[0];
-        this.mapUrlToItems(url);
+        this.currentUrl = item.url.split('?')[0];
+        this.mapUrlToItems(this.currentUrl);
       });
+
+    this.translate.onLangChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.mapUrlToItems(this.currentUrl));
   }
 
   mapUrlToItems(url: string) {
@@ -33,18 +40,28 @@ export class BreadcrumbsComponent implements OnDestroy {
       .split('/')
       .filter((item: any) => !!item && item != '')
       .map((item: string) => {
-        const formattedItem = !this.homeLinks.includes(item)
-          ? item
-              .split('-')
-              .map(word => this.capitalizeFirstLetter(word))
-              .join(' ')
-          : 'Home';
+        const formattedItem = this.homeLinks.includes(item)
+          ? this.translate.instant('SHARED.BREADCRUMBS.HOME')
+          : this.translateSegment(item);
 
         return {
           label: formattedItem,
           routerLink: url.split(item)[0] + item,
         };
       });
+  }
+
+  private translateSegment(item: string): string {
+    const key = BREADCRUMB_LABELS[item];
+    if (key) {
+      const translated = this.translate.instant(key);
+      if (translated !== key) return translated;
+    }
+
+    return item
+      .split('-')
+      .map(word => this.capitalizeFirstLetter(word))
+      .join(' ');
   }
 
   capitalizeFirstLetter(str: string): string {

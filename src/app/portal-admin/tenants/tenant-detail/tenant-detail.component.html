@@ -220,14 +220,30 @@
         <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.accounts_template_url">
           <div class="row">
             <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_ACCOUNTS_TEMPLATE' | translate }}</div>
-            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.accounts_template_url }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+              <span
+                class="file-link"
+                [title]="getFileName(tenant.accounts_template_url)"
+                (click)="openTemplate(tenant.accounts_template_url)">
+                <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">insert_drive_file</span>
+                {{ getFileName(tenant.accounts_template_url) }}
+              </span>
+            </div>
           </div>
         </div>
 
         <div class="col col-12 col-md-6 px-2 px-md-4 my-2" *ngIf="tenant.policies_template_url">
           <div class="row">
             <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.TENANTS.DETAIL_POLICIES_TEMPLATE' | translate }}</div>
-            <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ tenant.policies_template_url }}</div>
+            <div class="col-12 col-md-8 black px-3 py-2 prop-box">
+              <span
+                class="file-link"
+                [title]="getFileName(tenant.policies_template_url)"
+                (click)="openTemplate(tenant.policies_template_url)">
+                <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">insert_drive_file</span>
+                {{ getFileName(tenant.policies_template_url) }}
+              </span>
+            </div>
           </div>
         </div>
 

@@ -30,8 +30,11 @@
 
       <app-internal-navbar-options></app-internal-navbar-options>
 
-      <div class="container-logo" *ngIf="logo && showLogo">
-        <img class="text-selection-disable mt-1 ms-1 img-logo" [src]="logo" />
+      <div class="container-logo" *ngIf="logo && showLogo && !logoLoadError">
+        <img
+          class="text-selection-disable mt-1 ms-1 img-logo"
+          [src]="logo"
+          (error)="logoLoadError = true" />
       </div>
     </div>
   </div>

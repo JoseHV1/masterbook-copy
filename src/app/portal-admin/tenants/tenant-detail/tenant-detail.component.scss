@@ -15,4 +15,18 @@
   letter-spacing: 0.06em;
   border-bottom: 1px solid $gray-200;
   padding-bottom: 4px;
+
+  button {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.file-link {
+  color: $light-blue-500;
+  cursor: pointer;
+  word-break: break-all;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

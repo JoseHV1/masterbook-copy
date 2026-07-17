@@ -232,7 +232,7 @@ export class FormAccountsComponent implements OnChanges, OnDestroy {
   }
 
   private _openSuccessModal(account: PopulatedAccount) {
-    const clientName = this.form.value.account_name;
+    const clientName = account.account_name;
     const message = this.data
       ? this._t.instant('PORTAL.ACCOUNTS.UPDATED_SUCCESS_TEXT')
       : this._t.instant('PORTAL.ACCOUNTS.CREATED_SUCCESS_TEXT');

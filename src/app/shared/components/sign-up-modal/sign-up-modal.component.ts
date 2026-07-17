@@ -20,7 +20,7 @@ export class SingupModalComponent implements OnInit, OnDestroy {
   showNew = false;
   showRepeat = false;
   recaptchaSiteKey = environment.RECAPTCHA_SITE_KEY;
-  tenantOptions: { label: string; value: string }[] = [];
+  tenantOptions: { name: string; code: string }[] = [];
   loadingTenants = true;
 
   constructor(
@@ -78,7 +78,7 @@ export class SingupModalComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: tenants => {
-          this.tenantOptions = tenants.map(t => ({ label: t.name, value: t.code }));
+          this.tenantOptions = tenants.map(t => ({ name: t.name, code: t.code }));
         },
         error: () => {
           this.tenantOptions = [];

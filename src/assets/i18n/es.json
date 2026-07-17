@@ -2423,6 +2423,27 @@
       "POLICY_CATEGORIES": "Categorías de póliza",
       "POLICY_TYPES": "Tipos de póliza"
     },
+    "BREADCRUMBS": {
+      "HOME": "Inicio",
+      "NEW": "Nuevo",
+      "EDIT": "Editar",
+      "LIST": "Lista",
+      "DETAIL": "Detalle",
+      "HELP": "Ayuda",
+      "CREATE": "Crear",
+      "REGISTER": "Registro",
+      "SEND": "Enviar",
+      "TRANSFER": "Transferir",
+      "CONVERT": "Convertir",
+      "INSURER": "Aseguradora",
+      "AGENCY": "Agencia",
+      "AGENCY_SETTINGS": "Configuración de agencia",
+      "INVITE": "Invitar",
+      "PURCHASE_COMPLETE": "Compra completada",
+      "PAYMENT_FAILED": "Pago fallido",
+      "PROFILE": "Perfil",
+      "RISK": "Riesgo"
+    },
     "NAVBAR_NOTIFICATIONS": {
       "TITLE": "Notificaciones",
       "EMPTY": "Sin notificaciones",

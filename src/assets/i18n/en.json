@@ -2423,6 +2423,27 @@
       "POLICY_CATEGORIES": "Policy Categories",
       "POLICY_TYPES": "Policy Types"
     },
+    "BREADCRUMBS": {
+      "HOME": "Home",
+      "NEW": "New",
+      "EDIT": "Edit",
+      "LIST": "List",
+      "DETAIL": "Detail",
+      "HELP": "Help",
+      "CREATE": "Create",
+      "REGISTER": "Register",
+      "SEND": "Send",
+      "TRANSFER": "Transfer",
+      "CONVERT": "Convert",
+      "INSURER": "Insurer",
+      "AGENCY": "Agency",
+      "AGENCY_SETTINGS": "Agency Settings",
+      "INVITE": "Invite",
+      "PURCHASE_COMPLETE": "Purchase Complete",
+      "PAYMENT_FAILED": "Payment Failed",
+      "PROFILE": "Profile",
+      "RISK": "Risk"
+    },
     "NAVBAR_NOTIFICATIONS": {
       "TITLE": "Notifications",
       "EMPTY": "No Notifications",

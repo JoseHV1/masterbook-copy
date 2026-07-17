@@ -10,6 +10,7 @@ import { DocumentLanguageEnum } from 'src/app/shared/enums/document-language.enu
 import { CurrencySymbolPositionEnum } from 'src/app/shared/enums/currency-symbol-position.enum';
 import { CountryCodeEnum } from 'src/app/shared/enums/country-code.enum';
 import { UploadFileService } from 'src/app/shared/services/upload_file.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-tenant-form',
@@ -138,10 +139,15 @@ export class TenantFormComponent implements OnInit, OnDestroy {
       .sort((a, b) => a.name.localeCompare(b.name));
   })();
 
+  get isPlatformAdmin(): boolean {
+    return !this._auth.getAuth()?.user?.managed_tenant_id;
+  }
+
   constructor(
     private _fb: FormBuilder,
     private _t: TranslateService,
     private _uploadFile: UploadFileService,
+    private _auth: AuthService,
   ) {}
 
   ngOnInit(): void {

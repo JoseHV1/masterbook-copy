@@ -573,6 +573,20 @@
     box-shadow: none !important;
     border-color: $gray-400;
   }
+
+  .p-dropdown-panel .p-dropdown-filter {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    border: 1px solid $gray-400 !important;
+    background: $white !important;
+    padding-left: 0.8rem !important;
+  }
+
+  .p-dropdown-panel .p-dropdown-filter:enabled:focus,
+  .p-dropdown-panel .p-dropdown-filter:enabled:hover {
+    border-color: $light-blue-500 !important;
+    box-shadow: none !important;
+  }
 }
 
 .anon-multiselect-custom {

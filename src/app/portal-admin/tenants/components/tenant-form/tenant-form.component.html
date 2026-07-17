@@ -133,7 +133,7 @@
         </app-dropdown-field>
       </div>
 
-      <div class="col-12 col-md-8">
+      <div class="col-12 col-md-8" *ngIf="isPlatformAdmin">
         <label>{{ 'PORTAL.TENANTS.FIELD_STRIPE_ACCOUNT' | translate }}</label>
         <app-input [placeholder]="'PORTAL.COMMON.OPTIONAL' | translate" formControlName="stripe_account_id"></app-input>
       </div>
@@ -211,7 +211,12 @@
               <span class="material-icons-outlined">close</span>
             </button>
           </div>
-          <span *ngIf="getDisplayName('accounts')" class="file-upload-field__name" [title]="getDisplayName('accounts')">
+          <span
+            *ngIf="getDisplayName('accounts')"
+            class="file-upload-field__name"
+            [class.file-upload-field__name--clickable]="hasExistingFile('accounts')"
+            [title]="getDisplayName('accounts')"
+            (click)="hasExistingFile('accounts') && downloadTemplate('accounts')">
             <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">insert_drive_file</span>
             {{ getDisplayName('accounts') }}
           </span>
@@ -246,7 +251,12 @@
               <span class="material-icons-outlined">close</span>
             </button>
           </div>
-          <span *ngIf="getDisplayName('policies')" class="file-upload-field__name" [title]="getDisplayName('policies')">
+          <span
+            *ngIf="getDisplayName('policies')"
+            class="file-upload-field__name"
+            [class.file-upload-field__name--clickable]="hasExistingFile('policies')"
+            [title]="getDisplayName('policies')"
+            (click)="hasExistingFile('policies') && downloadTemplate('policies')">
             <span class="material-icons-outlined" style="font-size:14px;vertical-align:middle">insert_drive_file</span>
             {{ getDisplayName('policies') }}
           </span>

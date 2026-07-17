@@ -10,6 +10,7 @@ import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { TenantModel } from 'src/app/shared/interfaces/models/tenant.model';
 import { TenantAdminModel } from 'src/app/shared/interfaces/models/tenant-admin.model';
 import { TenantStatusEnum } from 'src/app/shared/enums/tenant-status.enum';
+import { UploadFileService } from 'src/app/shared/services/upload_file.service';
 
 @Component({
   selector: 'app-tenant-detail',
@@ -34,6 +35,7 @@ export class TenantDetailComponent {
     private readonly _location: Location,
     private readonly _t: TranslateService,
     private readonly _fb: FormBuilder,
+    private readonly _uploadFile: UploadFileService,
   ) {
     this._buildAdminForm();
     this._loadTenant();
@@ -104,6 +106,17 @@ export class TenantDetailComponent {
 
   goBack(): void {
     this._location.back();
+  }
+
+  getFileName(key: string): string {
+    return key.split('/').pop()?.split('?')[0] ?? key;
+  }
+
+  openTemplate(key: string): void {
+    this._uploadFile
+      .getUrlFile(key)
+      .pipe(take(1))
+      .subscribe({ next: presigned => window.open(presigned, '_blank') });
   }
 
   confirmEnable(): void {

@@ -81,7 +81,7 @@ export class PoliciesListComponent extends FilteredTable<PopulatedPolicyModel> i
   }
 
   refresh(): void {
-    this._fetchData(this.data.page, this.data.limit);
+    this._fetchData(this.data.page - 1, this.data.limit);
   }
 
   private _loadTenants(): void {
