@@ -6,10 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { StripeBillingTableComponent } from './stripe-billing-table.component';
 import { FiltersModule } from 'src/app/shared/components/filters/filters.module';
-import { StripeEventLabelPipe } from '../../pipes/stripe-event-label.pipe';
+import { StripeEventLabelPipeModule } from '../../pipes/stripe-event-label-pipe.module';
 
 @NgModule({
-  declarations: [StripeBillingTableComponent, StripeEventLabelPipe],
+  declarations: [StripeBillingTableComponent],
   imports: [
     CommonModule,
     MatTableModule,
@@ -17,6 +17,7 @@ import { StripeEventLabelPipe } from '../../pipes/stripe-event-label.pipe';
     MatIconModule,
     TranslateModule,
     FiltersModule,
+    StripeEventLabelPipeModule,
   ],
   exports: [StripeBillingTableComponent],
 })

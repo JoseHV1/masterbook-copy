@@ -6,12 +6,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { StripeBillingDetailComponent } from './stripe-billing-detail.component';
 import { PagesLayoutModule } from 'src/app/shared/layouts/pages-layout/pages-layout.module';
-import { StripeEventLabelPipe } from '../pipes/stripe-event-label.pipe';
+import { StripeEventLabelPipeModule } from '../pipes/stripe-event-label-pipe.module';
 
 const routes: Routes = [{ path: '', component: StripeBillingDetailComponent }];
 
 @NgModule({
-  declarations: [StripeBillingDetailComponent, StripeEventLabelPipe],
+  declarations: [StripeBillingDetailComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -19,6 +19,7 @@ const routes: Routes = [{ path: '', component: StripeBillingDetailComponent }];
     MatIconModule,
     TranslateModule,
     PagesLayoutModule,
+    StripeEventLabelPipeModule,
   ],
 })
 export class StripeBillingDetailModule {}
