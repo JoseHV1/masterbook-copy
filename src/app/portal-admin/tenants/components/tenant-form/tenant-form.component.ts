@@ -228,8 +228,6 @@ export class TenantFormComponent implements OnInit, OnDestroy {
       price_agency:      [null],
       price_master_user: [null],
       price_regular_user:[null],
-      url_success:       ['/portal/purchase-complete'],
-      url_cancel:        ['/portal/payment-failed'],
 
       survey_url: [null, [Validators.pattern(this._urlPattern)]],
     });
@@ -258,8 +256,6 @@ export class TenantFormComponent implements OnInit, OnDestroy {
       price_agency:       tenant.price_agency,
       price_master_user:  tenant.price_master_user,
       price_regular_user: tenant.price_regular_user,
-      url_success:        tenant.url_success,
-      url_cancel:         tenant.url_cancel,
 
       survey_url: tenant.survey_url,
     });

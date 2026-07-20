@@ -5,6 +5,10 @@
 @import 'driver.js/dist/driver.css';
 // @import "flag-icons/css/flag-icons.min.css";
 
+.cdk-overlay-container {
+  z-index: 10000;
+}
+
 * {
   margin: 0;
   padding: 0;

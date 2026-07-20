@@ -41,7 +41,7 @@ export class BreadcrumbsComponent implements OnDestroy {
       .filter((item: any) => !!item && item != '')
       .map((item: string) => {
         const formattedItem = this.homeLinks.includes(item)
-          ? this.translate.instant('SHARED.BREADCRUMBS.HOME')
+          ? this.translateOrFallback('SHARED.BREADCRUMBS.HOME', 'Home')
           : this.translateSegment(item);
 
         return {
@@ -62,6 +62,11 @@ export class BreadcrumbsComponent implements OnDestroy {
       .split('-')
       .map(word => this.capitalizeFirstLetter(word))
       .join(' ');
+  }
+
+  private translateOrFallback(key: string, fallback: string): string {
+    const translated = this.translate.instant(key);
+    return translated !== key ? translated : fallback;
   }
 
   capitalizeFirstLetter(str: string): string {

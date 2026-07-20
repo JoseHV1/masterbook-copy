@@ -29,8 +29,6 @@ export interface CreateTenantRequest {
   price_agency?: string;
   price_master_user?: string;
   price_regular_user?: string;
-  url_success?: string;
-  url_cancel?: string;
 
   // Módulos
   survey_url?: string;

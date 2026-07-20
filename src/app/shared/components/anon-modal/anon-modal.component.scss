@@ -10,7 +10,8 @@
     border-bottom-right-radius: 2.5rem !important;
     border-bottom-left-radius: 2.5rem !important;
     padding: 1rem 2rem 2rem !important;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .p-dialog {

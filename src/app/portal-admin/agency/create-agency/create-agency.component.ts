@@ -137,7 +137,7 @@ export class CreateAgencyComponent implements OnInit, OnDestroy {
     }
     this._ui.showLoader();
 
-    const { staff_size, ...payload } = this.form.value;
+    const payload = this.form.value;
     const call$ = this.clientType === 'agency'
       ? this._adminPanel.createAgency(payload)
       : this._adminPanel.createIndependentBroker(payload);

@@ -65,11 +65,11 @@ export class FormAgencyComponent implements OnInit {
         .subscribe((data: any) => {
           this.form.patchValue({
             name: data.agency_name ?? null,
-            position: data.position ?? null,
             phone_number: data.phone_number ?? null,
             license_number: data.license_number ?? null,
             license_number_expires_on: data.license_expires_at ? new Date(data.license_expires_at) : null,
             business_lines_ids: data.business_lines ?? [],
+            staff_size: data.staff_size ?? null,
             address: data.address_info?.address ?? null,
             additional_address: data.address_info?.additional_address ?? null,
           });
