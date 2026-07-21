@@ -54,6 +54,7 @@ export class UiService {
   }
 
   showConfirmationModal(config: Partial<UiModalConfig>): Observable<boolean> {
+    this._blurActiveElement();
     return this._dialog
       .open(ConfirmationModalComponent, {
         data: this._getUiModalConfig(config),
@@ -64,6 +65,7 @@ export class UiService {
   }
 
   showInformationModal(config: Partial<UiModalConfig>): Observable<string> {
+    this._blurActiveElement();
     return this._dialog
       .open(InformationModalComponent, {
         data: this._getUiModalConfig(config),
@@ -71,6 +73,10 @@ export class UiService {
         panelClass: 'transparent-modal-container',
       })
       .afterClosed();
+  }
+
+  private _blurActiveElement(): void {
+    (document.activeElement as HTMLElement)?.blur?.();
   }
 
   private _getUiModalConfig(config: Partial<UiModalConfig>): UiModalConfig {

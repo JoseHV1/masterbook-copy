@@ -28,6 +28,7 @@ import { InternalLayoutModule } from '@app/shared/layouts/internal-layout/intern
 import { PagesLayoutModule } from '@app/shared/layouts/pages-layout/pages-layout.module';
 import { CDKModule } from 'src/core/cdk/cdk.module';
 import { CurrencyInputModule } from 'src/app/shared/components/currency-input/currency-input.module';
+import { CustomPipesModule } from '@app/shared/pipes/custom-pipes.module';
 
 const routes: Routes = [{ path: '', component: ReportsComponent }];
 
@@ -61,6 +62,7 @@ const routes: Routes = [{ path: '', component: ReportsComponent }];
     PagesLayoutModule,
     CDKModule,
     CurrencyInputModule,
+    CustomPipesModule,
   ],
   exports: [ReportsComponent],
 })

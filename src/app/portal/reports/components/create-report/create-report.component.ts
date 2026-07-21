@@ -7,8 +7,12 @@ import {
   DateRangePreset,
   ReportType,
   CONFIG_BY_TYPE,
+  REPORT_OPTIONS_I18N_PREFIX,
 } from '../../../../shared/models/report.models';
 import { ReportService } from '@app/shared/services/report.service';
+import { TranslateService } from '@ngx-translate/core';
+
+const OPT = REPORT_OPTIONS_I18N_PREFIX;
 
 @Component({
   selector: 'app-report-config',
@@ -42,7 +46,8 @@ export class ReportConfigComponent implements OnInit {
 
   constructor(
     private _datasets: DatasetsService,
-    private _report: ReportService
+    private _report: ReportService,
+    private _t: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -159,38 +164,42 @@ export class ReportConfigComponent implements OnInit {
 
   private fillDatasets() {
     //Select Report Type
-    this.dropDownReportType = [
-      { code: 'accounts', name: 'Accounts Report' },
-      { code: 'policies', name: 'Policies Report' },
-      { code: 'requests', name: 'Requests Report' },
-      { code: 'quotes', name: 'Quotes Report' },
-      { code: 'payments', name: 'Payments Report' },
-      { code: 'invoices', name: 'Invoices Report' },
-      { code: 'commissions', name: 'Commissions Report' },
-    ];
+    this.dropDownReportType = this.translateOptions([
+      { code: 'accounts', name: `${OPT}.REPORT_TYPE.ACCOUNTS` },
+      { code: 'policies', name: `${OPT}.REPORT_TYPE.POLICIES` },
+      { code: 'requests', name: `${OPT}.REPORT_TYPE.REQUESTS` },
+      { code: 'quotes', name: `${OPT}.REPORT_TYPE.QUOTES` },
+      { code: 'payments', name: `${OPT}.REPORT_TYPE.PAYMENTS` },
+      { code: 'invoices', name: `${OPT}.REPORT_TYPE.INVOICES` },
+      { code: 'commissions', name: `${OPT}.REPORT_TYPE.COMMISSIONS` },
+    ]);
 
     //Select Date Range
-    this.dropDownDateRange = [
-      { code: 'last_7', name: 'Last 7 Days' },
-      { code: 'last_30', name: 'Last 30 Days' },
-      { code: 'last_90', name: 'Last 90 Days' },
-      { code: 'ytd', name: 'Year to Date' },
-      { code: 'custom', name: 'Custom Range' },
-    ];
+    this.dropDownDateRange = this.translateOptions([
+      { code: 'last_7', name: `${OPT}.DATE_RANGE.LAST_7` },
+      { code: 'last_30', name: `${OPT}.DATE_RANGE.LAST_30` },
+      { code: 'last_90', name: `${OPT}.DATE_RANGE.LAST_90` },
+      { code: 'ytd', name: `${OPT}.DATE_RANGE.YTD` },
+      { code: 'custom', name: `${OPT}.DATE_RANGE.CUSTOM` },
+    ]);
 
     // Select payment from
-    this.dropDownpaymentFrom = this.addAllOption([
-      { code: 'Account', name: 'Account' },
-      { code: 'Insurer', name: 'Insurer' },
-    ]);
+    this.dropDownpaymentFrom = this.addAllOption(
+      this.translateOptions([
+        { code: 'Account', name: `${OPT}.PAYMENT_FROM.ACCOUNT` },
+        { code: 'Insurer', name: `${OPT}.PAYMENT_FROM.INSURER` },
+      ])
+    );
 
     // Select payment method
-    this.dropDownPaymentMethod = this.addAllOption([
-      { code: 'bank_transfer', name: 'Bank Transfer' },
-      { code: 'cash', name: 'Cash' },
-      { code: 'check', name: 'Check' },
-      { code: 'credit_card', name: 'Credit Card' },
-    ]);
+    this.dropDownPaymentMethod = this.addAllOption(
+      this.translateOptions([
+        { code: 'bank_transfer', name: `${OPT}.PAYMENT_METHOD.BANK_TRANSFER` },
+        { code: 'cash', name: `${OPT}.PAYMENT_METHOD.CASH` },
+        { code: 'check', name: `${OPT}.PAYMENT_METHOD.CHECK` },
+        { code: 'credit_card', name: `${OPT}.PAYMENT_METHOD.CREDIT_CARD` },
+      ])
+    );
 
     // Select insurer
     this._datasets.getInsuranceCompaniesDataset().subscribe({
@@ -274,10 +283,10 @@ export class ReportConfigComponent implements OnInit {
     };
 
     // Options
-    this.dropDownStatus = cfg.statusOptions ?? [];
-    this.dropDownGroupBy = cfg.groupByOptions ?? [];
-    this.dropDownAggregate = cfg.aggregateOptions ?? [];
-    this.dropDownSort = cfg.sortOptions ?? [];
+    this.dropDownStatus = this.translateOptions(cfg.statusOptions ?? []);
+    this.dropDownGroupBy = this.translateOptions(cfg.groupByOptions ?? []);
+    this.dropDownAggregate = this.translateOptions(cfg.aggregateOptions ?? []);
+    this.dropDownSort = this.translateOptions(cfg.sortOptions ?? []);
 
     // Enable/disable irrelevant controls and clear them
     const maybeToggle = (key: keyof ReportFilters, visible?: boolean) => {
@@ -398,13 +407,19 @@ export class ReportConfigComponent implements OnInit {
   }
 
   onPreview() {
-    if (!this.form.valid) return;
+    if (!this.form.valid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     const values = this.value();
     this.preview.emit(values);
   }
 
   onGenerate() {
-    if (!this.form.valid) return;
+    if (!this.form.valid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     const values = this.value();
     this.generate.emit(values);
   }
@@ -430,8 +445,14 @@ export class ReportConfigComponent implements OnInit {
 
   private addAllOption(
     options: DropdownOptionModel[],
-    label: string = 'All'
+    label: string = this._t.instant(`${OPT}.ALL`)
   ): DropdownOptionModel[] {
     return [{ code: '', name: label }, ...options];
+  }
+
+  private translateOptions(
+    options: DropdownOptionModel[]
+  ): DropdownOptionModel[] {
+    return options.map(o => ({ ...o, name: this._t.instant(o.name) }));
   }
 }

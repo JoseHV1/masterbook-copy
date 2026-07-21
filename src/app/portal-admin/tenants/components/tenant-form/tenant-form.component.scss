@@ -30,6 +30,48 @@ label {
   to   { transform: rotate(360deg); }
 }
 
+.small-button {
+  min-width: auto !important;
+  padding: 0.4rem 0.9rem !important;
+  font-size: 0.8rem !important;
+}
+
+.action-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid $gray-400;
+  background: $white;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  .material-icons-outlined {
+    font-size: 18px;
+  }
+
+  &--success {
+    border-color: $color-success;
+    color: $color-success;
+
+    &:hover {
+      background: rgba($color-success, 0.1);
+    }
+  }
+
+  &--danger {
+    border-color: $red-color;
+    color: $red-color;
+
+    &:hover {
+      background: $red-100;
+    }
+  }
+}
+
 .file-upload-field {
   display: flex;
   flex-direction: column;

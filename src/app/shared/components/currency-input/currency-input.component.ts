@@ -29,7 +29,7 @@ export class CurrencyInputComponent implements ControlValueAccessor, OnDestroy {
     if (this.ngControl) this.ngControl.valueAccessor = this;
 
     const tenant = this._tenantCtx.snapshot;
-    const dp = tenant?.currency_decimal_places ?? 2;
+    const dp = this._sanitizeDecimalPlaces(tenant?.currency_decimal_places);
     this.maskPattern = `separator.${dp}`;
     this.thousandSeparator = tenant?.currency_thousands_separator ?? ',';
     this.decimalMarker = (tenant?.currency_decimal_separator ?? '.') as '.' | ',';
@@ -65,16 +65,22 @@ export class CurrencyInputComponent implements ControlValueAccessor, OnDestroy {
     this._sub.unsubscribe();
   }
 
+  private _sanitizeDecimalPlaces(value: number | null | undefined): number {
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed) || parsed < 0) return 2;
+    return Math.min(Math.trunc(parsed), 4);
+  }
+
   private _buildPlaceholder(): string {
     const tenant = this._tenantCtx.snapshot;
     if (!tenant?.currency_symbol) return '0';
     const {
       currency_symbol,
       currency_symbol_position,
-      currency_decimal_places = 2,
       currency_thousands_separator = ',',
       currency_decimal_separator = '.',
     } = tenant;
+    const currency_decimal_places = this._sanitizeDecimalPlaces(tenant.currency_decimal_places);
     const [intPart, decPart] = (1000).toFixed(currency_decimal_places).split('.');
     const intFormatted = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, currency_thousands_separator);
     const formatted = currency_decimal_places > 0

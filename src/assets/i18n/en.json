@@ -2016,7 +2016,91 @@
         "FIELD_SORT": "Sort",
         "PLACEHOLDER_SORT": "Select a sort",
         "SECTION_OUTPUT": "Output Format",
-        "BTN_GENERATE": "Generate Report"
+        "BTN_GENERATE": "Generate Report",
+        "OPTIONS": {
+          "ALL": "All",
+          "REPORT_TYPE": {
+            "ACCOUNTS": "Accounts Report",
+            "POLICIES": "Policies Report",
+            "REQUESTS": "Requests Report",
+            "QUOTES": "Quotes Report",
+            "PAYMENTS": "Payments Report",
+            "INVOICES": "Invoices Report",
+            "COMMISSIONS": "Commissions Report"
+          },
+          "DATE_RANGE": {
+            "LAST_7": "Last 7 Days",
+            "LAST_30": "Last 30 Days",
+            "LAST_90": "Last 90 Days",
+            "YTD": "Year to Date",
+            "CUSTOM": "Custom Range"
+          },
+          "PAYMENT_FROM": {
+            "ACCOUNT": "Account",
+            "INSURER": "Insurer"
+          },
+          "PAYMENT_METHOD": {
+            "BANK_TRANSFER": "Bank Transfer",
+            "CASH": "Cash",
+            "CHECK": "Check",
+            "CREDIT_CARD": "Credit Card"
+          },
+          "STATUS": {
+            "ACTIVE": "Active",
+            "INACTIVE": "Inactive",
+            "CANCELLED": "Cancelled",
+            "EXPIRED": "Expired",
+            "PENDING": "Pending",
+            "CLOSED": "Closed",
+            "PENDING_QUOTES": "Pending Quotes",
+            "PENDING_SELECTION": "Pending Selection",
+            "QUOTE_SELECTED": "Quote Selected",
+            "REJECTED": "Rejected",
+            "ACCEPTED": "Accepted",
+            "NOT_ACCEPTED": "Not Accepted",
+            "AVAILABLE": "Available",
+            "FULL_PAID": "Full Paid",
+            "PARTIALLY_PAID": "Partially Paid",
+            "PAID": "Paid",
+            "UNPAID": "Unpaid",
+            "APPROVED": "Approved"
+          },
+          "GROUP_BY": {
+            "NONE": "No grouping",
+            "MONTH": "Month",
+            "AGENT": "Agent",
+            "BROKER": "Broker",
+            "INSURER": "Insurer",
+            "BUSINESS_LINE": "Business Line",
+            "STATUS": "Status",
+            "ACCOUNT": "Account",
+            "PAYMENT_FROM": "Payment From"
+          },
+          "AGGREGATE": {
+            "NONE": "No aggregates",
+            "SUM": "Sum",
+            "AVERAGE": "Average",
+            "COUNT": "Count"
+          },
+          "SORT": {
+            "DATE_DESC": "Date (Newest first)",
+            "DATE_ASC": "Date (Oldest first)",
+            "PREMIUM_DESC": "Premium Amount (High to low)",
+            "PREMIUM_ASC": "Premium Amount (Low to high)",
+            "COVERAGE_DESC": "Coverage (High to low)",
+            "COVERAGE_ASC": "Coverage (Low to high)",
+            "DEDUCTIBLE_DESC": "Deductible (High to low)",
+            "DEDUCTIBLE_ASC": "Deductible (Low to high)",
+            "COMMISSION_DESC": "Commission (High to low)",
+            "COMMISSION_ASC": "Commission (Low to high)",
+            "AMOUNT_DESC": "Amount (High to low)",
+            "AMOUNT_ASC": "Amount (Low to high)",
+            "TOTAL_AMOUNT_DESC": "Total Amount (High to low)",
+            "TOTAL_AMOUNT_ASC": "Total Amount (Low to high)",
+            "PAY_TO_NEWEST": "Pay to (Newest first)",
+            "PAY_TO_OLDEST": "Pay to (Oldest first)"
+          }
+        }
       },
       "PREVIEW": {
         "TITLE": "Preview",
@@ -2032,7 +2116,13 @@
         "TITLE": "Recent History",
         "GENERATED": "Generated:",
         "TOOLTIP_DOWNLOAD": "Download",
-        "EMPTY": "No history yet."
+        "EMPTY": "No history yet.",
+        "STATUS": {
+          "queued": "Queued",
+          "processing": "Processing",
+          "completed": "Completed",
+          "failed": "Failed"
+        }
       },
       "GENERATED": "Report generated successfully"
     },

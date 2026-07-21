@@ -55,10 +55,7 @@ export class ReportsComponent implements OnInit {
   onGenerate(f: ReportFilters) {
     this._ui.showLoader();
 
-    const payload =
-      f.reportType === 'accounts' ? { ...f, location: 'Toronto' } : f;
-
-    this.reports.generateReport(payload).subscribe({
+    this.reports.generateReport(f).subscribe({
       next: () => {
         this.loadHistory();
         this._ui.showAlertSuccess(this._t.instant('PORTAL.REPORTS.GENERATED'));

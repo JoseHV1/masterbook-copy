@@ -13,10 +13,14 @@ export class AppCurrencyPipe implements PipeTransform {
     const {
       currency_symbol,
       currency_symbol_position,
-      currency_decimal_places = 2,
       currency_thousands_separator = ',',
       currency_decimal_separator = '.',
     } = tenant;
+
+    const parsedDecimalPlaces = Number(tenant.currency_decimal_places);
+    const currency_decimal_places = !Number.isFinite(parsedDecimalPlaces) || parsedDecimalPlaces < 0
+      ? 2
+      : Math.min(Math.trunc(parsedDecimalPlaces), 4);
 
     const [intPart, decPart] = value.toFixed(currency_decimal_places).split('.');
     const intFormatted = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, currency_thousands_separator);

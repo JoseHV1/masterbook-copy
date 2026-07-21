@@ -2016,7 +2016,91 @@
         "FIELD_SORT": "Ordenar",
         "PLACEHOLDER_SORT": "Selecciona un orden",
         "SECTION_OUTPUT": "Formato de salida",
-        "BTN_GENERATE": "Generar reporte"
+        "BTN_GENERATE": "Generar reporte",
+        "OPTIONS": {
+          "ALL": "Todos",
+          "REPORT_TYPE": {
+            "ACCOUNTS": "Reporte de Cuentas",
+            "POLICIES": "Reporte de Pólizas",
+            "REQUESTS": "Reporte de Solicitudes",
+            "QUOTES": "Reporte de Cotizaciones",
+            "PAYMENTS": "Reporte de Pagos",
+            "INVOICES": "Reporte de Facturas",
+            "COMMISSIONS": "Reporte de Comisiones"
+          },
+          "DATE_RANGE": {
+            "LAST_7": "Últimos 7 días",
+            "LAST_30": "Últimos 30 días",
+            "LAST_90": "Últimos 90 días",
+            "YTD": "Año hasta la fecha",
+            "CUSTOM": "Rango personalizado"
+          },
+          "PAYMENT_FROM": {
+            "ACCOUNT": "Cuenta",
+            "INSURER": "Aseguradora"
+          },
+          "PAYMENT_METHOD": {
+            "BANK_TRANSFER": "Transferencia Bancaria",
+            "CASH": "Efectivo",
+            "CHECK": "Cheque",
+            "CREDIT_CARD": "Tarjeta de Crédito"
+          },
+          "STATUS": {
+            "ACTIVE": "Activo",
+            "INACTIVE": "Inactivo",
+            "CANCELLED": "Cancelado",
+            "EXPIRED": "Vencido",
+            "PENDING": "Pendiente",
+            "CLOSED": "Cerrado",
+            "PENDING_QUOTES": "Cotizaciones Pendientes",
+            "PENDING_SELECTION": "Selección Pendiente",
+            "QUOTE_SELECTED": "Cotización Seleccionada",
+            "REJECTED": "Rechazado",
+            "ACCEPTED": "Aceptada",
+            "NOT_ACCEPTED": "No Aceptada",
+            "AVAILABLE": "Disponible",
+            "FULL_PAID": "Pagado Completo",
+            "PARTIALLY_PAID": "Pagado Parcialmente",
+            "PAID": "Pagado",
+            "UNPAID": "No Pagado",
+            "APPROVED": "Aprobado"
+          },
+          "GROUP_BY": {
+            "NONE": "Sin agrupar",
+            "MONTH": "Mes",
+            "AGENT": "Agente",
+            "BROKER": "Agente",
+            "INSURER": "Aseguradora",
+            "BUSINESS_LINE": "Línea de Negocio",
+            "STATUS": "Estado",
+            "ACCOUNT": "Cuenta",
+            "PAYMENT_FROM": "Origen de Pago"
+          },
+          "AGGREGATE": {
+            "NONE": "Sin agregación",
+            "SUM": "Suma",
+            "AVERAGE": "Promedio",
+            "COUNT": "Cantidad"
+          },
+          "SORT": {
+            "DATE_DESC": "Fecha (Más reciente primero)",
+            "DATE_ASC": "Fecha (Más antigua primero)",
+            "PREMIUM_DESC": "Monto de Prima (Mayor a menor)",
+            "PREMIUM_ASC": "Monto de Prima (Menor a mayor)",
+            "COVERAGE_DESC": "Cobertura (Mayor a menor)",
+            "COVERAGE_ASC": "Cobertura (Menor a mayor)",
+            "DEDUCTIBLE_DESC": "Deducible (Mayor a menor)",
+            "DEDUCTIBLE_ASC": "Deducible (Menor a mayor)",
+            "COMMISSION_DESC": "Comisión (Mayor a menor)",
+            "COMMISSION_ASC": "Comisión (Menor a mayor)",
+            "AMOUNT_DESC": "Monto (Mayor a menor)",
+            "AMOUNT_ASC": "Monto (Menor a mayor)",
+            "TOTAL_AMOUNT_DESC": "Monto Total (Mayor a menor)",
+            "TOTAL_AMOUNT_ASC": "Monto Total (Menor a mayor)",
+            "PAY_TO_NEWEST": "Monto a Pagar (Más reciente primero)",
+            "PAY_TO_OLDEST": "Monto a Pagar (Más antiguo primero)"
+          }
+        }
       },
       "PREVIEW": {
         "TITLE": "Vista previa",
@@ -2032,7 +2116,13 @@
         "TITLE": "Historial reciente",
         "GENERATED": "Generado:",
         "TOOLTIP_DOWNLOAD": "Descargar",
-        "EMPTY": "Aún no hay historial."
+        "EMPTY": "Aún no hay historial.",
+        "STATUS": {
+          "queued": "En cola",
+          "processing": "Procesando",
+          "completed": "Completado",
+          "failed": "Fallido"
+        }
       },
       "GENERATED": "Reporte generado exitosamente"
     },
