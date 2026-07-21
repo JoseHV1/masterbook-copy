@@ -799,6 +799,22 @@
       "AGENCY_ADMINISTRATOR": "Agency Administrator",
       "AGENCY_BROKER": "Agency Agent",
       "INDEPENDANT_BROKER": "Independent Agent"
+    },
+    "REQUEST_STATUS": {
+      "PENDING_QUOTES": "Pending Quotes",
+      "PENDING_SELECTION": "Pending Selection",
+      "QUOTE_SELECTED": "Quote Selected",
+      "CLOSED": "Closed",
+      "REJECTED": "Rejected",
+      "INCOMPLETE": "Incomplete",
+      "PENDING_CANCELLATION": "Pending Cancellation"
+    },
+    "POLICY_CATEGORY": {
+      "NEW_BUSINESS": "New Business",
+      "RENEWAL": "Renewal",
+      "ENDORSEMENT": "Endorsement",
+      "CANCELLATION": "Cancellation",
+      "REINSTALLMENT": "Reinstallment"
     }
   },
   "TUTORS": {

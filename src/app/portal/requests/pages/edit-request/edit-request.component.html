@@ -23,10 +23,10 @@
         *ngIf="request.category === 'NEW_BUSINESS'"
         (back)="goBack()"
         [request]="request"></app-form-new-business>
-      <!--
       <app-form-requests-from-policy
-        *ngIf="request.category !== 'NEW_BUSINESS'"
-        [req]=""></app-form-requests-from-policy> -->
+        *ngIf="request.category !== 'NEW_BUSINESS' && policyFormData"
+        (back)="goBack()"
+        [data]="policyFormData"></app-form-requests-from-policy>
     </div>
   </ng-container>
 </app-pages-layout>

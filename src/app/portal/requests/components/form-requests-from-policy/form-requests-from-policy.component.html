@@ -19,7 +19,7 @@
           <mat-panel-title class="d-flex align-items-center">
             <span class="subtitle-2 dark-blue-400"> {{ 'PORTAL.REQUESTS.FORM_FROM_POLICY.SECTION_REQUEST_FORM' | translate }} </span>
             <span [class]="data.category + ' category-badge px-2 ms-2 white'">
-              {{ data.category | enum }}
+              {{ data.category | translatedEnum : 'ENUMS.POLICY_CATEGORY' }}
             </span>
           </mat-panel-title>
         </mat-expansion-panel-header>

@@ -4,7 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { finalize, switchMap, take } from 'rxjs';
 import { RequestsService } from 'src/app/shared/services/requests.service';
+import { PoliciesService } from 'src/app/shared/services/policies.service';
 import { PopulatedRequestModel } from 'src/app/shared/interfaces/models/request.model';
+import { RequestFromPolicyFormData } from '../../components/form-requests-from-policy/form-requests-from-policy.component';
 
 @Component({
   selector: 'app-edit-request',
@@ -13,13 +15,15 @@ import { PopulatedRequestModel } from 'src/app/shared/interfaces/models/request.
 })
 export class EditRequestComponent {
   request!: PopulatedRequestModel;
+  policyFormData?: RequestFromPolicyFormData;
 
   constructor(
     private activateRoute: ActivatedRoute,
     private _ui: UiService,
     private _router: Router,
     private _location: Location,
-    private _request: RequestsService
+    private _request: RequestsService,
+    private _policy: PoliciesService
   ) {
     this._ui.showLoader();
     this.activateRoute.params
@@ -34,12 +38,10 @@ export class EditRequestComponent {
       )
       .subscribe({
         next: request => {
-          if (request.category === 'NEW_BUSINESS') {
-            this.request = request;
+          this.request = request;
+          if (request.category !== 'NEW_BUSINESS') {
+            this.getPolicyData(request);
           }
-          // else {
-          //   this.getPolicyData(request);
-          // }
         },
         error: () => this._router.navigateByUrl('portal/requests'),
       });
@@ -49,20 +51,26 @@ export class EditRequestComponent {
     this._location.back();
   }
 
-  // getPolicyData(request: PopulatedRequestModel) {
-  //   this._policy.getPolicy(request.refered_policy_id as string).subscribe({
-  //     next: (data: PopulatedPolicyModel) => {
-  //       this.request = {
-  //         ...data,
-  //         category: request.category,
-  //         serial: request.serial,
-  //         _id: request._id,
-  //         insure_object: request.insure_object,
-  //         coverage: request.coverage,
-  //         request_document: request.request_document_url,
-  //         description: request.additional_info || '',
-  //       };
-  //     },
-  //   });
-  // }
+  getPolicyData(request: PopulatedRequestModel): void {
+    if (!request.refered_policy_id) {
+      this._router.navigateByUrl('portal/requests');
+      return;
+    }
+
+    this._ui.showLoader();
+    this._policy
+      .getPolicy(request.refered_policy_id)
+      .pipe(finalize(() => this._ui.hideLoader()))
+      .subscribe({
+        next: policy => {
+          this.policyFormData = {
+            category: request.category,
+            policy,
+            action: 'edit',
+            request,
+          };
+        },
+        error: () => this._router.navigateByUrl('portal/requests'),
+      });
+  }
 }

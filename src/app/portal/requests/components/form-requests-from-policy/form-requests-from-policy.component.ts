@@ -9,7 +9,7 @@ import { addZero } from '../../../../shared/helpers/add-zero';
 import { PolicyCategoryEnum } from 'src/app/shared/enums/policy-category.enum';
 import { PopulatedPolicyModel } from 'src/app/shared/interfaces/models/policy.model';
 import { CreateRequestRequest } from 'src/app/shared/interfaces/requests/requests/create-request.request';
-import { RequestModel } from 'src/app/shared/interfaces/models/request.model';
+import { PopulatedRequestModel, RequestModel } from 'src/app/shared/interfaces/models/request.model';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -47,11 +47,13 @@ export class FormRequestsFromPolicyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const isEdit = this.data.action === 'edit' && this.data.request;
+
     this.form.patchValue({
-      coverage: this.data.policy.coverage,
-      insure_object: this.data.policy.insure_object,
+      coverage: isEdit ? this.data.request!.coverage : this.data.policy.coverage,
+      insure_object: isEdit ? this.data.request!.insure_object : this.data.policy.insure_object,
       // request_document: [this.data.policy.request_document], //refactoring
-      additional_info: this.data.policy.description,
+      additional_info: isEdit ? this.data.request!.additional_info : this.data.policy.description,
     });
   }
 
@@ -112,7 +114,7 @@ export class FormRequestsFromPolicyComponent implements OnInit {
 
     this._ui.showLoader();
     this._request
-      .editRequest(req, this.data.policy._id.toString())
+      .editRequest(req, this.data.request!._id.toString())
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(request => {
         this.form.reset();
@@ -154,4 +156,5 @@ export interface RequestFromPolicyFormData {
   category: PolicyCategoryEnum;
   policy: PopulatedPolicyModel;
   action: 'edit' | 'create';
+  request?: PopulatedRequestModel;
 }
