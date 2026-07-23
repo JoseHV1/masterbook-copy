@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { finalize, take } from 'rxjs';
+import { finalize, Subscription, take } from 'rxjs';
 import { addZero } from 'src/app/shared/helpers/add-zero';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UiService } from 'src/app/shared/services/ui.service';
@@ -30,7 +30,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './form-claims.component.html',
   styleUrls: ['./form-claims.component.scss'],
 })
-export class FormClaimsComponent implements OnInit {
+export class FormClaimsComponent implements OnInit, OnDestroy {
   @Input() data?: PopulatedClaimModel;
   @Output() selectAccount = new EventEmitter<AccountsModel>();
 
@@ -57,6 +57,8 @@ export class FormClaimsComponent implements OnInit {
   allowed_types: string[] = ['PNG', 'JPG', 'JPEG', 'PDF'];
   addZero = addZero;
 
+  private _langChangeSub!: Subscription;
+
   constructor(
     private _router: Router,
     private _ui: UiService,
@@ -67,12 +69,28 @@ export class FormClaimsComponent implements OnInit {
     private _activateRoute: ActivatedRoute,
     private _t: TranslateService
   ) {
+    this._buildMaritalStatusOptions();
+    this._buildGenderOptions();
+    this._langChangeSub = this._t.onLangChange.subscribe(() => {
+      this._buildMaritalStatusOptions();
+      this._buildGenderOptions();
+    });
+  }
+
+  private _buildMaritalStatusOptions(): void {
     this.dropDownMaritalStatus = enumToTranslatedDropDown(
       MaritalStatusEnum,
       'ENUMS.MARITAL_STATUS',
       this._t
     );
+  }
+
+  private _buildGenderOptions(): void {
     this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
+  }
+
+  ngOnDestroy(): void {
+    this._langChangeSub?.unsubscribe();
   }
 
   ngOnInit() {

@@ -3,7 +3,7 @@
     mat-table
     [dataSource]="data"
     *ngIf="data"
-    style="width: auto; overflow-x: scroll">
+    style="width: auto; overflow-x: auto">
     <ng-container matColumnDef="serial">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.POLICIES.TABLE_ID' | translate }}</th>
       <td mat-cell *matCellDef="let element">
@@ -41,7 +41,7 @@
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.POLICIES.TABLE_POLICY_TYPE' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.policy_type.name | enum | notNull }}
+        {{ element.policy_type | translatedName | notNull }}
       </td>
     </ng-container>
 
@@ -110,7 +110,7 @@
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.POLICIES.TABLE_STATUS' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         <span [class]="element.status + ' fw-semibold'">
-          {{ element.status | enum | notNull }}
+          {{ element.status | translatedEnum : 'ENUMS.POLICY_STATUS' | notNull }}
         </span>
       </td>
     </ng-container>
@@ -119,7 +119,7 @@
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.POLICIES.TABLE_CYCLE' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         <span [class]="element.category + ' fw-semibold'">
-          {{ element.category | enum | notNull }}
+          {{ element.category | translatedEnum : 'ENUMS.POLICY_CATEGORY' | notNull }}
         </span>
       </td>
     </ng-container>

@@ -24,6 +24,7 @@ export const BREADCRUMB_LABELS: Record<string, string> = {
   tenants: 'SHARED.SIDEBAR_MENU.TENANTS',
   'stripe-billing': 'SHARED.SIDEBAR_MENU.SUBSCRIPTION_PAYMENTS',
   account: 'SHARED.SIDEBAR_MENU.ACCOUNT',
+  'my-broker': 'SHARED.SIDEBAR_MENU.MY_BROKER',
 
   new: 'SHARED.BREADCRUMBS.NEW',
   edit: 'SHARED.BREADCRUMBS.EDIT',

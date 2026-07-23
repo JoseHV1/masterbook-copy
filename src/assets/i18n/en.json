@@ -40,7 +40,13 @@
     "SECONDS": "seconds",
     "EMAIL_INVALID": "The email is invalid",
     "SELECT_LANGUAGE": "Select Language",
-    "LOADING": "Loading..."
+    "LOADING": "Loading...",
+    "ALERT_TITLES": {
+      "SUCCESS": "Success",
+      "INFO": "Info",
+      "WARNING": "Warning",
+      "ERROR": "Error"
+    }
   },
   "HOME": {
     "SECTION_1": {
@@ -815,6 +821,62 @@
       "ENDORSEMENT": "Endorsement",
       "CANCELLATION": "Cancellation",
       "REINSTALLMENT": "Reinstallment"
+    },
+    "POLICY_STATUS": {
+      "PENDING": "Pending",
+      "ACTIVE": "Active",
+      "EXPIRED": "Expired",
+      "INACTIVE": "Inactive"
+    },
+    "AREA_OF_INTEREST": {
+      "Auto": "Auto",
+      "Home": "Home",
+      "Commerce": "Commerce",
+      "Health": "Health",
+      "Life": "Life",
+      "Motorcycles": "Motorcycles",
+      "Boats": "Boats",
+      "Other": "Other"
+    },
+    "LEAD_STATUS": {
+      "ACTIVE": "Active",
+      "TRANSFERRED": "Transferred",
+      "REJECTED": "Rejected",
+      "CONVERTED": "Converted"
+    },
+    "CAPTURE_MEDIUM": {
+      "FACEBOOK": "Facebook",
+      "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
+      "OTHER": "Other"
+    },
+    "ACCOUNT_STATUS": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive"
+    },
+    "CLAIM_STATUS": {
+      "Submitted": "Submitted",
+      "Under Review": "Under Review",
+      "Approved": "Approved",
+      "Rejected": "Rejected",
+      "Cancelled": "Cancelled"
+    },
+    "PAYMENT_METHOD": {
+      "check": "Check",
+      "bank_transfer": "Bank Transfer",
+      "credit_card": "Credit Card",
+      "cash": "Cash"
+    },
+    "PAYMENT_TRANSACTION_STATUS": {
+      "available": "Available",
+      "partially_paid": "Partially Paid",
+      "full_paid": "Full Paid"
+    },
+    "INVOICE_STATUS": {
+      "unpaid": "Unpaid",
+      "partially_paid": "Partially Paid",
+      "paid": "Paid",
+      "pending": "Pending"
     }
   },
   "TUTORS": {
@@ -862,6 +924,13 @@
       "DISABLE": "Disable",
       "ENABLE": "Enable",
       "CANCEL": "Cancel",
+      "ACCEPT": "Accept",
+      "CONFIRM": "Confirm",
+      "NO_SEND": "No send",
+      "INFORMATION": "Information",
+      "ALL": "All",
+      "DATE_LABEL": "Date:",
+      "HOUR_LABEL": "Hour:",
       "SAVE_CHANGES": "Save changes",
       "CREATE": "Create",
       "NEW": "New",
@@ -1204,6 +1273,7 @@
       "FORM_INSURER": "Insurance company*",
       "FORM_PREMIUM": "Policy Premium amount*",
       "FORM_COVERAGE": "Coverage*",
+      "ERROR_COVERAGE_MIN": "Coverage must be greater than or equal to the premium amount.",
       "FORM_DEDUCTIBLE": "Deductible*",
       "FORM_OBJECT": "Object to insure*",
       "FORM_AGENT": "Agent*",
@@ -1227,7 +1297,8 @@
         "ADD_ENDORSEMENTS_TITLE_PREFIX": "Add endorsements #",
         "SELECT_ENDORSEMENTS_PROMPT": "Please, select the endorsements",
         "CANCEL_TITLE_PREFIX": "Cancel Policy #",
-        "CANCEL_QUESTION": "Would you like to provide a reason for this policy cancellation?"
+        "CANCEL_QUESTION": "Would you like to provide a reason for this policy cancellation?",
+        "SET_AGENT_TITLE_PREFIX": "Policy #"
       },
       "LOAD_ERROR": "Error loading policies. Please try again.",
       "GOOGLE_CONNECTED": "Google account connected successfully. You can now send emails.",
@@ -2460,7 +2531,44 @@
       "FILE_REQUIRED": "This file is required",
       "UPLOAD_FILE_BTN": "Upload File",
       "CLOSE": "Close",
-      "DOWNLOAD_TEMPLATES_TAB": "Download Templates for Upload file"
+      "DOWNLOAD_TEMPLATES_TAB": "Download Templates for Upload file",
+      "CREATE_TAB": "Create {{entity}}",
+      "TABLE_UPLOAD_TAB": "{{entity}} Table Upload File",
+      "CHANGE_LOG_FIELDS": {
+        "CLIENT_ID": "Client",
+        "INSURE_OBJECT": "Insure Object",
+        "COVERAGE": "Coverage",
+        "STATUS": "Status",
+        "CATEGORY": "Category",
+        "POLICY_TYPE_ID": "Policy Type",
+        "POLICY_CATEGORY_ID": "Policy Category",
+        "BUSINESS_LINE": "Business Line",
+        "AGENT_ID": "Agent",
+        "BROKER_ID": "Agent",
+        "INSURER_ID": "Insurer",
+        "POLICY_NUMBER": "Policy Number",
+        "PRIME_AMOUNT": "Premium Amount",
+        "DEDUCTIBLE": "Deductible",
+        "START_DATE": "Effective Date",
+        "END_DATE": "Expiration Date",
+        "ACCOUNT_NAME": "Account Name",
+        "FIRST_NAME": "First Name",
+        "LAST_NAME": "Last Name",
+        "EMAIL": "Email",
+        "PHONE_NUMBER": "Phone Number",
+        "GENDER": "Gender",
+        "MARITAL_STATUS": "Marital Status",
+        "DATE_OF_BIRTH": "Date of Birth",
+        "ADDRESS": "Address",
+        "ZIPCODE": "Zip Code",
+        "DESCRIPTION": "Description",
+        "DOCUMENT": "Document",
+        "ROLE": "Role",
+        "LICENSE_NUMBER": "License Number",
+        "REQUEST_DOCUMENTS": "Request Documents",
+        "ADDITIONAL_INFO": "Additional Info",
+        "REJECTION_REASON": "Rejection Reason"
+      }
     }
   },
   "SHARED": {

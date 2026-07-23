@@ -1,5 +1,5 @@
 <div class="table-responsive" *ngIf="data; else uploadFileEmpty">
-  <table mat-table [dataSource]="data" style="width: auto; overflow-x: scroll">
+  <table mat-table [dataSource]="data" style="width: auto; overflow-x: auto">
     <ng-container matColumnDef="upload_at">
       <th mat-header-cell *matHeaderCellDef>{{ 'SHARED.UPLOAD_TABLE.TABLE_UPLOAD_AT' | translate }}</th>
       <td mat-cell *matCellDef="let element">

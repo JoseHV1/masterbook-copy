@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { finalize, switchMap, take } from 'rxjs';
+import { finalize, Subscription, switchMap, take } from 'rxjs';
 import { MaritalStatusEnum } from 'src/app/shared/enums/marital-status.enum';
 import { UiModalTypeEnum } from 'src/app/shared/enums/ui-modal-type.enum';
 import { enumToTranslatedDropDown } from 'src/app/shared/helpers/enum-to-dropdown.helper';
@@ -21,13 +21,15 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './convert-lead.component.html',
   styleUrls: ['./convert-lead.component.scss'],
 })
-export class ConvertLeadComponent {
+export class ConvertLeadComponent implements OnDestroy {
   private serial = '';
   lead?: LeadModel;
   LeadStatusEnum = LeadStatusEnum;
   showAgentSelector = false;
   today = new Date();
   dropDownMaritalStatus: DropdownOptionModel[] = [];
+
+  private _langChangeSub!: Subscription;
 
   form = new FormGroup({
     account_name: new FormControl<string | null>(null, [
@@ -54,10 +56,9 @@ export class ConvertLeadComponent {
     private _auth: AuthService,
     private _t: TranslateService,
   ) {
-    this.dropDownMaritalStatus = enumToTranslatedDropDown(
-      MaritalStatusEnum,
-      'ENUMS.MARITAL_STATUS',
-      this._t
+    this._buildMaritalStatusOptions();
+    this._langChangeSub = this._t.onLangChange.subscribe(() =>
+      this._buildMaritalStatusOptions()
     );
     this.showAgentSelector = brokersAdminDataset.includes(
       this._auth.getAuth()?.user?.role as RolesEnum
@@ -90,6 +91,18 @@ export class ConvertLeadComponent {
           this._router.navigateByUrl('portal/leads');
         },
       });
+  }
+
+  private _buildMaritalStatusOptions(): void {
+    this.dropDownMaritalStatus = enumToTranslatedDropDown(
+      MaritalStatusEnum,
+      'ENUMS.MARITAL_STATUS',
+      this._t
+    );
+  }
+
+  ngOnDestroy(): void {
+    this._langChangeSub?.unsubscribe();
   }
 
   submit(): void {

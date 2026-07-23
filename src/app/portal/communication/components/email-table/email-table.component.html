@@ -2,7 +2,7 @@
   <table
     mat-table
     [dataSource]="data || []"
-    style="width: auto; overflow-x: scroll">
+    style="width: auto; overflow-x: auto">
     <ng-container matColumnDef="user">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.COMMUNICATION.TABLE.SENDER' | translate }}</th>
       <td mat-cell *matCellDef="let element">

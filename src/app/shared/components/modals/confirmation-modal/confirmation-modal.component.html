@@ -13,14 +13,14 @@
       data-testid="account-cancel"
       class="primary-button white back-gray-400 mx-1"
       (click)="close(false)">
-      Cancel
+      {{ 'PORTAL.COMMON.CANCEL' | translate }}
     </button>
 
     <button
       data-testid="account-confirm"
       [class]="'primary-button white mx-1 ' + typeClass"
       (click)="close(true)">
-      Accept
+      {{ 'PORTAL.COMMON.ACCEPT' | translate }}
     </button>
   </div>
 </div>

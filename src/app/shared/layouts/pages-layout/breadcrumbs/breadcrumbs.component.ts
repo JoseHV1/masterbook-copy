@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { BREADCRUMB_LABELS } from './breadcrumb-labels.map';
+import { BreadcrumbOverrideService } from '../../../services/breadcrumb-override.service';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -15,7 +16,11 @@ export class BreadcrumbsComponent implements OnDestroy {
   homeLinks = ['portal', 'portal-client'];
   private currentUrl: string;
 
-  constructor(private router: Router, private translate: TranslateService) {
+  constructor(
+    private router: Router,
+    private translate: TranslateService,
+    private _override: BreadcrumbOverrideService
+  ) {
     this.menuItems = [];
     this.currentUrl = this.router.url.split('?')[0];
     this.mapUrlToItems(this.currentUrl);
@@ -31,6 +36,10 @@ export class BreadcrumbsComponent implements OnDestroy {
       });
 
     this.translate.onLangChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.mapUrlToItems(this.currentUrl));
+
+    this._override.changed$
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.mapUrlToItems(this.currentUrl));
   }
@@ -52,6 +61,9 @@ export class BreadcrumbsComponent implements OnDestroy {
   }
 
   private translateSegment(item: string): string {
+    const override = this._override.getLabel(item);
+    if (override) return override;
+
     const key = BREADCRUMB_LABELS[item];
     if (key) {
       const translated = this.translate.instant(key);

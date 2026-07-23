@@ -86,7 +86,7 @@ export class CreateFormModalComponent implements OnInit {
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(([insurerList, tenantList, policyTypeList]: any[]) => {
         this.insurers = [
-          { code: '', name: 'All' },
+          { code: '', name: this._t.instant('PORTAL.COMMON.ALL') },
           ...insurerList.map((i: InsurerModel) => ({ code: i._id, name: i.name })),
         ];
 

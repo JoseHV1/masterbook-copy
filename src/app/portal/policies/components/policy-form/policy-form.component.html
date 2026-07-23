@@ -28,6 +28,12 @@
     <div class="col-12 col-md-4 mb-3 mb-md-4">
       <label>{{ 'PORTAL.POLICIES.FORM_COVERAGE' | translate }}</label>
       <app-currency-input formControlName="coverage" data-testid="policy-coverage"></app-currency-input>
+      <small
+        *ngIf="hasError(form.get('coverage'), 'coverageLessThanPrime')"
+        class="text-danger d-block mt-1"
+        data-testid="policy-coverage-error">
+        {{ 'PORTAL.POLICIES.ERROR_COVERAGE_MIN' | translate }}
+      </small>
     </div>
 
     <div class="col-12 col-md-4 mb-3 mb-md-4">

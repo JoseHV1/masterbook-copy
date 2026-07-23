@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 import { UiService } from '../../services/ui.service';
 
 @Component({
@@ -12,7 +13,11 @@ import { UiService } from '../../services/ui.service';
 export class AlertsComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
 
-  constructor(private _message: MessageService, private _ui: UiService) {
+  constructor(
+    private _message: MessageService,
+    private _ui: UiService,
+    private _t: TranslateService
+  ) {
     this._ui.alertInfo$
       .pipe(takeUntil(this.destroy$))
       .subscribe(message => this.showInfo(message));
@@ -33,7 +38,7 @@ export class AlertsComponent implements OnDestroy {
   showSuccess(message: string) {
     this._message.add({
       severity: 'success',
-      summary: 'Success',
+      summary: this._t.instant('GENERAL.ALERT_TITLES.SUCCESS'),
       detail: message,
     });
   }
@@ -41,7 +46,7 @@ export class AlertsComponent implements OnDestroy {
   showInfo(message: string) {
     this._message.add({
       severity: 'info',
-      summary: 'Info',
+      summary: this._t.instant('GENERAL.ALERT_TITLES.INFO'),
       detail: message,
     });
   }
@@ -49,7 +54,7 @@ export class AlertsComponent implements OnDestroy {
   showWarning(message: string) {
     this._message.add({
       severity: 'warn',
-      summary: 'Warn',
+      summary: this._t.instant('GENERAL.ALERT_TITLES.WARNING'),
       detail: message,
     });
   }
@@ -57,7 +62,7 @@ export class AlertsComponent implements OnDestroy {
   showError(message: string) {
     this._message.add({
       severity: 'error',
-      summary: 'Error',
+      summary: this._t.instant('GENERAL.ALERT_TITLES.ERROR'),
       detail: message,
     });
   }

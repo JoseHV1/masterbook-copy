@@ -19,7 +19,7 @@
           <table
             mat-table
             [dataSource]="data.records"
-            style="width: 100%; overflow-x: scroll">
+            style="width: 100%; overflow-x: auto">
             <ng-container matColumnDef="select">
               <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.FORMS.TABLE_SELECT' | translate }}</th>
               <td mat-cell *matCellDef="let row">

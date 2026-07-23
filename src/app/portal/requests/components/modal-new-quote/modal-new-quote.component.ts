@@ -1,10 +1,12 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { finalize, Observable, tap } from 'rxjs';
+import { finalize, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { fileUploadMode } from 'src/core/cdk/file-upload/file-upload.component';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { ConfiguredInsurerAsyncValidator } from '@app/shared/helpers/configured-insurer.validator';
+import { CoverageMinValidator } from '@app/shared/helpers/coverage-min.validator';
+import { hasError } from '@app/shared/helpers/has-error.helper';
 import { InsurerService } from '@app/shared/services/insurer.service';
 import { PolicyCategoryEnum } from '@app/shared/enums/policy-category.enum';
 import { DatasetsService } from '@app/shared/services/dataset.service';
@@ -20,11 +22,15 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './modal-new-quote.component.html',
   styleUrls: ['./modal-new-quote.component.scss'],
 })
-export class ModalNewQuoteComponent {
+export class ModalNewQuoteComponent implements OnDestroy {
   request!: PopulatedRequestModel;
   form!: FormGroup;
   fileUploadMode = fileUploadMode;
   insuranceCompaniesItems: any[] = [];
+  submitting = false;
+  hasError = hasError;
+
+  private _destroy$ = new Subject<void>();
 
   constructor(
     private _insurer: InsurerService,
@@ -68,10 +74,28 @@ export class ModalNewQuoteComponent {
       ),
       quote_date: new FormControl(null, [Validators.required]),
       prime_amount: new FormControl(null, [Validators.required]),
-      coverage: new FormControl(null, [Validators.required]),
+      coverage: new FormControl(null, [Validators.required, CoverageMinValidator()]),
       deductible: new FormControl(null, [Validators.required]),
       document: new FormControl(null, [Validators.required]),
     });
+
+    this._listenToPrimeAmountChanges();
+  }
+
+  private _listenToPrimeAmountChanges(): void {
+    const primeControl = this.form.get('prime_amount');
+    const coverageControl = this.form.get('coverage');
+
+    if (primeControl && coverageControl) {
+      primeControl.valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
+        coverageControl.updateValueAndValidity();
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   private _listenToInsurerChanges(): void {
@@ -141,9 +165,11 @@ export class ModalNewQuoteComponent {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
 
-    if (this.form.invalid) {
+    if (this.form.invalid || this.submitting) {
       return;
     }
+
+    this.submitting = true;
 
     const req: CreateQuoteRequest = {
       ...this.form.value,
@@ -153,7 +179,12 @@ export class ModalNewQuoteComponent {
     this._ui.showLoader();
     this._quotes
       .createQuote(req)
-      .pipe(finalize(() => this._ui.hideLoader()))
+      .pipe(
+        finalize(() => {
+          this._ui.hideLoader();
+          this.submitting = false;
+        })
+      )
       .subscribe(() => {
         this._ui.showAlertSuccess(this._t.instant('PORTAL.REQUESTS.QUOTE_CREATED'));
         this.form.reset();

@@ -31,7 +31,7 @@
             </span>
           </mat-slide-toggle>
         </button>
-        <button mat-menu-item (click)="resendInvitation(account)">
+        <button mat-menu-item *ngIf="!account.user?.last_login_at" (click)="resendInvitation(account)">
           <span class="d-flex align-items-center gap-2">
             <span class="material-icons-outlined success-color">mail</span>
             <span>{{ 'PORTAL.ACCOUNTS.RESEND' | translate }}</span>
@@ -104,7 +104,7 @@
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.STATUS' | translate }}</div>
-          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.status | titlecase | notNull }}</div>
+          <div class="col-12 col-md-8 black px-3 py-2 prop-box">{{ account.status | translatedEnum:'ENUMS.ACCOUNT_STATUS' | notNull }}</div>
         </div>
       </div>
       <div class="col col-12 col-md-6 px-2 px-md-4 my-2">

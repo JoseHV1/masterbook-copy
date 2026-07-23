@@ -20,7 +20,7 @@ import {
   RequestModel,
 } from '../interfaces/models/request.model';
 import { PaginatedResponse } from '../interfaces/models/paginated-response.model';
-import { enumToDropDown } from '../helpers/enum-to-dropdown.helper';
+import { enumToTranslatedDropDown } from '../helpers/enum-to-dropdown.helper';
 import { PolicyCategoryEnum } from '../enums/policy-category.enum';
 import { RequestStatusEnum } from '../enums/request-status.enum';
 import { DatasetsService } from './dataset.service';
@@ -30,12 +30,17 @@ import { AuthModel } from '../interfaces/models/auth.model';
 import { PopulatedUserModel } from '../interfaces/models/user.model';
 import { RolesEnum } from '../enums/roles.enum';
 import { RequestViaEmailModel } from '../models/request-via-email.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RequestsService {
-  constructor(private _http: HttpClient, private _dataset: DatasetsService) {}
+  constructor(
+    private _http: HttpClient,
+    private _dataset: DatasetsService,
+    private _t: TranslateService
+  ) {}
 
   createRequest(req: CreateRequestRequest): Observable<RequestModel> {
     return this._http
@@ -128,7 +133,7 @@ export class RequestsService {
         label: 'Status',
         name: 'status',
         type: FilterTypeEnum.MULTISELECT,
-        options: of(enumToDropDown(RequestStatusEnum)),
+        options: of(enumToTranslatedDropDown(RequestStatusEnum, 'ENUMS.REQUEST_STATUS', this._t)),
       },
       {
         label: 'Agent',
@@ -144,7 +149,7 @@ export class RequestsService {
         label: 'Category',
         name: 'category',
         type: FilterTypeEnum.MULTISELECT,
-        options: of(enumToDropDown(PolicyCategoryEnum)),
+        options: of(enumToTranslatedDropDown(PolicyCategoryEnum, 'ENUMS.POLICY_CATEGORY', this._t)),
       },
       {
         label: 'Min coverage',

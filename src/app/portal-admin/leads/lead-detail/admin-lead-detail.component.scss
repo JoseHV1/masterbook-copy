@@ -4,4 +4,6 @@
   background-color: $gray-100;
   border-radius: 0.3rem;
   min-height: 38px;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }

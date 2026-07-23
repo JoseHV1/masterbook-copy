@@ -1,5 +1,5 @@
 <div class="table-responsive" *ngIf="data">
-  <table mat-table [dataSource]="data" cdkDropList (cdkDropListDropped)="onDrop($event)" style="width: auto; overflow-x: scroll">
+  <table mat-table [dataSource]="data" cdkDropList (cdkDropListDropped)="onDrop($event)" style="width: auto; overflow-x: auto">
     <ng-container matColumnDef="drag">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">

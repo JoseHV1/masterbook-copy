@@ -1,5 +1,5 @@
 <div class="table-responsive" *ngIf="data">
-  <table mat-table [dataSource]="data" style="width: auto; overflow-x: scroll">
+  <table mat-table [dataSource]="data" style="width: auto; overflow-x: auto">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.USERS.TABLE_ID' | translate }}</th>
       <td mat-cell *matCellDef="let element">
@@ -54,7 +54,7 @@
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.USERS.TABLE_STATUS' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         <span [ngClass]="getStatusClass(element.status)">
-          {{ element.status | notNull }}
+          {{ element.status | translatedEnum : 'ENUMS.ACCOUNT_STATUS' | notNull }}
         </span>
       </td>
     </ng-container>

@@ -13,13 +13,15 @@ import { FilterTypeEnum } from '../enums/filter-type.enum';
 import { CreatePolicyRequest } from '../interfaces/requests/policies/create-policy.request';
 import { ApiResponseModel } from '../interfaces/models/api-response.model';
 import { DatasetsService } from './dataset.service';
-import { enumToDropDown } from '../helpers/enum-to-dropdown.helper';
+import { enumToTranslatedDropDown } from '../helpers/enum-to-dropdown.helper';
+import { TranslateService } from '@ngx-translate/core';
 import { PolicyStatus } from '../enums/policy-status.enum';
 import { PaginatedResponse } from '../interfaces/models/paginated-response.model';
 import { PopulatedPolicyModel } from '../interfaces/models/policy.model';
 import { EditPolicyRequest } from '../interfaces/requests/policies/edit-policy.request';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfiguredInsurerAsyncValidator } from 'src/app/shared/helpers/configured-insurer.validator';
+import { CoverageMinValidator } from 'src/app/shared/helpers/coverage-min.validator';
 import { InsurerService } from './insurer.service';
 import { PolicyCategoryEnum } from '../enums/policy-category.enum';
 import { AuthService } from './auth.service';
@@ -35,7 +37,8 @@ export class PoliciesService {
     private _http: HttpClient,
     private _insurer: InsurerService,
     private _dataset: DatasetsService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private _t: TranslateService
   ) {}
 
   createUploadFileForm(): FormGroup {
@@ -76,7 +79,7 @@ export class PoliciesService {
       end_date: new FormControl(null, [Validators.required]),
       insurer_id: new FormControl(null, [Validators.required], asyncValidators),
       prime_amount: new FormControl(null, [Validators.required]),
-      coverage: new FormControl(null, [Validators.required]),
+      coverage: new FormControl(null, [Validators.required, CoverageMinValidator()]),
       deductible: new FormControl(null, [Validators.required]),
       insure_object: new FormControl(null, [Validators.required]),
       document: new FormControl(null, []),
@@ -220,7 +223,7 @@ export class PoliciesService {
         label: 'Status',
         name: 'status',
         type: FilterTypeEnum.MULTISELECT,
-        options: of(enumToDropDown(PolicyStatus)),
+        options: of(enumToTranslatedDropDown(PolicyStatus, 'ENUMS.POLICY_STATUS', this._t)),
       },
       {
         label: 'Min coverage',

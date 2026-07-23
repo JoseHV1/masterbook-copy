@@ -341,7 +341,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.STATUS' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ policy.status | notNull | enum }}
+          {{ policy.status | translatedEnum : 'ENUMS.POLICY_STATUS' | notNull }}
         </div>
       </div>
     </div>
@@ -352,7 +352,7 @@
         <div
           class="col-12 col-md-8 black px-3 py-2 prop-box"
           [class]="policy.category + ' fw-semibold'">
-          {{ policy.category | enum | notNull }}
+          {{ policy.category | translatedEnum : 'ENUMS.POLICY_CATEGORY' | notNull }}
         </div>
       </div>
     </div>
@@ -487,7 +487,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.POLICIES.STATUS' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy.status | notNull | enum }}
+          {{ refreredPolicy.status | translatedEnum : 'ENUMS.POLICY_STATUS' | notNull }}
         </div>
       </div>
     </div>
@@ -498,7 +498,7 @@
         <div
           class="col-12 col-md-8 black px-3 py-2 prop-box"
           [class]="'C-' + refreredPolicy.category + ' fw-semibold'">
-          {{ refreredPolicy.category | notNull | enum }}
+          {{ refreredPolicy.category | translatedEnum : 'ENUMS.POLICY_CATEGORY' | notNull }}
         </div>
       </div>
     </div>

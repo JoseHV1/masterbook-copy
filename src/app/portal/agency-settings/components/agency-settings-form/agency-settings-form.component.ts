@@ -13,6 +13,7 @@ import { isInvalid } from 'src/app/shared/helpers/is-invalid.helper';
 import { hasError } from 'src/app/shared/helpers/has-error.helper';
 import { LeadsService } from 'src/app/portal/leads/services/leads.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-agency-settings-form',
@@ -37,6 +38,7 @@ export class AgencySettingsFormComponent implements OnInit {
     private _datasets: DatasetsService,
     private _leads: LeadsService,
     private _t: TranslateService,
+    private _auth: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -65,8 +67,13 @@ export class AgencySettingsFormComponent implements OnInit {
       this.fillData(agency);
 
       if (this.dataAgency.logo_url) {
-        this._uploadFile.getUrlFile(this.dataAgency.logo_url).subscribe(() => {
-          this.logo = '/assets/images/portal/image_default.webp';
+        this._uploadFile.getUrlFile(this.dataAgency.logo_url).subscribe({
+          next: url => {
+            this.logo = url ?? '/assets/images/portal/image_default.webp';
+          },
+          error: () => {
+            this.logo = '/assets/images/portal/image_default.webp';
+          },
         });
       } else {
         this.logo = '/assets/images/portal/image_default.webp';
@@ -113,6 +120,7 @@ export class AgencySettingsFormComponent implements OnInit {
       .editAgencySetting(req)
       .pipe(finalize(() => this._ui.hideLoader()))
       .subscribe(() => {
+        this._auth.refreshAuth().subscribe();
         this._openSuccessModal();
       });
   }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { isInvalid } from 'src/app/shared/helpers/is-invalid.helper';
 import { hasError } from 'src/app/shared/helpers/has-error.helper';
@@ -16,7 +16,7 @@ import { ModalTermsPoliciesComponent } from 'src/app/shared/components/modal-ter
 import { CompleteRegisterInsuredRequest } from 'src/app/shared/interfaces/requests/accounts/complete-register-insured.request';
 import { reduceRestLetter } from 'src/app/shared/helpers/reduce-rest-letter';
 import { AuthModel } from 'src/app/shared/interfaces/models/auth.model';
-import { finalize } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -24,7 +24,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './form-insured.component.html',
   styleUrls: ['./form-insured.component.scss'],
 })
-export class FormInsuredComponent {
+export class FormInsuredComponent implements OnDestroy {
   auth: AuthModel;
   form!: FormGroup;
   today: Date = new Date();
@@ -36,6 +36,8 @@ export class FormInsuredComponent {
   dropDownMaritalStatus: DropdownOptionModel[] = [];
   dropDownGender: DropdownOptionModel[] = [];
 
+  private _langChangeSub!: Subscription;
+
   constructor(
     private _welcome: WelcomeService,
     private _ui: UiService,
@@ -45,15 +47,31 @@ export class FormInsuredComponent {
     private dialog: MatDialog,
     private _t: TranslateService
   ) {
+    this._buildMaritalStatusOptions();
+    this._buildGenderOptions();
+    this._langChangeSub = this._t.onLangChange.subscribe(() => {
+      this._buildMaritalStatusOptions();
+      this._buildGenderOptions();
+    });
+    this.form = this._welcome.createNewInsuredForm();
+    this.auth = this._auth.getAuth() as AuthModel;
+    this.fillData(this.auth.user);
+  }
+
+  private _buildMaritalStatusOptions(): void {
     this.dropDownMaritalStatus = enumToTranslatedDropDown(
       MaritalStatusEnum,
       'ENUMS.MARITAL_STATUS',
       this._t
     );
+  }
+
+  private _buildGenderOptions(): void {
     this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
-    this.form = this._welcome.createNewInsuredForm();
-    this.auth = this._auth.getAuth() as AuthModel;
-    this.fillData(this.auth.user);
+  }
+
+  ngOnDestroy(): void {
+    this._langChangeSub?.unsubscribe();
   }
 
   openModal(show_container: string): void {

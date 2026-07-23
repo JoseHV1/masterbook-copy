@@ -3,7 +3,7 @@
     mat-table
     [dataSource]="data"
     multiTemplateDataRows
-    style="width: auto; overflow-x: scroll">
+    style="width: auto; overflow-x: auto">
     <ng-container matColumnDef="detail">
       <td
         mat-cell
@@ -60,7 +60,7 @@
                         <mat-chip-set>
                           <mat-chip
                             appearance="outlined"
-                            matTooltip="{{ payment.method | enum }}">
+                            matTooltip="{{ payment.method | translatedEnum : 'ENUMS.PAYMENT_METHOD' }}">
                             <mat-icon
                               *ngIf="
                                 (payment.method || '').toLowerCase() === 'ach'
@@ -80,7 +80,7 @@
                               >payments</mat-icon
                             >
                             <span class="ms-1">{{
-                              payment.method | enum
+                              payment.method | translatedEnum : 'ENUMS.PAYMENT_METHOD'
                             }}</span>
                           </mat-chip>
                         </mat-chip-set>
@@ -235,7 +235,7 @@
     <ng-container matColumnDef="category">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.INVOICES.TABLE_CYCLE' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.policy.category | enum | notNull }}
+        {{ element.policy.category | translatedEnum : 'ENUMS.POLICY_CATEGORY' | notNull }}
       </td>
     </ng-container>
 
@@ -243,7 +243,7 @@
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.INVOICES.TABLE_STATUS' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         <span [ngClass]="getStatusClass(element.status)">
-          {{ element.status | enum | notNull }}
+          {{ element.status | translatedEnum : 'ENUMS.INVOICE_STATUS' | notNull }}
         </span>
       </td>
     </ng-container>

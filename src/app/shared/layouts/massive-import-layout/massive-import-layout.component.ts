@@ -6,6 +6,12 @@ import { UiService } from '../../services/ui.service';
 import { UploadFileModel } from '../../interfaces/models/upload-file.model';
 import { UploadFileService } from '../../services/upload_file.service';
 import { finalize } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+
+const ENTITY_LABEL_KEYS: Record<string, string> = {
+  accounts: 'SHARED.SIDEBAR_MENU.ACCOUNTS',
+  policies: 'SHARED.SIDEBAR_MENU.POLICIES',
+};
 
 @Component({
   selector: 'app-massive-import-layout',
@@ -26,9 +32,26 @@ export class MassiveImportLayoutComponent
     total_records: 0,
   };
 
-  constructor(private _ui: UiService, private _uploadFile: UploadFileService) {
+  constructor(
+    private _ui: UiService,
+    private _uploadFile: UploadFileService,
+    private _t: TranslateService
+  ) {
     super();
     this.filterConfig = this._uploadFile.getUploadFileListFilters();
+  }
+
+  private get entityLabel(): string {
+    const key = ENTITY_LABEL_KEYS[this.entity];
+    return key ? this._t.instant(key) : this.entity;
+  }
+
+  get createTabLabel(): string {
+    return this._t.instant('PORTAL.SHARED.CREATE_TAB', { entity: this.entityLabel });
+  }
+
+  get tableUploadTabLabel(): string {
+    return this._t.instant('PORTAL.SHARED.TABLE_UPLOAD_TAB', { entity: this.entityLabel });
   }
 
   ngOnChanges(): void {

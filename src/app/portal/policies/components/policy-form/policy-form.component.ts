@@ -114,6 +114,18 @@ export class PolicyFormComponent implements OnInit, OnDestroy {
     }
 
     this._listenToInsurerChanges();
+    this._listenToPrimeAmountChanges();
+  }
+
+  private _listenToPrimeAmountChanges(): void {
+    const primeControl = this.form.get('prime_amount');
+    const coverageControl = this.form.get('coverage');
+
+    if (primeControl && coverageControl) {
+      primeControl.valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
+        coverageControl.updateValueAndValidity();
+      });
+    }
   }
 
   private _listenToInsurerChanges(): void {
@@ -162,6 +174,7 @@ export class PolicyFormComponent implements OnInit, OnDestroy {
         request_documents: this.policy.request_documents,
       });
 
+      this.form.get('coverage')?.updateValueAndValidity();
       this._cd.detectChanges();
       return;
     }
@@ -179,6 +192,8 @@ export class PolicyFormComponent implements OnInit, OnDestroy {
           new Date().setFullYear(new Date().getFullYear() + 1)
         ),
       });
+
+      this.form.get('coverage')?.updateValueAndValidity();
 
       ['prime_amount', 'coverage', 'deductible'].forEach(field => {
         if (this.preFilledInfo[field as keyof typeof this.preFilledInfo]) {

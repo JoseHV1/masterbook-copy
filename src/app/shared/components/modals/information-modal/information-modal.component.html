@@ -31,14 +31,14 @@
       class="primary-button white back-gray-500"
       (click)="close('cancel')"
       *ngIf="config.additionalButton || config.redirectButton">
-      {{ config.additionalButton ? 'No send' : 'Cancel' }}
+      {{ (config.additionalButton ? 'PORTAL.COMMON.NO_SEND' : 'PORTAL.COMMON.CANCEL') | translate }}
     </button>
 
     <button
       [class]="'primary-button white ' + typeClass"
       (click)="close('accept')"
       *ngIf="!config.redirectButton">
-      Accept
+      {{ 'PORTAL.COMMON.ACCEPT' | translate }}
     </button>
 
     <button

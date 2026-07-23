@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UiService } from 'src/app/shared/services/ui.service';
-import { finalize, take } from 'rxjs';
+import { finalize, Subscription, take } from 'rxjs';
 import { GenderEnum } from '../../../../shared/enums/gender.enum';
 import { NewBrokerRolesEnum } from 'src/app/shared/enums/roles.enum';
 import { DatasetsService } from 'src/app/shared/services/dataset.service';
@@ -21,7 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './form-users.component.html',
   styleUrls: ['./form-users.component.scss'],
 })
-export class FormUsersComponent implements OnInit, OnChanges {
+export class FormUsersComponent implements OnInit, OnChanges, OnDestroy {
   @Input() data?: PopulatedBrokerModel;
   form!: FormGroup;
   maxDate: Date = new Date();
@@ -36,6 +36,8 @@ export class FormUsersComponent implements OnInit, OnChanges {
   businessLineOptions: DropdownOptionModel[] = [];
   dropDownGender: DropdownOptionModel[] = [];
 
+  private _langChangeSub!: Subscription;
+
   constructor(
     private _router: Router,
     private _ui: UiService,
@@ -43,12 +45,12 @@ export class FormUsersComponent implements OnInit, OnChanges {
     private _dataset: DatasetsService,
     private _t: TranslateService,
   ) {
-    this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
-    this.dropDownUserTypes = enumToTranslatedDropDown(
-      NewBrokerRolesEnum,
-      'ENUMS.NEW_BROKER_ROLE',
-      this._t
-    );
+    this._buildGenderOptions();
+    this._buildUserTypeOptions();
+    this._langChangeSub = this._t.onLangChange.subscribe(() => {
+      this._buildGenderOptions();
+      this._buildUserTypeOptions();
+    });
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
     this.minDate.setFullYear(this.minDate.getFullYear() - 100);
     this.form = new FormGroup({
@@ -69,6 +71,22 @@ export class FormUsersComponent implements OnInit, OnChanges {
       date_of_birth: new FormControl('', Validators.required),
       gender: new FormControl('', Validators.required),
     });
+  }
+
+  private _buildGenderOptions(): void {
+    this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
+  }
+
+  private _buildUserTypeOptions(): void {
+    this.dropDownUserTypes = enumToTranslatedDropDown(
+      NewBrokerRolesEnum,
+      'ENUMS.NEW_BROKER_ROLE',
+      this._t
+    );
+  }
+
+  ngOnDestroy(): void {
+    this._langChangeSub?.unsubscribe();
   }
 
   ngOnInit(): void {

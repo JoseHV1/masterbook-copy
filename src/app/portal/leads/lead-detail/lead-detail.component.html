@@ -46,7 +46,7 @@
           'bg-danger': lead.status === LeadStatusEnum.REJECTED,
           'bg-primary': lead.status === LeadStatusEnum.CONVERTED
         }">
-        {{ lead.status | titlecase }}
+        {{ lead.status | translatedEnum : 'ENUMS.LEAD_STATUS' }}
       </span>
     </div>
 
@@ -105,7 +105,7 @@
         <div class="row">
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.LEADS.CAPTURE_MEDIUM' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-            {{ (lead.capture_medium ?? '') | enum | notNull }}
+            {{ (lead.capture_medium ?? '') | translatedEnum : 'ENUMS.CAPTURE_MEDIUM' | notNull }}
             <span *ngIf="lead.other_capture_medium"> — {{ lead.other_capture_medium }}</span>
           </div>
         </div>
@@ -116,7 +116,9 @@
           <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.LEADS.AREAS_OF_INTEREST' | translate }}</div>
           <div class="col-12 col-md-8 black px-3 py-2 prop-box">
             <span *ngIf="lead.areas_of_interest?.length; else noAreas">
-              {{ lead.areas_of_interest!.join(', ') }}
+              <ng-container *ngFor="let area of lead.areas_of_interest; let last = last"
+                >{{ area | translatedEnum : 'ENUMS.AREA_OF_INTEREST' }}{{ last ? '' : ', ' }}</ng-container
+              >
             </span>
             <ng-template #noAreas>---</ng-template>
           </div>

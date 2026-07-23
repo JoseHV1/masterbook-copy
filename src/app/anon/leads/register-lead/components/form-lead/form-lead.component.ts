@@ -29,10 +29,7 @@ export class FormLeadComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   dropDownGender: DropdownOptionModel[] = [];
   dropDownCaptureMedium: DropdownOptionModel[] = [];
-  areasOfInterestOptions: DropdownOptionModel[] = Object.values(AreaOfInterestEnum).map(v => ({
-    code: v,
-    name: v,
-  }));
+  areasOfInterestOptions: DropdownOptionModel[] = [];
   invalidToken = false;
   loadingTokenInfo = true;
   leadInfo: LeadTokenInfoModel | null = null;
@@ -51,8 +48,27 @@ export class FormLeadComponent implements OnInit, OnDestroy {
     private _normalizeText: NormalizeTextPipe,
     private _t: TranslateService,
   ) {
-    this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
+    this._buildGenderOptions();
+    this._buildAreasOfInterestOptions();
+    this._t.onLangChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this._buildGenderOptions();
+        this._buildAreasOfInterestOptions();
+      });
     this._initForm();
+  }
+
+  private _buildGenderOptions(): void {
+    this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
+  }
+
+  private _buildAreasOfInterestOptions(): void {
+    this.areasOfInterestOptions = enumToTranslatedDropDown(
+      AreaOfInterestEnum,
+      'ENUMS.AREA_OF_INTEREST',
+      this._t
+    );
   }
 
   ngOnInit(): void {

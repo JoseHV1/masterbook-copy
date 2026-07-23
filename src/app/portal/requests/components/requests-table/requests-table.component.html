@@ -1,5 +1,5 @@
 <div class="table-responsive" *ngIf="data">
-  <table mat-table [dataSource]="data" style="width: auto; overflow-x: scroll">
+  <table mat-table [dataSource]="data" style="width: auto; overflow-x: auto">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_ID' | translate }}</th>
       <td mat-cell *matCellDef="let element">
@@ -64,15 +64,15 @@
     <ng-container matColumnDef="document_url">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.REQUESTS.TABLE_APPLICATION' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        <a [href]="element.request_document_url" target="_blank" class="attach-link">
-          <span
-            class="material-icons-outlined me-2"
-            style="cursor: pointer"
-            [matTooltip]="'PORTAL.REQUESTS.TABLE_DOWNLOAD' | translate"
-            matTooltipPosition="above">
-            attachment
-          </span>
-        </a>
+        <span
+          *ngIf="element.request_documents?.length"
+          class="material-icons-outlined me-2"
+          style="cursor: pointer"
+          [matTooltip]="'PORTAL.REQUESTS.TABLE_DOWNLOAD' | translate"
+          matTooltipPosition="above"
+          (click)="openFile(element.request_documents[0].document)">
+          attachment
+        </span>
       </td>
     </ng-container>
 

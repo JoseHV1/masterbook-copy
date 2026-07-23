@@ -148,8 +148,12 @@ export class FormNewBusinessComponent implements OnChanges, OnInit, OnDestroy {
         account?.user?.last_name ?? ''
       }`,
       dob: account?.user?.date_of_birth ?? undefined,
-      gender: account?.user?.gender ?? undefined,
-      marital_status: account?.user?.marital_status ?? undefined,
+      gender: account?.user?.gender
+        ? this._t.instant(`ENUMS.GENDER.${account.user.gender}`)
+        : undefined,
+      marital_status: account?.user?.marital_status
+        ? this._t.instant(`ENUMS.MARITAL_STATUS.${account.user.marital_status}`)
+        : undefined,
       country: account?.user?.address_info?.country ?? undefined,
       address: account?.user?.address_info?.address ?? undefined,
       email: account?.user?.email ?? undefined,

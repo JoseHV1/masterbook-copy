@@ -5,7 +5,7 @@ import { map, Observable, of } from 'rxjs';
 import { HttpResponseModel } from '../models/response/http.response.model';
 import { environment } from 'src/environments/environment';
 import { FilterWrapperModel } from '../models/filters.model';
-import { enumToDropDown } from '../helpers/enum-to-dropdown.helper';
+import { enumToTranslatedDropDown } from '../helpers/enum-to-dropdown.helper';
 import { FilterTypeEnum } from '../enums/filter-type.enum';
 import { FormModel, PopulatedFormModel } from '../interfaces/models/form.model';
 import { DatasetsService } from './dataset.service';
@@ -14,12 +14,17 @@ import { ApiResponseModel } from '../interfaces/models/api-response.model';
 import { UpdateFormRequest } from '../interfaces/requests/forms/update-form.request';
 import { NewFormRequest } from '../interfaces/requests/forms/new-form.request';
 import { FormViaEmailModel } from '../models/form-via-email.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormService {
-  constructor(private _http: HttpClient, private _dataset: DatasetsService) {}
+  constructor(
+    private _http: HttpClient,
+    private _dataset: DatasetsService,
+    private _t: TranslateService
+  ) {}
 
   newForm(req: NewFormRequest): Observable<FormModel> {
     return this._http
@@ -81,7 +86,7 @@ export class FormService {
           label: 'Category',
           name: 'category',
           type: FilterTypeEnum.SELECT,
-          options: of(enumToDropDown(PolicyCategoryEnum)),
+          options: of(enumToTranslatedDropDown(PolicyCategoryEnum, 'ENUMS.POLICY_CATEGORY', this._t)),
         },
         {
           label: 'Business line',

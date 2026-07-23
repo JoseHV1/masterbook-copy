@@ -1,5 +1,5 @@
 <div class="table-responsive" *ngIf="data">
-  <table mat-table [dataSource]="data" style="width: auto; overflow-x: scroll">
+  <table mat-table [dataSource]="data" style="width: auto; overflow-x: auto">
     <ng-container matColumnDef="serial">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.PORTAL_ADMIN.AGENCIES.TABLE_SERIAL' | translate }}</th>
       <td mat-cell *matCellDef="let element">

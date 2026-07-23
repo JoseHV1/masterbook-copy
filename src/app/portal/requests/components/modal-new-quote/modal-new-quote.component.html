@@ -31,6 +31,11 @@
       <div class="col-12 col-md-6 mb-3 mb-md-4">
         <label>{{ 'PORTAL.REQUESTS.MODAL_NEW_QUOTE.FIELD_COVERAGE' | translate }}</label>
         <app-currency-input formControlName="coverage"></app-currency-input>
+        <small
+          *ngIf="hasError(form.get('coverage'), 'coverageLessThanPrime')"
+          class="text-danger d-block mt-1">
+          {{ 'PORTAL.POLICIES.ERROR_COVERAGE_MIN' | translate }}
+        </small>
       </div>
 
       <div class="col-12 col-md-6 mb-3 mb-md-4">
@@ -58,7 +63,7 @@
       <button
         class="primary-button big-button back-light-blue-400 white mx-1 mt-2"
         (click)="createQuote()"
-        [disabled]="form.invalid">
+        [disabled]="form.invalid || submitting">
         {{ 'PORTAL.REQUESTS.FORM_NEW_BUSINESS.BTN_SAVE' | translate }}
       </button>
     </div>

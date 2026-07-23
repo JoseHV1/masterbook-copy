@@ -35,10 +35,10 @@
 
 <ng-template #personalInfoTempalte>
   <div class="row">
-    <div class="col col-12 col-md-12 px-4 my-2">
+    <div class="col col-12 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.ACCOUNTS.ACCOUNT_NAME' | translate }}</div>
-        <div class="col col-8 black px-3 py-2 prop-box">
+        <div class="col col-12 black px-2 py-1 fw-semibold">{{ 'PORTAL.ACCOUNTS.ACCOUNT_NAME' | translate }}</div>
+        <div class="col col-12 black px-3 py-1 prop-box">
           {{ selectedAccount?.account_name | notNull }}
         </div>
       </div>
@@ -46,8 +46,8 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.FULL_NAME' | translate }}</div>
-        <div class="col col-8 black px-3 py-2 prop-box">
+        <div class="col col-12 black px-2 py-1 fw-semibold">{{ 'PORTAL.REQUESTS.FULL_NAME' | translate }}</div>
+        <div class="col col-12 black px-3 py-1 prop-box">
           {{
             (selectedAccount?.user?.first_name | notNull) +
               ' ' +
@@ -59,8 +59,8 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.DOB' | translate }}</div>
-        <div class="col col-8 black px-3 py-2 prop-box">
+        <div class="col col-12 black px-2 py-1 fw-semibold">{{ 'PORTAL.REQUESTS.DOB' | translate }}</div>
+        <div class="col col-12 black px-3 py-1 prop-box">
           {{ selectedAccount?.user?.date_of_birth | appDateTime : 'date' | notNull }}
         </div>
       </div>
@@ -68,8 +68,17 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.GENDER' | translate }}</div>
-        <div class="col col-8 black px-3 py-2 prop-box">
+        <div class="col col-12 black px-2 py-1 fw-semibold">{{ 'PORTAL.REQUESTS.EMAIL' | translate }}</div>
+        <div class="col col-12 black px-3 py-1 prop-box">
+          {{ selectedAccount?.user?.email | notNull }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-12 col-md-6 px-4 my-2">
+      <div class="row">
+        <div class="col col-12 black px-2 py-1 fw-semibold">{{ 'PORTAL.REQUESTS.GENDER' | translate }}</div>
+        <div class="col col-12 black px-3 py-1 prop-box">
           {{ selectedAccount?.user?.gender | notNull | translatedEnum:'ENUMS.GENDER' }}
         </div>
       </div>
@@ -77,8 +86,8 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.MARITAL' | translate }}</div>
-        <div class="col col-8 black px-3 py-2 prop-box">
+        <div class="col col-12 black px-2 py-1 fw-semibold">{{ 'PORTAL.REQUESTS.MARITAL' | translate }}</div>
+        <div class="col col-12 black px-3 py-1 prop-box">
           {{ selectedAccount?.user?.marital_status | notNull | translatedEnum:'ENUMS.MARITAL_STATUS' }}
         </div>
       </div>
@@ -86,8 +95,8 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.COUNTRY' | translate }}</div>
-        <div class="col col-8 black px-3 py-2 prop-box">
+        <div class="col col-12 black px-2 py-1 fw-semibold">{{ 'PORTAL.REQUESTS.COUNTRY' | translate }}</div>
+        <div class="col col-12 black px-3 py-1 prop-box">
           {{ selectedAccount?.user?.address_info?.country | notNull }}
         </div>
       </div>
@@ -95,27 +104,18 @@
 
     <div class="col col-12 col-md-6 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.ADDRESS' | translate }}</div>
-        <div class="col col-8 black px-3 py-2 prop-box">
-          {{ selectedAccount?.user?.address_info?.address | notNull }}
-        </div>
-      </div>
-    </div>
-
-    <div class="col col-12 col-md-6 px-4 my-2">
-      <div class="row">
-        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.ZIP' | translate }}</div>
-        <div class="col col-8 black px-3 py-2 prop-box">
+        <div class="col col-12 black px-2 py-1 fw-semibold">{{ 'PORTAL.REQUESTS.ZIP' | translate }}</div>
+        <div class="col col-12 black px-3 py-1 prop-box">
           {{ selectedAccount?.user?.address_info?.zipcode | notNull }}
         </div>
       </div>
     </div>
 
-    <div class="col col-12 col-md-8 px-4 my-2">
+    <div class="col col-12 px-4 my-2">
       <div class="row">
-        <div class="col col-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.EMAIL' | translate }}</div>
-        <div class="col col-8 black px-3 py-2 prop-box">
-          {{ selectedAccount?.user?.email | notNull }}
+        <div class="col col-12 black px-2 py-1 fw-semibold">{{ 'PORTAL.REQUESTS.ADDRESS' | translate }}</div>
+        <div class="col col-12 black px-3 py-1 prop-box">
+          {{ selectedAccount?.user?.address_info?.address | notNull }}
         </div>
       </div>
     </div>

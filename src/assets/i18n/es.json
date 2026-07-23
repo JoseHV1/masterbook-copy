@@ -40,7 +40,13 @@
     "SECONDS": "segundos",
     "EMAIL_INVALID": "El correo electrónico no es válido",
     "SELECT_LANGUAGE": "Seleccionar idioma",
-    "LOADING": "Cargando..."
+    "LOADING": "Cargando...",
+    "ALERT_TITLES": {
+      "SUCCESS": "Éxito",
+      "INFO": "Información",
+      "WARNING": "Advertencia",
+      "ERROR": "Error"
+    }
   },
   "HOME": {
     "SECTION_1": {
@@ -815,6 +821,62 @@
       "ENDORSEMENT": "Endoso",
       "CANCELLATION": "Cancelación",
       "REINSTALLMENT": "Reinstalación"
+    },
+    "POLICY_STATUS": {
+      "PENDING": "Pendiente",
+      "ACTIVE": "Activo",
+      "EXPIRED": "Vencido",
+      "INACTIVE": "Inactivo"
+    },
+    "AREA_OF_INTEREST": {
+      "Auto": "Auto",
+      "Home": "Hogar",
+      "Commerce": "Comercio",
+      "Health": "Salud",
+      "Life": "Vida",
+      "Motorcycles": "Motocicletas",
+      "Boats": "Embarcaciones",
+      "Other": "Otro"
+    },
+    "LEAD_STATUS": {
+      "ACTIVE": "Activo",
+      "TRANSFERRED": "Transferido",
+      "REJECTED": "Rechazado",
+      "CONVERTED": "Convertido"
+    },
+    "CAPTURE_MEDIUM": {
+      "FACEBOOK": "Facebook",
+      "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
+      "OTHER": "Otro"
+    },
+    "ACCOUNT_STATUS": {
+      "ACTIVE": "Activo",
+      "INACTIVE": "Inactivo"
+    },
+    "CLAIM_STATUS": {
+      "Submitted": "Enviado",
+      "Under Review": "En Revisión",
+      "Approved": "Aprobado",
+      "Rejected": "Rechazado",
+      "Cancelled": "Cancelado"
+    },
+    "PAYMENT_METHOD": {
+      "check": "Cheque",
+      "bank_transfer": "Transferencia Bancaria",
+      "credit_card": "Tarjeta de Crédito",
+      "cash": "Efectivo"
+    },
+    "PAYMENT_TRANSACTION_STATUS": {
+      "available": "Disponible",
+      "partially_paid": "Pagado Parcialmente",
+      "full_paid": "Pagado Completo"
+    },
+    "INVOICE_STATUS": {
+      "unpaid": "No Pagado",
+      "partially_paid": "Pagado Parcialmente",
+      "paid": "Pagado",
+      "pending": "Pendiente"
     }
   },
   "TUTORS": {
@@ -862,6 +924,13 @@
       "DISABLE": "Deshabilitar",
       "ENABLE": "Habilitar",
       "CANCEL": "Cancelar",
+      "ACCEPT": "Aceptar",
+      "CONFIRM": "Confirmar",
+      "NO_SEND": "No enviar",
+      "INFORMATION": "Información",
+      "ALL": "Todos",
+      "DATE_LABEL": "Fecha:",
+      "HOUR_LABEL": "Hora:",
       "SAVE_CHANGES": "Guardar cambios",
       "CREATE": "Crear",
       "NEW": "Nuevo",
@@ -1204,6 +1273,7 @@
       "FORM_INSURER": "Aseguradora*",
       "FORM_PREMIUM": "Monto de prima*",
       "FORM_COVERAGE": "Cobertura*",
+      "ERROR_COVERAGE_MIN": "La cobertura debe ser mayor o igual al monto de la prima.",
       "FORM_DEDUCTIBLE": "Deducible*",
       "FORM_OBJECT": "Objeto a asegurar*",
       "FORM_AGENT": "Agente*",
@@ -1227,7 +1297,8 @@
         "ADD_ENDORSEMENTS_TITLE_PREFIX": "Agregar endosos #",
         "SELECT_ENDORSEMENTS_PROMPT": "Por favor, selecciona los endosos",
         "CANCEL_TITLE_PREFIX": "Cancelar Póliza #",
-        "CANCEL_QUESTION": "¿Deseas indicar un motivo para esta cancelación de póliza?"
+        "CANCEL_QUESTION": "¿Deseas indicar un motivo para esta cancelación de póliza?",
+        "SET_AGENT_TITLE_PREFIX": "Póliza #"
       },
       "LOAD_ERROR": "Error al cargar las pólizas. Por favor, intente nuevamente.",
       "GOOGLE_CONNECTED": "Cuenta de Google conectada exitosamente. Ahora puedes enviar correos electrónicos.",
@@ -2460,7 +2531,44 @@
       "FILE_REQUIRED": "Este archivo es requerido",
       "UPLOAD_FILE_BTN": "Subir archivo",
       "CLOSE": "Cerrar",
-      "DOWNLOAD_TEMPLATES_TAB": "Descargar plantillas para subir archivo"
+      "DOWNLOAD_TEMPLATES_TAB": "Descargar plantillas para subir archivo",
+      "CREATE_TAB": "Crear {{entity}}",
+      "TABLE_UPLOAD_TAB": "Tabla de carga de {{entity}}",
+      "CHANGE_LOG_FIELDS": {
+        "CLIENT_ID": "Cliente",
+        "INSURE_OBJECT": "Objeto a asegurar",
+        "COVERAGE": "Cobertura",
+        "STATUS": "Estado",
+        "CATEGORY": "Categoría",
+        "POLICY_TYPE_ID": "Tipo de póliza",
+        "POLICY_CATEGORY_ID": "Categoría de póliza",
+        "BUSINESS_LINE": "Línea de negocio",
+        "AGENT_ID": "Agente",
+        "BROKER_ID": "Agente",
+        "INSURER_ID": "Aseguradora",
+        "POLICY_NUMBER": "Número de póliza",
+        "PRIME_AMOUNT": "Monto de prima",
+        "DEDUCTIBLE": "Deducible",
+        "START_DATE": "Fecha de vigencia",
+        "END_DATE": "Fecha de vencimiento",
+        "ACCOUNT_NAME": "Nombre de cuenta",
+        "FIRST_NAME": "Nombre",
+        "LAST_NAME": "Apellido",
+        "EMAIL": "Correo electrónico",
+        "PHONE_NUMBER": "Teléfono",
+        "GENDER": "Género",
+        "MARITAL_STATUS": "Estado civil",
+        "DATE_OF_BIRTH": "Fecha de nacimiento",
+        "ADDRESS": "Dirección",
+        "ZIPCODE": "Código postal",
+        "DESCRIPTION": "Descripción",
+        "DOCUMENT": "Documento",
+        "ROLE": "Rol",
+        "LICENSE_NUMBER": "Número de licencia",
+        "REQUEST_DOCUMENTS": "Documentos de solicitud",
+        "ADDITIONAL_INFO": "Información adicional",
+        "REJECTION_REASON": "Razón de rechazo"
+      }
     }
   },
   "SHARED": {

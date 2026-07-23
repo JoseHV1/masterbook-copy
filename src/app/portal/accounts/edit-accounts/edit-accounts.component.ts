@@ -5,6 +5,7 @@ import { finalize, switchMap, take } from 'rxjs';
 import { PopulatedAccount } from 'src/app/shared/interfaces/models/accounts.model';
 import { AccountsService } from 'src/app/shared/services/accounts.service';
 import { UiService } from 'src/app/shared/services/ui.service';
+import { BreadcrumbOverrideService } from 'src/app/shared/services/breadcrumb-override.service';
 
 @Component({
   selector: 'app-edit-accounts',
@@ -19,21 +20,27 @@ export class EditAccountsComponent {
     private _accounts: AccountsService,
     private _ui: UiService,
     private _router: Router,
-    private _location: Location
+    private _location: Location,
+    private _breadcrumbOverride: BreadcrumbOverrideService
   ) {
     this._ui.showLoader();
+    let accountId = '';
     this.activateRoute.params
       .pipe(
         take(1),
         switchMap(params => {
           const id = params['id'];
           if (!id) throw new Error();
+          accountId = id;
           return this._accounts.getAccount(id);
         }),
         finalize(() => this._ui.hideLoader())
       )
       .subscribe({
-        next: account => (this.account = account),
+        next: account => {
+          this.account = account;
+          if (account.serial) this._breadcrumbOverride.setLabel(accountId, account.serial);
+        },
         error: () => this._router.navigateByUrl('portal/accounts'),
       });
   }

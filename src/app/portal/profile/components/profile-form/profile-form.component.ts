@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component, ViewChild, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../../../../shared/services/auth.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { ProfileService } from 'src/app/shared/services/profile.service';
@@ -30,7 +31,7 @@ type FakeGoogleConnection = {
   templateUrl: './profile-form.component.html',
   styleUrls: ['./profile-form.component.scss'],
 })
-export class ProfileFormComponent implements OnInit {
+export class ProfileFormComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput') fileInput: any;
 
   form!: FormGroup;
@@ -41,6 +42,7 @@ export class ProfileFormComponent implements OnInit {
   imageProfile!: string;
   googleConnection: FakeGoogleConnection | null = null;
   private readonly GOOGLE_STORAGE_KEY = 'masterbook_google_connection';
+  private _langChangeSub!: Subscription;
 
   constructor(
     private _auth: AuthService,
@@ -55,8 +57,17 @@ export class ProfileFormComponent implements OnInit {
     private _router: Router,
     private _t: TranslateService,
   ) {
-    this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
+    this._buildGenderOptions();
+    this._langChangeSub = this._t.onLangChange.subscribe(() => this._buildGenderOptions());
     this.form = this._profile.createEditProfileForm();
+  }
+
+  private _buildGenderOptions(): void {
+    this.dropDownGender = enumToTranslatedDropDown(GenderEnum, 'ENUMS.GENDER', this._t);
+  }
+
+  ngOnDestroy(): void {
+    this._langChangeSub?.unsubscribe();
   }
 
   ngOnInit(): void {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { InformationModalComponent } from '../components/modals/information-modal/information-modal.component';
 import { UiModalConfig } from '../models/ui-modal-config.model';
 import { UiModalTypeEnum } from '../enums/ui-modal-type.enum';
@@ -27,7 +28,7 @@ export class UiService {
   public readonly loaderVisible$: Observable<boolean> =
     this.loaderVisible.asObservable();
 
-  constructor(public _dialog: MatDialog) {}
+  constructor(public _dialog: MatDialog, private _t: TranslateService) {}
 
   showLoader(): void {
     this.loaderVisible.next(true);
@@ -81,8 +82,8 @@ export class UiService {
 
   private _getUiModalConfig(config: Partial<UiModalConfig>): UiModalConfig {
     return {
-      text: config.text ?? 'Information',
-      title: config.title ?? 'Confirm',
+      text: config.text ?? this._t.instant('PORTAL.COMMON.INFORMATION'),
+      title: config.title ?? this._t.instant('PORTAL.COMMON.CONFIRM'),
       type: config.type ?? UiModalTypeEnum.INFO,
       link: config.link ?? { name: '', url: [] },
       additionalButton: config.additionalButton ?? false,

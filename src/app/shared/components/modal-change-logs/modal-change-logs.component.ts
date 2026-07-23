@@ -4,6 +4,7 @@ import { LogModel } from '@app/shared/interfaces/models/log.model';
 import { LogsService } from '@app/shared/services/logs.service';
 import { UiService } from '@app/shared/services/ui.service';
 import { finalize } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-modal-change-logs',
@@ -27,6 +28,7 @@ export class ModalChangeLogsComponent implements OnInit {
   constructor(
     private _ui: UiService,
     private readonly logsService: LogsService,
+    private readonly _t: TranslateService,
     @Inject(MAT_DIALOG_DATA) public dataModal: any
   ) {
     this.entityId = dataModal.entityId;
@@ -116,11 +118,18 @@ export class ModalChangeLogsComponent implements OnInit {
     const hour = pad(date.getHours());
     const minute = pad(date.getMinutes());
 
-    return `Date: ${day}/${month}/${year} Hour: ${hour}:${minute}`;
+    const dateLabel = this._t.instant('PORTAL.COMMON.DATE_LABEL');
+    const hourLabel = this._t.instant('PORTAL.COMMON.HOUR_LABEL');
+    return `${dateLabel} ${day}/${month}/${year} ${hourLabel} ${hour}:${minute}`;
   }
 
   formatFieldName(field: string): string {
     if (!field) return '---';
+
+    const key = `PORTAL.SHARED.CHANGE_LOG_FIELDS.${field.toUpperCase()}`;
+    const translated = this._t.instant(key);
+    if (translated !== key) return translated;
+
     return field
       .replace(/_id$/, '')
       .replace(/_/g, ' ')

@@ -1,6 +1,6 @@
 <div>
   <mat-tab-group [(selectedIndex)]="selectedTabIndex">
-    <mat-tab [label]="'Create ' + entity | titlecase">
+    <mat-tab [label]="createTabLabel">
       <ng-content select="[content]"></ng-content>
     </mat-tab>
     <mat-tab [label]="'PORTAL.SHARED.DOWNLOAD_TEMPLATES_TAB' | translate">
@@ -9,7 +9,7 @@
         [entity]="entity"></app-tab-upload-file>
     </mat-tab>
     <mat-tab
-      [label]="entity + ' Table Upload File' | titlecase"
+      [label]="tableUploadTabLabel"
       *ngIf="data.records">
       <app-filtered-table-header
         [filtersActive]="filtersActive"

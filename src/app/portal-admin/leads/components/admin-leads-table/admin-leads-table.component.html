@@ -48,7 +48,7 @@
     <ng-container matColumnDef="capture_medium">
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.PORTAL_ADMIN.LEADS.TABLE_CAPTURE' | translate }}</th>
       <td mat-cell *matCellDef="let element">
-        {{ element.capture_medium | notNull | normalizeText }}
+        {{ element.capture_medium | translatedEnum : 'ENUMS.CAPTURE_MEDIUM' | notNull }}
       </td>
     </ng-container>
 
@@ -56,7 +56,7 @@
       <th mat-header-cell *matHeaderCellDef>{{ 'PORTAL.PORTAL_ADMIN.LEADS.TABLE_STATUS' | translate }}</th>
       <td mat-cell *matCellDef="let element">
         <span class="lead-status" [ngClass]="'lead-status--' + element.status?.toLowerCase()">
-          {{ element.status | notNull | normalizeText }}
+          {{ element.status | translatedEnum : 'ENUMS.LEAD_STATUS' | notNull }}
         </span>
       </td>
     </ng-container>
