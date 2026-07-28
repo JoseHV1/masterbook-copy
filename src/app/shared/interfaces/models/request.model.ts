@@ -13,6 +13,7 @@ export interface RequestModel {
   endorsement_ids: string[];
   selected_quote_id?: string;
   refered_policy_id?: string;
+  policy_id?: string;
   serial: string;
   address_info: AddressInfoModel;
   category: PolicyCategoryEnum;

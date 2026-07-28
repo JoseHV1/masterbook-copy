@@ -828,6 +828,10 @@
       "EXPIRED": "Vencido",
       "INACTIVE": "Inactivo"
     },
+    "QUOTE_STATUS": {
+      "ACCEPTED": "Aceptada",
+      "NOT_ACCEPTED": "No aceptada"
+    },
     "AREA_OF_INTEREST": {
       "Auto": "Auto",
       "Home": "Hogar",
@@ -1222,6 +1226,7 @@
       "POLICY_INFO": "Información de póliza",
       "DOCUMENTS": "Documentos",
       "REFERED": "Póliza referida",
+      "QUOTES": "Cotizaciones realizadas",
       "ACCOUNT": "Cuenta",
       "BENEFICIARY": "Beneficiario",
       "DOB": "Fecha de nacimiento",
@@ -1274,6 +1279,7 @@
       "FORM_PREMIUM": "Monto de prima*",
       "FORM_COVERAGE": "Cobertura*",
       "ERROR_COVERAGE_MIN": "La cobertura debe ser mayor o igual al monto de la prima.",
+      "ERROR_DESCRIPTION_MIN": "Los detalles de cobertura deben tener al menos 10 caracteres.",
       "FORM_DEDUCTIBLE": "Deducible*",
       "FORM_OBJECT": "Objeto a asegurar*",
       "FORM_AGENT": "Agente*",
@@ -1808,6 +1814,7 @@
       "REQUEST_LABEL": "Solicitud",
       "DOCUMENTS": "Documentos",
       "REFERED": "Póliza referida",
+      "RESULTING_POLICY": "Póliza generada",
       "AVAILABLE_QUOTES": "Cotizaciones disponibles",
       "CREATE_QUOTE": "Crear cotización",
       "REJECTED_REASON": "Razón del rechazo",
@@ -1821,6 +1828,7 @@
       "ZIP": "Código postal",
       "EMAIL": "Correo electrónico",
       "POLICY_TYPE": "Tipo de póliza",
+      "INSURER": "Aseguradora",
       "BUSINESS_LINE": "Línea de negocio",
       "OBJECT": "Objeto a asegurar",
       "COVERAGE_LIMIT": "Límite de cobertura",

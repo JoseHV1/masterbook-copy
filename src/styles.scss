@@ -9,6 +9,11 @@
   z-index: 10000;
 }
 
+body.portal-layout-active {
+  height: 100%;
+  overflow: hidden;
+}
+
 * {
   margin: 0;
   padding: 0;

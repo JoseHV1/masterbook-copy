@@ -135,6 +135,19 @@
             </mat-expansion-panel>
           </mat-accordion>
         </div>
+
+        <div class="my-4" *ngIf="quotes.length">
+          <mat-accordion>
+            <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="subtitle-2 dark-blue-400">{{ 'PORTAL.POLICIES.QUOTES' | translate }}</span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ng-container [ngTemplateOutlet]="quotesInfoTemplate"></ng-container>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
       </div>
     </ng-container>
   </ng-container>
@@ -509,6 +522,69 @@
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
           {{ refreredPolicy.description | notNull }}
         </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #quotesInfoTemplate>
+  <div
+    class="card w-100 py-3 px-3 px-md-4 mb-3"
+    *ngFor="let element of quotes">
+    <div
+      class="w-100 d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
+      <div class="d-flex flex-column">
+        <span class="subtitle-2 dark-blue-400">
+          {{ element.insurer?.name | notNull }}
+        </span>
+        <small class="text-muted">
+          #{{ element.serial | notNull }} |
+          {{ element.quote_date | appDateTime : 'date' | notNull }}
+        </small>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <span
+          class="badge"
+          [ngClass]="element.status === 'ACCEPTED' ? 'bg-success' : 'bg-secondary'">
+          {{ element.status | translatedEnum : 'ENUMS.QUOTE_STATUS' | notNull }}
+        </span>
+
+        <div
+          class="black px-3 py-2 d-flex align-items-center justify-content-between prop-box"
+          style="border-radius: 10px">
+          <a
+            (click)="openFile(element.document)"
+            target="_blank"
+            style="cursor: pointer"
+            class="attach-link">
+            {{ element.document | customFile }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="information-card d-flex flex-column flex-md-row align-items-center justify-content-center w-100 mt-3 shadow-sm">
+      <div class="d-flex align-items-center flex-column stat-item">
+        <span class="stat-label">{{ 'PORTAL.REQUESTS.PREMIUM' | translate }}</span>
+        <span class="stat-value">{{ element.prime_amount | appCurrency }}</span>
+      </div>
+
+      <hr class="w-100 d-md-none my-2" style="opacity: 0.1" />
+      <div class="vr separator d-none d-md-block"></div>
+
+      <div class="d-flex align-items-center flex-column stat-item">
+        <span class="stat-label">{{ 'PORTAL.REQUESTS.COVERAGE' | translate }}</span>
+        <span class="stat-value">{{ element.coverage | appCurrency }}</span>
+      </div>
+
+      <hr class="w-100 d-md-none my-2" style="opacity: 0.1" />
+      <div class="vr separator d-none d-md-block"></div>
+
+      <div class="d-flex align-items-center flex-column stat-item">
+        <span class="stat-label">{{ 'PORTAL.REQUESTS.DEDUCTIBLE' | translate }}</span>
+        <span class="stat-value">{{ element.deductible | appCurrency }}</span>
       </div>
     </div>
   </div>

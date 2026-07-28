@@ -37,6 +37,14 @@ export class QuotesService {
       .pipe(map(resp => resp.data));
   }
 
+  getQuotesByPolicy(policy_id: string): Observable<PopulatedQuoteModel[]> {
+    return this._http
+      .get<ApiResponseModel<PopulatedQuoteModel[]>>(
+        `${environment.apiUrl}quote/policy/${policy_id}`
+      )
+      .pipe(map(resp => resp.data));
+  }
+
   setQuoteStatus(
     req: UpdateQuoteStatusRequest
   ): Observable<Record<string, string>> {

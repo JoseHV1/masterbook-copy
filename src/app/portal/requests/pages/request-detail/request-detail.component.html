@@ -84,7 +84,7 @@
           </p>
           <div class="d-flex justify-content-center align-items-center gap-2">
             <span [class]="'ms-2 category-badge text-3 ' + request.category">{{
-              request.category | enum
+              request.category | translatedEnum : 'ENUMS.POLICY_CATEGORY'
             }}</span>
           </div>
         </div>
@@ -142,14 +142,38 @@
 
         <div class="my-4" *ngIf="refreredPolicy">
           <mat-accordion>
-            <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel [expanded]="true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <span class="subtitle-2 dark-blue-400">{{ 'PORTAL.REQUESTS.REFERED' | translate }}</span>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <ng-container
-                [ngTemplateOutlet]="policylInfoTemplate"></ng-container>
+                [ngTemplateOutlet]="policylInfoTemplate"
+                [ngTemplateOutletContext]="{ policy: refreredPolicy }"></ng-container>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+        <div class="my-4" *ngIf="resultingPolicy">
+          <mat-accordion>
+            <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="subtitle-2 dark-blue-400">
+                    {{ 'PORTAL.REQUESTS.RESULTING_POLICY' | translate }}
+                    <a
+                      class="light-blue-700"
+                      style="cursor: pointer"
+                      (click)="$event.stopPropagation(); _url.navigateTo('/portal/policies', resultingPolicy.serial)">
+                      #{{ resultingPolicy.serial }}
+                    </a>
+                  </span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <ng-container
+                [ngTemplateOutlet]="policylInfoTemplate"
+                [ngTemplateOutletContext]="{ policy: resultingPolicy }"></ng-container>
             </mat-expansion-panel>
           </mat-accordion>
         </div>
@@ -591,13 +615,13 @@
   </ng-template>
 </ng-template>
 
-<ng-template #policylInfoTemplate>
+<ng-template #policylInfoTemplate let-policy="policy">
   <div class="row mx-1 mx-md-2">
     <div class="col col-12 col-md-6 px-2 px-md-4 my-2">
       <div class="row">
-        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.POLICY_TYPE' | translate }}</div>
+        <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.INSURER' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.insurer?.name | notNull }}
+          {{ policy?.insurer?.name | notNull }}
         </div>
       </div>
     </div>
@@ -606,7 +630,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.POLICY_TYPE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.policy_type?.name | notNull }}
+          {{ policy?.policy_type?.name | notNull }}
         </div>
       </div>
     </div>
@@ -615,7 +639,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.OBJECT_INSURE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.insure_object | notNull }}
+          {{ policy?.insure_object | notNull }}
         </div>
       </div>
     </div>
@@ -624,7 +648,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.EFFECTIVE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.start_date | appDateTime : 'date' | notNull }}
+          {{ policy?.start_date | appDateTime : 'date' | notNull }}
         </div>
       </div>
     </div>
@@ -633,7 +657,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.EXPIRATION' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.end_date | appDateTime : 'date' | notNull }}
+          {{ policy?.end_date | appDateTime : 'date' | notNull }}
         </div>
       </div>
     </div>
@@ -642,7 +666,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.COVERAGE_LIMIT' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.coverage | appCurrency }}
+          {{ policy?.coverage | appCurrency }}
         </div>
       </div>
     </div>
@@ -651,7 +675,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.PREMIUM' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.prime_amount | appCurrency }}
+          {{ policy?.prime_amount | appCurrency }}
         </div>
       </div>
     </div>
@@ -660,7 +684,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.DEDUCTIBLE' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.deductible | appCurrency }}
+          {{ policy?.deductible | appCurrency }}
         </div>
       </div>
     </div>
@@ -669,7 +693,7 @@
       <div class="row">
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.STATUS' | translate }}</div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.status | notNull | enum }}
+          {{ policy?.status | translatedEnum : 'ENUMS.POLICY_STATUS' | notNull }}
         </div>
       </div>
     </div>
@@ -679,8 +703,8 @@
         <div class="col-12 col-md-4 black px-2 py-2">{{ 'PORTAL.REQUESTS.CYCLE' | translate }}</div>
         <div
           class="col col-8 black px-3 py-2 prop-box"
-          [class]="'C-' + refreredPolicy?.category + ' fw-semibold'">
-          {{ refreredPolicy?.category | notNull | enum }}
+          [class]="'C-' + policy?.category + ' fw-semibold'">
+          {{ policy?.category | translatedEnum : 'ENUMS.POLICY_CATEGORY' | notNull }}
         </div>
       </div>
     </div>
@@ -691,7 +715,7 @@
           {{ 'PORTAL.REQUESTS.COVERAGE_DETAILS' | translate }}
         </div>
         <div class="col-12 col-md-8 black px-3 py-2 prop-box">
-          {{ refreredPolicy?.description | notNull }}
+          {{ policy?.description | notNull }}
         </div>
       </div>
     </div>

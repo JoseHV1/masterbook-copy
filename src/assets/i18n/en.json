@@ -828,6 +828,10 @@
       "EXPIRED": "Expired",
       "INACTIVE": "Inactive"
     },
+    "QUOTE_STATUS": {
+      "ACCEPTED": "Accepted",
+      "NOT_ACCEPTED": "Not accepted"
+    },
     "AREA_OF_INTEREST": {
       "Auto": "Auto",
       "Home": "Home",
@@ -1222,6 +1226,7 @@
       "POLICY_INFO": "Policy information",
       "DOCUMENTS": "Documents",
       "REFERED": "Refered policy",
+      "QUOTES": "Quotes made",
       "ACCOUNT": "Account",
       "BENEFICIARY": "Beneficiary",
       "DOB": "Date of birth",
@@ -1274,6 +1279,7 @@
       "FORM_PREMIUM": "Policy Premium amount*",
       "FORM_COVERAGE": "Coverage*",
       "ERROR_COVERAGE_MIN": "Coverage must be greater than or equal to the premium amount.",
+      "ERROR_DESCRIPTION_MIN": "Coverage details must be at least 10 characters long.",
       "FORM_DEDUCTIBLE": "Deductible*",
       "FORM_OBJECT": "Object to insure*",
       "FORM_AGENT": "Agent*",
@@ -1808,6 +1814,7 @@
       "REQUEST_LABEL": "Request",
       "DOCUMENTS": "Documents",
       "REFERED": "Refered policy",
+      "RESULTING_POLICY": "Resulting policy",
       "AVAILABLE_QUOTES": "Available Quotes",
       "CREATE_QUOTE": "Create Quote",
       "REJECTED_REASON": "Rejected reason",
@@ -1821,6 +1828,7 @@
       "ZIP": "Zip code",
       "EMAIL": "Email",
       "POLICY_TYPE": "Policy type",
+      "INSURER": "Insurance company",
       "BUSINESS_LINE": "Business line",
       "OBJECT": "Object of insure",
       "COVERAGE_LIMIT": "Coverage limit",

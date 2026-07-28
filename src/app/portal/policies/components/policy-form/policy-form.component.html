@@ -75,6 +75,9 @@
       <small *ngIf="hasError(form.controls['description'], 'required')" class="text-danger mt-1">
         {{ 'PORTAL.COMMON.REQUIRED' | translate }}
       </small>
+      <small *ngIf="hasError(form.controls['description'], 'minlength')" class="text-danger mt-1">
+        {{ 'PORTAL.POLICIES.ERROR_DESCRIPTION_MIN' | translate }}
+      </small>
     </div>
 
     <div class="d-flex justify-content-center" style="gap: 10px !important">

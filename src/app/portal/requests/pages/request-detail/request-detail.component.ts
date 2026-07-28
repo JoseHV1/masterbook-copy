@@ -53,6 +53,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class RequestDetailComponent implements OnInit, OnDestroy {
   request!: PopulatedRequestModel;
   refreredPolicy?: PopulatedPolicyModel;
+  resultingPolicy?: PopulatedPolicyModel;
   REQUEST_STATUS = RequestStatusEnum;
   POLICY_CATEGORY = PolicyCategoryEnum;
   quotes: PopulatedQuoteModel[] = [];
@@ -242,6 +243,14 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
           return this._policy
             .getPolicy(request.refered_policy_id)
             .pipe(tap(policy => (this.refreredPolicy = policy)));
+        }
+        return of(request);
+      }),
+      switchMap(request => {
+        if (this.request.policy_id) {
+          return this._policy
+            .getPolicy(this.request.policy_id)
+            .pipe(tap(policy => (this.resultingPolicy = policy)));
         }
         return of(request);
       })

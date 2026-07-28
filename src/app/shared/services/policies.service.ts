@@ -84,7 +84,7 @@ export class PoliciesService {
       insure_object: new FormControl(null, [Validators.required]),
       document: new FormControl(null, []),
       request_documents: new FormControl(null, []),
-      description: new FormControl(null, [Validators.required]),
+      description: new FormControl(null, [Validators.required, Validators.minLength(10)]),
       agent_id: new FormControl(null, [Validators.required]),
     });
   }

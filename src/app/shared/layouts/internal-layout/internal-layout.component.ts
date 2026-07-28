@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { RolesEnum } from '../../enums/roles.enum';
@@ -9,7 +9,7 @@ import { NavigationEnd, Router } from '@angular/router';
   templateUrl: './internal-layout.component.html',
   styleUrls: ['./internal-layout.component.scss'],
 })
-export class InternalLayoutComponent implements OnDestroy {
+export class InternalLayoutComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   openMenu = true;
   sidebarVisible: boolean = false;
@@ -56,7 +56,12 @@ export class InternalLayoutComponent implements OnDestroy {
     this.sidebarVisible = this.openMenu;
   }
 
+  ngOnInit(): void {
+    document.body.classList.add('portal-layout-active');
+  }
+
   ngOnDestroy(): void {
+    document.body.classList.remove('portal-layout-active');
     this.destroy$.next();
     this.destroy$.complete();
   }

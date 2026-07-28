@@ -11,8 +11,10 @@ import {
   of,
 } from 'rxjs';
 import { PopulatedPolicyModel } from 'src/app/shared/interfaces/models/policy.model';
+import { PopulatedQuoteModel } from 'src/app/shared/interfaces/models/quote.model';
 import { FileInfoModel } from 'src/app/shared/interfaces/models/file-info.model';
 import { PoliciesService } from 'src/app/shared/services/policies.service';
+import { QuotesService } from 'src/app/shared/services/quotes.service';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { UrlService } from 'src/app/shared/services/url.service';
 import { Location } from '@angular/common';
@@ -34,6 +36,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class PoliciesDetailsComponent implements OnInit, OnDestroy {
   policy!: PopulatedPolicyModel;
   refreredPolicy!: PopulatedPolicyModel;
+  quotes: PopulatedQuoteModel[] = [];
   showActions = false;
   isOwner!: boolean;
   isInsured!: boolean;
@@ -45,6 +48,7 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
     private activateRoute: ActivatedRoute,
     public url: UrlService,
     private _policy: PoliciesService,
+    private _quotes: QuotesService,
     private _ui: UiService,
     private _router: Router,
     private _location: Location,
@@ -81,6 +85,11 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
           }
           return of(policy);
         }),
+        switchMap(() =>
+          this._quotes
+            .getQuotesByPolicy(this.policy._id)
+            .pipe(tap(quotes => (this.quotes = quotes)))
+        ),
         finalize(() => this._ui.hideLoader())
       )
       .subscribe({
