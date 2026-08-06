@@ -70,4 +70,62 @@
   .NEW_BUSINESS {
     color: $light-blue-700 !important;
   }
+
+  .information-card {
+    background-color: $white;
+    border: 1px solid $portal-gray-200;
+    border-radius: 12px;
+    padding: 1rem 0.5rem;
+    width: 100%;
+  }
+
+  .stat-item {
+    flex: 1;
+    padding: 0 1rem;
+  }
+
+  .stat-label {
+    color: $gray-200;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .stat-value {
+    color: $dark-blue-400;
+    font-size: 1.15rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .separator {
+    height: 35px;
+    width: 1px;
+    background-color: $portal-gray-200;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 576px) {
+    .information-card {
+      padding: 0.4rem;
+      gap: 0px;
+    }
+
+    .stat-item {
+      padding: 6px 0;
+      flex: none;
+      width: 100%;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+    }
+
+    .separator {
+      display: none;
+    }
+  }
 }

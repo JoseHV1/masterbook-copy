@@ -240,17 +240,19 @@ export class RequestDetailComponent implements OnInit, OnDestroy {
       tap(request => (this.request = request)),
       switchMap(request => {
         if (request.refered_policy_id) {
-          return this._policy
-            .getPolicy(request.refered_policy_id)
-            .pipe(tap(policy => (this.refreredPolicy = policy)));
+          return this._policy.getPolicy(request.refered_policy_id).pipe(
+            tap(policy => (this.refreredPolicy = policy)),
+            catchError(() => of(request))
+          );
         }
         return of(request);
       }),
       switchMap(request => {
         if (this.request.policy_id) {
-          return this._policy
-            .getPolicy(this.request.policy_id)
-            .pipe(tap(policy => (this.resultingPolicy = policy)));
+          return this._policy.getPolicy(this.request.policy_id).pipe(
+            tap(policy => (this.resultingPolicy = policy)),
+            catchError(() => of(request))
+          );
         }
         return of(request);
       })

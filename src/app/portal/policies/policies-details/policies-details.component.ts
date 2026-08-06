@@ -9,6 +9,7 @@ import {
   Subject,
   tap,
   of,
+  catchError,
 } from 'rxjs';
 import { PopulatedPolicyModel } from 'src/app/shared/interfaces/models/policy.model';
 import { PopulatedQuoteModel } from 'src/app/shared/interfaces/models/quote.model';
@@ -86,9 +87,10 @@ export class PoliciesDetailsComponent implements OnInit, OnDestroy {
           return of(policy);
         }),
         switchMap(() =>
-          this._quotes
-            .getQuotesByPolicy(this.policy._id)
-            .pipe(tap(quotes => (this.quotes = quotes)))
+          this._quotes.getQuotesByPolicy(this.policy._id).pipe(
+            tap(quotes => (this.quotes = quotes)),
+            catchError(() => of([]))
+          )
         ),
         finalize(() => this._ui.hideLoader())
       )
